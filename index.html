@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>RetroVault — Anciens jeux remis au goût du jour</title>
+  <meta name="description" content="RetroVault : une collection de jeux rétro classiques revisités — Snake, Tetris, Puissance 4 et bien d'autres." />
+  <meta name="keywords"    content="jeux rétro, snake, tetris, puissance 4, jeux navigateur, classiques" />
+  <meta name="author"      content="RetroVault" />
+
+  <!-- Open Graph -->
+  <meta property="og:title"       content="RetroVault" />
+  <meta property="og:description" content="Anciens jeux remis au goût du jour." />
+  <meta property="og:type"        content="website" />
+
+  <!-- Favicon texte (emoji) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕹️</text></svg>" />
+
+  <!-- CSS — ordre important -->
+  <link rel="stylesheet" href="css/design-system.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+
+  <!-- CSS GameShell (inline pour éviter un fichier de plus en V0) -->
+  <style>
+    /* === GameShell === */
+    .game-shell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: var(--space-6) var(--space-4);
+      min-height: calc(100vh - 65px);
+    }
+
+    .game-shell__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 700px;
+      padding: var(--space-4) var(--space-6);
+      background: var(--color-bg-panel);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      border-bottom: none;
+    }
+
+    .game-shell__title {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+    .game-shell__thumbnail { font-size: 1.8rem; line-height: 1; }
+    .game-shell__name {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: 0.08em;
+    }
+
+    .game-shell__scores {
+      display: flex;
+      gap: var(--space-8);
+    }
+    .game-shell__score-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .game-shell__score-label {
+      font-family: var(--font-display);
+      font-size: var(--text-xs);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .game-shell__score-value {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 700;
+      color: var(--neon-cyan);
+      text-shadow: var(--glow-cyan);
+    }
+    .game-shell__score-value--best {
+      color: var(--neon-yellow);
+      text-shadow: 0 0 12px rgba(255,230,0,0.4);
+    }
+
+    .game-shell__controls {
+      display: flex;
+      gap: var(--space-2);
+    }
+    .btn-sm {
+      padding: var(--space-2) var(--space-3);
+      font-size: var(--text-base);
+    }
+
+    .game-shell__viewport {
+      width: 100%;
+      max-width: 700px;
+      background: var(--color-bg-panel);
+      border: 1px solid var(--color-border);
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 500px;
+    }
+
+    /* === GameShell Overlay === */
+    .game-shell__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(5, 8, 15, 0.88);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: var(--z-overlay);
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+    .game-shell__overlay.hidden { display: none; }
+
+    .game-shell__overlay-content {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-4);
+    }
+    .overlay-icon {
+      font-size: 4rem;
+      animation: pulse-glow 2s ease infinite;
+    }
+    .overlay-title {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      font-weight: 900;
+      color: var(--text-primary);
+      letter-spacing: 0.1em;
+    }
+    .overlay-score {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      color: var(--text-secondary);
+    }
+    .overlay-score strong {
+      color: var(--neon-cyan);
+      text-shadow: var(--glow-cyan);
+    }
+    .overlay-record {
+      font-family: var(--font-display);
+      font-size: var(--text-base);
+      color: var(--neon-yellow);
+      text-shadow: 0 0 12px rgba(255,230,0,0.5);
+      letter-spacing: 0.1em;
+    }
+    .overlay-actions {
+      display: flex;
+      gap: var(--space-3);
+      margin-top: var(--space-2);
+    }
+
+    /* === Toast icons === */
+    .toast { display: flex; align-items: center; gap: var(--space-3); }
+    .toast-icon {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: var(--text-sm);
+      width: 18px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    /* === Responsive GameShell === */
+    @media (max-width: 768px) {
+      .game-shell__header { flex-wrap: wrap; gap: var(--space-3); padding: var(--space-3); }
+      .game-shell__scores { gap: var(--space-4); }
+      .game-shell__viewport { min-height: 360px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Point de montage unique — app.js gère tout le contenu -->
+  <div id="app">
+
+    <!-- État de chargement initial (remplacé dès que app.js s'exécute) -->
+    <div style="
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      gap: 1.5rem;
+      font-family: 'Orbitron', monospace;
+    ">
+      <div style="font-size: 3rem;">🕹️</div>
+      <div style="
+        color: #00ffe1;
+        font-size: 1.5rem;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        text-shadow: 0 0 20px rgba(0,255,225,0.5);
+      ">RETROVAULT</div>
+      <div style="color: #3a5070; font-size: 0.75rem; letter-spacing: 0.2em;">
+        CHARGEMENT...
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Conteneur des toasts (géré par Toast.js) -->
+  <div id="toast-container"></div>
+
+  <!-- Point d'entrée JS — type="module" pour les imports ES6 -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>

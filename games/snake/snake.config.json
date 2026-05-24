@@ -1,0 +1,156 @@
+{
+  "id": "snake",
+  "version": "1.0.0",
+
+  "gameplay": {
+    "gridSize":       20,
+    "initialLength":  3,
+    "initialDirection": "RIGHT",
+    "difficulty":     "normal",
+    "speedIncrement": 2,
+
+    "difficulties": {
+      "easy": {
+        "tickInterval":   200,
+        "wallsKill":      false,
+        "obstaclesCount": 0
+      },
+      "normal": {
+        "tickInterval":   150,
+        "wallsKill":      true,
+        "obstaclesCount": 0
+      },
+      "hard": {
+        "tickInterval":   80,
+        "wallsKill":      true,
+        "obstaclesCount": 5
+      }
+    }
+  },
+
+  "scoring": {
+    "pointsPerFood":      10,
+    "comboWindowMs":      3000,
+    "comboMultipliers":   [1, 1.5, 2, 3],
+    "comboThresholds":    [0,    2,  4,  6],
+    "bonusObstacle":      25
+  },
+
+  "theme": {
+    "global": "neon",
+
+    "canvas": {
+      "theme":           "neon",
+      "backgroundColor": "#05080f",
+      "gridColor":       "rgba(0,255,225,0.04)",
+      "gridVisible":     true,
+      "borderColor":     "rgba(0,255,225,0.2)",
+      "borderGlow":      true
+    },
+
+    "snake": {
+      "theme":           "neon",
+      "style":           "neon",
+
+      "neon": {
+        "headColor":     "#00ffe1",
+        "bodyColor":     "#00cc99",
+        "tailColor":     "#005544",
+        "glowColor":     "rgba(0,255,225,0.6)",
+        "glowBlur":      12,
+        "strokeWidth":   2,
+        "borderRadius":  4,
+        "eyeColor":      "#ffffff",
+        "eyeGlow":       "rgba(255,255,255,0.8)"
+      },
+
+      "classic": {
+        "headColor":     "#00aa00",
+        "bodyColor":     "#008800",
+        "tailColor":     "#006600",
+        "glowColor":     null,
+        "glowBlur":      0,
+        "strokeWidth":   1,
+        "borderRadius":  2,
+        "eyeColor":      "#ffffff",
+        "eyeGlow":       null
+      },
+
+      "fire": {
+        "headColor":     "#ff4400",
+        "bodyColor":     "#ff2200",
+        "tailColor":     "#880000",
+        "glowColor":     "rgba(255,68,0,0.7)",
+        "glowBlur":      16,
+        "strokeWidth":   2,
+        "borderRadius":  4,
+        "eyeColor":      "#ffee00",
+        "eyeGlow":       "rgba(255,238,0,0.9)"
+      }
+    },
+
+    "food": {
+      "theme":           "neon",
+      "style":           "neon",
+
+      "neon": {
+        "type":          "circle",
+        "color":         "#ff2d78",
+        "glowColor":     "rgba(255,45,120,0.7)",
+        "glowBlur":      14,
+        "pulseSpeed":    1200,
+        "emoji":         null
+      },
+
+      "medieval": {
+        "type":          "emoji",
+        "color":         null,
+        "glowColor":     null,
+        "glowBlur":      0,
+        "pulseSpeed":    1000,
+        "emoji":         ["🍖", "🍎", "🧀", "🍇", "🥩"]
+      },
+
+      "classic": {
+        "type":          "square",
+        "color":         "#ff0000",
+        "glowColor":     null,
+        "glowBlur":      0,
+        "pulseSpeed":    0,
+        "emoji":         null
+      },
+
+      "fruit": {
+        "type":          "emoji",
+        "color":         null,
+        "glowColor":     null,
+        "glowBlur":      0,
+        "pulseSpeed":    800,
+        "emoji":         ["🍓", "🍊", "🍋", "🍇", "🍑", "🥝"]
+      }
+    },
+
+    "ui": {
+      "theme":           "neon",
+      "fontFamily":      "Orbitron, monospace",
+      "scoreColor":      "#00ffe1",
+      "comboColor":      "#ffe600",
+      "gameOverColor":   "#ff2d78"
+    }
+  },
+
+  "controls": {
+    "keyboard": {
+      "up":     ["ArrowUp",    "KeyW"],
+      "down":   ["ArrowDown",  "KeyS"],
+      "left":   ["ArrowLeft",  "KeyA"],
+      "right":  ["ArrowRight", "KeyD"],
+      "pause":  ["KeyP",       "Escape"],
+      "restart":["KeyR"]
+    },
+    "touch": {
+      "enabled":      true,
+      "swipeMinPx":   30
+    }
+  }
+}

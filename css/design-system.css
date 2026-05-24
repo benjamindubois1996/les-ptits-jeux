@@ -1,0 +1,132 @@
+/* ============================================================
+   RETROVAULT — Design System
+   Variables globales, tokens, typographie
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600&display=swap');
+
+:root {
+  /* --- Couleurs principales --- */
+  --color-bg:           #05080f;
+  --color-bg-panel:     #0b1120;
+  --color-bg-card:      #0d1526;
+  --color-bg-card-hover:#111e38;
+  --color-border:       #1a2d50;
+  --color-border-glow:  #00ffe1;
+
+  /* --- Néons --- */
+  --neon-cyan:          #00ffe1;
+  --neon-green:         #00ff88;
+  --neon-pink:          #ff2d78;
+  --neon-yellow:        #ffe600;
+  --neon-purple:        #bf5fff;
+
+  /* --- Texte --- */
+  --text-primary:       #e8f4f8;
+  --text-secondary:     #7a9bbf;
+  --text-muted:         #3a5070;
+  --text-accent:        var(--neon-cyan);
+
+  /* --- Typographie --- */
+  --font-display:       'Orbitron', monospace;
+  --font-body:          'Rajdhani', sans-serif;
+
+  --text-xs:   0.7rem;
+  --text-sm:   0.85rem;
+  --text-base: 1rem;
+  --text-lg:   1.2rem;
+  --text-xl:   1.5rem;
+  --text-2xl:  2rem;
+  --text-3xl:  2.8rem;
+  --text-4xl:  4rem;
+
+  /* --- Espacement --- */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* --- Rayons --- */
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  16px;
+  --radius-xl:  24px;
+
+  /* --- Ombres & glows --- */
+  --glow-cyan:   0 0 12px rgba(0,255,225,0.4), 0 0 40px rgba(0,255,225,0.15);
+  --glow-green:  0 0 12px rgba(0,255,136,0.4), 0 0 40px rgba(0,255,136,0.15);
+  --glow-pink:   0 0 12px rgba(255,45,120,0.4), 0 0 40px rgba(255,45,120,0.15);
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04);
+
+  /* --- Transitions --- */
+  --transition-fast:   0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-slow:   0.4s ease;
+
+  /* --- Z-index --- */
+  --z-base:    1;
+  --z-overlay: 100;
+  --z-modal:   200;
+  --z-toast:   300;
+}
+
+/* === Reset & Base === */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--text-primary);
+  background-color: var(--color-bg);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* === Typographie === */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
+a {
+  color: var(--neon-cyan);
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+a:hover { opacity: 0.8; }
+
+/* === Utilitaires === */
+.text-accent   { color: var(--text-accent); }
+.text-muted    { color: var(--text-muted); }
+.text-secondary{ color: var(--text-secondary); }
+.font-display  { font-family: var(--font-display); }
+
+.glow-cyan  { text-shadow: var(--glow-cyan); }
+.glow-green { text-shadow: var(--glow-green); }
+.glow-pink  { text-shadow: var(--glow-pink); }
+
+.neon-cyan   { color: var(--neon-cyan); }
+.neon-green  { color: var(--neon-green); }
+.neon-pink   { color: var(--neon-pink); }
+.neon-yellow { color: var(--neon-yellow); }
+
+/* === Scrollbar personnalisée === */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--neon-cyan); }

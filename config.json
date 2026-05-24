@@ -1,0 +1,37 @@
+{
+  "platform": {
+    "name": "RetroVault",
+    "version": "0.1.0",
+    "description": "Anciens jeux remis au goût du jour"
+  },
+  "games": [
+    {
+      "id": "snake",
+      "title": "Snake",
+      "description": "Le classique revisité — mange, grandis, survive.",
+      "longDescription": "Dirige ton serpent, avale les proies, évite les murs et toi-même. Plus tu grandis, plus c'est rapide. Jusqu'où peux-tu aller ?",
+      "category": "arcade",
+      "thumbnail": "🐍",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "Niveaux de difficulté configurables",
+        "Système de combo & multiplicateur",
+        "Thèmes visuels personnalisables",
+        "Murs téléporteurs (mode sans murs)",
+        "Classement local des scores"
+      ],
+      "controls": {
+        "keyboard": ["↑ ↓ ← →", "WASD", "P pour pause"],
+        "touch": true
+      },
+      "path": "games/snake/index.html"
+    }
+  ],
+  "categories": [
+    { "id": "arcade",    "label": "Arcade",     "icon": "🕹️" },
+    { "id": "reflexion", "label": "Réflexion",  "icon": "🧠" },
+    { "id": "sport",     "label": "Sport",      "icon": "⚡" },
+    { "id": "puzzle",    "label": "Puzzle",     "icon": "🧩" }
+  ]
+}
