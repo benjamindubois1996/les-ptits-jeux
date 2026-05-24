@@ -8,7 +8,16 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 02 tetris`
 
 ## Compteur de jeux
 - 01 — Snake ✅ (fait)
-- 02 — (prochain jeu à définir)
+- 02 — Tetris ✅ (fait)
+- 03 — Minesweeper ✅ (fait)
+- 04 — Wordle (en cours)
+- 05 — 2048
+- 06 — Simon Says
+- 07 — Connect Four
+- 08 — Space Invaders
+- 09 — Breakout
+- 10 — Blackjack
+- 🔄 Après le jeu 10 : mise à jour globale / nouvelle feature impactant tous les jeux
 
 ## Workflow Git
 - `main` : prod, intouchable — jamais de commit direct
