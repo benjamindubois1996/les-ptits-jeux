@@ -106,6 +106,7 @@ const GameShell = (() => {
     EventBus.on('game:over',         _onGameOver);
     EventBus.on('game:paused',       _onPaused);
     EventBus.on('game:resumed',      _onResumed);
+    EventBus.on('game:restart',      _onGameRestart);
 
     return document.getElementById(VIEWPORT_ID);
   }
@@ -118,6 +119,7 @@ const GameShell = (() => {
     EventBus.off('game:over',         _onGameOver);
     EventBus.off('game:paused',       _onPaused);
     EventBus.off('game:resumed',      _onResumed);
+    EventBus.off('game:restart',      _onGameRestart);
 
     _currentGameId = null;
     _scoreEl       = null;
@@ -164,6 +166,14 @@ const GameShell = (() => {
    * @private
    */
   function _onResumed() {
+    _hideOverlay();
+  }
+
+  /**
+   * Cacher l'overlay quand le jeu redémarre (retour à l'écran idle)
+   * @private
+   */
+  function _onGameRestart() {
     _hideOverlay();
   }
 

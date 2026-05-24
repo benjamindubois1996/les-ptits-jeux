@@ -1,0 +1,66 @@
+{
+  "id": "tetris",
+  "version": "1.0.0",
+
+  "gameplay": {
+    "cols": 10,
+    "rows": 20,
+    "startLevel": 1,
+    "linesPerLevel": 10,
+    "baseInterval": 1000,
+    "minInterval": 80,
+    "softDropScore": 1,
+    "hardDropScore": 2
+  },
+
+  "scoring": {
+    "linesScore": [0, 100, 300, 500, 800]
+  },
+
+  "theme": {
+    "canvas": {
+      "backgroundColor": "#05080f",
+      "gridColor": "rgba(0,255,225,0.04)",
+      "borderColor": "rgba(0,255,225,0.2)",
+      "borderGlow": true
+    },
+
+    "pieces": {
+      "colors": [
+        null,
+        "#00f5ff",
+        "#ffe600",
+        "#b347ff",
+        "#00ff88",
+        "#ff3060",
+        "#2060ff",
+        "#ff8800"
+      ],
+      "glowBlur": 10,
+      "borderRadius": 2
+    },
+
+    "ghost": {
+      "alpha": 0.18
+    },
+
+    "ui": {
+      "fontFamily": "Orbitron, monospace",
+      "primaryColor": "#00ffe1",
+      "accentColor": "#ffe600",
+      "mutedColor": "rgba(0,255,225,0.4)"
+    }
+  },
+
+  "controls": {
+    "keyboard": {
+      "left":      ["ArrowLeft",  "KeyA"],
+      "right":     ["ArrowRight", "KeyD"],
+      "softDrop":  ["ArrowDown",  "KeyS"],
+      "rotate":    ["ArrowUp",    "KeyW", "KeyX"],
+      "hardDrop":  ["Space"],
+      "pause":     ["KeyP",       "Escape"],
+      "restart":   ["KeyR"]
+    }
+  }
+}

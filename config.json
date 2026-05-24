@@ -26,6 +26,28 @@
         "touch": true
       },
       "path": "games/snake/index.html"
+    },
+    {
+      "id": "tetris",
+      "title": "Tetris",
+      "description": "Empile les tetrominos, efface les lignes, bats ton record.",
+      "longDescription": "Les 7 pièces classiques tombent de plus en plus vite. Complète des lignes pour marquer des points. Un Tetris (4 lignes d'un coup) rapporte le jackpot.",
+      "category": "puzzle",
+      "thumbnail": "🟦",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "7 tetrominos classiques",
+        "Vitesse progressive par niveau",
+        "Pièce fantôme pour anticiper",
+        "Hard drop (chute instantanée)",
+        "Scoring NES fidèle à l'original"
+      ],
+      "controls": {
+        "keyboard": ["↑ Rotation", "← → Déplacer", "↓ Descente", "Espace Hard drop"],
+        "touch": false
+      },
+      "path": "games/tetris/index.html"
     }
   ],
   "categories": [
