@@ -48,6 +48,28 @@
         "touch": false
       },
       "path": "games/tetris/index.html"
+    },
+    {
+      "id": "minesweeper",
+      "title": "Minesweeper",
+      "description": "Déminer la grille sans exploser — logique et sang-froid.",
+      "longDescription": "Révèle les cases, compte les mines adjacentes, pose tes drapeaux. Le premier clic est toujours sûr. Plus vite tu termines, plus ton score est élevé.",
+      "category": "reflexion",
+      "thumbnail": "💣",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "3 niveaux de difficulté (9×9 / 16×16 / 30×16)",
+        "Premier clic toujours sûr",
+        "Flood-fill automatique sur les zones vides",
+        "Chord : révèle les voisins d'une seule frappe",
+        "Score basé sur le temps"
+      ],
+      "controls": {
+        "keyboard": ["Clic gauche : révéler", "Clic droit : drapeau / chord", "R pour restart"],
+        "touch": false
+      },
+      "path": "games/minesweeper/index.html"
     }
   ],
   "categories": [

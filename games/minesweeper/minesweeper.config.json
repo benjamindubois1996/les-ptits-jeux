@@ -1,0 +1,63 @@
+{
+  "id": "minesweeper",
+  "version": "1.0.0",
+
+  "gameplay": {
+    "difficulty": "easy",
+
+    "difficulties": {
+      "easy":   { "cols": 9,  "rows": 9,  "mines": 10 },
+      "medium": { "cols": 16, "rows": 16, "mines": 40 },
+      "hard":   { "cols": 30, "rows": 16, "mines": 99 }
+    }
+  },
+
+  "scoring": {
+    "pointsPerMine": 100,
+    "timeBonusBase": 2000,
+    "timePenaltyPerSecond": 5
+  },
+
+  "theme": {
+    "canvas": {
+      "backgroundColor": "#05080f",
+      "borderColor": "rgba(0,255,225,0.2)",
+      "borderGlow": true
+    },
+
+    "cells": {
+      "hiddenColor":    "#0d1f35",
+      "hiddenBorder":   "rgba(0,255,225,0.18)",
+      "revealedColor":  "#060e1a",
+      "revealedBorder": "rgba(0,255,225,0.06)",
+      "mineColor":      "#ff2d78",
+      "glowBlur":       8,
+      "numberColors": [
+        null,
+        "#00ffe1",
+        "#00ff88",
+        "#ff3060",
+        "#2060ff",
+        "#ff8800",
+        "#00f5ff",
+        "#b347ff",
+        "#ffffff"
+      ]
+    },
+
+    "ui": {
+      "fontFamily":   "Orbitron, monospace",
+      "primaryColor": "#00ffe1",
+      "accentColor":  "#ffe600",
+      "dangerColor":  "#ff2d78",
+      "mutedColor":   "rgba(0,255,225,0.4)"
+    }
+  },
+
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  }
+}
