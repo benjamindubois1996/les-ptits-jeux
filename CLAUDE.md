@@ -1,0 +1,44 @@
+# RetroVault — CLAUDE.md
+
+Fichier de référence lu automatiquement à chaque session du projet.
+
+## Nommage des sessions
+Convention : `les ptits jeux - XX nom_du_jeu`
+Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 02 tetris`
+
+## Compteur de jeux
+- 01 — Snake ✅ (fait)
+- 02 — (prochain jeu à définir)
+
+## Workflow Git
+- `main` : prod, intouchable — jamais de commit direct
+- `dev` : base de tout le travail
+- Toute feature/fix part d'une branche créée depuis `dev`
+- Convention de nommage des branches : `feat/nom-jeu` ou `fix/description`
+- Fusion toujours vers `dev`, puis `dev` → `main` quand c'est prêt pour la prod
+
+### Commandes début de session
+```bash
+git checkout dev
+git checkout -b feat/nom-jeu
+```
+
+### Commandes fin de session
+```bash
+git checkout dev
+git merge feat/nom-jeu
+git push
+```
+
+## Organisation des sessions
+- **Cette session (centrale/QG)** : réflexions, architecture, décisions de direction
+- **Une session par jeu ou modification majeure** : nommée selon la convention ci-dessus
+- Les petites corrections peuvent être regroupées dans une même session/branche
+
+## Stack technique
+- Vanilla HTML/CSS/JS — zéro dépendance
+- Architecture modulaire (EventBus, Router, Services, UI)
+- Config centralisée dans `config.json`
+
+## Repo GitHub
+https://github.com/benjamindubois1996/les-ptits-jeux
