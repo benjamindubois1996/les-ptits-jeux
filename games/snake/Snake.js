@@ -86,7 +86,11 @@ export default class Snake {
    */
   restart() {
     this._stopTick();
-    this.start();
+    this.state             = this._buildInitialState(); // retour à idle
+    this._directionQueue   = [];
+    this._lastEatTime      = null;
+    this._currentTickInterval = null;
+    EventBus.emit('game:ready', { gameId: 'snake' });
   }
 
   /**
@@ -302,20 +306,23 @@ export default class Snake {
     this._onKeyDown = (e) => {
       const dir = this._keyMap[e.code];
 
-      // Game over : n'importe quelle touche directionnelle relance
+      // Game over : toute touche → retour idle (overlay caché)
       if (this.state.status === 'gameover') {
         if (dir || keys.restart.includes(e.code) || keys.pause.includes(e.code)) {
           e.preventDefault();
-          this.restart();
+          EventBus.emit('game:restart'); // cache overlay + appelle restart() via _onRestart → idle
         }
         return;
       }
 
-      // Direction
+      // Direction — ignorée si en pause
       if (dir) {
         e.preventDefault();
-        this._directionQueue.push(dir);
-        if (this.state.status === 'idle') this.start();
+        const s = this.state.status;
+        if (s === 'playing' || s === 'idle') {
+          this._directionQueue.push(dir);
+        }
+        if (s === 'idle') this.start();
         return;
       }
 
@@ -326,10 +333,10 @@ export default class Snake {
         return;
       }
 
-      // Restart explicite
+      // Restart explicite (pendant jeu ou pause) → retour idle
       if (keys.restart.includes(e.code)) {
         e.preventDefault();
-        this.restart();
+        EventBus.emit('game:restart'); // cache overlay + appelle restart() via _onRestart → idle
       }
     };
 
@@ -377,8 +384,11 @@ export default class Snake {
         dir = dy > 0 ? 'DOWN' : 'UP';
       }
 
-      this._directionQueue.push(dir);
-      if (this.state.status === 'idle') this.start();
+      const s = this.state.status;
+      if (s === 'playing' || s === 'idle') {
+        this._directionQueue.push(dir);
+      }
+      if (s === 'idle') this.start();
     };
 
     window.addEventListener('touchstart', this._touchStart, { passive: true });

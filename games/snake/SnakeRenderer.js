@@ -161,8 +161,14 @@ export default class SnakeRenderer {
      ============================================================ */
 
   _draw() {
+    const state = this.game.state;
+
+    if (state.status === 'idle') {
+      this._drawIdleScreen();
+      return;
+    }
+
     const ctx    = this.ctx;
-    const state  = this.game.state;
     const canvas = this.canvas;
 
     // Shake effet mort
