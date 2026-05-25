@@ -44,6 +44,18 @@ git push
 - **Une session par jeu ou modification majeure** : nommée selon la convention ci-dessus
 - Les petites corrections peuvent être regroupées dans une même session/branche
 
+## Règles importantes pour Claude
+
+### Démarrage de session
+- Ne PAS explorer ou relire tout le projet au démarrage
+- Le `CLAUDE.md` et les fichiers mémoire contiennent tout le contexte nécessaire
+- Ne lire un fichier spécifique que si la tâche en cours le nécessite explicitement
+
+### Avant tout commit
+- Ne JAMAIS lancer `git commit` sans confirmation explicite de Benjamin
+- Toujours demander : "Tu as testé ? Je peux commiter ?"
+- C'est Benjamin qui valide les tests, pas Claude
+
 ## Stack technique
 - Vanilla HTML/CSS/JS — zéro dépendance
 - Architecture modulaire (EventBus, Router, Services, UI)
