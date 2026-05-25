@@ -18,3 +18,6 @@ node_modules/
 # Variables d'environnement (ne jamais commiter des secrets)
 .env
 .env.local
+
+# Fichiers internes Claude Code
+.claude/

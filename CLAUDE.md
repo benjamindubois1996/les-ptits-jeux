@@ -10,13 +10,14 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 02 tetris`
 - 01 — Snake ✅ (fait)
 - 02 — Tetris ✅ (fait)
 - 03 — Minesweeper ✅ (fait)
-- 04 — Wordle (en cours)
-- 05 — 2048
-- 06 — Simon Says
-- 07 — Connect Four
-- 08 — Space Invaders
-- 09 — Breakout
-- 10 — Blackjack
+- 04 — Wordle ✅ (fait)
+- 05 — 2048 ✅ (fait)
+- 06 — Simon Says ✅ (fait)
+- 07 — Connect Four ✅ (fait)
+- 08 — Space Invaders ✅ (fait)
+- 09 — Breakout ✅ (fait)
+- 10 — Blackjack ✅ (fait)
+- 🔄 Après le jeu 10 : mise à jour globale / nouvelle feature impactant tous les jeux
 - 🔄 Après le jeu 10 : mise à jour globale / nouvelle feature impactant tous les jeux
 
 ## Workflow Git
