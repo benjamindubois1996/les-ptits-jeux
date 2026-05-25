@@ -1,0 +1,114 @@
+{
+  "id": "simon",
+  "version": "4.0.0",
+
+  "allColors": ["red", "green", "yellow", "blue", "purple", "orange", "pink", "black", "white"],
+
+  "phases": [
+    {
+      "id": 1,
+      "fromRound":    1,
+      "colorCount":   4,
+      "shuffleAfter": false,
+      "hideCount":    0,
+      "flashDuration": 500,
+      "flashPause":    200,
+      "label": "Classique"
+    },
+    {
+      "id": 2,
+      "fromRound":    5,
+      "colorCount":   4,
+      "shuffleAfter": true,
+      "hideCount":    0,
+      "flashDuration": 400,
+      "flashPause":    160,
+      "label": "Les positions bougent"
+    },
+    {
+      "id": 3,
+      "fromRound":    9,
+      "colorCount":   5,
+      "shuffleAfter": true,
+      "hideCount":    0,
+      "flashDuration": 320,
+      "flashPause":    120,
+      "label": "5ème couleur"
+    },
+    {
+      "id": 4,
+      "fromRound":    13,
+      "colorCount":   6,
+      "shuffleAfter": true,
+      "hideCount":    1,
+      "flashDuration": 250,
+      "flashPause":    90,
+      "label": "6ème couleur + masquage"
+    },
+    {
+      "id": 5,
+      "fromRound":    17,
+      "colorCount":   7,
+      "shuffleAfter": true,
+      "hideCount":    2,
+      "flashDuration": 195,
+      "flashPause":    70,
+      "label": "7ème couleur"
+    },
+    {
+      "id": 6,
+      "fromRound":    22,
+      "colorCount":   8,
+      "shuffleAfter": true,
+      "hideCount":    3,
+      "flashDuration": 150,
+      "flashPause":    55,
+      "label": "8 couleurs — chaos total"
+    },
+    {
+      "id": 7,
+      "fromRound":    24,
+      "colorCount":   9,
+      "shuffleAfter": true,
+      "hideCount":    3,
+      "flashDuration": 120,
+      "flashPause":    45,
+      "label": "9 couleurs"
+    }
+  ],
+
+  "supremeUnlocks": [
+    { "round": 25, "color": "bronze", "label": "BRONZE" },
+    { "round": 30, "color": "silver", "label": "ARGENT" },
+    { "round": 40, "color": "gold",   "label": "OR" }
+  ],
+
+  "modes": {
+    "normal": {
+      "label":           "NORMAL",
+      "emoji":           "🟢",
+      "description":     "Mécaniques progressives · commence simple",
+      "phaseMultiplier": 1.0
+    },
+    "hard": {
+      "label":           "HARD",
+      "emoji":           "🟡",
+      "description":     "Les paliers arrivent plus vite",
+      "phaseMultiplier": 0.65
+    },
+    "chaos": {
+      "label":           "CHAOS",
+      "emoji":           "🔴",
+      "description":     "Tout arrive très vite",
+      "phaseMultiplier": 0.35
+    }
+  },
+
+  "gameplay": {
+    "interRoundDelay": 800
+  },
+
+  "scoring": {
+    "basePerRound": 100
+  }
+}
