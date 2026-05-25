@@ -1,0 +1,24 @@
+{
+  "id": "blackjack",
+  "version": "1.0.0",
+
+  "gameplay": {
+    "startingChips": 500,
+    "minBet": 10,
+    "maxBet": 500,
+    "decks": 6,
+    "blackjackPayout": 1.5
+  },
+
+  "chips": [10, 25, 50, 100],
+
+  "controls": {
+    "keyboard": {
+      "hit":     ["KeyH"],
+      "stand":   ["KeyS"],
+      "double":  ["KeyD"],
+      "deal":    ["Space", "Enter"],
+      "restart": ["KeyR"]
+    }
+  }
+}

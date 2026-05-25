@@ -201,6 +201,28 @@
         "touch": true
       },
       "path": "games/breakout/index.html"
+    },
+    {
+      "id": "blackjack",
+      "title": "Blackjack",
+      "description": "Battez le croupier à 21 — tactique, sang-froid et gestion des mises.",
+      "longDescription": "Tirez des cartes pour approcher 21 sans dépasser. Le croupier doit tirer jusqu'à 17. Un Blackjack (21 en 2 cartes) rapporte 1,5× la mise. Doublez quand le timing est parfait et gérez vos jetons jusqu'au dernier.",
+      "category": "reflexion",
+      "thumbnail": "🃏",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "Jeu contre le croupier (règles classiques Las Vegas)",
+        "Système de mises avec 4 valeurs de jetons",
+        "Blackjack payé 1,5× — Double Down disponible",
+        "Croupier tire jusqu'à 17, s'arrête sur 17+",
+        "Score basé sur le total de jetons accumulés"
+      ],
+      "controls": {
+        "keyboard": ["H : Tirer  S : Rester  D : Doubler", "Espace / Entrée : Distribuer", "R : Recommencer"],
+        "touch": true
+      },
+      "path": "games/blackjack/index.html"
     }
   ],
   "categories": [
