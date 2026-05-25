@@ -1,0 +1,75 @@
+{
+  "id": "space-invaders",
+  "version": "1.0.0",
+
+  "gameplay": {
+    "cols": 11,
+    "rows": 5,
+    "lives": 3,
+    "alienRowPoints": [30, 20, 20, 10, 10],
+    "stepTimeInit": 1.0,
+    "stepTimeMin": 0.08,
+    "stepX": 8,
+    "dropY": 18,
+    "alienBulletIntervalInit": 1500,
+    "alienBulletIntervalMin": 380,
+    "mysteryIntervalMin": 20000,
+    "mysteryIntervalMax": 33000,
+    "mysteryPoints": [50, 100, 150, 300],
+    "shieldCount": 4,
+    "invincibleDuration": 2000,
+    "levelupDelay": 3000
+  },
+
+  "world": {
+    "W": 660,
+    "H": 720,
+    "alienX0": 26,
+    "alienY0": 80,
+    "alienColGap": 55,
+    "alienRowGap": 44,
+    "alienW": 32,
+    "alienH": 22,
+    "playerY": 638,
+    "playerW": 38,
+    "playerH": 20,
+    "playerSpeed": 320,
+    "bulletW": 3,
+    "playerBulletH": 14,
+    "playerBulletSpeed": 530,
+    "alienBulletH": 16,
+    "alienBulletSpeed": 175,
+    "mysteryY": 28,
+    "mysteryW": 52,
+    "mysteryH": 20,
+    "mysterySpeed": 145,
+    "shieldY": 568,
+    "shieldCellSize": 9,
+    "edgeMarginL": 18,
+    "edgeMarginR": 18
+  },
+
+  "theme": {
+    "canvas": {
+      "backgroundColor": "#050a12"
+    },
+    "ui": {
+      "fontFamily": "Orbitron, monospace",
+      "primaryColor": "#00ffe1",
+      "accentColor":  "#ffe600",
+      "dangerColor":  "#ff2d78",
+      "mutedColor":   "rgba(0,255,225,0.4)",
+      "winColor":     "#ffd700"
+    }
+  },
+
+  "controls": {
+    "keyboard": {
+      "left":    ["ArrowLeft",  "KeyA"],
+      "right":   ["ArrowRight", "KeyD"],
+      "shoot":   ["Space"],
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  }
+}

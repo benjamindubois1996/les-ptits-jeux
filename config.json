@@ -157,6 +157,28 @@
         "touch": true
       },
       "path": "games/connect-four/index.html"
+    },
+    {
+      "id": "space-invaders",
+      "title": "Space Invaders",
+      "description": "Défends la Terre contre les vagues d'aliens — réflexes et survie.",
+      "longDescription": "55 aliens avancent en formation et descendent inexorablement. Élimine-les tous avant qu'ils n'atteignent le sol. Utilise les 4 boucliers pour te protéger, chasse le vaisseau mystère pour le bonus. À toi de jouer, commandant.",
+      "category": "arcade",
+      "thumbnail": "👾",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "Grille 11×5 d'aliens avec vitesse progressive",
+        "3 types d'aliens avec points différents",
+        "4 boucliers destructibles case par case",
+        "Vaisseau mystère bonus (50 à 300 pts)",
+        "Niveaux infinis avec difficulté croissante"
+      ],
+      "controls": {
+        "keyboard": ["← → / A D : déplacer", "ESPACE : tirer", "P : pause", "R : restart"],
+        "touch": false
+      },
+      "path": "games/space-invaders/index.html"
     }
   ],
   "categories": [
