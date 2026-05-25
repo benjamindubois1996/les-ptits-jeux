@@ -72,6 +72,28 @@
       "path": "games/minesweeper/index.html"
     },
     {
+      "id": "2048",
+      "title": "2048",
+      "description": "Fusionne les tuiles, atteins 2048 — logique et réflexes.",
+      "longDescription": "Glisse les tuiles dans les quatre directions. Deux tuiles identiques fusionnent en une seule. Accumule les points et atteins la tuile 2048 pour gagner. Mais tu peux continuer au-delà !",
+      "category": "puzzle",
+      "thumbnail": "🔢",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "Grille 4×4 classique",
+        "Animations pop et apparition des tuiles",
+        "Score et meilleur score sauvegardé",
+        "Continue après avoir atteint 2048",
+        "Support swipe tactile"
+      ],
+      "controls": {
+        "keyboard": ["↑↓←→ / WASD : glisser", "P : pause", "R : restart"],
+        "touch": true
+      },
+      "path": "games/2048/index.html"
+    },
+    {
       "id": "wordle",
       "title": "Wordle",
       "description": "Trouve le mot de 5 lettres en 6 essais — logique et vocabulaire.",

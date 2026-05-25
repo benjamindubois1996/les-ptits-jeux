@@ -1,0 +1,63 @@
+{
+  "id": "2048",
+  "version": "1.0.0",
+
+  "gameplay": {
+    "gridSize": 4,
+    "winTile": 2048,
+    "spawnValues": [2, 4],
+    "spawnWeights": [0.9, 0.1]
+  },
+
+  "scoring": {
+    "pointsPerMerge": "tile_value"
+  },
+
+  "theme": {
+    "canvas": {
+      "backgroundColor": "#05080f",
+      "borderColor": "rgba(0,255,225,0.2)",
+      "borderGlow": true
+    },
+
+    "tiles": {
+      "emptyColor":  "rgba(0,255,225,0.05)",
+      "cornerRadius": 6,
+      "gap": 8,
+      "colors": {
+        "0":    { "bg": "rgba(0,255,225,0.04)", "text": "transparent" },
+        "2":    { "bg": "#0d2233", "text": "#00ffe1" },
+        "4":    { "bg": "#0d3322", "text": "#00ff88" },
+        "8":    { "bg": "#1a2a00", "text": "#88ff00" },
+        "16":   { "bg": "#2a1500", "text": "#ff8800" },
+        "32":   { "bg": "#2a0810", "text": "#ff5040" },
+        "64":   { "bg": "#300015", "text": "#ff2d78" },
+        "128":  { "bg": "#251500", "text": "#ffe600" },
+        "256":  { "bg": "#251a00", "text": "#ffc800" },
+        "512":  { "bg": "#1a0030", "text": "#c060ff" },
+        "1024": { "bg": "#220040", "text": "#b347ff" },
+        "2048": { "bg": "#2a1500", "text": "#ffffff", "glow": "#ffd700" }
+      }
+    },
+
+    "ui": {
+      "fontFamily":   "Orbitron, monospace",
+      "primaryColor": "#00ffe1",
+      "accentColor":  "#ffe600",
+      "winColor":     "#ffd700",
+      "dangerColor":  "#ff2d78",
+      "mutedColor":   "rgba(0,255,225,0.4)"
+    }
+  },
+
+  "controls": {
+    "keyboard": {
+      "up":      ["ArrowUp",    "KeyW"],
+      "down":    ["ArrowDown",  "KeyS"],
+      "left":    ["ArrowLeft",  "KeyA"],
+      "right":   ["ArrowRight", "KeyD"],
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  }
+}
