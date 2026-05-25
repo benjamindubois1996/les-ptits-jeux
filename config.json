@@ -114,6 +114,49 @@
         "touch": true
       },
       "path": "games/wordle/index.html"
+    },
+    {
+      "id": "simon",
+      "title": "Simon Says",
+      "description": "Mémorise la séquence de couleurs et reproduis-la — jusqu'où iras-tu ?",
+      "longDescription": "Le jeu te montre une séquence de couleurs qui s'allonge à chaque tour. Rouge, Vert, Jaune, Bleu — écoute, regarde, répète. La vitesse augmente au fil des rounds. Un seul faux pas et c'est terminé.",
+      "category": "reflexion",
+      "thumbnail": "🔴",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "Séquence infinie avec difficulté progressive",
+        "4 couleurs, 4 touches clavier (1-2-3-4)",
+        "Vitesse qui s'accélère à chaque palier",
+        "Score basé sur le nombre de tours réussis"
+      ],
+      "controls": {
+        "keyboard": ["1 Rouge  2 Vert  3 Jaune  4 Bleu", "R pour restart"],
+        "touch": true
+      },
+      "path": "games/simon/index.html"
+    },
+    {
+      "id": "connect-four",
+      "title": "Connect Four",
+      "description": "Aligne 4 pions avant ton adversaire — stratégie et anticipation.",
+      "longDescription": "À tour de rôle, faites tomber vos pions dans les colonnes. Le premier à aligner 4 pions horizontalement, verticalement ou en diagonale gagne. Anticipez les coups adverses et construisez vos pièges !",
+      "category": "reflexion",
+      "thumbnail": "🔴",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "Grille 7×6 classique",
+        "Joueur 1 vs Joueur 2 (local)",
+        "Détection de 4 alignés dans toutes les directions",
+        "Animation de chute des pions avec effet de gravité",
+        "Score de victoires sauvegardé"
+      ],
+      "controls": {
+        "keyboard": ["1–7 : choisir une colonne", "P : pause", "R : restart"],
+        "touch": true
+      },
+      "path": "games/connect-four/index.html"
     }
   ],
   "categories": [
