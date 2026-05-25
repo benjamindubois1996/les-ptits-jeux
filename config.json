@@ -179,6 +179,28 @@
         "touch": false
       },
       "path": "games/space-invaders/index.html"
+    },
+    {
+      "id": "breakout",
+      "title": "Breakout",
+      "description": "Casse toutes les briques avec ta raquette — réflexes et précision.",
+      "longDescription": "Dirige ta raquette pour renvoyer la balle et détruire toutes les briques. Plus les briques sont hautes, plus elles rapportent de points. Chaque niveau efface la grille et accélère la balle. Tu as 3 vies — ne laisse pas la balle passer !",
+      "category": "arcade",
+      "thumbnail": "🧱",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "7 rangées de briques colorées (10–70 pts)",
+        "Niveaux infinis avec vitesse progressive (+20 % par niveau)",
+        "Angle de renvoi selon la zone de frappe",
+        "Contrôles souris, clavier et tactile",
+        "3 vies — meilleur score sauvegardé"
+      ],
+      "controls": {
+        "keyboard": ["← → / A D : raquette", "Espace : lancer / pause", "R : restart"],
+        "touch": true
+      },
+      "path": "games/breakout/index.html"
     }
   ],
   "categories": [

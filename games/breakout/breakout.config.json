@@ -1,0 +1,32 @@
+{
+  "id": "breakout",
+  "version": "1.0.0",
+
+  "gameplay": {
+    "canvas":  { "width": 460, "height": 520 },
+    "paddle":  { "width": 80, "height": 12, "speed": 8 },
+    "ball":    { "radius": 7, "initialSpeed": 5 },
+    "lives":   3,
+    "bricks": {
+      "rows":      7,
+      "cols":      10,
+      "padding":   5,
+      "height":    16,
+      "offsetTop": 55,
+      "offsetLeft":10
+    }
+  },
+
+  "scoring": {
+    "brickPoints": [70, 60, 50, 40, 30, 20, 10]
+  },
+
+  "controls": {
+    "keyboard": {
+      "left":    ["ArrowLeft",  "KeyA"],
+      "right":   ["ArrowRight", "KeyD"],
+      "launch":  ["Space"],
+      "restart": ["KeyR"]
+    }
+  }
+}
