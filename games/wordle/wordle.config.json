@@ -1,0 +1,33 @@
+{
+  "id": "wordle",
+  "version": "2.0.0",
+
+  "gameplay": {
+    "language":          "fr",
+    "wordLength":        5,
+    "wordLengthOptions": [4, 5, 6, 7, 8, 9, 10, 11, 12],
+    "maxAttempts":       6,
+    "allowAccents":      false,
+
+    "series": 0,
+    "seed":   0,
+    "lives":  0,
+
+    "timer": {
+      "enabled":           true,
+      "bonusBase":         200,
+      "penaltyPerSecond":  5
+    }
+  },
+
+  "scoring": {
+    "baseScore":         500,
+    "penaltyPerAttempt": 80
+  },
+
+  "controls": {
+    "keyboard": {
+      "restart": ["KeyR"]
+    }
+  }
+}

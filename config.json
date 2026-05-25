@@ -70,6 +70,28 @@
         "touch": false
       },
       "path": "games/minesweeper/index.html"
+    },
+    {
+      "id": "wordle",
+      "title": "Wordle",
+      "description": "Trouve le mot de 5 lettres en 6 essais — logique et vocabulaire.",
+      "longDescription": "Chaque tentative révèle quelles lettres sont correctes, présentes ou absentes. Vert = bonne lettre, bonne place. Jaune = bonne lettre, mauvaise place. Gris = lettre absente. Six essais pour décrocher la victoire.",
+      "category": "reflexion",
+      "thumbnail": "🟩",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "Dictionnaire de mots français sans accent",
+        "Retour coloré lettre par lettre",
+        "Clavier virtuel AZERTY",
+        "Animations flip, pop et bounce",
+        "Score selon le nombre d'essais"
+      ],
+      "controls": {
+        "keyboard": ["A–Z pour taper", "Entrée pour valider", "⌫ pour effacer", "R pour rejouer"],
+        "touch": true
+      },
+      "path": "games/wordle/index.html"
     }
   ],
   "categories": [
