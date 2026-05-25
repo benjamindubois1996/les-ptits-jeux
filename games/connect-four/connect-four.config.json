@@ -1,0 +1,60 @@
+{
+  "id": "connect-four",
+  "version": "1.0.0",
+
+  "gameplay": {
+    "rows": 6,
+    "cols": 7,
+    "winLength": 4,
+    "aiDepth": 6,
+    "aiDelay": 350,
+    "gridSizes": [
+      { "id": "mini",     "label": "5×4", "cols": 5, "rows": 4 },
+      { "id": "classique","label": "7×6", "cols": 7, "rows": 6 },
+      { "id": "grand",    "label": "9×7", "cols": 9, "rows": 7 }
+    ],
+    "defaultGridSize": "classique"
+  },
+
+  "scoring": {
+    "baseScore":      1000,
+    "penaltyPerMove": 15,
+    "minScore":       100
+  },
+
+  "theme": {
+    "canvas": {
+      "backgroundColor": "#05080f"
+    },
+
+    "board": {
+      "color": "#0a1628"
+    },
+
+    "players": {
+      "p1": "#00f5ff",
+      "p2": "#ff3060"
+    },
+
+    "ui": {
+      "fontFamily": "Orbitron, monospace",
+      "primaryColor": "#00ffe1",
+      "accentColor":  "#ffe600",
+      "mutedColor":   "rgba(0,255,225,0.4)"
+    }
+  },
+
+  "controls": {
+    "keyboard": {
+      "col1": ["Digit1", "Numpad1"],
+      "col2": ["Digit2", "Numpad2"],
+      "col3": ["Digit3", "Numpad3"],
+      "col4": ["Digit4", "Numpad4"],
+      "col5": ["Digit5", "Numpad5"],
+      "col6": ["Digit6", "Numpad6"],
+      "col7": ["Digit7", "Numpad7"],
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  }
+}

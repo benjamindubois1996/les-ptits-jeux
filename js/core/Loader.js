@@ -103,10 +103,11 @@ const Loader = (() => {
   }
 
   /**
-   * Utilitaire — capitalize "snake" → "Snake"
+   * Utilitaire — convertit un id kebab-case en PascalCase
+   * "snake" → "Snake", "connect-four" → "ConnectFour"
    */
   function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    return str.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('');
   }
 
   return { load, unload, getCurrent };
