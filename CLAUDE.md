@@ -17,8 +17,18 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 02 tetris`
 - 08 — Space Invaders ✅ (fait)
 - 09 — Breakout ✅ (fait)
 - 10 — Blackjack ✅ (fait)
-- 🔄 Après le jeu 10 : mise à jour globale / nouvelle feature impactant tous les jeux
-- 🔄 Après le jeu 10 : mise à jour globale / nouvelle feature impactant tous les jeux
+- 🔄 Refactoring v2 ✅ (fait) — BaseGame, GameLoop, Random, GridUtils
+- 11 — Pong (prochain)
+- 12 — Pac-Man
+- 13 — Hangman
+- 14 — Battleship
+- 15 — Mastermind
+- 16 — Flappy Bird
+- 17 — Memory
+- 18 — Sudoku
+- 19 — Solitaire
+- 20 — Platformer 2D
+- 🔄 Après le jeu 20 : mise à jour globale v3
 
 ## Workflow Git
 - `main` : prod, intouchable — jamais de commit direct
