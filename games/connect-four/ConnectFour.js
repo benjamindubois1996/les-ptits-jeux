@@ -15,32 +15,32 @@
 
 import EventBus    from '../../js/core/EventBus.js';
 import ScoreService from '../../js/services/ScoreService.js';
+import BaseGame     from '../../js/core/BaseGame.js';
 
-export default class ConnectFour {
+export default class ConnectFour extends BaseGame {
 
   constructor(config) {
-    this.config     = config;
-    this.mode       = 'pvp';                                       // 'pvp' | 'vs-cpu'
+    super(config);
+    this.mode       = 'pvp';
     this.gridSizeId = config.gameplay.defaultGridSize || 'classique';
-    this._applyGridSize(this.gridSizeId);                          // initialise rows/cols
+    this._applyGridSize(this.gridSizeId);
 
     this.state    = this._buildInitialState();
     this._aiTimer = null;
 
-    this._onPauseToggle = this.togglePause.bind(this);
-    this._onRestart     = this.restart.bind(this);
-    this._onDrop        = ({ col }) => this.dropPiece(col);
-    this._onKey         = this._handleKey.bind(this);
+    this._onDrop = ({ col }) => this.dropPiece(col);
+    this._onKey  = this._handleKey.bind(this);
   }
 
   /* ============================================================
      CYCLE DE VIE
      ============================================================ */
 
+  _gameId() { return 'connect-four'; }
+
   init() {
-    EventBus.on('game:pause-toggle', this._onPauseToggle);
-    EventBus.on('game:restart',      this._onRestart);
-    EventBus.on('connectfour:drop',  this._onDrop);
+    this._setupEventBusBindings();
+    EventBus.on('connectfour:drop', this._onDrop);
     window.addEventListener('keydown', this._onKey);
     EventBus.emit('game:ready', { gameId: 'connect-four' });
   }
@@ -56,34 +56,22 @@ export default class ConnectFour {
     EventBus.emit('game:tick',         { state: this.state });
   }
 
-  togglePause() {
-    if (this.state.status === 'playing') {
-      this.state.status = 'paused';
-      clearTimeout(this._aiTimer);
-      EventBus.emit('game:paused', { state: this.state });
-    } else if (this.state.status === 'paused') {
-      this.state.status = 'playing';
-      EventBus.emit('game:resumed', { state: this.state });
-      if (this.mode === 'vs-cpu' && this.state.currentPlayer === 2) {
-        this._scheduleAiMove();
-      }
+  _onPause()  { clearTimeout(this._aiTimer); }
+  _onResume() {
+    if (this.mode === 'vs-cpu' && this.state.currentPlayer === 2) {
+      this._scheduleAiMove();
     }
   }
 
   restart() {
     clearTimeout(this._aiTimer);
-    const scores      = { ...this.state.scores };
-    this.state        = this._buildInitialState();
-    this.state.scores = scores;
-    EventBus.emit('game:score-update', { score: 0 });
-    EventBus.emit('game:tick', { state: this.state });
+    this.start();
   }
 
   destroy() {
+    super.destroy();
     clearTimeout(this._aiTimer);
-    EventBus.off('game:pause-toggle', this._onPauseToggle);
-    EventBus.off('game:restart',      this._onRestart);
-    EventBus.off('connectfour:drop',  this._onDrop);
+    EventBus.off('connectfour:drop', this._onDrop);
     window.removeEventListener('keydown', this._onKey);
   }
 
@@ -154,7 +142,7 @@ export default class ConnectFour {
     for (let c = 0; c < this.config.gameplay.cols; c++) {
       const keys = kb[`col${c + 1}`] || [];
       if (keys.includes(e.code)) {
-        if (this.state.status === 'idle' || this.state.status === 'gameover') {
+        if (this.state.status === 'idle') {
           this.start();
         } else {
           this.dropPiece(c);
@@ -204,23 +192,25 @@ export default class ConnectFour {
       if (player === 1) this.state.scores.p1++;
       else              this.state.scores.p2++;
 
+      clearTimeout(this._aiTimer); // annuler tout coup IA en attente
       const score = this._computeScore();
       this.state.finalScore = score;
       ScoreService.submit('connect-four', score);
       EventBus.emit('game:score-update', { score });
       EventBus.emit('game:tick',         { state: this.state });
-      EventBus.emit('game:over',         { winner: player, state: this.state });
+      EventBus.emit('game:over',         { winner: player, score, isRecord: false, state: this.state });
       return;
     }
 
     // ── Match nul ? ─────────────────────────────────────────
     if (this._isBoardFull(this.state.board)) {
+      clearTimeout(this._aiTimer); // annuler tout coup IA en attente
       this.state.winner     = 'draw';
       this.state.status     = 'gameover';
       this.state.finalScore = 0;
       EventBus.emit('game:score-update', { score: 0 });
       EventBus.emit('game:tick',         { state: this.state });
-      EventBus.emit('game:over',         { winner: 'draw', state: this.state });
+      EventBus.emit('game:over',         { winner: 'draw', score: 0, isRecord: false, state: this.state });
       return;
     }
 

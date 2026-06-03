@@ -1,10 +1,11 @@
 import EventBus    from '../../js/core/EventBus.js';
 import ScoreService from '../../js/services/ScoreService.js';
+import BaseGame     from '../../js/core/BaseGame.js';
 
-export default class Simon {
+export default class Simon extends BaseGame {
 
   constructor(config) {
-    this.config       = config;
+    super(config);
     this.state        = this._buildState();
     this._timers      = [];
     this._lastPhaseId = 0;
@@ -14,17 +15,19 @@ export default class Simon {
      CYCLE DE VIE
      ============================================================ */
 
+  _gameId() { return 'simon'; }
+
   init() {
     this._bindControls();
+    this._setupEventBusBindings();
     EventBus.emit('game:ready', { gameId: 'simon' });
     EventBus.emit('game:tick',  { state: this.state, action: 'start' });
   }
 
   destroy() {
+    super.destroy();
     this._clearAll();
     this._unbindControls();
-    EventBus.off('game:restart',      this._onRestart);
-    EventBus.off('game:pause-toggle', this._onPauseToggle);
   }
 
   /* ============================================================
@@ -280,10 +283,7 @@ export default class Simon {
     };
 
     window.addEventListener('keydown', this._onKeyDown);
-    this._onRestart     = () => this.restart();
-    this._onPauseToggle = () => this.togglePause();
-    EventBus.on('game:restart',      this._onRestart);
-    EventBus.on('game:pause-toggle', this._onPauseToggle);
+    // EventBus (boutons GameShell) — gérés par BaseGame._setupEventBusBindings()
   }
 
   _unbindControls() {

@@ -17,6 +17,7 @@
 
 import EventBus    from '../../js/core/EventBus.js';
 import ScoreService from '../../js/services/ScoreService.js';
+import BaseGame     from '../../js/core/BaseGame.js';
 
 // Template du bouclier (8 colonnes × 5 rangées)
 const SHIELD_TEMPLATE = [
@@ -27,27 +28,31 @@ const SHIELD_TEMPLATE = [
   [1, 1, 0, 0, 0, 0, 1, 1],
 ];
 
-export default class SpaceInvaders {
+export default class SpaceInvaders extends BaseGame {
 
   constructor(config) {
-    this.config = config;
+    super(config);
     this.state  = this._buildInitialState();
     this._keys  = {};
-    this._onKeyDown     = null;
-    this._onKeyUp       = null;
-    this._onBusRestart  = null;
-    this._onBusPause    = null;
-    this._nextBulletId  = 0;
+    this._onKeyDown    = null;
+    this._onKeyUp      = null;
+    this._nextBulletId = 0;
   }
 
   /* ============================================================
      CYCLE DE VIE
      ============================================================ */
 
+  _gameId() { return 'space-invaders'; }
+
   init() {
     this._bindControls();
+    this._setupEventBusBindings();
     EventBus.emit('game:ready', { gameId: 'space-invaders' });
   }
+
+  /** game:restart → soumettre le score et relancer depuis le niveau 1 */
+  restart() { this._restart(); }
 
   start(level = 1) {
     const best  = this.state.best;
@@ -59,10 +64,9 @@ export default class SpaceInvaders {
   }
 
   destroy() {
+    super.destroy();
     if (this._onKeyDown) window.removeEventListener('keydown', this._onKeyDown);
     if (this._onKeyUp)   window.removeEventListener('keyup',   this._onKeyUp);
-    EventBus.off('game:restart',      this._onBusRestart);
-    EventBus.off('game:pause-toggle', this._onBusPause);
   }
 
   /* ============================================================
@@ -140,10 +144,7 @@ export default class SpaceInvaders {
     window.addEventListener('keydown', this._onKeyDown);
     window.addEventListener('keyup',   this._onKeyUp);
 
-    this._onBusRestart = () => this._restart();
-    this._onBusPause   = () => this.togglePause();
-    EventBus.on('game:restart',      this._onBusRestart);
-    EventBus.on('game:pause-toggle', this._onBusPause);
+    // EventBus (boutons GameShell) — gérés par BaseGame._setupEventBusBindings()
   }
 
   _restart() {

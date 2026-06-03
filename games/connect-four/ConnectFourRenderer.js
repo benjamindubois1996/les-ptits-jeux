@@ -124,12 +124,14 @@ export default class ConnectFourRenderer {
   _handleClick(x, y) {
     const { status } = this.game.state;
 
-    // Vérifier les boutons actifs (idle / gameover)
-    for (const btn of this._buttons) {
-      if (x >= btn.x && x <= btn.x + btn.w && y >= btn.y && y <= btn.y + btn.h) {
-        if (btn.action === 'setMode')     this.game.start(btn.value);
-        if (btn.action === 'setGridSize') this.game.setGridSize(btn.value);
-        return;
+    // Les boutons (sélection mode / taille) ne sont actifs qu'en idle ou gameover
+    if (status === 'idle' || status === 'gameover') {
+      for (const btn of this._buttons) {
+        if (x >= btn.x && x <= btn.x + btn.w && y >= btn.y && y <= btn.y + btn.h) {
+          if (btn.action === 'setMode')     this.game.start(btn.value);
+          if (btn.action === 'setGridSize') this.game.setGridSize(btn.value);
+          return;
+        }
       }
     }
 

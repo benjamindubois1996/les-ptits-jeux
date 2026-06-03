@@ -15,6 +15,9 @@
 
 import EventBus    from '../../js/core/EventBus.js';
 import ScoreService from '../../js/services/ScoreService.js';
+import BaseGame     from '../../js/core/BaseGame.js';
+import GameLoop     from '../../js/core/GameLoop.js';
+import { randChoice } from '../../js/utils/Random.js';
 
 // Définition des 7 tetrominos — matrices + index de couleur (1-7)
 const PIECES = {
@@ -29,21 +32,23 @@ const PIECES = {
 
 const PIECE_TYPES = Object.keys(PIECES);
 
-export default class Tetris {
+export default class Tetris extends BaseGame {
 
   constructor(config) {
-    this.config = config;
-    this.state  = this._buildInitialState();
-
-    this._tickTimer = null;
+    super(config);
+    this.state = this._buildInitialState();
+    this._loop = new GameLoop(() => this._tick());
   }
 
   /* ============================================================
      CYCLE DE VIE
      ============================================================ */
 
+  _gameId() { return 'tetris'; }
+
   init() {
     this._bindControls();
+    this._setupEventBusBindings();
     EventBus.emit('game:ready', { gameId: 'tetris' });
   }
 
@@ -55,36 +60,25 @@ export default class Tetris {
     this.state.nextType = this._randomType();
 
     this._spawnPiece();
-    this._startTick();
+    this._loop.start(this._getLevelInterval());
 
     EventBus.emit('game:started', { state: this.state });
     EventBus.emit('game:score-update', { score: 0 });
   }
 
-  togglePause() {
-    if (this.state.status === 'playing') {
-      this.state.status = 'paused';
-      this._stopTick();
-      EventBus.emit('game:paused', { state: this.state });
-
-    } else if (this.state.status === 'paused') {
-      this.state.status = 'playing';
-      this._startTick();
-      EventBus.emit('game:resumed', { state: this.state });
-    }
-  }
+  _onPause()  { this._loop.stop(); }
+  _onResume() { this._loop.start(this._getLevelInterval()); }
 
   restart() {
-    this._stopTick();
-    this.state = this._buildInitialState(); // retour à l'écran idle
+    this._loop.stop();
+    this.state = this._buildInitialState();
     EventBus.emit('game:score-update', { score: 0 });
   }
 
   destroy() {
-    this._stopTick();
+    super.destroy();
+    this._loop.destroy();
     this._unbindControls();
-    EventBus.off('game:pause-toggle', this._onPauseToggle);
-    EventBus.off('game:restart',      this._onRestart);
   }
 
   /* ============================================================
@@ -288,7 +282,7 @@ export default class Tetris {
      ============================================================ */
 
   _gameOver() {
-    this._stopTick();
+    this._loop.stop();
     this.state.status = 'gameover';
 
     const result = ScoreService.submit('tetris', this.state.score, {
@@ -384,10 +378,7 @@ export default class Tetris {
 
     window.addEventListener('keydown', this._onKeyDown);
 
-    this._onPauseToggle = () => this.togglePause();
-    this._onRestart     = () => this.restart();
-    EventBus.on('game:pause-toggle', this._onPauseToggle);
-    EventBus.on('game:restart',      this._onRestart);
+    // EventBus (boutons GameShell) — gérés par BaseGame._setupEventBusBindings()
   }
 
   _unbindControls() {
@@ -428,7 +419,7 @@ export default class Tetris {
   }
 
   _randomType() {
-    return PIECE_TYPES[Math.floor(Math.random() * PIECE_TYPES.length)];
+    return randChoice(PIECE_TYPES);
   }
 
   /* ============================================================
@@ -440,21 +431,8 @@ export default class Tetris {
     return Math.max(minInterval, baseInterval - (this.state.level - 1) * 85);
   }
 
-  _startTick() {
-    const interval = this._getLevelInterval();
-    this._tickTimer = setInterval(() => this._tick(), interval);
-  }
-
-  _stopTick() {
-    if (this._tickTimer) {
-      clearInterval(this._tickTimer);
-      this._tickTimer = null;
-    }
-  }
-
   _restartTick() {
-    this._stopTick();
-    this._startTick();
+    this._loop.setSpeed(this._getLevelInterval());
   }
 
   /* ============================================================

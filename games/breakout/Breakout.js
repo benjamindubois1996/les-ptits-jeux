@@ -17,11 +17,12 @@
 
 import EventBus    from '../../js/core/EventBus.js';
 import ScoreService from '../../js/services/ScoreService.js';
+import BaseGame     from '../../js/core/BaseGame.js';
 
-export default class Breakout {
+export default class Breakout extends BaseGame {
 
   constructor(config) {
-    this.config    = config;
+    super(config);
     this.state     = this._buildState();
     this._raf      = null;
     this._lastTime = null;
@@ -32,18 +33,20 @@ export default class Breakout {
      CYCLE DE VIE
      ============================================================ */
 
+  _gameId() { return 'breakout'; }
+
   init() {
     this._bindControls();
+    this._setupEventBusBindings();
     EventBus.emit('game:ready', { gameId: 'breakout' });
     EventBus.emit('game:tick',  { state: this.state, action: 'init' });
-    this._startLoop(); // boucle permanente pour le rendu canvas
+    this._startLoop();
   }
 
   destroy() {
+    super.destroy();
     this._stopLoop();
     this._unbindControls();
-    EventBus.off('game:restart',      this._onRestart);
-    EventBus.off('game:pause-toggle', this._onPauseToggle);
   }
 
   /* ============================================================
@@ -373,10 +376,7 @@ export default class Breakout {
     window.addEventListener('keydown', this._onKeyDown);
     window.addEventListener('keyup',   this._onKeyUp);
 
-    this._onRestart     = () => this.restart();
-    this._onPauseToggle = () => this.togglePause();
-    EventBus.on('game:restart',      this._onRestart);
-    EventBus.on('game:pause-toggle', this._onPauseToggle);
+    // EventBus (boutons GameShell) — gérés par BaseGame._setupEventBusBindings()
   }
 
   _unbindControls() {

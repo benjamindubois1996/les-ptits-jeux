@@ -14,20 +14,24 @@
  * Le SnakeRenderer écoute les events et lit this.state
  */
 
-import EventBus from '../../js/core/EventBus.js';
+import EventBus    from '../../js/core/EventBus.js';
 import ScoreService from '../../js/services/ScoreService.js';
+import BaseGame     from '../../js/core/BaseGame.js';
+import GameLoop     from '../../js/core/GameLoop.js';
+import { randInt, randChoice } from '../../js/utils/Random.js';
+import { posEquals, isOutOfBounds } from '../../js/utils/GridUtils.js';
 
-export default class Snake {
+export default class Snake extends BaseGame {
 
   constructor(config) {
-    this.config = config;
+    super(config);
     this.state  = this._buildInitialState();
 
     // File de directions (évite les retournements rapides multi-touches)
     this._directionQueue = [];
 
-    // Référence au setInterval du tick
-    this._tickTimer = null;
+    // Moteur de tick (remplace _tickTimer / _startTick / _stopTick)
+    this._loop = new GameLoop(() => this._tick());
 
     // Timestamp du dernier repas (pour le combo)
     this._lastEatTime = null;
@@ -40,8 +44,11 @@ export default class Snake {
   /**
    * Initialiser — appelé par Loader après instanciation
    */
+  _gameId() { return 'snake'; }
+
   init() {
     this._bindControls();
+    this._setupEventBusBindings();
     EventBus.emit('game:ready', { gameId: 'snake' });
   }
 
@@ -51,44 +58,34 @@ export default class Snake {
   start() {
     if (this.state.status === 'playing') return;
 
-    this.state          = this._buildInitialState();
+    this.state                = this._buildInitialState();
     this._directionQueue      = [];
     this._lastEatTime         = null;
-    this._currentTickInterval = null; // reset vitesse
+    this._currentTickInterval = null;
     this.state.status         = 'playing';
 
     this._spawnFood();
     this._spawnObstacles();
-    this._startTick();
+    this._loop.start(this._getDiffConfig().tickInterval);
 
     EventBus.emit('game:started', { state: this.state });
     EventBus.emit('game:score-update', { score: 0 });
   }
 
-  /**
-   * Basculer pause / reprise
-   */
-  togglePause() {
-    if (this.state.status === 'playing') {
-      this.state.status = 'paused';
-      this._stopTick();
-      EventBus.emit('game:paused', { state: this.state });
+  /** Stopper le tick lors de la pause */
+  _onPause()  { this._loop.stop(); }
 
-    } else if (this.state.status === 'paused') {
-      this.state.status = 'playing';
-      this._startTick();
-      EventBus.emit('game:resumed', { state: this.state });
-    }
-  }
+  /** Relancer le tick lors de la reprise */
+  _onResume() { this._loop.start(this._currentTickInterval || this._getDiffConfig().tickInterval); }
 
   /**
-   * Redémarrer
+   * Redémarrer — retour à l'écran idle
    */
   restart() {
-    this._stopTick();
-    this.state             = this._buildInitialState(); // retour à idle
-    this._directionQueue   = [];
-    this._lastEatTime      = null;
+    this._loop.stop();
+    this.state                = this._buildInitialState();
+    this._directionQueue      = [];
+    this._lastEatTime         = null;
     this._currentTickInterval = null;
     EventBus.emit('game:ready', { gameId: 'snake' });
   }
@@ -97,10 +94,9 @@ export default class Snake {
    * Détruire proprement (appelé par Loader)
    */
   destroy() {
-    this._stopTick();
+    super.destroy();
+    this._loop.destroy();
     this._unbindControls();
-    EventBus.off('game:pause-toggle', this._onPauseToggle);
-    EventBus.off('game:restart',      this._onRestart);
   }
 
   /* ============================================================
@@ -129,7 +125,7 @@ export default class Snake {
     // --- Collisions murs ---
     const diffConfig = this._getDiffConfig();
     if (diffConfig.wallsKill) {
-      if (this._isOutOfBounds(newHead)) {
+      if (isOutOfBounds(newHead, this.state.gridSize)) {
         this._gameOver();
         return;
       }
@@ -152,7 +148,7 @@ export default class Snake {
     }
 
     // --- Manger ? ---
-    const ate = this._posEquals(newHead, this.state.food);
+    const ate = posEquals(newHead, this.state.food);
 
     // Déplacer le serpent
     this.state.snake.unshift(newHead);
@@ -226,10 +222,7 @@ export default class Snake {
   _spawnFood() {
     let pos;
     do {
-      pos = {
-        x: Math.floor(Math.random() * this.state.gridSize),
-        y: Math.floor(Math.random() * this.state.gridSize)
-      };
+      pos = { x: randInt(this.state.gridSize), y: randInt(this.state.gridSize) };
     } while (
       this._hitsItself(pos) ||
       this._hitsObstacle(pos)
@@ -238,9 +231,7 @@ export default class Snake {
     // Si food avec emoji, choisir aléatoirement
     const foodTheme = this._getFoodTheme();
     if (foodTheme.type === 'emoji' && foodTheme.emoji?.length) {
-      this.state.foodEmoji = foodTheme.emoji[
-        Math.floor(Math.random() * foodTheme.emoji.length)
-      ];
+      this.state.foodEmoji = randChoice(foodTheme.emoji);
     }
 
     this.state.food = pos;
@@ -257,13 +248,10 @@ export default class Snake {
     for (let i = 0; i < count; i++) {
       let pos;
       do {
-        pos = {
-          x: Math.floor(Math.random() * this.state.gridSize),
-          y: Math.floor(Math.random() * this.state.gridSize)
-        };
+        pos = { x: randInt(this.state.gridSize), y: randInt(this.state.gridSize) };
       } while (
         this._hitsItself(pos) ||
-        this._posEquals(pos, this.state.food)
+        posEquals(pos, this.state.food)
       );
       this.state.obstacles.push(pos);
     }
@@ -274,7 +262,7 @@ export default class Snake {
      ============================================================ */
 
   _gameOver() {
-    this._stopTick();
+    this._loop.stop();
     this.state.status = 'gameover';
 
     const best = ScoreService.getBest('snake');
@@ -342,11 +330,7 @@ export default class Snake {
 
     window.addEventListener('keydown', this._onKeyDown);
 
-    // EventBus (boutons GameShell)
-    this._onPauseToggle = () => this.togglePause();
-    this._onRestart     = () => this.restart();
-    EventBus.on('game:pause-toggle', this._onPauseToggle);
-    EventBus.on('game:restart',      this._onRestart);
+    // EventBus (boutons GameShell) — gérés par BaseGame._setupEventBusBindings()
 
     // Touch / Swipe
     if (this.config.controls.touch?.enabled) {
@@ -410,21 +394,12 @@ export default class Snake {
     return { x: pos.x + delta.x, y: pos.y + delta.y };
   }
 
-  _isOutOfBounds({ x, y }) {
-    return x < 0 || x >= this.state.gridSize ||
-           y < 0 || y >= this.state.gridSize;
-  }
-
   _hitsItself(pos) {
-    return this.state.snake.some(seg => this._posEquals(seg, pos));
+    return this.state.snake.some(seg => posEquals(seg, pos));
   }
 
   _hitsObstacle(pos) {
-    return this.state.obstacles.some(obs => this._posEquals(obs, pos));
-  }
-
-  _posEquals(a, b) {
-    return a.x === b.x && a.y === b.y;
+    return this.state.obstacles.some(obs => posEquals(obs, pos));
   }
 
   /**
@@ -467,7 +442,7 @@ export default class Snake {
   _maybeAccelerate() {
     const diff      = this._getDiffConfig();
     const increment = this.config.gameplay.speedIncrement || 0;
-    if (increment === 0) return; // pas d'accélération si non configuré
+    if (increment === 0) return;
 
     const minTick = Math.max(50, diff.tickInterval * 0.5);
     const current = this._currentTickInterval || diff.tickInterval;
@@ -475,25 +450,7 @@ export default class Snake {
 
     if (next !== current) {
       this._currentTickInterval = next;
-      this._stopTick();
-      this._startTick();
-    }
-  }
-
-  /* ============================================================
-     TICK TIMER
-     ============================================================ */
-
-  _startTick() {
-    const diff     = this._getDiffConfig();
-    const interval = this._currentTickInterval || diff.tickInterval;
-    this._tickTimer = setInterval(() => this._tick(), interval);
-  }
-
-  _stopTick() {
-    if (this._tickTimer) {
-      clearInterval(this._tickTimer);
-      this._tickTimer = null;
+      this._loop.setSpeed(next);
     }
   }
 

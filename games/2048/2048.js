@@ -15,11 +15,12 @@
 
 import EventBus    from '../../js/core/EventBus.js';
 import ScoreService from '../../js/services/ScoreService.js';
+import BaseGame     from '../../js/core/BaseGame.js';
 
-export default class Game2048 {
+export default class Game2048 extends BaseGame {
 
   constructor(config) {
-    this.config = config;
+    super(config);
     this.state  = this._buildInitialState();
     this._onKey = null;
   }
@@ -28,8 +29,11 @@ export default class Game2048 {
      CYCLE DE VIE
      ============================================================ */
 
+  _gameId() { return '2048'; }
+
   init() {
     this._bindControls();
+    this._setupEventBusBindings();
     EventBus.emit('game:ready', { gameId: '2048' });
   }
 
@@ -45,9 +49,14 @@ export default class Game2048 {
   }
 
   destroy() {
+    super.destroy();
     if (this._onKey) window.removeEventListener('keydown', this._onKey);
-    EventBus.off('game:restart',      this._onBusRestart);
-    EventBus.off('game:pause-toggle', this._onBusPause);
+  }
+
+  /** Sur game:restart, soumettre le score avant de repartir */
+  restart() {
+    this._submitScoreIfPlaying();
+    this.start();
   }
 
   /* ============================================================
@@ -91,19 +100,12 @@ export default class Game2048 {
 
     window.addEventListener('keydown', this._onKey);
 
-    // Boutons du GameShell (REJOUER, ⏸)
-    this._onBusRestart = () => { this._submitScoreIfPlaying(); this.start(); };
-    this._onBusPause   = () => this.togglePause();
-    EventBus.on('game:restart',      this._onBusRestart);
-    EventBus.on('game:pause-toggle', this._onBusPause);
+    // EventBus (boutons GameShell) — gérés par BaseGame._setupEventBusBindings()
   }
 
   togglePause() {
-    if (this.state.status === 'playing') {
-      this.state.status = 'paused';
-    } else if (this.state.status === 'paused') {
-      this.state.status = 'playing';
-    }
+    super.togglePause();
+    // Le renderer a besoin d'un tick pour mettre à jour l'affichage
     EventBus.emit('game:tick', { state: this.state, merged: [] });
   }
 

@@ -1,4 +1,5 @@
-import EventBus from '../../js/core/EventBus.js';
+import EventBus     from '../../js/core/EventBus.js';
+import { shuffle }  from '../../js/utils/Random.js';
 
 const COLOR_FR = {
   red: 'ROUGE', green: 'VERT', blue: 'BLEU', yellow: 'JAUNE',
@@ -330,13 +331,7 @@ export default class SimonRenderer {
     const board = document.getElementById('simon-board');
     if (!board) return;
 
-    // Fisher-Yates sur _btnOrder
-    const order = [...this._btnOrder];
-    for (let i = order.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [order[i], order[j]] = [order[j], order[i]];
-    }
-    this._btnOrder = order;
+    this._btnOrder = shuffle([...this._btnOrder]);
 
     board.classList.add('simon-board--shuffling');
     setTimeout(() => {

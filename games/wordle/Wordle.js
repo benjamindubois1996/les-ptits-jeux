@@ -9,6 +9,7 @@
 
 import EventBus     from '../../js/core/EventBus.js';
 import ScoreService from '../../js/services/ScoreService.js';
+import BaseGame     from '../../js/core/BaseGame.js';
 
 /* ============================================================
    UTILITAIRES
@@ -34,10 +35,10 @@ function stripAccents(word) {
     .toUpperCase();
 }
 
-export default class Wordle {
+export default class Wordle extends BaseGame {
 
   constructor(config) {
-    this.config = config;
+    super(config);
 
     this._allWords     = null;  // JSON complet { "4":[...], "5":[...] ... }
     this._words        = [];    // mots pour la longueur courante
@@ -56,8 +57,11 @@ export default class Wordle {
      CYCLE DE VIE
      ============================================================ */
 
+  _gameId() { return 'wordle'; }
+
   async init() {
     this._bindControls();
+    this._setupEventBusBindings();
     await this._loadAllWords();           // une seule requête
     this._applyLength(this.config.gameplay.wordLength);
     this._initSeries();
@@ -68,10 +72,9 @@ export default class Wordle {
   }
 
   destroy() {
+    super.destroy();
     this._clearAllTimers();
     this._unbindControls();
-    EventBus.off('game:restart',      this._onRestart);
-    EventBus.off('game:pause-toggle', this._onPauseToggle);
   }
 
   /* ============================================================
@@ -477,10 +480,7 @@ export default class Wordle {
       else if (/^[a-zA-Z]$/.test(e.key)) { e.preventDefault(); this.addLetter(e.key.toUpperCase()); }
     };
     window.addEventListener('keydown', this._onKeyDown);
-    this._onRestart     = () => this.restart();
-    this._onPauseToggle = () => this.togglePause();
-    EventBus.on('game:restart',      this._onRestart);
-    EventBus.on('game:pause-toggle', this._onPauseToggle);
+    // EventBus (boutons GameShell) — gérés par BaseGame._setupEventBusBindings()
   }
 
   _unbindControls() {
