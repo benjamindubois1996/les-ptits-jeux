@@ -223,6 +223,28 @@
         "touch": true
       },
       "path": "games/blackjack/index.html"
+    },
+    {
+      "id": "pong",
+      "title": "Pong",
+      "description": "Le tout premier jeu vidéo — raquette contre IA, premier à 7 gagne.",
+      "longDescription": "Le classique des classiques. Dirige ta raquette avec les touches fléchées et renvoie la balle avant qu'elle ne passe. L'IA accélère au fil des échanges — la balle gagne en vitesse à chaque coup. Premier à 7 points remporte la manche.",
+      "category": "arcade",
+      "thumbnail": "🏓",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "Joueur vs IA — premier à 7 points",
+        "Balle qui accélère à chaque échange",
+        "Angle de renvoi selon la zone de frappe",
+        "IA avec marge d'erreur pour rester battable",
+        "Meilleur score sauvegardé"
+      ],
+      "controls": {
+        "keyboard": ["↑ ↓ / W S : raquette", "Espace : servir / pause", "R : restart"],
+        "touch": false
+      },
+      "path": "games/pong/index.html"
     }
   ],
   "categories": [
