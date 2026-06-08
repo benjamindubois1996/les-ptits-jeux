@@ -1,32 +1,38 @@
 import EventBus     from '../../js/core/EventBus.js';
 import ScoreService  from '../../js/services/ScoreService.js';
+import BaseGame      from '../../js/core/BaseGame.js';
+import { shuffle }   from '../../js/utils/Random.js';
 
 const SUITS = ['♠', '♥', '♦', '♣'];
 const RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
 const VALUE = { A:11, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9, '10':10, J:10, Q:10, K:10 };
 const RED   = new Set(['♥', '♦']);
 
-export default class Blackjack {
+export default class Blackjack extends BaseGame {
 
   constructor(config) {
-    this.config = config;
-    this.deck   = [];
-    this.state  = this._buildState();
+    super(config);
+    this.deck  = [];
+    this.state = this._buildState();
   }
 
   /* ============================================================
      CYCLE DE VIE
      ============================================================ */
 
+  _gameId() { return 'blackjack'; }
+
   init() {
     this._rebuildDeck();
     this._bindControls();
+    this._setupEventBusBindings();
     EventBus.emit('game:ready',        { gameId: 'blackjack' });
     EventBus.emit('game:score-update', { score: this.state.chips });
     EventBus.emit('game:tick',         { state: this.state, action: 'start' });
   }
 
   destroy() {
+    super.destroy();
     this._unbindControls();
   }
 
@@ -191,10 +197,7 @@ export default class Blackjack {
         }
       }
     }
-    for (let i = this.deck.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [this.deck[i], this.deck[j]] = [this.deck[j], this.deck[i]];
-    }
+    shuffle(this.deck);
   }
 
   _draw() {
@@ -255,14 +258,11 @@ export default class Blackjack {
     };
 
     window.addEventListener('keydown', this._onKeyDown);
-
-    this._onRestart = () => this.restart();
-    EventBus.on('game:restart', this._onRestart);
+    // EventBus (boutons GameShell) — gérés par BaseGame._setupEventBusBindings()
   }
 
   _unbindControls() {
     window.removeEventListener('keydown', this._onKeyDown);
-    EventBus.off('game:restart', this._onRestart);
   }
 
   /* ============================================================

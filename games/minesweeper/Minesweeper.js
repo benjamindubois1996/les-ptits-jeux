@@ -15,11 +15,14 @@
 
 import EventBus    from '../../js/core/EventBus.js';
 import ScoreService from '../../js/services/ScoreService.js';
+import BaseGame     from '../../js/core/BaseGame.js';
+import { randInt }  from '../../js/utils/Random.js';
+import { getNeighbors } from '../../js/utils/GridUtils.js';
 
-export default class Minesweeper {
+export default class Minesweeper extends BaseGame {
 
   constructor(config) {
-    this.config = config;
+    super(config);
     this.state  = this._buildInitialState();
     this._timer = null;
   }
@@ -28,8 +31,11 @@ export default class Minesweeper {
      CYCLE DE VIE
      ============================================================ */
 
+  _gameId() { return 'minesweeper'; }
+
   init() {
     this._bindControls();
+    this._setupEventBusBindings();
     EventBus.emit('game:ready', { gameId: 'minesweeper' });
   }
 
@@ -112,18 +118,8 @@ export default class Minesweeper {
   /**
    * Basculer pause / reprise
    */
-  togglePause() {
-    if (this.state.status === 'playing') {
-      this.state.status = 'paused';
-      this._stopTimer();
-      EventBus.emit('game:paused',  { state: this.state });
-
-    } else if (this.state.status === 'paused') {
-      this.state.status = 'playing';
-      this._startTimer();
-      EventBus.emit('game:resumed', { state: this.state });
-    }
-  }
+  _onPause()  { this._stopTimer(); }
+  _onResume() { this._startTimer(); }
 
   restart() {
     this._stopTimer();
@@ -147,10 +143,9 @@ export default class Minesweeper {
   }
 
   destroy() {
+    super.destroy();
     this._stopTimer();
     this._unbindControls();
-    EventBus.off('game:pause-toggle', this._onPauseToggle);
-    EventBus.off('game:restart',      this._onRestart);
   }
 
   /* ============================================================
@@ -198,8 +193,8 @@ export default class Minesweeper {
 
     let placed = 0;
     while (placed < mineCount) {
-      const c   = Math.floor(Math.random() * cols);
-      const r   = Math.floor(Math.random() * rows);
+      const c   = randInt(cols);
+      const r   = randInt(rows);
       const key = `${c},${r}`;
       if (!safe.has(key) && !this.state.grid[r][c].isMine) {
         this.state.grid[r][c].isMine = true;
@@ -214,7 +209,7 @@ export default class Minesweeper {
       for (let c = 0; c < cols; c++) {
         if (this.state.grid[r][c].isMine) continue;
         let count = 0;
-        for (const [nc, nr] of this._getNeighbors(c, r)) {
+        for (const [nc, nr] of getNeighbors(c, r, cols, rows)) {
           if (this.state.grid[nr][nc].isMine) count++;
         }
         this.state.grid[r][c].adjacentMines = count;
@@ -222,20 +217,10 @@ export default class Minesweeper {
     }
   }
 
+  /** Délègue à GridUtils — gardé pour compatibilité interne */
   _getNeighbors(col, row) {
     const { cols, rows } = this.state;
-    const result = [];
-    for (let dr = -1; dr <= 1; dr++) {
-      for (let dc = -1; dc <= 1; dc++) {
-        if (dr === 0 && dc === 0) continue;
-        const nr = row + dr;
-        const nc = col + dc;
-        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
-          result.push([nc, nr]);
-        }
-      }
-    }
-    return result;
+    return getNeighbors(col, row, cols, rows);
   }
 
   /* ============================================================
@@ -378,10 +363,7 @@ export default class Minesweeper {
 
     window.addEventListener('keydown', this._onKeyDown);
 
-    this._onPauseToggle = () => this.togglePause();
-    this._onRestart     = () => this.restart();
-    EventBus.on('game:pause-toggle', this._onPauseToggle);
-    EventBus.on('game:restart',      this._onRestart);
+    // EventBus (boutons GameShell) — gérés par BaseGame._setupEventBusBindings()
   }
 
   _unbindControls() {
