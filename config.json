@@ -225,6 +225,28 @@
       "path": "games/blackjack/index.html"
     },
     {
+      "id": "pac-man",
+      "title": "Pac-Man",
+      "description": "Mange toutes les pastilles, évite les fantômes — un classique intemporel.",
+      "longDescription": "Dirige Pac-Man dans le labyrinthe et avale toutes les pastilles avant que les 4 fantômes ne t'attrapent. Les super-pastilles te rendent temporairement invincible — profites-en pour dévorer les fantômes et enchaîner les combos !",
+      "category": "arcade",
+      "thumbnail": "👻",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "Labyrinthe classique 28×31 avec tunnels",
+        "4 fantômes avec IA différente (Blinky, Pinky, Inky, Clyde)",
+        "Super-pastilles et mode effrayé des fantômes",
+        "Niveaux infinis avec difficulté progressive",
+        "3 vies — score sauvegardé"
+      ],
+      "controls": {
+        "keyboard": ["↑↓←→ / WASD : diriger", "P : pause", "R : restart"],
+        "touch": false
+      },
+      "path": "games/pac-man/index.html"
+    },
+    {
       "id": "pong",
       "title": "Pong",
       "description": "Le tout premier jeu vidéo — raquette contre IA, premier à 7 gagne.",
