@@ -1,0 +1,33 @@
+{
+  "id": "battleship",
+  "gameplay": {
+    "gridSize": 10,
+    "gridSizes": [
+      { "id": "S", "label": "8×8",  "size": 8  },
+      { "id": "M", "label": "10×10", "size": 10 },
+      { "id": "L", "label": "12×12", "size": 12 }
+    ],
+    "defaultGridSize": "M",
+    "ships": [
+      { "id": "carrier",    "name": "Porte-avions", "size": 5 },
+      { "id": "battleship", "name": "Cuirassé",     "size": 4 },
+      { "id": "cruiser",    "name": "Croiseur",      "size": 3 },
+      { "id": "submarine",  "name": "Sous-marin",    "size": 3 },
+      { "id": "destroyer",  "name": "Destroyer",     "size": 2 }
+    ],
+    "ai": {
+      "thinkDelay": 700
+    }
+  },
+  "scoring": {
+    "hitBonus":  100,
+    "sinkBonus": 300,
+    "winBonus":  1000
+  },
+  "controls": {
+    "keyboard": {
+      "rotate":  ["KeyR"],
+      "restart": ["KeyR"]
+    }
+  }
+}

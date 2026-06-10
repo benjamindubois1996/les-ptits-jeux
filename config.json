@@ -289,6 +289,28 @@
         "touch": true
       },
       "path": "games/hangman/index.html"
+    },
+    {
+      "id": "battleship",
+      "title": "Battleship",
+      "description": "Coule la flotte ennemie avant d'être coulé — stratégie et déduction.",
+      "longDescription": "Place tes 5 navires sur la grille, puis traque la flotte adverse case par case. Chaque tir révèle touché ou manqué. Utilise la logique pour localiser et couler tous les navires ennemis avant que l'IA ne détruise ta flotte.",
+      "category": "reflexion",
+      "thumbnail": "🚢",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "Grille 10×10 classique",
+        "5 navires à placer manuellement (2 à 5 cases)",
+        "IA en mode chasse et poursuite",
+        "Placement orientable avec touche R",
+        "Score basé sur les tirs réussis et les coulages"
+      ],
+      "controls": {
+        "keyboard": ["Clic : placer / tirer", "R : pivoter le navire"],
+        "touch": false
+      },
+      "path": "games/battleship/index.html"
     }
   ],
   "categories": [
