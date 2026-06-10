@@ -267,6 +267,28 @@
         "touch": false
       },
       "path": "games/pong/index.html"
+    },
+    {
+      "id": "hangman",
+      "title": "Hangman",
+      "description": "Devine le mot lettre par lettre avant que le pendu ne soit complet.",
+      "longDescription": "Un mot secret t'attend. Propose des lettres une à une — chaque erreur fait avancer le dessin du pendu. Choisis le nombre de vies et la taille des mots. Tu as jusqu'à la dernière pièce pour trouver la solution.",
+      "category": "reflexion",
+      "thumbnail": "🪢",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "Dictionnaire français (même source que Wordle)",
+        "Nombre de vies réglable (5, 6, 7, 8 ou 10)",
+        "Taille des mots configurable ou aléatoire",
+        "Dessin du pendu en 10 étapes progressives",
+        "Clavier AZERTY virtuel + clavier physique"
+      ],
+      "controls": {
+        "keyboard": ["A–Z : proposer une lettre", "R : rejouer"],
+        "touch": true
+      },
+      "path": "games/hangman/index.html"
     }
   ],
   "categories": [
