@@ -22,8 +22,8 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 15 mastermind`
 - 12 — Pac-Man ✅
 - 13 — Hangman ✅
 - 14 — Battleship ✅
-- 15 — Mastermind 🔄 (V1 en cours)
-- 16 — Flappy Bird
+- 15 — Mastermind ✅
+- 16 — Flappy Bird 🔄 (V1 en cours)
 - 17 — Memory
 - 18 — Sudoku
 - 19 — Solitaire

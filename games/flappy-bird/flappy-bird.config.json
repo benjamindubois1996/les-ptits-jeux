@@ -1,0 +1,39 @@
+{
+  "id": "flappy-bird",
+  "version": "1.0.0",
+
+  "canvas": {
+    "width":  380,
+    "height": 560
+  },
+
+  "gameplay": {
+    "gravity":       0.5,
+    "flapForce":    -9,
+    "pipeInterval": 1800,
+    "pipeWidth":     64,
+    "birdX":         85,
+    "birdRadius":    16,
+    "groundHeight":  62,
+
+    "gapOptions":  ["serré", "normal", "large"],
+    "gapSizeMap":  { "serré": 118, "normal": 152, "large": 196 },
+
+    "speedOptions": ["lente", "normale", "rapide"],
+    "speedMap":     { "lente": 2.5, "normale": 3.5, "rapide": 5.0 },
+
+    "speedIncrementPerPipe": 0.07
+  },
+
+  "scoring": {
+    "pointPerPipe": 1
+  },
+
+  "controls": {
+    "keyboard": {
+      "flap":    ["Space", "ArrowUp", "KeyW"],
+      "pause":   ["KeyP"],
+      "restart": ["KeyR"]
+    }
+  }
+}

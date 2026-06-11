@@ -313,6 +313,28 @@
       "path": "games/battleship/index.html"
     },
     {
+      "id": "flappy-bird",
+      "title": "Flappy Bird",
+      "description": "Bats des ailes pour passer entre les tuyaux — réflexes et concentration.",
+      "longDescription": "Chaque pression fait monter l'oiseau, la gravité le ramène vers le bas. Passe entre les tuyaux sans les toucher. Le score augmente à chaque paire franchie, et la vitesse aussi. Un seul contact et c'est terminé.",
+      "category": "arcade",
+      "thumbnail": "🐦",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "Physique gravité + impulsion réaliste",
+        "Tuyaux à espacement configurable (serré / normal / large)",
+        "Vitesse initiale réglable (lente / normale / rapide)",
+        "Accélération progressive au fil des tuyaux passés",
+        "Meilleur score sauvegardé"
+      ],
+      "controls": {
+        "keyboard": ["ESPACE / ↑ / W : battre des ailes", "P : pause", "R : restart"],
+        "touch": true
+      },
+      "path": "games/flappy-bird/index.html"
+    },
+    {
       "id": "mastermind",
       "title": "Mastermind",
       "description": "Trouve le code secret en déduisant couleur et position — logique pure.",
