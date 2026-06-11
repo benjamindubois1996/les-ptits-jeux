@@ -311,6 +311,28 @@
         "touch": false
       },
       "path": "games/battleship/index.html"
+    },
+    {
+      "id": "mastermind",
+      "title": "Mastermind",
+      "description": "Trouve le code secret en déduisant couleur et position — logique pure.",
+      "longDescription": "Un code secret de 4 couleurs t'attend. Après chaque tentative, des indicateurs te disent combien de couleurs sont bien placées (●) et combien sont présentes mais mal placées (○). Déduis, élimines, converges. Tu as 10 essais pour percer le mystère.",
+      "category": "reflexion",
+      "thumbnail": "🔐",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "Code de 4 couleurs parmi 6 (configurable)",
+        "Feedback ● bonne place / ○ bonne couleur",
+        "Longueur du code et nombre de couleurs réglables",
+        "Clavier : chiffres 1–6, flèches, Entrée, Suppr",
+        "Score basé sur le nombre de tentatives"
+      ],
+      "controls": {
+        "keyboard": ["1–6 : choisir une couleur", "← → : naviguer", "Entrée : valider", "Suppr : effacer"],
+        "touch": true
+      },
+      "path": "games/mastermind/index.html"
     }
   ],
   "categories": [
