@@ -23,8 +23,8 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 15 mastermind`
 - 13 — Hangman ✅
 - 14 — Battleship ✅
 - 15 — Mastermind ✅
-- 16 — Flappy Bird 🔄 (V1 en cours)
-- 17 — Memory
+- 16 — Flappy Bird ✅
+- 17 — Memory ✅
 - 18 — Sudoku
 - 19 — Solitaire
 - 20 — Platformer 2D

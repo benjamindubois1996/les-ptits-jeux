@@ -357,6 +357,28 @@
       "path": "games/memory/index.html"
     },
     {
+      "id": "sudoku",
+      "title": "Sudoku",
+      "description": "Remplis la grille 9×9 — chaque chiffre une seule fois par ligne, colonne et carré.",
+      "longDescription": "Complète la grille de 81 cases en plaçant les chiffres 1 à 9. Chaque ligne, chaque colonne et chaque carré 3×3 doit contenir chacun des chiffres une seule fois. Logique pure — pas de hasard.",
+      "category": "reflexion",
+      "thumbnail": "🔢",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "Génération garantie à solution unique",
+        "3 niveaux de difficulté (Facile / Moyen / Difficile)",
+        "Surlignage de la zone et des chiffres identiques",
+        "Conflits mis en évidence en rouge en temps réel",
+        "Score basé sur le temps de résolution"
+      ],
+      "controls": {
+        "keyboard": ["↑↓←→ : naviguer", "1–9 : remplir", "Suppr : effacer", "P : pause", "R : restart"],
+        "touch": true
+      },
+      "path": "games/sudoku/index.html"
+    },
+    {
       "id": "mastermind",
       "title": "Mastermind",
       "description": "Trouve le code secret en déduisant couleur et position — logique pure.",
