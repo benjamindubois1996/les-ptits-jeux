@@ -1,0 +1,26 @@
+{
+  "id": "solitaire",
+  "version": "1.0.0",
+
+  "gameplay": {
+    "drawCount": 1,
+    "suits": ["♠", "♥", "♦", "♣"],
+    "redSuits": ["♥", "♦"],
+    "tableauCount": 7,
+    "foundationCount": 4
+  },
+
+  "scoring": {
+    "wasteToTableau":      5,
+    "tableauToFoundation": 10,
+    "foundationToTableau": -15,
+    "flipCard":            5
+  },
+
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP"],
+      "restart": ["KeyR"]
+    }
+  }
+}

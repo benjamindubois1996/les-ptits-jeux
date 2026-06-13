@@ -379,6 +379,28 @@
       "path": "games/sudoku/index.html"
     },
     {
+      "id": "solitaire",
+      "title": "Solitaire",
+      "description": "Klondike classique — déplace les cartes, complète les fondations, vide le tableau.",
+      "longDescription": "Distribue les cartes dans le tableau, retourne les colonnes et construis les quatre fondations de l'As au Roi. Chaque coup compte : pioche dans le talon, joue les séquences alternées rouge/noir, et complète les quatre familles pour gagner.",
+      "category": "reflexion",
+      "thumbnail": "🃏",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "Klondike standard — tirage 1 carte",
+        "7 colonnes de tableau + 4 fondations",
+        "Clic pour sélectionner / déplacer",
+        "Double-clic pour envoyer sur la fondation",
+        "Score basé sur les déplacements"
+      ],
+      "controls": {
+        "keyboard": ["Clic : sélectionner / déposer", "Double-clic : fondation auto", "P : pause", "R : restart"],
+        "touch": true
+      },
+      "path": "games/solitaire/index.html"
+    },
+    {
       "id": "mastermind",
       "title": "Mastermind",
       "description": "Trouve le code secret en déduisant couleur et position — logique pure.",
