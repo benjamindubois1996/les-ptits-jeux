@@ -401,6 +401,28 @@
       "path": "games/solitaire/index.html"
     },
     {
+      "id": "platformer-2d",
+      "title": "Platformer 2D",
+      "description": "Cours, saute, collecte — 3 niveaux de plateforme à compléter.",
+      "longDescription": "Un platformer 2D classique en scrolling horizontal. Saute sur les plateformes, collecte les pièces dorées et évite les ennemis qui patrouillent. Atteins l'étoile dorée pour passer au niveau suivant. Trois niveaux de difficulté croissante t'attendent — à toi de jouer !",
+      "category": "arcade",
+      "thumbnail": "🏃",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "3 niveaux scrolling horizontal avec difficulté progressive",
+        "Physique gravité + saut réaliste",
+        "Pièces à collecter et ennemis patrouilleurs",
+        "Étoile objectif à atteindre pour progresser",
+        "3 vies avec invincibilité post-dégât"
+      ],
+      "controls": {
+        "keyboard": ["← → / A D : courir", "ESPACE / ↑ / W : sauter", "P : pause", "R : restart"],
+        "touch": false
+      },
+      "path": "games/platformer-2d/index.html"
+    },
+    {
       "id": "mastermind",
       "title": "Mastermind",
       "description": "Trouve le code secret en déduisant couleur et position — logique pure.",
