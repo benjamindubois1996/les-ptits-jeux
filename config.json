@@ -335,6 +335,28 @@
       "path": "games/flappy-bird/index.html"
     },
     {
+      "id": "memory",
+      "title": "Memory",
+      "description": "Retrouve toutes les paires de cartes — concentration et mémorisation.",
+      "longDescription": "Toutes les cartes sont face cachée. Retourne-en deux à la fois : si elles correspondent, elles restent visibles. Sinon, elles se retournent. Retrouve toutes les paires en un minimum de coups pour maximiser ton score.",
+      "category": "reflexion",
+      "thumbnail": "🃏",
+      "available": true,
+      "comingSoon": false,
+      "features": [
+        "3 tailles de grille (4×4, 4×5, 4×6)",
+        "Animations de retournement 3D des cartes",
+        "Score basé sur le nombre de coups",
+        "Compteur de paires trouvées en temps réel",
+        "Meilleur score sauvegardé"
+      ],
+      "controls": {
+        "keyboard": ["Clic : retourner une carte", "P : pause", "R : restart"],
+        "touch": true
+      },
+      "path": "games/memory/index.html"
+    },
+    {
       "id": "mastermind",
       "title": "Mastermind",
       "description": "Trouve le code secret en déduisant couleur et position — logique pure.",
