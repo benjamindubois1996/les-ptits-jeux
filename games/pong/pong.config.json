@@ -1,0 +1,29 @@
+{
+  "id": "pong",
+  "version": "2.0.0",
+
+  "gameplay": {
+    "canvasSizes": {
+      "S":   { "width": 400, "height": 280 },
+      "M":   { "width": 500, "height": 340 },
+      "L":   { "width": 600, "height": 400 },
+      "XL":  { "width": 720, "height": 480 },
+      "XXL": { "width": 900, "height": 580 }
+    },
+    "defaultSize": "L",
+    "paddle":  { "width": 12, "height": 80, "baseSpeed": 7, "offset": 20 },
+    "ball":    { "baseRadius": 6, "baseSpeed": 5, "maxSpeed": 13, "speedIncrement": 0.3 },
+    "ai":      { "baseSpeed": 5.5, "errorMargin": 30 }
+  },
+
+  "controls": {
+    "keyboard": {
+      "p1Up":    ["KeyW",     "ArrowUp"],
+      "p1Down":  ["KeyS",     "ArrowDown"],
+      "p2Up":    ["ArrowUp"],
+      "p2Down":  ["ArrowDown"],
+      "launch":  ["Space"],
+      "restart": ["KeyR"]
+    }
+  }
+}

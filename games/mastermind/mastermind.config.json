@@ -1,0 +1,28 @@
+{
+  "id": "mastermind",
+  "version": "1.0.0",
+
+  "gameplay": {
+    "codeLength":          4,
+    "colorCount":          6,
+    "maxAttempts":         10,
+    "allowDuplicates":     true,
+    "codeLengthOptions":   [3, 4, 5],
+    "colorCountOptions":   [6, 7, 8],
+    "maxAttemptsOptions":  [8, 10, 12]
+  },
+
+  "scoring": {
+    "baseScore":                 1000,
+    "penaltyPerAttempt":          80,
+    "bonusPerRemainingAttempt":   60
+  },
+
+  "controls": {
+    "keyboard": {
+      "submit":  ["Enter"],
+      "delete":  ["Backspace", "Delete"],
+      "restart": ["KeyR"]
+    }
+  }
+}

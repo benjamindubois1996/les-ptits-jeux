@@ -1,0 +1,41 @@
+{
+  "id": "platformer-2d",
+  "version": "1.0.0",
+
+  "canvas": {
+    "width":  480,
+    "height": 400
+  },
+
+  "gameplay": {
+    "gravity":      0.45,
+    "jumpForce":   -10.5,
+    "moveSpeed":    3.2,
+    "playerW":      22,
+    "playerH":      28,
+    "enemyW":       24,
+    "enemyH":       24,
+    "enemySpeed":   1.2,
+    "coinRadius":   8,
+    "groundY":      368,
+    "groundH":      32,
+    "lives":        3,
+    "levelCount":   3
+  },
+
+  "scoring": {
+    "coinValue":   10,
+    "levelBonus":  500,
+    "livesBonus":  100
+  },
+
+  "controls": {
+    "keyboard": {
+      "left":    ["ArrowLeft",  "KeyA"],
+      "right":   ["ArrowRight", "KeyD"],
+      "jump":    ["Space", "ArrowUp", "KeyW"],
+      "pause":   ["KeyP"],
+      "restart": ["KeyR"]
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "pac-man",
+  "version": "1.0.0",
+
+  "gameplay": {
+    "cellSize": 16,
+    "cols": 28,
+    "rows": 31,
+    "pacmanSpeed": 7,
+    "ghostSpeed": 6.5,
+    "frightenedSpeed": 4,
+    "eatenSpeed": 12,
+    "lives": 3,
+    "frightenedDuration": 6000,
+    "readyDuration": 2500,
+    "levelCompleteDuration": 2000,
+    "deathDuration": 1800,
+    "ghostModeSchedule": [
+      { "mode": "scatter", "duration": 7000 },
+      { "mode": "chase",   "duration": 20000 },
+      { "mode": "scatter", "duration": 7000 },
+      { "mode": "chase",   "duration": 20000 },
+      { "mode": "scatter", "duration": 5000 },
+      { "mode": "chase",   "duration": 20000 },
+      { "mode": "scatter", "duration": 5000 },
+      { "mode": "chase",   "duration": 99999000 }
+    ]
+  },
+
+  "scoring": {
+    "dot":          10,
+    "powerPellet":  50,
+    "ghost":       200
+  },
+
+  "controls": {
+    "keyboard": {
+      "up":      ["ArrowUp",    "KeyW"],
+      "down":    ["ArrowDown",  "KeyS"],
+      "left":    ["ArrowLeft",  "KeyA"],
+      "right":   ["ArrowRight", "KeyD"],
+      "pause":   ["KeyP"],
+      "restart": ["KeyR"]
+    }
+  }
+}

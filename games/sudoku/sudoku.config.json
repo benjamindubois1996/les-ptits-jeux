@@ -1,0 +1,26 @@
+{
+  "id": "sudoku",
+  "version": "1.0.0",
+
+  "gameplay": {
+    "difficulties": ["facile", "moyen", "difficile"],
+    "removals": {
+      "facile":    30,
+      "moyen":     40,
+      "difficile": 50
+    }
+  },
+
+  "scoring": {
+    "baseScore":   10000,
+    "timePenalty": 2,
+    "minScore":    1000
+  },
+
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP"],
+      "restart": ["KeyR"]
+    }
+  }
+}

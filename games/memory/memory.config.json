@@ -1,0 +1,28 @@
+{
+  "id": "memory",
+  "version": "1.0.0",
+
+  "gameplay": {
+    "gridOptions": ["4×4", "4×5", "4×6"],
+    "gridMap": {
+      "4×4": { "cols": 4, "rows": 4 },
+      "4×5": { "cols": 4, "rows": 5 },
+      "4×6": { "cols": 4, "rows": 6 }
+    },
+    "flipDelay": 900,
+    "symbols": ["🎮","🎲","🎯","⚽","🏀","🎸","🏆","💎","🚀","🎨","🔮","⚡"]
+  },
+
+  "scoring": {
+    "basePerPair": 200,
+    "movePenalty": 10,
+    "minPerPair": 100
+  },
+
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP"],
+      "restart": ["KeyR"]
+    }
+  }
+}
