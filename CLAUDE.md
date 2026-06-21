@@ -263,8 +263,47 @@ Dans la logique, le mode pilote les règles : `const allowX = mode !== 'basique'
 
 ## Modules partagés prévus — jeux 26-30
 
-Avant de coder Lunar Lander et Pinball, créer ces modules dans `js/core/`.
-Sokoban, Nonogram et Mahjong n'en ont pas besoin (logique purement grille/état).
+**Règle** : un module = tout ce qui est réutilisable, logique OU graphique/rendu.
+Changer un module à un endroit = changement répercuté partout.
+
+### `js/core/Grid.js` *(à créer avant Sokoban)*
+Grille 2D générique, logique pure, sans rendu.
+```js
+export default class Grid {
+  constructor(rows, cols, fillValue = null)
+  get(r, c)
+  set(r, c, value)
+  fill(value)
+  clone()                        // copie profonde indépendante
+  forEach(fn)                    // fn(value, r, c)
+  find(fn)                       // premier { r, c, value } qui matche
+  findAll(fn)                    // tous les { r, c, value } qui matchent
+  inBounds(r, c)
+  neighbors(r, c, diagonal = false)  // cellules adjacentes valides
+  get rows / get cols
+}
+```
+Utilisé par : **Sokoban** (plateau murs/cases/caisses/cibles), **Nonogram** (états des cellules : vide/rempli/croix), **Mahjong** (position des tuiles par couche).
+Peut remplacer `GridUtils` existant à terme.
+
+### `js/ui/CanvasGrid.js` *(à créer avant Sokoban)*
+Renderer canvas générique pour une `Grid`. Configurable par cellule.
+```js
+export default class CanvasGrid {
+  constructor({ cellSize, gap = 0, padding = 0 })
+
+  // Dessine toutes les cellules — cellRenderer(ctx, x, y, size, value, r, c)
+  draw(ctx, grid, cellRenderer)
+
+  // Convertit une position canvas → { r, c } (utile pour les clics)
+  cellAt(canvasX, canvasY)
+
+  // Dimensions totales du canvas nécessaire pour cette grille
+  canvasSize(grid)   // → { width, height }
+}
+```
+Utilisé par : **Sokoban** (rendu du plateau), **Nonogram** (rendu de la grille de jeu).
+Mahjong a un rendu de tuiles 3D empilées trop spécifique → renderer propre.
 
 ### `js/core/Vector2.js` *(à créer avant Lunar Lander)*
 Math 2D pure, sans dépendance.
