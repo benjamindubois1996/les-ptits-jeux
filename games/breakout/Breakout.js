@@ -360,6 +360,13 @@ export default class Breakout extends BaseGame {
       if (keys.left?.includes(e.code))  { e.preventDefault(); this._keys.left  = true; return; }
       if (keys.right?.includes(e.code)) { e.preventDefault(); this._keys.right = true; return; }
 
+      // P : pause standard (en plus de l'espace, qui sert aussi à lancer la balle)
+      if (e.code === 'KeyP' && (s === 'playing' || s === 'paused')) {
+        e.preventDefault();
+        this.togglePause();
+        return;
+      }
+
       if (keys.launch?.includes(e.code)) {
         e.preventDefault();
         if (s === 'idle' || s === 'gameover') { this.start();       return; }

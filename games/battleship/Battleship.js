@@ -33,6 +33,22 @@ export default class Battleship extends BaseGame {
     if (this._aiTimeoutId) clearTimeout(this._aiTimeoutId);
   }
 
+  /* Pause : on coupe le timer IA en attente, on le relance à la reprise */
+  _onPause() {
+    if (this._aiTimeoutId) {
+      clearTimeout(this._aiTimeoutId);
+      this._aiTimeoutId = null;
+      this._aiPending   = true;
+    }
+  }
+
+  _onResume() {
+    if (this._aiPending && this.state.status === 'playing' && this.state.turn === 'enemy') {
+      this._aiPending   = false;
+      this._aiTimeoutId = setTimeout(() => this._aiShoot(), this.config.gameplay.ai.thinkDelay);
+    }
+  }
+
   /* ============================================================
      ACTIONS
      ============================================================ */
@@ -383,6 +399,11 @@ export default class Battleship extends BaseGame {
       if (this.state.status === 'placing' && e.code === 'KeyR') {
         e.preventDefault();
         this.rotateOrientation();
+        return;
+      }
+      if (e.code === 'KeyP' && (this.state.status === 'playing' || this.state.status === 'paused')) {
+        e.preventDefault();
+        EventBus.emit('game:pause-toggle');
       }
     };
     window.addEventListener('keydown', this._onKeyDown);

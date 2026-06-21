@@ -11,7 +11,8 @@
  * NE contient aucune logique de jeu.
  */
 
-import EventBus from '../../js/core/EventBus.js';
+import EventBus    from '../../js/core/EventBus.js';
+import GameOverlay  from '../../js/ui/components/GameOverlay.js';
 
 export default class TetrisRenderer {
 
@@ -23,6 +24,9 @@ export default class TetrisRenderer {
     this.cellSize    = 0;
     this._rafId      = null;
     this._flashAlpha = 0; // flash blanc sur suppression de ligne
+
+    // Suivi de transition pour ne (re)construire l'overlay qu'au changement de statut
+    this._lastOverlayStatus = 'idle';
 
     // Éléments DOM
     this._wrapper     = null;
@@ -53,6 +57,7 @@ export default class TetrisRenderer {
   destroy() {
     this._stopRenderLoop();
     this._unbindEvents();
+    this._overlay?.destroy();
     if (this._wrapper) this._wrapper.remove();
     window.removeEventListener('resize', this._onResize);
   }
@@ -122,20 +127,32 @@ export default class TetrisRenderer {
     this._levelEl = this._makeStatBlock('NIVEAU', '1', ui);
     this._linesEl = this._makeStatBlock('LIGNES', '0', ui);
 
-    // Contrôles
-    const ctrlSection = this._makeControlsBlock(ui);
-
     panel.appendChild(nextSection);
     panel.appendChild(this._levelEl.container);
     panel.appendChild(this._linesEl.container);
-    panel.appendChild(ctrlSection);
 
-    this._wrapper.appendChild(this._boardCanvas);
+    const boardWrap = document.createElement('div');
+    boardWrap.style.cssText = 'position:relative;display:inline-block;line-height:0;';
+    boardWrap.appendChild(this._boardCanvas);
+
+    this._wrapper.appendChild(boardWrap);
     this._wrapper.appendChild(panel);
     this.viewport.appendChild(this._wrapper);
 
     this._resize();
     window.addEventListener('resize', this._onResize);
+
+    this._overlay = new GameOverlay(this.viewport);
+    this._showStartScreen();
+  }
+
+  _showStartScreen() {
+    const optionGroups = [
+      { key: 'mode', label: 'MODE', default: 'basique', options: [{ value: 'basique', label: 'BASIQUE' }] },
+    ];
+    this._overlay.showStart(optionGroups, () => this.game.start(), {
+      extraHtml: '<div class="overlay-score">← → ↑ ↓ · Espace pour hard drop</div>',
+    });
   }
 
   _makeStatBlock(label, value, ui) {
@@ -162,28 +179,6 @@ export default class TetrisRenderer {
     container.appendChild(labelEl);
     container.appendChild(valueEl);
     return { container, valueEl };
-  }
-
-  _makeControlsBlock(ui) {
-    const div = document.createElement('div');
-    div.style.cssText = `
-      font-size: 9px;
-      color: ${ui.mutedColor};
-      letter-spacing: 0.06em;
-      line-height: 1.8;
-      margin-top: 4px;
-      border-top: 1px solid rgba(0,255,225,0.08);
-      padding-top: 12px;
-    `;
-    div.innerHTML = `
-      ↑ / W  Rotation<br>
-      ← →    Déplacer<br>
-      ↓ / S  Descente<br>
-      Espace Hard drop<br>
-      P      Pause<br>
-      R      Restart
-    `;
-    return div;
   }
 
   /* ============================================================
@@ -284,11 +279,7 @@ export default class TetrisRenderer {
     }
 
     this._drawBorder();
-
-    // Écran d'attente
-    if (state.status === 'idle') {
-      this._drawIdleScreen();
-    }
+    this._syncOverlay(state);
 
     // Mise à jour panneau
     this._updatePanel(state);
@@ -471,40 +462,13 @@ export default class TetrisRenderer {
      DRAW — ÉCRAN IDLE
      ============================================================ */
 
-  _drawIdleScreen() {
-    const ctx  = this._boardCtx;
-    const w    = this._boardCanvas.width;
-    const h    = this._boardCanvas.height;
-    const ui   = this.config.theme.ui;
-    const font = ui.fontFamily;
+  _syncOverlay(state) {
+    if (state.status === this._lastOverlayStatus) return;
+    this._lastOverlayStatus = state.status;
 
-    // Overlay sombre
-    ctx.fillStyle = 'rgba(5,8,15,0.75)';
-    ctx.fillRect(0, 0, w, h);
-
-    // Titre
-    const fs1 = Math.max(14, this.cellSize * 1.1);
-    ctx.font        = `900 ${fs1}px ${font}`;
-    ctx.textAlign   = 'center';
-    ctx.fillStyle   = ui.primaryColor;
-    ctx.shadowColor = 'rgba(0,255,225,0.7)';
-    ctx.shadowBlur  = 18;
-    ctx.fillText('TETRIS', w / 2, h * 0.44);
-
-    // Sous-titre
-    const fs2 = Math.max(8, this.cellSize * 0.55);
-    ctx.font        = `700 ${fs2}px ${font}`;
-    ctx.fillStyle   = ui.primaryColor;
-    ctx.shadowBlur  = 10;
-    ctx.fillText('APPUIE POUR JOUER', w / 2, h * 0.57);
-
-    ctx.font        = `400 ${Math.round(fs2 * 0.8)}px ${font}`;
-    ctx.fillStyle   = 'rgba(0,255,225,0.4)';
-    ctx.shadowBlur  = 0;
-    ctx.fillText('← → ↑ ↓  Espace', w / 2, h * 0.65);
-
-    ctx.textAlign   = 'left';
-    ctx.shadowBlur  = 0;
+    if (state.status === 'idle')    this._showStartScreen();
+    if (state.status === 'playing') this._overlay.hide();
+    // 'paused' et 'gameover' restent gérés par l'overlay générique de GameShell
   }
 
   /* ============================================================

@@ -337,6 +337,13 @@ export default class Pong extends BaseGame {
       if (e.code === 'ArrowUp')   { e.preventDefault(); this._keysJ2.up   = true; return; }
       if (e.code === 'ArrowDown') { e.preventDefault(); this._keysJ2.down = true; return; }
 
+      // P : pause standard (en plus de l'espace, qui sert aussi à servir)
+      if (e.code === 'KeyP' && (s === 'playing' || s === 'paused')) {
+        e.preventDefault();
+        this.togglePause();
+        return;
+      }
+
       if (keys.launch?.includes(e.code)) {
         e.preventDefault();
         if (s === 'idle')                      { EventBus.emit('pong:start-requested'); return; }

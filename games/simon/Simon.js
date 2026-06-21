@@ -276,6 +276,11 @@ export default class Simon extends BaseGame {
         EventBus.emit('game:restart');
         return;
       }
+      if (e.code === 'KeyP' && (s === 'playing' || s === 'paused')) {
+        e.preventDefault();
+        this.togglePause();
+        return;
+      }
       if (s === 'idle' || s === 'gameover') {
         e.preventDefault();
         this.start();

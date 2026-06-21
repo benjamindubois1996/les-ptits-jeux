@@ -12,7 +12,8 @@
  * NE contient aucune logique de jeu.
  */
 
-import EventBus from '../../js/core/EventBus.js';
+import EventBus    from '../../js/core/EventBus.js';
+import GameOverlay  from '../../js/ui/components/GameOverlay.js';
 
 export default class MinesweeperRenderer {
 
@@ -29,12 +30,14 @@ export default class MinesweeperRenderer {
     this._ctx          = null;
     this._mineCountEl  = null;
     this._timerEl      = null;
-    this._diffButtons  = {};   // { easy, medium, hard } → boutons DOM
 
     // Binding
     this._onTick               = this._onTick.bind(this);
     this._onResize             = this._onResize.bind(this);
     this._onDifficultyChanged  = this._onDifficultyChanged.bind(this);
+
+    // Suivi de transition pour ne (re)construire l'overlay qu'au changement de statut
+    this._lastOverlayStatus = 'idle';
   }
 
   /* ============================================================
@@ -56,6 +59,7 @@ export default class MinesweeperRenderer {
       this._canvas.removeEventListener('dblclick',    this._onCanvasDblClick);
     }
     window.removeEventListener('resize', this._onResize);
+    this._overlay?.destroy();
     if (this._wrapper) this._wrapper.remove();
   }
 
@@ -124,6 +128,10 @@ export default class MinesweeperRenderer {
     `;
     this._ctx = this._canvas.getContext('2d');
 
+    const canvasWrap = document.createElement('div');
+    canvasWrap.style.cssText = 'position:relative;display:inline-block;line-height:0;';
+    canvasWrap.appendChild(this._canvas);
+
     // Clic gauche → révéler
     this._onCanvasClick = (e) => {
       const [col, row] = this._getCellAt(e.clientX, e.clientY);
@@ -155,16 +163,37 @@ export default class MinesweeperRenderer {
     this._canvas.addEventListener('contextmenu', this._onCanvasContext);
     this._canvas.addEventListener('dblclick',    this._onCanvasDblClick);
 
-    // --- Sélecteur de difficulté ---
-    const diffBar = this._buildDiffSelector(ui);
-
     this._wrapper.appendChild(statusBar);
-    this._wrapper.appendChild(diffBar);
-    this._wrapper.appendChild(this._canvas);
+    this._wrapper.appendChild(canvasWrap);
     this.viewport.appendChild(this._wrapper);
 
     this._resize();
     window.addEventListener('resize', this._onResize);
+
+    this._overlay = new GameOverlay(this.viewport);
+    this._showStartScreen();
+  }
+
+  _optionGroups() {
+    const diffs = [
+      { key: 'easy',   label: 'Facile',    detail: '9×9 · 10 💣' },
+      { key: 'medium', label: 'Normal',    detail: '16×16 · 40 💣' },
+      { key: 'hard',   label: 'Difficile', detail: '30×16 · 99 💣' },
+    ];
+    return [
+      { key: 'mode',       label: 'MODE',       default: 'basique', options: [{ value: 'basique', label: 'BASIQUE' }] },
+      { key: 'difficulty', label: 'DIFFICULTÉ', default: this.config.gameplay.difficulty,
+        options: diffs.map(d => ({ value: d.key, label: d.label })) },
+    ];
+  }
+
+  _showStartScreen() {
+    this._overlay.showStart(this._optionGroups(), (selections) => {
+      if (selections.difficulty !== this.config.gameplay.difficulty) {
+        this.game.setDifficulty(selections.difficulty);
+      }
+      this._overlay.hide();
+    }, { extraHtml: '<div class="overlay-score">Clique une case pour commencer</div>' });
   }
 
   _makeStatusBlock(icon, color, shadow) {
@@ -193,55 +222,6 @@ export default class MinesweeperRenderer {
     container.appendChild(iconEl);
     container.appendChild(valueEl);
     return { container, valueEl };
-  }
-
-  _buildDiffSelector(ui) {
-    const diffs = [
-      { key: 'easy',   label: 'Facile',  detail: '9×9 · 10 💣' },
-      { key: 'medium', label: 'Normal',  detail: '16×16 · 40 💣' },
-      { key: 'hard',   label: 'Difficile', detail: '30×16 · 99 💣' }
-    ];
-    const current = this.config.gameplay.difficulty;
-
-    const bar = document.createElement('div');
-    bar.style.cssText = `
-      display: flex;
-      gap: 8px;
-      flex-shrink: 0;
-    `;
-
-    diffs.forEach(({ key, label, detail }) => {
-      const btn = document.createElement('button');
-      btn.title = detail;
-      btn.textContent = label;
-      this._styleDiffButton(btn, key === current);
-
-      btn.addEventListener('click', () => {
-        this.game.setDifficulty(key);
-      });
-
-      this._diffButtons[key] = btn;
-      bar.appendChild(btn);
-    });
-
-    return bar;
-  }
-
-  _styleDiffButton(btn, active) {
-    const ui = this.config.theme.ui;
-    btn.style.cssText = `
-      font-family: ${ui.fontFamily};
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      padding: 5px 14px;
-      border-radius: 4px;
-      border: 1px solid ${active ? ui.primaryColor : 'rgba(0,255,225,0.18)'};
-      background: ${active ? 'rgba(0,255,225,0.12)' : 'transparent'};
-      color: ${active ? ui.primaryColor : ui.mutedColor};
-      cursor: pointer;
-      transition: all 0.15s;
-      text-shadow: ${active ? '0 0 8px rgba(0,255,225,0.6)' : 'none'};
-    `;
   }
 
   _getCellAt(clientX, clientY) {
@@ -290,34 +270,17 @@ export default class MinesweeperRenderer {
     EventBus.on('game:tick',               this._onTick);
     EventBus.on('game:timer',              this._onTick);
     EventBus.on('game:difficulty-changed', this._onDifficultyChanged);
-    // Empêcher l'overlay GameShell de se superposer — Minesweeper gère ses propres écrans
-    EventBus.on('game:over',  this._suppressShellOverlay);
-    EventBus.on('game:won',   this._suppressShellOverlay);
-    EventBus.on('game:paused', this._suppressShellOverlay);
   }
 
   _unbindEvents() {
     EventBus.off('game:tick',               this._onTick);
     EventBus.off('game:timer',              this._onTick);
     EventBus.off('game:difficulty-changed', this._onDifficultyChanged);
-    EventBus.off('game:over',  this._suppressShellOverlay);
-    EventBus.off('game:won',   this._suppressShellOverlay);
-    EventBus.off('game:paused', this._suppressShellOverlay);
   }
-
-  // Masque l'overlay DOM de la GameShell (le canvas a ses propres écrans)
-  _suppressShellOverlay = () => {
-    const overlay = document.getElementById('gs-overlay');
-    if (overlay) overlay.classList.add('hidden');
-  };
 
   _onTick() { /* le render loop continu gère l'affichage */ }
 
-  _onDifficultyChanged({ difficulty }) {
-    // Mettre à jour l'état actif des boutons
-    Object.entries(this._diffButtons).forEach(([key, btn]) => {
-      this._styleDiffButton(btn, key === difficulty);
-    });
+  _onDifficultyChanged() {
     // Redimensionner le canvas (la grille a peut-être changé de taille)
     this._resize();
   }
@@ -353,17 +316,52 @@ export default class MinesweeperRenderer {
     this._drawBorder();
     this._updatePanel(state);
 
-    if (state.status === 'idle')     this._drawOverlay('MINESWEEPER',
-      'CLIQUE POUR COMMENCER',
-      'Clic gauche : révéler  •  Clic droit : drapeau',
-      this.config.theme.ui.primaryColor, 'rgba(0,255,225,0.7)');
+    this._syncOverlay(state);
+  }
 
-    if (state.status === 'paused')   this._drawSimpleOverlay('PAUSE',
-      this.config.theme.ui.accentColor, 'rgba(255,230,0,0.7)');
+  /* ============================================================
+     OVERLAY (démarrage / pause / fin de partie)
+     ============================================================ */
 
-    if (state.status === 'gameover') this._drawGameOverOverlay(state);
+  _syncOverlay(state) {
+    if (state.status === this._lastOverlayStatus) return;
+    this._lastOverlayStatus = state.status;
 
-    if (state.status === 'won')      this._drawWinOverlay(state);
+    switch (state.status) {
+      case 'idle':
+        this._showStartScreen();
+        break;
+      case 'playing':
+        this._overlay.hide();
+        break;
+      case 'paused':
+        this._overlay.showPause(() => EventBus.emit('game:pause-toggle'));
+        break;
+      case 'gameover': {
+        const found    = state.correctFlags ?? 0;
+        const foundTxt = found > 0
+          ? `🚩 ${found} mine${found > 1 ? 's' : ''} trouvée${found > 1 ? 's' : ''}`
+          : 'Aucune mine trouvée';
+        this._overlay.showGameOver({
+          result: 'lose',
+          title:  'BOOM !',
+          score:  state.score,
+          extraInfo: `<div class="overlay-score">${foundTxt} · ⏱ ${state.time}s</div>`,
+        }, () => EventBus.emit('game:restart'));
+        break;
+      }
+      case 'won': {
+        const hasBonus = (state.timeBonus ?? 0) > 0;
+        const bonusTxt = hasBonus ? `+${state.timeBonus} pts bonus` : 'pas de bonus temps';
+        this._overlay.showGameOver({
+          result: 'win',
+          score:  state.score,
+          extraInfo: `<div class="overlay-score">💣 × ${state.mineCount} = +${state.minePoints ?? 0} pts</div>
+                      <div class="overlay-score">⏱ ${state.time}s → ${bonusTxt}</div>`,
+        }, () => EventBus.emit('game:restart'));
+        break;
+      }
+    }
   }
 
   /* ============================================================
@@ -506,179 +504,8 @@ export default class MinesweeperRenderer {
     ctx.textBaseline = 'alphabetic';
   }
 
-  /* ============================================================
-     DRAW — OVERLAYS
-     ============================================================ */
-
-  _drawOverlay(title, subtitle, hint, color, glowColor) {
-    const ctx  = this._ctx;
-    const w    = this._canvas.width;
-    const h    = this._canvas.height;
-    const font = this.config.theme.ui.fontFamily;
-
-    ctx.fillStyle = 'rgba(5,8,15,0.82)';
-    ctx.fillRect(0, 0, w, h);
-
-    const fs1 = Math.max(12, Math.floor(Math.min(w, h) * 0.09));
-    ctx.font        = `900 ${fs1}px ${font}`;
-    ctx.textAlign   = 'center';
-    ctx.fillStyle   = color;
-    ctx.shadowColor = glowColor;
-    ctx.shadowBlur  = 18;
-    ctx.fillText(title, w / 2, h * 0.42);
-
-    const fs2 = Math.max(8, Math.floor(fs1 * 0.48));
-    ctx.font      = `700 ${fs2}px ${font}`;
-    ctx.shadowBlur = 10;
-    ctx.fillText(subtitle, w / 2, h * 0.58);
-
-    ctx.font      = `400 ${Math.round(fs2 * 0.82)}px ${font}`;
-    ctx.fillStyle = 'rgba(0,255,225,0.35)';
-    ctx.shadowBlur = 0;
-    ctx.fillText(hint, w / 2, h * 0.68);
-
-    ctx.textAlign = 'left';
-  }
-
-  _drawSimpleOverlay(title, color, glowColor) {
-    const ctx  = this._ctx;
-    const w    = this._canvas.width;
-    const h    = this._canvas.height;
-    const font = this.config.theme.ui.fontFamily;
-
-    ctx.fillStyle = 'rgba(5,8,15,0.85)';
-    ctx.fillRect(0, 0, w, h);
-
-    const fs = Math.max(12, Math.floor(Math.min(w, h) * 0.09));
-    ctx.font        = `900 ${fs}px ${font}`;
-    ctx.textAlign   = 'center';
-    ctx.fillStyle   = color;
-    ctx.shadowColor = glowColor;
-    ctx.shadowBlur  = 18;
-    ctx.fillText(title, w / 2, h / 2);
-
-    ctx.shadowBlur = 0;
-    ctx.textAlign  = 'left';
-  }
-
-  _drawGameOverOverlay(state) {
-    const ctx  = this._ctx;
-    const w    = this._canvas.width;
-    const h    = this._canvas.height;
-    const ui   = this.config.theme.ui;
-    const font = ui.fontFamily;
-
-    ctx.fillStyle = 'rgba(5,8,15,0.78)';
-    ctx.fillRect(0, 0, w, h);
-
-    ctx.textAlign = 'center';
-
-    // Titre
-    const fs1 = Math.max(12, Math.floor(Math.min(w, h) * 0.09));
-    ctx.font        = `900 ${fs1}px ${font}`;
-    ctx.fillStyle   = ui.dangerColor;
-    ctx.shadowColor = 'rgba(255,45,120,0.8)';
-    ctx.shadowBlur  = 22;
-    ctx.fillText('BOOM !', w / 2, h * 0.33);
-
-    const fs2 = Math.max(7, Math.floor(fs1 * 0.44));
-
-    // Mines correctement trouvées
-    const found    = state.correctFlags ?? 0;
-    const hasFound = found > 0;
-    ctx.font        = `700 ${fs2}px ${font}`;
-    ctx.fillStyle   = hasFound ? ui.primaryColor : ui.mutedColor;
-    ctx.shadowColor = hasFound ? 'rgba(0,255,225,0.4)' : 'transparent';
-    ctx.shadowBlur  = hasFound ? 6 : 0;
-    ctx.fillText(
-      hasFound
-        ? `🚩 ${found} mine${found > 1 ? 's' : ''} trouvée${found > 1 ? 's' : ''}  =  +${state.score} pts`
-        : `Aucune mine trouvée  —  0 pt`,
-      w / 2, h * 0.50
-    );
-
-    // Pas de bonus temps
-    ctx.font      = `400 ${Math.round(fs2 * 0.85)}px ${font}`;
-    ctx.fillStyle = ui.mutedColor;
-    ctx.shadowBlur = 0;
-    ctx.fillText(`⏱ ${state.time}s  —  pas de bonus temps`, w / 2, h * 0.61);
-
-    // Total
-    ctx.font        = `900 ${Math.round(fs2 * 1.1)}px ${font}`;
-    ctx.fillStyle   = ui.dangerColor;
-    ctx.shadowColor = 'rgba(255,45,120,0.5)';
-    ctx.shadowBlur  = 8;
-    ctx.fillText(`TOTAL : ${state.score} pts`, w / 2, h * 0.73);
-
-    // Rejouer
-    ctx.font      = `400 ${Math.round(fs2 * 0.85)}px ${font}`;
-    ctx.fillStyle = 'rgba(0,255,225,0.45)';
-    ctx.shadowBlur = 0;
-    ctx.fillText('R pour rejouer', w / 2, h * 0.84);
-
-    ctx.shadowBlur = 0;
-    ctx.textAlign  = 'left';
-  }
-
-  _drawWinOverlay(state) {
-    const ctx  = this._ctx;
-    const w    = this._canvas.width;
-    const h    = this._canvas.height;
-    const ui   = this.config.theme.ui;
-    const font = ui.fontFamily;
-
-    ctx.fillStyle = 'rgba(5,8,15,0.78)';
-    ctx.fillRect(0, 0, w, h);
-
-    ctx.textAlign = 'center';
-
-    // Titre
-    const fs1 = Math.max(12, Math.floor(Math.min(w, h) * 0.09));
-    ctx.font        = `900 ${fs1}px ${font}`;
-    ctx.fillStyle   = '#00ff88';
-    ctx.shadowColor = 'rgba(0,255,136,0.8)';
-    ctx.shadowBlur  = 22;
-    ctx.fillText('VICTOIRE !', w / 2, h * 0.35);
-
-    const fs2 = Math.max(7, Math.floor(fs1 * 0.44));
-
-    // Détail : mines
-    ctx.font        = `700 ${fs2}px ${font}`;
-    ctx.fillStyle   = ui.dangerColor;
-    ctx.shadowColor = 'rgba(255,45,120,0.5)';
-    ctx.shadowBlur  = 6;
-    ctx.fillText(
-      `\u{1F4A3} × ${state.mineCount}  =  +${state.minePoints ?? 0} pts`,
-      w / 2, h * 0.50
-    );
-
-    // Détail : bonus temps
-    const hasBonus = (state.timeBonus ?? 0) > 0;
-    ctx.font        = `700 ${fs2}px ${font}`;
-    ctx.fillStyle   = hasBonus ? ui.accentColor : ui.mutedColor;
-    ctx.shadowColor = hasBonus ? 'rgba(255,230,0,0.5)' : 'transparent';
-    ctx.shadowBlur  = hasBonus ? 6 : 0;
-    const bonusLabel = hasBonus
-      ? `⏱ ${state.time}s  →  +${state.timeBonus} pts bonus`
-      : `⏱ ${state.time}s  →  pas de bonus temps`;
-    ctx.fillText(bonusLabel, w / 2, h * 0.60);
-
-    // Score total
-    ctx.font        = `900 ${Math.round(fs2 * 1.15)}px ${font}`;
-    ctx.fillStyle   = '#00ff88';
-    ctx.shadowColor = 'rgba(0,255,136,0.6)';
-    ctx.shadowBlur  = 10;
-    ctx.fillText(`TOTAL : ${state.score} pts`, w / 2, h * 0.72);
-
-    // Rejouer
-    ctx.font      = `400 ${Math.round(fs2 * 0.85)}px ${font}`;
-    ctx.fillStyle = 'rgba(0,255,225,0.45)';
-    ctx.shadowBlur = 0;
-    ctx.fillText('R pour rejouer', w / 2, h * 0.83);
-
-    ctx.shadowBlur = 0;
-    ctx.textAlign  = 'left';
-  }
+  /* Les écrans démarrage / pause / fin de partie sont gérés par GameOverlay
+     (js/ui/components/GameOverlay.js) — voir _syncOverlay() plus haut. */
 
   /* ============================================================
      PANEL — mise à jour compteurs

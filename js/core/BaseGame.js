@@ -37,12 +37,22 @@
  */
 
 import EventBus from './EventBus.js';
+import Timer    from './Timer.js';
+import Lives    from './Lives.js';
 
 export default class BaseGame {
 
   constructor(config) {
     this.config = config;
     this.state  = null;
+
+    // Chronomètre — configuré via config.timer (défaut : mode 'up')
+    const timerCfg  = config.timer  ?? {};
+    this.timer = new Timer(timerCfg);
+
+    // Vies — configuré via config.lives (défaut : 1 vie)
+    const livesCfg  = config.lives  ?? {};
+    this.lives = new Lives(livesCfg);
 
     // Références gardées pour pouvoir unsubscribe dans destroy()
     this._onPauseToggle = null;
@@ -55,10 +65,16 @@ export default class BaseGame {
      ============================================================ */
 
   _setupEventBusBindings() {
-    this._onPauseToggle = () => this.togglePause();
-    this._onRestart     = () => this.restart();
-    EventBus.on('game:pause-toggle', this._onPauseToggle);
-    EventBus.on('game:restart',      this._onRestart);
+    this._onPauseToggle   = () => this.togglePause();
+    this._onRestart       = () => { this.timer.stop(); this.timer.reset(); this.restart(); this.start(); this.timer.start(); };
+    this._onPlayRequested = () => { this.timer.reset(); this.timer.start(); };
+    this._onGameOver      = () => this.timer.stop();
+    EventBus.on('game:pause-toggle',   this._onPauseToggle);
+    EventBus.on('game:restart',        this._onRestart);
+    EventBus.on('game:play-requested', this._onPlayRequested);
+    EventBus.on('game:over',           this._onGameOver);
+    EventBus.on('game:won',            this._onGameOver);
+    EventBus.on('game:win',            this._onGameOver);
   }
 
   /* ============================================================
@@ -69,11 +85,13 @@ export default class BaseGame {
   togglePause() {
     if (this.state?.status === 'playing') {
       this.state.status = 'paused';
+      this.timer.pause();
       this._onPause();
       EventBus.emit('game:paused',  { state: this.state });
 
     } else if (this.state?.status === 'paused') {
       this.state.status = 'playing';
+      this.timer.resume();
       this._onResume();
       EventBus.emit('game:resumed', { state: this.state });
     }
@@ -91,8 +109,15 @@ export default class BaseGame {
      ============================================================ */
 
   destroy() {
-    if (this._onPauseToggle) EventBus.off('game:pause-toggle', this._onPauseToggle);
-    if (this._onRestart)     EventBus.off('game:restart',      this._onRestart);
+    this.timer.destroy();
+    if (this._onPauseToggle)   EventBus.off('game:pause-toggle',   this._onPauseToggle);
+    if (this._onRestart)       EventBus.off('game:restart',        this._onRestart);
+    if (this._onPlayRequested) EventBus.off('game:play-requested', this._onPlayRequested);
+    if (this._onGameOver) {
+      EventBus.off('game:over', this._onGameOver);
+      EventBus.off('game:won',  this._onGameOver);
+      EventBus.off('game:win',  this._onGameOver);
+    }
   }
 
   /* ============================================================

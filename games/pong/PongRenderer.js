@@ -5,7 +5,19 @@
  * En jeu        : canvas classique Pong avec HUD scores
  */
 
-import EventBus from '../../js/core/EventBus.js';
+import EventBus     from '../../js/core/EventBus.js';
+import GameOverlay   from '../../js/ui/components/GameOverlay.js';
+
+const OPTION_GROUPS = [
+  { key: 'mode',     label: 'MODE',       default: 'basique', options: [{ value: 'basique', label: 'BASIQUE' }] },
+  { key: 'size',     label: 'TERRAIN',    default: 'L',  options: ['S','M','L','XL','XXL'].map(v => ({ value: v, label: v })) },
+  { key: 'maxScore', label: 'POINTS',     default: 7,    options: [3,5,7,9].map(v => ({ value: v, label: String(v) })) },
+  { key: 'opponent', label: 'ADVERSAIRE', default: 'ai', options: [
+      { value: 'ai',        label: 'IA' },
+      { value: 'j2-keys',   label: 'J2 Clavier' },
+      { value: 'j2-mouse',  label: 'J2 Souris' },
+    ] },
+];
 
 export default class PongRenderer {
 
@@ -36,6 +48,7 @@ export default class PongRenderer {
       this._canvas.removeEventListener('click',     this._onClick);
       this._canvas.removeEventListener('mousemove', this._onMouseMove);
     }
+    this._overlay?.destroy();
     const style = document.getElementById('pong-styles');
     if (style) style.remove();
   }
@@ -65,58 +78,11 @@ export default class PongRenderer {
           </div>
         </div>
 
-        <div class="pg-canvas-wrap">
+        <div class="pg-canvas-wrap" id="pg-canvas-wrap">
           <canvas id="pg-canvas" width="${width}" height="${height}"></canvas>
-
-          <div class="pg-overlay" id="pg-overlay">
-            <div class="pg-overlay-title">PONG</div>
-
-            <div class="pg-opt-group">
-              <div class="pg-opt-label">MODE</div>
-              <div class="pg-chips" data-opt="mode">
-                <button class="pg-chip pg-chip--on" data-val="basique">BASIQUE</button>
-              </div>
-            </div>
-
-            <div class="pg-opt-group">
-              <div class="pg-opt-label">TERRAIN</div>
-              <div class="pg-chips" data-opt="size">
-                <button class="pg-chip" data-val="S">S</button>
-                <button class="pg-chip" data-val="M">M</button>
-                <button class="pg-chip pg-chip--on" data-val="L">L</button>
-                <button class="pg-chip" data-val="XL">XL</button>
-                <button class="pg-chip" data-val="XXL">XXL</button>
-              </div>
-            </div>
-
-            <div class="pg-opt-group">
-              <div class="pg-opt-label">POINTS</div>
-              <div class="pg-chips" data-opt="maxScore">
-                <button class="pg-chip" data-val="3">3</button>
-                <button class="pg-chip" data-val="5">5</button>
-                <button class="pg-chip pg-chip--on" data-val="7">7</button>
-                <button class="pg-chip" data-val="9">9</button>
-              </div>
-            </div>
-
-            <div class="pg-opt-group">
-              <div class="pg-opt-label">ADVERSAIRE</div>
-              <div class="pg-chips" data-opt="opponent">
-                <button class="pg-chip pg-chip--on" data-val="ai">IA</button>
-                <button class="pg-chip" data-val="j2-keys">J2 Clavier</button>
-                <button class="pg-chip" data-val="j2-mouse">J2 Souris</button>
-              </div>
-            </div>
-
-            <button class="pg-play-btn" id="pg-play-btn">JOUER</button>
-          </div>
         </div>
 
         <div class="pg-status" id="pg-status"></div>
-
-        <div class="pg-keys" id="pg-keys">
-          ${this._keysHtml('ai')}
-        </div>
 
       </div>
     `;
@@ -135,19 +101,12 @@ export default class PongRenderer {
     this._onClick = () => this._handleCanvasClick();
     this._canvas.addEventListener('click', this._onClick);
 
-    // Chips de sélection
-    this.container.querySelectorAll('.pg-chips .pg-chip').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const opt = btn.closest('[data-opt]').dataset.opt;
-        btn.closest('[data-opt]').querySelectorAll('.pg-chip')
-           .forEach(b => b.classList.remove('pg-chip--on'));
-        btn.classList.add('pg-chip--on');
-        this._sel[opt] = opt === 'maxScore' ? parseInt(btn.dataset.val) : btn.dataset.val;
-      });
+    // Écran de démarrage — module partagé, monté sur le wrapper du canvas
+    this._overlay = new GameOverlay(this.container);
+    this._overlay.showStart(OPTION_GROUPS, (selections) => {
+      this._sel = selections;
+      this._startGame();
     });
-
-    document.getElementById('pg-play-btn')
-      ?.addEventListener('click', () => this._startGame());
 
     this._drawFrame(this.game.state);
   }
@@ -172,6 +131,8 @@ export default class PongRenderer {
     this._handlers.start     = (d) => this._onGameStart(d);
     this._handlers.point     = (d) => this._onPoint(d);
     this._handlers.gameOver  = (d) => this._onGameOver(d);
+    this._handlers.paused    = ()  => this._overlay.showPause(() => EventBus.emit('game:pause-toggle'));
+    this._handlers.resumed   = ()  => this._overlay.hide();
     this._handlers.startReq  = ()  => this._startGame();
 
     EventBus.on('game:frame',           this._handlers.frame);
@@ -179,6 +140,8 @@ export default class PongRenderer {
     EventBus.on('game:start',           this._handlers.start);
     EventBus.on('game:point',           this._handlers.point);
     EventBus.on('game:over',            this._handlers.gameOver);
+    EventBus.on('game:paused',          this._handlers.paused);
+    EventBus.on('game:resumed',         this._handlers.resumed);
     EventBus.on('pong:start-requested', this._handlers.startReq);
   }
 
@@ -188,6 +151,8 @@ export default class PongRenderer {
     EventBus.off('game:start',           this._handlers.start);
     EventBus.off('game:point',           this._handlers.point);
     EventBus.off('game:over',            this._handlers.gameOver);
+    EventBus.off('game:paused',          this._handlers.paused);
+    EventBus.off('game:resumed',         this._handlers.resumed);
     EventBus.off('pong:start-requested', this._handlers.startReq);
   }
 
@@ -197,11 +162,17 @@ export default class PongRenderer {
 
   _onTick(state, action) {
     this._updateScores(state.scoreLeft, state.scoreRight);
-    this._setOverlayVisible(state.status === 'idle');
+    if (state.status === 'idle')          this._overlay.show();
+    else if (state.status !== 'gameover') this._overlay.hide();
     this._setStatus(state, action);
 
     if (action === 'init' || action === 'restart') {
       this._resetCanvasSize();
+      // Reconstruit l'écran de démarrage (les sélections par défaut redeviennent visibles)
+      this._overlay.showStart(OPTION_GROUPS, (selections) => {
+        this._sel = selections;
+        this._startGame();
+      });
     }
   }
 
@@ -216,10 +187,6 @@ export default class PongRenderer {
 
     const labelR = document.getElementById('pg-label-right');
     if (labelR) labelR.textContent = (opponent === 'ai') ? 'IA' : 'J2';
-
-    // Touches d'aide
-    const keysEl = document.getElementById('pg-keys');
-    if (keysEl) keysEl.innerHTML = this._keysHtml(opponent);
 
     // Souris J2
     if (opponent === 'j2-mouse') {
@@ -242,11 +209,17 @@ export default class PongRenderer {
 
   _onGameOver({ winner, scoreLeft, scoreRight }) {
     this._updateScores(scoreLeft, scoreRight);
-    const isAI = this.game.state.opponent === 'ai';
-    const label = isAI
+    const isAI   = this.game.state.opponent === 'ai';
+    const result = winner === 'player' ? 'win' : (isAI ? 'lose' : 'win');
+    const title  = isAI
       ? (winner === 'player' ? 'VICTOIRE !'     : 'DÉFAITE')
       : (winner === 'player' ? 'VICTOIRE J1 !'  : 'VICTOIRE J2 !');
-    this._setText(`${label} ${scoreLeft}–${scoreRight} — R pour rejouer`);
+
+    this._overlay.showGameOver(
+      { result, title, extraInfo: `<div class="overlay-score">${scoreLeft} – ${scoreRight}</div>` },
+      () => EventBus.emit('game:restart'),
+    );
+    this._setText('');
   }
 
   /* ============================================================
@@ -275,11 +248,6 @@ export default class PongRenderer {
     if (el) el.textContent = txt;
   }
 
-  _setOverlayVisible(show) {
-    const el = document.getElementById('pg-overlay');
-    if (el) el.style.display = show ? 'flex' : 'none';
-  }
-
   _resetCanvasSize() {
     const { canvasSizes, defaultSize } = this.config.gameplay;
     const { width, height } = canvasSizes[defaultSize];
@@ -289,24 +257,8 @@ export default class PongRenderer {
     this._canvas.style.cursor = '';
     const labelR = document.getElementById('pg-label-right');
     if (labelR) labelR.textContent = 'IA';
-    const keysEl = document.getElementById('pg-keys');
-    if (keysEl) keysEl.innerHTML = this._keysHtml('ai');
     const maxEl = document.getElementById('pg-max-score');
     if (maxEl) maxEl.textContent = 'PREMIER À 7';
-  }
-
-  _keysHtml(opponent) {
-    const common = `
-      <span class="pg-key-chip">Espace&nbsp; Servir / Pause</span>
-      <span class="pg-key-chip">R&nbsp; Restart</span>
-    `;
-    if (opponent === 'ai') {
-      return `<span class="pg-key-chip">W S / ↑ ↓&nbsp; Raquette</span>${common}`;
-    } else if (opponent === 'j2-keys') {
-      return `<span class="pg-key-chip">W S&nbsp; J1</span><span class="pg-key-chip">↑ ↓&nbsp; J2</span>${common}`;
-    } else {
-      return `<span class="pg-key-chip">W S&nbsp; J1</span><span class="pg-key-chip">Souris&nbsp; J2</span>${common}`;
-    }
   }
 
   /* ============================================================
@@ -337,8 +289,7 @@ export default class PongRenderer {
     this._drawPaddle(ctx, W - paddle.offset - paddle.width, state.ai.y, '#ff2d78');
     this._drawBall(ctx, state.ball, bCfg.baseRadius);
 
-    if (state.status === 'paused')   this._drawPauseOverlay(ctx, W, H);
-    if (state.status === 'gameover') this._drawGameOverOverlay(ctx, W, H, state);
+    // Pause et fin de partie sont désormais affichés via GameOverlay (DOM partagé)
   }
 
   _drawCenterLine(ctx, W, H) {
@@ -378,46 +329,6 @@ export default class PongRenderer {
     ctx.shadowBlur  = 14;
     ctx.fill();
     ctx.shadowBlur  = 0;
-  }
-
-  _drawPauseOverlay(ctx, W, H) {
-    ctx.fillStyle = 'rgba(5,8,15,0.55)';
-    ctx.fillRect(0, 0, W, H);
-    ctx.textAlign   = 'center';
-    ctx.shadowColor = '#00e5ff';
-    ctx.shadowBlur  = 20;
-    ctx.fillStyle   = '#00e5ff';
-    ctx.font        = 'bold 34px var(--font-display, monospace)';
-    ctx.fillText('PAUSE', W / 2, H / 2);
-    ctx.shadowBlur  = 0;
-  }
-
-  _drawGameOverOverlay(ctx, W, H, state) {
-    ctx.fillStyle = 'rgba(5,8,15,0.7)';
-    ctx.fillRect(0, 0, W, H);
-
-    const won   = state.scoreLeft > state.scoreRight;
-    const color = won ? '#00e5ff' : '#ff2d78';
-    const isAI  = state.opponent === 'ai';
-
-    ctx.textAlign   = 'center';
-    ctx.shadowColor = color;
-    ctx.shadowBlur  = 22;
-    ctx.fillStyle   = color;
-    ctx.font        = 'bold 38px var(--font-display, monospace)';
-    ctx.fillText(
-      isAI ? (won ? 'VICTOIRE !' : 'DÉFAITE') : (won ? 'VICTOIRE J1 !' : 'VICTOIRE J2 !'),
-      W / 2, H / 2 - 28
-    );
-
-    ctx.shadowBlur = 0;
-    ctx.fillStyle  = '#ffffff';
-    ctx.font       = '22px var(--font-display, monospace)';
-    ctx.fillText(`${state.scoreLeft}  –  ${state.scoreRight}`, W / 2, H / 2 + 14);
-
-    ctx.fillStyle = 'rgba(200,200,220,0.6)';
-    ctx.font      = '14px var(--font-display, monospace)';
-    ctx.fillText('R pour rejouer', W / 2, H / 2 + 46);
   }
 
   /* ============================================================
@@ -492,88 +403,9 @@ export default class PongRenderer {
         box-shadow: 0 0 30px rgba(0,229,255,0.06);
       }
 
-      /* ── Overlay de sélection ── */
-      .pg-overlay {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 1.4rem;
-        background: rgba(5,8,15,0.93);
-        border-radius: 4px;
-        padding: 1.5rem;
-      }
-      .pg-overlay-title {
-        font-family: var(--font-display);
-        font-size: 2.6rem;
-        font-weight: 900;
-        color: #00e5ff;
-        text-shadow: 0 0 24px rgba(0,229,255,0.7);
-        letter-spacing: 0.2em;
-      }
-
-      /* ── Groupes d'options ── */
-      .pg-opt-group {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.45rem;
-        width: 100%;
-      }
-      .pg-opt-label {
-        font-family: var(--font-display);
-        font-size: 0.6rem;
-        letter-spacing: 0.22em;
-        color: var(--text-muted, #555);
-      }
-      .pg-chips {
-        display: flex;
-        gap: 0.4rem;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      .pg-chip {
-        font-family: var(--font-display);
-        font-size: 0.72rem;
-        letter-spacing: 0.08em;
-        color: var(--text-secondary, #888);
-        background: transparent;
-        border: 1px solid var(--color-border, #1e2a38);
-        border-radius: 4px;
-        padding: 4px 12px;
-        cursor: pointer;
-        transition: color 0.15s, border-color 0.15s, background 0.15s;
-      }
-      .pg-chip:hover {
-        color: #00e5ff;
-        border-color: #00e5ff44;
-      }
-      .pg-chip--on {
-        color: #00e5ff;
-        border-color: #00e5ff;
-        background: rgba(0,229,255,0.08);
-        text-shadow: 0 0 8px rgba(0,229,255,0.5);
-      }
-
-      /* ── Bouton JOUER ── */
-      .pg-play-btn {
-        font-family: var(--font-display);
-        font-size: 0.9rem;
-        font-weight: 700;
-        letter-spacing: 0.18em;
-        color: #05080f;
-        background: #00e5ff;
-        border: none;
-        border-radius: 4px;
-        padding: 8px 32px;
-        cursor: pointer;
-        margin-top: 0.4rem;
-        box-shadow: 0 0 18px rgba(0,229,255,0.45);
-        transition: opacity 0.15s;
-      }
-      .pg-play-btn:hover { opacity: 0.85; }
+      /* Écrans démarrage / pause / fin de partie : entièrement gérés par
+         GameOverlay (js/ui/components/GameOverlay.js), monté sur .pg-canvas-wrap.
+         Voir .ov-* dans index.html pour le CSS associé. */
 
       /* ── Status ── */
       .pg-status {
@@ -585,27 +417,8 @@ export default class PongRenderer {
         min-height: 1.4em;
       }
 
-      /* ── Chips raccourcis ── */
-      .pg-keys {
-        display: flex;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      .pg-key-chip {
-        font-family: var(--font-display);
-        font-size: 0.62rem;
-        letter-spacing: 0.09em;
-        color: var(--text-muted, #555);
-        background: var(--color-bg-panel, #0d1117);
-        border: 1px solid var(--color-border, #1e2a38);
-        border-radius: 4px;
-        padding: 2px 8px;
-      }
-
       @media (max-width: 640px) {
         .pg-score { font-size: 1.8rem; }
-        .pg-overlay-title { font-size: 1.8rem; }
       }
     `;
     document.head.appendChild(style);

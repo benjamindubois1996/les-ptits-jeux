@@ -1,4 +1,5 @@
-import EventBus from '../../js/core/EventBus.js';
+import EventBus    from '../../js/core/EventBus.js';
+import GameOverlay  from '../../js/ui/components/GameOverlay.js';
 
 const CARD_H      = 110;
 const OFFSET_DOWN = 16;
@@ -44,6 +45,7 @@ export default class SolitaireRenderer {
   destroy() {
     this._unbindEvents();
     this._stopTimer();
+    this._overlay?.destroy();
     this._wrapper?.remove();
     document.getElementById('sol-styles')?.remove();
   }
@@ -250,57 +252,9 @@ export default class SolitaireRenderer {
       /* Spacer colonne 3 */
       .sol-spacer {}
 
-      /* === OVERLAY === */
-      .sol-overlay {
-        position: absolute; inset: 0;
-        background: rgba(5,8,15,0.94); backdrop-filter: blur(6px);
-        display: flex; flex-direction: column;
-        align-items: center; justify-content: center;
-        gap: 14px; z-index: 30;
-      }
-      .sol-overlay--hidden { display: none; }
-
-      .sol-title {
-        font-size: 28px; font-weight: 900; letter-spacing: .15em;
-        color: #7fffbf; margin: 0 0 4px;
-      }
-      .sol-opt-group { display:flex; flex-direction:column; align-items:center; gap:6px; }
-      .sol-opt-label { font-size: 10px; letter-spacing: .12em; color: rgba(255,255,255,0.45); }
-      .sol-chips { display: flex; gap: 6px; }
-      .sol-chip {
-        padding: 5px 14px; border-radius: 20px;
-        border: 1px solid rgba(255,255,255,0.2);
-        font-size: 11px; letter-spacing: .08em; cursor: pointer;
-        color: rgba(255,255,255,0.5); font-family: Orbitron, monospace;
-        transition: all .15s;
-      }
-      .sol-chip--active { background: rgba(127,255,191,0.15); border-color: #7fffbf; color: #7fffbf; }
-
-      .sol-btn {
-        padding: 10px 32px; background: #7fffbf; color: #050a0f;
-        border: none; border-radius: 6px;
-        font-family: Orbitron, monospace; font-size: 13px;
-        font-weight: 700; letter-spacing: .1em; cursor: pointer;
-        transition: opacity .15s, transform .1s;
-      }
-      .sol-btn:hover { opacity: .88; transform: scale(1.02); }
-      .sol-btn--secondary {
-        background: transparent; color: rgba(255,255,255,0.55);
-        border: 1px solid rgba(255,255,255,0.2);
-        padding: 8px 24px; font-size: 12px;
-      }
-
-      .sol-win-title { font-size: 30px; font-weight: 900; color: #ffd700; letter-spacing: .1em; }
-      .sol-go-title  { font-size: 26px; font-weight: 900; color: #ff5555; letter-spacing: .1em; }
-      .sol-go-sub    { font-size: 12px; color: rgba(255,255,255,0.45); letter-spacing: .08em; }
-
-      .sol-score-table { display:flex; flex-direction:column; gap:4px; text-align:center; }
-      .sol-score-row   { font-size: 12px; color: rgba(255,255,255,0.6); }
-      .sol-score-row span { color: #7fffbf; font-weight:700; margin-left:8px; }
-      .sol-score-total { font-size:16px; color:#ffd700; font-weight:700; margin-top:4px; }
-      .sol-score-total span { font-size:20px; }
-
-      .sol-pause-title { font-size: 24px; font-weight:900; letter-spacing:.15em; color: rgba(255,255,255,.75); }
+      /* Écrans démarrage / pause / fin de partie : entièrement gérés par
+         GameOverlay (js/ui/components/GameOverlay.js), monté sur .sol-wrapper.
+         Voir .ov-* dans index.html pour le CSS associé. */
 
       .sol-undo-btn {
         margin-left: auto;
@@ -398,49 +352,22 @@ export default class SolitaireRenderer {
     });
     this._wrapper.appendChild(tableau);
 
-    // Overlay
-    this._overlay = document.createElement('div');
-    this._overlay.className = 'sol-overlay';
-    this._overlay.innerHTML = `
-      <div id="sol-panel-start" style="display:flex;flex-direction:column;align-items:center;gap:14px">
-        <h1 class="sol-title">SOLITAIRE</h1>
-        <div class="sol-opt-group">
-          <div class="sol-opt-label">MODE</div>
-          <div class="sol-chips">
-            <div class="sol-chip sol-chip--active" data-sel="mode" data-val="basique">BASIQUE</div>
-          </div>
-        </div>
-        <button class="sol-btn" data-action="start" style="margin-top:6px">JOUER</button>
-      </div>
+    // Overlay — module partagé
+    this._overlay = new GameOverlay(this._wrapper);
+    this._showStartScreen();
+  }
 
-      <div id="sol-panel-win" style="display:none;flex-direction:column;align-items:center;gap:10px">
-        <div class="sol-win-title">VICTOIRE !</div>
-        <div class="sol-score-table">
-          <div class="sol-score-row">Score jeu<span id="sol-win-base">0</span></div>
-          <div class="sol-score-row">Bonus temps<span id="sol-win-bonus">0</span></div>
-          <div class="sol-score-total">TOTAL <span id="sol-win-total">0</span></div>
-        </div>
-        <div class="sol-score-row" id="sol-win-stats"></div>
-        <button class="sol-btn" data-action="restart">REJOUER</button>
-      </div>
+  _optionGroups() {
+    return [
+      { key: 'mode', label: 'MODE', default: 'basique', options: [{ value: 'basique', label: 'BASIQUE' }] },
+    ];
+  }
 
-      <div id="sol-panel-gameover" style="display:none;flex-direction:column;align-items:center;gap:10px">
-        <div class="sol-go-title">BLOQUÉ !</div>
-        <div class="sol-go-sub">AUCUN COUP POSSIBLE</div>
-        <div class="sol-score-table">
-          <div class="sol-score-row">Score<span id="sol-go-score">0</span></div>
-          <div class="sol-score-row">Coups<span id="sol-go-moves">0</span></div>
-        </div>
-        <button class="sol-btn" data-action="restart">NOUVELLE PARTIE</button>
-      </div>
-
-      <div id="sol-panel-pause" style="display:none;flex-direction:column;align-items:center;gap:14px">
-        <div class="sol-pause-title">PAUSE</div>
-        <button class="sol-btn" data-action="resume">REPRENDRE</button>
-        <button class="sol-btn sol-btn--secondary" data-action="restart">RECOMMENCER</button>
-      </div>
-    `;
-    this._wrapper.appendChild(this._overlay);
+  _showStartScreen() {
+    this._overlay.showStart(this._optionGroups(), (selections) => {
+      this._sel = selections;
+      this._game.start({ mode: this._sel.mode });
+    });
   }
 
   /* ============================================================
@@ -625,16 +552,6 @@ export default class SolitaireRenderer {
      ============================================================ */
 
   _handleClick(e) {
-    // Chips overlay
-    const chip = e.target.closest('[data-sel]');
-    if (chip) {
-      this._sel[chip.dataset.sel] = chip.dataset.val;
-      this._overlay.querySelectorAll(`[data-sel="${chip.dataset.sel}"]`).forEach(c =>
-        c.classList.toggle('sol-chip--active', c.dataset.val === chip.dataset.val)
-      );
-      return;
-    }
-
     // Si un vrai drag vient de se terminer, ignorer ce click synthétique
     if (this._drag) return;
 
@@ -662,11 +579,8 @@ export default class SolitaireRenderer {
     const actionEl = e.target.closest('[data-action]');
     if (!actionEl) return;
     switch (actionEl.dataset.action) {
-      case 'start':   this._game.start({ mode: this._sel.mode }); break;
-      case 'restart': this._game.restart(); break;
-      case 'resume':  EventBus.emit('game:pause-toggle'); break;
-      case 'stock':   this._game.clickStock(); break;
-      case 'undo':    this._game.undo(); break;
+      case 'stock': this._game.clickStock(); break;
+      case 'undo':  this._game.undo();       break;
     }
   }
 
@@ -687,11 +601,11 @@ export default class SolitaireRenderer {
     if (action === 'start' || action === 'restart') {
       this._stopTimer();
       this._elapsed = 0;
-      this._showOverlay('start');
+      this._showStartScreen();
       return;
     }
     if (action === 'new-game') {
-      this._hideOverlay();
+      this._overlay.hide();
       this._elapsed = 0;
       this._startTimer();
       this._prevScore = 0;
@@ -701,20 +615,20 @@ export default class SolitaireRenderer {
     if (action === 'win') {
       this._stopTimer();
       this._renderBoard(state);
-      this._showOverlay('win', state);
+      this._showWinScreen(state);
       return;
     }
     if (action === 'gameover') {
       this._stopTimer();
       this._renderBoard(state);
-      this._showOverlay('gameover', state);
+      this._showBlockedScreen(state);
       return;
     }
     this._renderBoard(state);
   }
 
-  _onPaused()  { this._pauseTimer(); this._showOverlay('pause'); }
-  _onResumed() { this._resumeTimer(); this._hideOverlay(); }
+  _onPaused()  { this._pauseTimer(); this._overlay.showPause(() => EventBus.emit('game:pause-toggle')); }
+  _onResumed() { this._resumeTimer(); this._overlay.hide(); }
   _onRestart() {}
 
   /* ============================================================
@@ -743,29 +657,25 @@ export default class SolitaireRenderer {
      OVERLAY
      ============================================================ */
 
-  _showOverlay(panel, state) {
-    this._overlay.classList.remove('sol-overlay--hidden');
-    this._overlay.querySelector('#sol-panel-start').style.display    = panel === 'start'    ? 'flex' : 'none';
-    this._overlay.querySelector('#sol-panel-win').style.display      = panel === 'win'      ? 'flex' : 'none';
-    this._overlay.querySelector('#sol-panel-gameover').style.display = panel === 'gameover' ? 'flex' : 'none';
-    this._overlay.querySelector('#sol-panel-pause').style.display    = panel === 'pause'    ? 'flex' : 'none';
-
-    if (panel === 'win' && state) {
-      const bonus = this._timeBonus();
-      const total = state.score + bonus;
-      this._overlay.querySelector('#sol-win-base').textContent  = state.score;
-      this._overlay.querySelector('#sol-win-bonus').textContent = `+${bonus}`;
-      this._overlay.querySelector('#sol-win-total').textContent = total;
-      this._overlay.querySelector('#sol-win-stats').textContent =
-        `${this._formatTime(this._elapsed)} • ${state.moves} coups`;
-    }
-    if (panel === 'gameover' && state) {
-      this._overlay.querySelector('#sol-go-score').textContent = state.score;
-      this._overlay.querySelector('#sol-go-moves').textContent = state.moves;
-    }
+  _showWinScreen(state) {
+    const bonus = this._timeBonus();
+    const total = state.score + bonus;
+    this._overlay.showGameOver({
+      result: 'win',
+      score:  total,
+      extraInfo: `<div class="overlay-score">Score ${state.score} + bonus temps ${bonus}</div>
+                  <div class="overlay-score">${this._formatTime(this._elapsed)} • ${state.moves} coups</div>`,
+    }, () => this._game.restart());
   }
 
-  _hideOverlay() { this._overlay.classList.add('sol-overlay--hidden'); }
+  _showBlockedScreen(state) {
+    this._overlay.showGameOver({
+      result: 'lose',
+      title:  'BLOQUÉ !',
+      score:  state.score,
+      extraInfo: `<div class="overlay-score">Aucun coup possible — ${state.moves} coups</div>`,
+    }, () => this._game.restart());
+  }
 
   /* ============================================================
      RENDU DU PLATEAU

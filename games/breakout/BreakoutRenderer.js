@@ -9,7 +9,8 @@
  *   - Injecter ses styles CSS
  */
 
-import EventBus from '../../js/core/EventBus.js';
+import EventBus    from '../../js/core/EventBus.js';
+import GameOverlay  from '../../js/ui/components/GameOverlay.js';
 
 /* Couleur par rangée (rang 0 = haut = plus de points) */
 const BRICK_COLORS = [
@@ -52,6 +53,7 @@ export default class BreakoutRenderer {
       this._canvas.removeEventListener('touchmove', this._onTouchMove);
       this._canvas.removeEventListener('touchstart',this._onTouchStart);
     }
+    this._overlay?.destroy();
     const style = document.getElementById('breakout-styles');
     if (style) style.remove();
   }
@@ -65,36 +67,10 @@ export default class BreakoutRenderer {
 
     this.container.innerHTML = `
       <div class="bk-wrapper">
-
-        <div class="bk-hud">
-          <div class="bk-hud-block">
-            <div class="bk-label">SCORE</div>
-            <div class="bk-value" id="bk-score">0</div>
-          </div>
-          <div class="bk-hud-block">
-            <div class="bk-label">NIVEAU</div>
-            <div class="bk-value" id="bk-level">1</div>
-          </div>
-          <div class="bk-hud-block">
-            <div class="bk-label">VIES</div>
-            <div class="bk-lives" id="bk-lives">
-              <span class="bk-heart">♥</span>
-              <span class="bk-heart">♥</span>
-              <span class="bk-heart">♥</span>
-            </div>
-          </div>
+        <div class="bk-canvas-wrap" id="bk-canvas-wrap">
+          <canvas id="bk-canvas" width="${width}" height="${height}"></canvas>
         </div>
-
-        <canvas id="bk-canvas" width="${width}" height="${height}"></canvas>
-
-        <div class="bk-status" id="bk-status">ESPACE POUR COMMENCER</div>
-
-        <div class="bk-keys">
-          <span class="bk-key-chip">← → / A D&nbsp; Raquette</span>
-          <span class="bk-key-chip">Espace&nbsp; Lancer / Pause</span>
-          <span class="bk-key-chip">R&nbsp; Restart</span>
-        </div>
-
+        <div class="bk-status" id="bk-status"></div>
       </div>
     `;
 
@@ -121,8 +97,20 @@ export default class BreakoutRenderer {
     this._canvas.addEventListener('touchmove',  this._onTouchMove,  { passive: false });
     this._canvas.addEventListener('touchstart', this._onTouchStart, { passive: false });
 
+    this._overlay = new GameOverlay(this.container);
+    this._showStartScreen();
+
     /* Premier dessin */
     this._drawFrame(this.game.state);
+  }
+
+  _showStartScreen() {
+    const optionGroups = [
+      { key: 'mode', label: 'MODE', default: 'basique', options: [{ value: 'basique', label: 'BASIQUE' }] },
+    ];
+    this._overlay.showStart(optionGroups, () => this.game.start(), {
+      extraHtml: '<div class="overlay-score">ESPACE ou CLIC pour jouer</div>',
+    });
   }
 
   _movePaddleFromEvent(clientX) {
@@ -188,7 +176,7 @@ export default class BreakoutRenderer {
   }
 
   _onLifeLost({ lives }) {
-    this._updateLives(lives);
+    EventBus.emit('game:score-update', { lives });
     this._screenFlash('rgba(255,0,80,0.25)');
   }
 
@@ -198,12 +186,12 @@ export default class BreakoutRenderer {
   }
 
   _onGameOver({ score, level, best }) {
-    const el = document.getElementById('bk-status');
-    if (el) {
-      el.textContent = best && best > score
-        ? `GAME OVER — ${score} pts — Record : ${best} pts`
-        : `GAME OVER — ${score} pts — R pour rejouer`;
-    }
+    this._overlay.showGameOver({
+      result: 'lose',
+      score,
+      isRecord: score > 0 && score >= best,
+      extraInfo: `<div class="overlay-score">Niveau ${level}</div>`,
+    }, () => EventBus.emit('game:restart'));
   }
 
   /* ============================================================
@@ -211,18 +199,9 @@ export default class BreakoutRenderer {
      ============================================================ */
 
   _updateHUD(state) {
-    const scoreEl = document.getElementById('bk-score');
-    const levelEl = document.getElementById('bk-level');
-    if (scoreEl) scoreEl.textContent = state.score;
-    if (levelEl) levelEl.textContent = state.level;
-    this._updateLives(state.lives);
-  }
-
-  _updateLives(lives) {
-    const el = document.getElementById('bk-lives');
-    if (!el) return;
-    el.querySelectorAll('.bk-heart').forEach((h, i) => {
-      h.classList.toggle('bk-heart--empty', i >= lives);
+    EventBus.emit('game:score-update', {
+      score: state.score,
+      lives: state.lives,
     });
   }
 
@@ -232,20 +211,22 @@ export default class BreakoutRenderer {
 
     switch (state.status) {
       case 'idle':
-        el.textContent = 'ESPACE OU CLIC POUR COMMENCER';
+        this._overlay.show();
+        el.textContent = '';
         break;
       case 'ready':
-        if (action === 'life-lost') {
-          el.textContent = `VIE PERDUE ! ESPACE POUR RELANCER`;
-        } else {
-          el.textContent = 'ESPACE POUR LANCER LA BALLE';
-        }
+        this._overlay.hide();
+        el.textContent = action === 'life-lost'
+          ? 'VIE PERDUE ! ESPACE POUR RELANCER'
+          : 'ESPACE POUR LANCER LA BALLE';
         break;
       case 'playing':
+        this._overlay.hide();
         el.textContent = '';
         break;
       case 'paused':
-        el.textContent = 'PAUSE — ESPACE POUR REPRENDRE';
+        this._overlay.showPause(() => EventBus.emit('game:pause-toggle'));
+        el.textContent = '';
         break;
       case 'gameover':
         break; // géré dans _onGameOver
@@ -273,33 +254,16 @@ export default class BreakoutRenderer {
     this._drawBricks(ctx, state);
     this._drawBall(ctx, state.ball);
     this._drawPaddle(ctx, state.paddle);
-
-    // Overlays
-    if (state.status === 'paused')   this._drawPauseOverlay(ctx, width, height);
-    if (state.status === 'gameover') this._drawGameOverOverlay(ctx, width, height, state);
+    // Pause et fin de partie sont désormais affichés via GameOverlay (DOM partagé)
   }
 
   /* ─── Écran titre ─── */
   _drawIdle(ctx, W, H, state) {
-    // Briques en décor (semi-transparentes)
+    // Briques en décor (semi-transparentes, derrière l'écran de démarrage)
     ctx.globalAlpha = 0.35;
     this._drawBricks(ctx, state);
     this._drawPaddle(ctx, state.paddle);
     ctx.globalAlpha = 1;
-
-    // Texte centré
-    ctx.textAlign  = 'center';
-    ctx.shadowBlur = 24;
-
-    ctx.shadowColor = '#00e5ff';
-    ctx.fillStyle   = '#00e5ff';
-    ctx.font        = 'bold 42px var(--font-display, monospace)';
-    ctx.fillText('BREAKOUT', W / 2, H / 2 - 20);
-
-    ctx.shadowBlur = 0;
-    ctx.fillStyle  = 'rgba(200,200,220,0.75)';
-    ctx.font       = '15px var(--font-display, monospace)';
-    ctx.fillText('ESPACE  ou  CLIC  pour jouer', W / 2, H / 2 + 20);
   }
 
   /* ─── Briques ─── */
@@ -385,41 +349,6 @@ export default class BreakoutRenderer {
     ctx.shadowBlur = 0;
   }
 
-  /* ─── Overlays ─── */
-  _drawPauseOverlay(ctx, W, H) {
-    ctx.fillStyle = 'rgba(5,8,15,0.55)';
-    ctx.fillRect(0, 0, W, H);
-
-    ctx.textAlign   = 'center';
-    ctx.shadowColor = '#00e5ff';
-    ctx.shadowBlur  = 20;
-    ctx.fillStyle   = '#00e5ff';
-    ctx.font        = 'bold 34px var(--font-display, monospace)';
-    ctx.fillText('PAUSE', W / 2, H / 2);
-    ctx.shadowBlur  = 0;
-  }
-
-  _drawGameOverOverlay(ctx, W, H, state) {
-    ctx.fillStyle = 'rgba(5,8,15,0.7)';
-    ctx.fillRect(0, 0, W, H);
-
-    ctx.textAlign   = 'center';
-    ctx.shadowColor = '#ff2d78';
-    ctx.shadowBlur  = 22;
-    ctx.fillStyle   = '#ff2d78';
-    ctx.font        = 'bold 38px var(--font-display, monospace)';
-    ctx.fillText('GAME OVER', W / 2, H / 2 - 28);
-
-    ctx.shadowBlur = 0;
-    ctx.fillStyle  = '#00e5ff';
-    ctx.font       = '20px var(--font-display, monospace)';
-    ctx.fillText(`${state.score} pts · Niveau ${state.level}`, W / 2, H / 2 + 12);
-
-    ctx.fillStyle = 'rgba(200,200,220,0.6)';
-    ctx.font      = '14px var(--font-display, monospace)';
-    ctx.fillText('R pour rejouer', W / 2, H / 2 + 44);
-  }
-
   /* ─── Flash écran ─── */
   _screenFlash(color) {
     if (!this._ctx) return;
@@ -443,62 +372,19 @@ export default class BreakoutRenderer {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 0.75rem;
-        padding: 1.25rem 1rem 1rem;
+        justify-content: center;
+        gap: 0.5rem;
         width: 100%;
+        height: 100%;
         user-select: none;
       }
 
-      /* ── HUD ── */
-      .bk-hud {
-        display: flex;
-        gap: 2.5rem;
-        align-items: flex-end;
-        width: 100%;
-        max-width: 460px;
-        justify-content: space-between;
-      }
-      .bk-hud-block {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 2px;
-      }
-      .bk-label {
-        font-family: var(--font-display);
-        font-size: var(--text-xs, 0.65rem);
-        letter-spacing: 0.18em;
-        color: var(--text-muted, #666);
-      }
-      .bk-value {
-        font-family: var(--font-display);
-        font-size: 1.7rem;
-        font-weight: 900;
-        line-height: 1;
-        color: var(--neon-cyan, #00e5ff);
-        text-shadow: var(--glow-cyan, 0 0 12px #00e5ff);
-        min-width: 3ch;
-        text-align: center;
-      }
-
-      /* ── Vies ── */
-      .bk-lives {
-        display: flex;
-        gap: 4px;
-      }
-      .bk-heart {
-        font-size: 1.2rem;
-        color: #ff2d78;
-        text-shadow: 0 0 8px rgba(255,45,120,0.7);
-        transition: opacity 0.2s, color 0.2s;
-      }
-      .bk-heart--empty {
-        color: #333;
-        text-shadow: none;
-        opacity: 0.35;
-      }
-
       /* ── Canvas ── */
+      .bk-canvas-wrap {
+        position: relative;
+        display: inline-block;
+        line-height: 0;
+      }
       #bk-canvas {
         display: block;
         max-width: 100%;
@@ -516,24 +402,6 @@ export default class BreakoutRenderer {
         color: var(--text-secondary, #aaa);
         text-align: center;
         min-height: 1.4em;
-      }
-
-      /* ── Chips raccourcis ── */
-      .bk-keys {
-        display: flex;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      .bk-key-chip {
-        font-family: var(--font-display);
-        font-size: 0.62rem;
-        letter-spacing: 0.09em;
-        color: var(--text-muted, #555);
-        background: var(--color-bg-panel, #0d1117);
-        border: 1px solid var(--color-border, #1e2a38);
-        border-radius: 4px;
-        padding: 2px 8px;
       }
 
       /* ── Responsive ── */

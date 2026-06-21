@@ -163,6 +163,8 @@ export default class Hangman extends BaseGame {
         if (e.code === 'KeyR') { e.preventDefault(); EventBus.emit('game:restart'); }
         return;
       }
+      // Pas de raccourci clavier P ici : les lettres A-Z (dont P) servent à deviner le mot.
+      // La pause reste accessible via le bouton ⏸ du GameShell.
       if (s !== 'playing') return;
       if (/^[a-zA-ZÀ-ÿ]$/.test(e.key)) {
         e.preventDefault();

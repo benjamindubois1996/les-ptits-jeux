@@ -61,6 +61,7 @@ export default class SpaceInvaders extends BaseGame {
     this.state.level  = level;
     this.state.best   = best;
     EventBus.emit('game:started', { state: this.state });
+    EventBus.emit('game:score-update', { score: this.state.score, lives: this.state.lives });
   }
 
   destroy() {
@@ -384,6 +385,7 @@ export default class SpaceInvaders extends BaseGame {
         s.aliveCount -= 1;
         s.score      += alien.points;
         if (s.score > s.best) s.best = s.score;
+        EventBus.emit('game:score-update', { score: s.score });
 
         s.explosions.push({ x: ax + w.alienW / 2, y: ay + w.alienH / 2, timer: 380, maxTimer: 380 });
 
@@ -409,6 +411,7 @@ export default class SpaceInvaders extends BaseGame {
       b.active     = false;
       s.score     += m.points;
       if (s.score > s.best) s.best = s.score;
+      EventBus.emit('game:score-update', { score: s.score });
       m.active     = false;
       m.lastX      = m.x;
       m.showPoints = true;
@@ -480,6 +483,7 @@ export default class SpaceInvaders extends BaseGame {
     const gp = this.config.gameplay;
 
     s.lives -= 1;
+    EventBus.emit('game:score-update', { lives: s.lives });
     s.explosions.push({
       x: s.player.x + w.playerW / 2,
       y: w.playerY + w.playerH / 2,
@@ -524,6 +528,7 @@ export default class SpaceInvaders extends BaseGame {
     this.state.score  = prev.score;
     this.state.best   = prev.best;
     this.state.lives  = Math.min(prev.lives + 1, 5); // +1 vie bonus, max 5
+    EventBus.emit('game:score-update', { lives: this.state.lives });
   }
 
   /* ============================================================

@@ -25,10 +25,12 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 15 mastermind`
 - 15 — Mastermind ✅
 - 16 — Flappy Bird ✅
 - 17 — Memory ✅
-- 18 — Sudoku
-- 19 — Solitaire
-- 20 — Platformer 2D
-- 🔄 Après le jeu 20 : refactoring v3 — mise en place d'un système de composants réutilisables (overlay, chips, board, etc.) pour aller plus vite et éviter la duplication de code entre les renderers
+- 18 — Sudoku ✅
+- 19 — Solitaire ✅
+- 20 — Platformer 2D ✅
+- 🔄 Refactoring v3 (en cours) — standards d'homogénéité définis, config.json mis à jour, pause ajoutée à Hangman/Battleship, icône roadmap dans GameShell. Reste à faire : extraction complète des composants overlay/board partagés pour les 20 renderers (voir section dédiée ci-dessous)
+- 21 à 25 — à définir (session batch unique)
+- 26 à 30 — à définir (session batch unique)
 
 ## Workflow Git
 - `main` : prod, intouchable — jamais de commit direct
@@ -207,6 +209,38 @@ Solutions :
 - Réduire `gap` de l'overlay (8px suffit)
 - Compresser les groupes (label + chips plus petits)
 - Mettre 2 groupes côte à côte si besoin
+
+## Standards v3 — Homogénéité (obligatoire pour tous les jeux, existants et futurs)
+
+Décidé le 2026-06-16. S'applique rétroactivement aux jeux 1-20 et à tous les jeux suivants.
+
+### 1. Numérotation et ordre
+- `title` dans `config.json` commence toujours par le numéro : `"01 — Snake"`, `"15 — Mastermind"`
+- Le tableau `games` de `config.json` est trié dans l'ordre des numéros (pas l'ordre de création)
+- `id` technique (slug) ne change jamais — seul `title` porte le numéro
+
+### 2. Menus homogènes
+- Écran de démarrage : sélecteur **MODE** toujours en premier, **BASIQUE** sélectionné par défaut
+- Même style visuel de paramétrage (chips + labels) pour tous les jeux
+- Même écran de game over : icône, titre, score final, record éventuel, bouton rejouer
+- **Contrôles minimum obligatoires : P = pause, R = restart** — à vérifier/ajouter sur tout nouveau jeu et corrigé rétroactivement si manquant (ex: Hangman et Battleship ne l'avaient pas → corrigés)
+- **Exception** : si le jeu utilise les lettres A-Z comme input (Wordle, Hangman), **ne pas binder P/R au clavier** — ça casserait la frappe des lettres P et R. Dans ce cas, la pause reste accessible uniquement via le bouton ⏸ du GameShell (le restart via R reste possible hors phase de jeu actif, ex: écran gameover)
+- Tout jeu doit émettre `game:paused` / `game:resumed` et son renderer doit les écouter pour afficher un écran pause cohérent
+- **Écran de pause** : doit aussi passer par un module partagé (même règle que démarrage/game over, voir point 5) — pas encore fait, à inclure dans le refactor v3 en cours
+
+### 3. Icône "prochaines améliorations"
+- Champ `roadmap: []` dans `config.json` par jeu — liste d'idées d'amélioration non encore codées
+- Géré une seule fois dans le composant partagé `js/ui/GameShell.js` : si `meta.roadmap.length`, un bouton 💡 apparaît dans les contrôles du jeu et ouvre un panneau listant les idées
+- Pour un nouveau jeu sans roadmap définie : en proposer 2-3 lors de la livraison V1
+
+### 4. Versioning
+- `config.json` racine (`platform.version`) suit le nombre de jeux total — `1.0.0` réservé aux 100 jeux
+- Chaque jeu a son propre champ `version` dans `config.json`, indépendant de la plateforme — démarre à `1.0.0` dès qu'il est fonctionnel/stable
+
+### 5. Refactor modulaire
+- Dès qu'un bout de code (overlay, board, chips, game over) est utilisé par 2 jeux ou plus → l'extraire dans un module partagé (`js/components/`, `js/ui/`, `js/utils/`)
+- Ne pas dupliquer un pattern déjà standardisé (ex: BaseGame, GameLoop, Random, GridUtils du refactoring v2)
+- Le composant `GameShell.js` reste le point d'entrée DOM commun à tous les jeux (header, score, pause/restart, roadmap)
 
 ## Sélecteur de mode — Convention
 

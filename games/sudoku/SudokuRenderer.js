@@ -1,4 +1,5 @@
-import EventBus from '../../js/core/EventBus.js';
+import EventBus    from '../../js/core/EventBus.js';
+import GameOverlay  from '../../js/ui/components/GameOverlay.js';
 
 export default class SudokuRenderer {
 
@@ -11,7 +12,6 @@ export default class SudokuRenderer {
     this._infoBar    = null;
     this._gridEl     = null;
     this._numpadEl   = null;
-    this._overlayEl  = null;
     this._cellEls    = []; // flat array [row*9+col]
 
     this._timerEl    = null;
@@ -33,6 +33,7 @@ export default class SudokuRenderer {
   init()    { this._injectStyles(); this._buildLayout(); this._bindEvents(); }
   destroy() {
     this._unbindEvents();
+    this._overlay?.destroy();
     if (this._wrapper) this._wrapper.remove();
     document.getElementById('sdk-styles')?.remove();
   }
@@ -46,10 +47,6 @@ export default class SudokuRenderer {
     const el = document.createElement('style');
     el.id = 'sdk-styles';
     el.textContent = `
-      @keyframes sdk-fadein {
-        from { opacity: 0; transform: translateY(8px); }
-        to   { opacity: 1; transform: translateY(0); }
-      }
       @keyframes sdk-pop {
         0%   { transform: scale(1); }
         40%  { transform: scale(1.08); }
@@ -144,51 +141,9 @@ export default class SudokuRenderer {
       .sdk-num-btn--clear { color: rgba(255,100,100,0.7); border-color: rgba(255,100,100,0.22); }
       .sdk-num-btn--clear:hover { color: rgba(255,100,100,1); border-color: rgba(255,100,100,0.55); background: rgba(255,60,60,0.08); }
 
-      /* ---- Overlay ---- */
-      .sdk-overlay {
-        position: absolute; inset: 0;
-        background: rgba(5,8,15,0.94); backdrop-filter: blur(5px);
-        display: flex; flex-direction: column; align-items: center; justify-content: center;
-        gap: 8px; z-index: 20; border-radius: inherit;
-        animation: sdk-fadein 0.2s ease;
-      }
-      .sdk-overlay.sdk-overlay--hidden { display: none; }
-
-      .sdk-ov-title {
-        font-size: clamp(22px, 5vw, 32px); font-weight: 900;
-        letter-spacing: 0.2em; color: rgba(0,255,225,0.95);
-        text-shadow: 0 0 20px rgba(0,255,225,0.4);
-      }
-      .sdk-ov-sub {
-        font-size: clamp(14px, 3.2vw, 20px); font-weight: 900; letter-spacing: 0.12em;
-      }
-      .sdk-ov-info { font-size: 10px; letter-spacing: 0.12em; color: rgba(0,255,225,0.45); }
-
-      .sdk-opt-group { display: flex; flex-direction: column; align-items: center; gap: 5px; }
-      .sdk-opt-label { font-size: 8px; letter-spacing: 0.22em; color: rgba(0,255,225,0.4); }
-      .sdk-chips     { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; }
-      .sdk-chip {
-        font-family: Orbitron, monospace; font-size: 10px; font-weight: 700;
-        letter-spacing: 0.06em; padding: 5px 11px; border-radius: 4px;
-        border: 1px solid rgba(0,255,225,0.22); background: #0a1520;
-        color: rgba(0,255,225,0.55); cursor: pointer; transition: all 0.14s;
-      }
-      .sdk-chip:hover { border-color: rgba(0,255,225,0.5); color: rgba(0,255,225,0.85); }
-      .sdk-chip--on {
-        background: rgba(0,255,225,0.11); border-color: rgba(0,255,225,0.6);
-        color: rgba(0,255,225,1); box-shadow: 0 0 8px rgba(0,255,225,0.18);
-      }
-
-      .sdk-play-btn {
-        font-family: Orbitron, monospace; font-size: 13px; font-weight: 900;
-        letter-spacing: 0.2em; padding: 11px 36px; border-radius: 6px;
-        border: 2px solid rgba(0,255,225,0.55); background: rgba(0,255,225,0.07);
-        color: rgba(0,255,225,0.95); cursor: pointer; transition: all 0.2s; margin-top: 4px;
-      }
-      .sdk-play-btn:hover {
-        background: rgba(0,255,225,0.15); border-color: rgba(0,255,225,0.9);
-        box-shadow: 0 0 16px rgba(0,255,225,0.28);
-      }
+      /* Écrans démarrage / pause / fin de partie : entièrement gérés par
+         GameOverlay (js/ui/components/GameOverlay.js), monté sur .sdk-wrapper.
+         Voir .ov-* dans index.html pour le CSS associé. */
     `;
     document.head.appendChild(el);
   }
@@ -237,11 +192,9 @@ export default class SudokuRenderer {
     this._numpadEl.appendChild(clrBtn);
     this._wrapper.appendChild(this._numpadEl);
 
-    /* Overlay */
-    this._overlayEl = document.createElement('div');
-    this._overlayEl.className = 'sdk-overlay';
+    /* Overlay — module partagé */
+    this._overlay = new GameOverlay(this._wrapper);
     this._showStartScreen();
-    this._wrapper.appendChild(this._overlayEl);
 
     this.viewport.appendChild(this._wrapper);
     this._timerEl  = document.getElementById('sdk-timer');
@@ -255,75 +208,33 @@ export default class SudokuRenderer {
      OVERLAYS
      ============================================================ */
 
-  _showStartScreen() {
+  _optionGroups() {
     const { difficulties } = this.config.gameplay;
-    this._overlayEl.innerHTML = `
-      <div class="sdk-ov-title">SUDOKU</div>
+    return [
+      { key: 'mode',       label: 'MODE',        default: 'basique',          options: [{ value: 'basique', label: 'BASIQUE' }] },
+      { key: 'difficulty', label: 'DIFFICULTÉ',  default: this._sel.difficulty, options: difficulties.map(d => ({ value: d, label: d.toUpperCase() })) },
+    ];
+  }
 
-      <div class="sdk-opt-group">
-        <div class="sdk-opt-label">MODE</div>
-        <div class="sdk-chips" data-opt="mode">
-          <button class="sdk-chip sdk-chip--on" data-val="basique">BASIQUE</button>
-        </div>
-      </div>
-
-      <div class="sdk-opt-group">
-        <div class="sdk-opt-label">DIFFICULTÉ</div>
-        <div class="sdk-chips" data-opt="difficulty">
-          ${difficulties.map(d => `<button class="sdk-chip${d === this._sel.difficulty ? ' sdk-chip--on' : ''}" data-val="${d}">${d.toUpperCase()}</button>`).join('')}
-        </div>
-      </div>
-
-      <button class="sdk-play-btn" id="sdk-play-btn">JOUER</button>
-      <div class="sdk-ov-info">↑↓←→ naviguer · 1–9 remplir · Suppr effacer</div>
-    `;
-
-    this._overlayEl.querySelectorAll('.sdk-chips').forEach(group => {
-      group.addEventListener('click', e => {
-        const btn = e.target.closest('.sdk-chip');
-        if (!btn) return;
-        const opt = group.dataset.opt;
-        this._sel[opt] = btn.dataset.val;
-        group.querySelectorAll('.sdk-chip').forEach(b => b.classList.remove('sdk-chip--on'));
-        btn.classList.add('sdk-chip--on');
-      });
-    });
-
-    this._overlayEl.querySelector('#sdk-play-btn')
-      ?.addEventListener('click', () => this.game.start(this._sel));
+  _showStartScreen() {
+    this._overlay.showStart(this._optionGroups(), (selections) => {
+      this._sel = selections;
+      this.game.start(this._sel);
+    }, { extraHtml: '<div class="overlay-score">↑↓←→ naviguer · 1–9 remplir · Suppr effacer</div>' });
   }
 
   _showWinScreen({ score, timer, best }) {
     const isRecord = score >= best && score > 0;
-    this._overlayEl.innerHTML = `
-      <div style="font-size:36px">🎉</div>
-      <div class="sdk-ov-sub" style="color:#00ff88">SUDOKU RÉSOLU !</div>
-      <div class="sdk-ov-info">Temps : ${this._formatTime(timer)}</div>
-      <div class="sdk-ov-info">+${score} pts</div>
-      ${isRecord ? '<div class="sdk-ov-info" style="color:#ffe600">🏆 Nouveau record !</div>' : ''}
-      <button class="sdk-play-btn" id="sdk-ov-replay">REJOUER</button>
-      <div class="sdk-ov-info" style="margin-top:2px;opacity:0.5">R pour rejouer</div>
-    `;
-    this._overlayEl.classList.remove('sdk-overlay--hidden');
-    document.getElementById('sdk-ov-replay')
-      ?.addEventListener('click', () => this._goToStartScreen());
-  }
-
-  _showPauseScreen() {
-    this._overlayEl.innerHTML = `
-      <div style="font-size:34px">⏸</div>
-      <div class="sdk-ov-sub">PAUSE</div>
-      <button class="sdk-play-btn" id="sdk-ov-resume">REPRENDRE</button>
-    `;
-    this._overlayEl.classList.remove('sdk-overlay--hidden');
-    document.getElementById('sdk-ov-resume')
-      ?.addEventListener('click', () => EventBus.emit('game:pause-toggle'));
-    const gs = document.getElementById('gs-overlay');
-    if (gs) gs.classList.add('hidden');
+    this._overlay.showGameOver({
+      result: 'win',
+      title:  'SUDOKU RÉSOLU !',
+      score,
+      isRecord,
+      extraInfo: `<div class="overlay-score">Temps : ${this._formatTime(timer)}</div>`,
+    }, () => this._goToStartScreen());
   }
 
   _goToStartScreen() {
-    this._overlayEl.classList.remove('sdk-overlay--hidden');
     this._showStartScreen();
   }
 
@@ -349,11 +260,11 @@ export default class SudokuRenderer {
 
   _onTick({ state, action }) {
     if (state.status === 'idle') {
-      this._overlayEl.classList.remove('sdk-overlay--hidden');
+      this._overlay.show();
       return;
     }
     if (state.status === 'playing') {
-      this._overlayEl.classList.add('sdk-overlay--hidden');
+      this._overlay.hide();
       if (action === 'new-game') {
         this._buildGrid(state);
       } else if (action === 'timer') {
@@ -367,12 +278,8 @@ export default class SudokuRenderer {
   }
 
   _onWon(data)  { this._showWinScreen(data); }
-  _onPaused()   { this._showPauseScreen(); }
-  _onResumed()  {
-    this._overlayEl.classList.add('sdk-overlay--hidden');
-    const gs = document.getElementById('gs-overlay');
-    if (gs) gs.classList.add('hidden');
-  }
+  _onPaused()   { this._overlay.showPause(() => EventBus.emit('game:pause-toggle')); }
+  _onResumed()  { this._overlay.hide(); }
   _onRestart()  {
     this._goToStartScreen();
     this._gridEl.innerHTML = '';

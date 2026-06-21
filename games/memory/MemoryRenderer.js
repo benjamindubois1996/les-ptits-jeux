@@ -1,4 +1,5 @@
-import EventBus from '../../js/core/EventBus.js';
+import EventBus    from '../../js/core/EventBus.js';
+import GameOverlay  from '../../js/ui/components/GameOverlay.js';
 
 export default class MemoryRenderer {
 
@@ -11,7 +12,6 @@ export default class MemoryRenderer {
     this._infoBar   = null;
     this._gridArea  = null;
     this._gridEl    = null;
-    this._overlayEl = null;
     this._cardEls   = [];
 
     this._movesEl = null;
@@ -39,6 +39,7 @@ export default class MemoryRenderer {
 
   destroy() {
     this._unbindEvents();
+    this._overlay?.destroy();
     if (this._wrapper) this._wrapper.remove();
     document.getElementById('mem-styles')?.remove();
   }
@@ -64,11 +65,6 @@ export default class MemoryRenderer {
         60%     { transform: rotateY(180deg) translateX(-3px); }
         80%     { transform: rotateY(180deg) translateX(3px); }
       }
-      @keyframes mem-fadein {
-        from { opacity: 0; transform: translateY(8px); }
-        to   { opacity: 1; transform: translateY(0); }
-      }
-
       /* ---- Wrapper ---- */
       .mem-wrapper {
         position: absolute; inset: 0;
@@ -162,51 +158,9 @@ export default class MemoryRenderer {
       }
       .mem-card-symbol { line-height: 1; }
 
-      /* ---- Overlay ---- */
-      .mem-overlay {
-        position: absolute; inset: 0;
-        background: rgba(5,8,15,0.94); backdrop-filter: blur(5px);
-        display: flex; flex-direction: column; align-items: center; justify-content: center;
-        gap: 8px; z-index: 20; border-radius: inherit;
-        animation: mem-fadein 0.2s ease;
-      }
-      .mem-overlay.mem-overlay--hidden { display: none; }
-
-      .mem-ov-title {
-        font-size: clamp(22px, 5vw, 34px); font-weight: 900;
-        letter-spacing: 0.2em; color: rgba(0,255,225,0.95);
-        text-shadow: 0 0 20px rgba(0,255,225,0.4);
-      }
-      .mem-ov-sub {
-        font-size: clamp(15px, 3.5vw, 21px); font-weight: 900; letter-spacing: 0.12em;
-      }
-      .mem-ov-info { font-size: 10px; letter-spacing: 0.12em; color: rgba(0,255,225,0.45); }
-
-      .mem-opt-group { display: flex; flex-direction: column; align-items: center; gap: 5px; }
-      .mem-opt-label { font-size: 8px; letter-spacing: 0.22em; color: rgba(0,255,225,0.4); }
-      .mem-chips     { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; }
-      .mem-chip {
-        font-family: Orbitron, monospace; font-size: 10px; font-weight: 700;
-        letter-spacing: 0.06em; padding: 5px 11px; border-radius: 4px;
-        border: 1px solid rgba(0,255,225,0.22); background: #0a1520;
-        color: rgba(0,255,225,0.55); cursor: pointer; transition: all 0.14s;
-      }
-      .mem-chip:hover { border-color: rgba(0,255,225,0.5); color: rgba(0,255,225,0.85); }
-      .mem-chip--on {
-        background: rgba(0,255,225,0.11); border-color: rgba(0,255,225,0.6);
-        color: rgba(0,255,225,1); box-shadow: 0 0 8px rgba(0,255,225,0.18);
-      }
-
-      .mem-play-btn {
-        font-family: Orbitron, monospace; font-size: 13px; font-weight: 900;
-        letter-spacing: 0.2em; padding: 11px 36px; border-radius: 6px;
-        border: 2px solid rgba(0,255,225,0.55); background: rgba(0,255,225,0.07);
-        color: rgba(0,255,225,0.95); cursor: pointer; transition: all 0.2s; margin-top: 4px;
-      }
-      .mem-play-btn:hover {
-        background: rgba(0,255,225,0.15); border-color: rgba(0,255,225,0.9);
-        box-shadow: 0 0 16px rgba(0,255,225,0.28);
-      }
+      /* Écrans démarrage / pause / fin de partie : entièrement gérés par
+         GameOverlay (js/ui/components/GameOverlay.js), monté sur .mem-wrapper.
+         Voir .ov-* dans index.html pour le CSS associé. */
     `;
     document.head.appendChild(el);
   }
@@ -237,11 +191,9 @@ export default class MemoryRenderer {
     this._gridArea.appendChild(this._gridEl);
     this._wrapper.appendChild(this._gridArea);
 
-    /* Overlay */
-    this._overlayEl = document.createElement('div');
-    this._overlayEl.className = 'mem-overlay';
+    /* Overlay — module partagé */
+    this._overlay = new GameOverlay(this._wrapper);
     this._showStartScreen();
-    this._wrapper.appendChild(this._overlayEl);
 
     this.viewport.appendChild(this._wrapper);
 
@@ -254,75 +206,33 @@ export default class MemoryRenderer {
      OVERLAYS
      ============================================================ */
 
-  _showStartScreen() {
+  _optionGroups() {
     const { gridOptions } = this.config.gameplay;
+    return [
+      { key: 'mode',     label: 'MODE',   default: 'basique',       options: [{ value: 'basique', label: 'BASIQUE' }] },
+      { key: 'gridSize', label: 'GRILLE', default: this._sel.gridSize, options: gridOptions.map(g => ({ value: g, label: g })) },
+    ];
+  }
 
-    this._overlayEl.innerHTML = `
-      <div class="mem-ov-title">MEMORY</div>
-
-      <div class="mem-opt-group">
-        <div class="mem-opt-label">MODE</div>
-        <div class="mem-chips" data-opt="mode">
-          <button class="mem-chip mem-chip--on" data-val="basique">BASIQUE</button>
-        </div>
-      </div>
-
-      <div class="mem-opt-group">
-        <div class="mem-opt-label">GRILLE</div>
-        <div class="mem-chips" data-opt="gridSize">
-          ${gridOptions.map(g => `<button class="mem-chip${g === this._sel.gridSize ? ' mem-chip--on' : ''}" data-val="${g}">${g}</button>`).join('')}
-        </div>
-      </div>
-
-      <button class="mem-play-btn" id="mem-play-btn">JOUER</button>
-    `;
-
-    this._overlayEl.querySelectorAll('.mem-chips').forEach(group => {
-      group.addEventListener('click', e => {
-        const btn = e.target.closest('.mem-chip');
-        if (!btn) return;
-        const opt = group.dataset.opt;
-        this._sel[opt] = btn.dataset.val;
-        group.querySelectorAll('.mem-chip').forEach(b => b.classList.remove('mem-chip--on'));
-        btn.classList.add('mem-chip--on');
-      });
+  _showStartScreen() {
+    this._overlay.showStart(this._optionGroups(), (selections) => {
+      this._sel = selections;
+      this.game.start(this._sel);
     });
-
-    this._overlayEl.querySelector('#mem-play-btn')
-      ?.addEventListener('click', () => this.game.start(this._sel));
   }
 
   _showWinScreen({ score, moves, best }) {
     const isRecord = score >= best && score > 0;
-    this._overlayEl.innerHTML = `
-      <div style="font-size:36px">🎉</div>
-      <div class="mem-ov-sub" style="color:#00ff88">TOUTES LES PAIRES !</div>
-      <div class="mem-ov-info">${moves} coup${moves !== 1 ? 's' : ''}</div>
-      <div class="mem-ov-info">+${score} pts</div>
-      ${isRecord ? '<div class="mem-ov-info" style="color:#ffe600">🏆 Nouveau record !</div>' : ''}
-      <button class="mem-play-btn" id="mem-ov-replay">REJOUER</button>
-      <div class="mem-ov-info" style="margin-top:2px;opacity:0.5">R pour rejouer</div>
-    `;
-    this._overlayEl.classList.remove('mem-overlay--hidden');
-    document.getElementById('mem-ov-replay')
-      ?.addEventListener('click', () => this._goToStartScreen());
-  }
-
-  _showPauseScreen() {
-    this._overlayEl.innerHTML = `
-      <div style="font-size:34px">⏸</div>
-      <div class="mem-ov-sub">PAUSE</div>
-      <button class="mem-play-btn" id="mem-ov-resume">REPRENDRE</button>
-    `;
-    this._overlayEl.classList.remove('mem-overlay--hidden');
-    document.getElementById('mem-ov-resume')
-      ?.addEventListener('click', () => EventBus.emit('game:pause-toggle'));
-    const gs = document.getElementById('gs-overlay');
-    if (gs) gs.classList.add('hidden');
+    this._overlay.showGameOver({
+      result: 'win',
+      title:  'TOUTES LES PAIRES !',
+      score,
+      isRecord,
+      extraInfo: `<div class="overlay-score">${moves} coup${moves !== 1 ? 's' : ''}</div>`,
+    }, () => this._goToStartScreen());
   }
 
   _goToStartScreen() {
-    this._overlayEl.classList.remove('mem-overlay--hidden');
     this._showStartScreen();
   }
 
@@ -348,22 +258,18 @@ export default class MemoryRenderer {
 
   _onTick({ state, action, indices }) {
     if (state.status === 'idle') {
-      this._overlayEl.classList.remove('mem-overlay--hidden');
+      this._overlay.show();
       return;
     }
     if (state.status === 'playing') {
-      this._overlayEl.classList.add('mem-overlay--hidden');
+      this._overlay.hide();
       this._render(state, action, indices);
     }
   }
 
   _onWon(data)  { this._showWinScreen(data); }
-  _onPaused()   { this._showPauseScreen(); }
-  _onResumed()  {
-    this._overlayEl.classList.add('mem-overlay--hidden');
-    const gs = document.getElementById('gs-overlay');
-    if (gs) gs.classList.add('hidden');
-  }
+  _onPaused()   { this._overlay.showPause(() => EventBus.emit('game:pause-toggle')); }
+  _onResumed()  { this._overlay.hide(); }
   _onRestart()  {
     this._goToStartScreen();
     this._gridEl.innerHTML = '';

@@ -10,7 +10,8 @@
  *  - Reset clavier entre les mots
  */
 
-import EventBus from '../../js/core/EventBus.js';
+import EventBus    from '../../js/core/EventBus.js';
+import GameOverlay  from '../../js/ui/components/GameOverlay.js';
 
 /* ============================================================
    CONSTANTES
@@ -53,7 +54,6 @@ export default class WordleRenderer {
     this._rowEls      = [];
     this._keyEls      = {};
     this._messageEl   = null;
-    this._overlayEl   = null;
     this._timerEl     = null;
     this._livesEl     = null;
     this._seriesEl    = null;
@@ -72,10 +72,6 @@ export default class WordleRenderer {
     this._onResumed     = this._onResumed.bind(this);
     this._onRestart     = this._onRestart.bind(this);
     this._onLenChanged  = this._onLenChanged.bind(this);
-    this._suppressShell = () => {
-      const o = document.getElementById('gs-overlay');
-      if (o) o.classList.add('hidden');
-    };
   }
 
   /* ============================================================
@@ -91,6 +87,7 @@ export default class WordleRenderer {
 
   destroy() {
     this._unbindEvents();
+    this._overlay?.destroy();
     if (this._wrapper) this._wrapper.remove();
     const s = document.getElementById('wordle-styles');
     if (s) s.remove();
@@ -180,16 +177,10 @@ export default class WordleRenderer {
     const kb = this._buildKeyboard();
     this._wrapper.appendChild(kb);
 
-    // --- Overlay ---
-    this._overlayEl = document.createElement('div');
-    this._overlayEl.style.cssText = `
-      position:absolute; inset:0; background:rgba(5,8,15,0.92); backdrop-filter:blur(5px);
-      display:none; flex-direction:column; align-items:center; justify-content:center;
-      gap:14px; z-index:20; border-radius:inherit;
-    `;
-    this._wrapper.appendChild(this._overlayEl);
-
     this.viewport.appendChild(this._wrapper);
+
+    // --- Overlay (pause / victoire / défaite) — module partagé ---
+    this._overlay = new GameOverlay(this._wrapper);
   }
 
   /* ---- Sélecteur longueur ---- */
@@ -537,74 +528,45 @@ export default class WordleRenderer {
      OVERLAYS
      ============================================================ */
 
-  _showOverlay(html) {
-    this._overlayEl.innerHTML = html;
-    this._overlayEl.style.display = 'flex';
-  }
-
-  _hideOverlay() {
-    this._overlayEl.style.display = 'none';
-  }
-
-  _btnStyle(color) {
-    return `font-family:${FONT};font-size:10px;letter-spacing:0.1em;padding:10px 22px;border-radius:6px;border:1px solid ${color};background:${color}22;color:${color};cursor:pointer;`;
-  }
-
   _showPauseOverlay() {
-    this._showOverlay(`
-      <div style="font-family:${FONT};font-size:clamp(22px,5vw,38px);font-weight:900;color:#ffe600;text-shadow:0 0 20px rgba(255,230,0,0.6);letter-spacing:0.15em;">PAUSE</div>
-      <button id="wrd-resume" style="${this._btnStyle('rgba(0,255,225,0.8)')}">REPRENDRE</button>
-    `);
-    document.getElementById('wrd-resume')?.addEventListener('click', () => EventBus.emit('game:pause-toggle'));
+    this._overlay.showPause(() => EventBus.emit('game:pause-toggle'));
   }
 
   _showWinOverlay(data) {
     const msgs = ['INCROYABLE !','BRILLANT !','EXCELLENT !','BIEN JOUÉ !','PAS MAL !','OUF, DE JUSTESSE !'];
     const msg  = msgs[Math.min((data.attempts ?? 1) - 1, msgs.length - 1)];
-    const seedLine = data.seed > 0 && data.seriesTarget > 0
-      ? `<div style="font-family:${FONT};font-size:9px;color:rgba(0,255,225,0.3);letter-spacing:0.12em;">SEED : ${data.seed}</div>` : '';
+    const seedLine = data.seed > 0 && data.seriesTarget > 0 ? `<div class="overlay-score">SEED : ${data.seed}</div>` : '';
 
-    this._showOverlay(`
-      <div style="font-family:${FONT};font-size:clamp(20px,4.5vw,34px);font-weight:900;color:#00ff88;text-shadow:0 0 22px rgba(0,255,136,0.7);letter-spacing:0.12em;">
-        ${data.isSeriesComplete ? 'SÉRIE COMPLÈTE !' : 'VICTOIRE !'}
-      </div>
-      <div style="font-family:${FONT};font-size:11px;color:rgba(0,255,225,0.6);letter-spacing:0.1em;">${msg}</div>
-      <div style="font-family:${FONT};font-size:clamp(18px,4vw,28px);font-weight:900;color:#00ffe1;text-shadow:0 0 14px rgba(0,255,225,0.5);">${data.totalScore} pts</div>
-      <div style="font-family:${FONT};font-size:10px;color:rgba(0,255,225,0.4);letter-spacing:0.08em;">
-        ${data.wordsCompleted} mot${data.wordsCompleted > 1 ? 's' : ''} réussi${data.wordsCompleted > 1 ? 's' : ''}
-        ${data.seriesTarget > 0 ? ` · ${data.seriesTarget} dans la série` : ''}
-      </div>
-      ${seedLine}
-      <div style="display:flex;gap:10px;margin-top:4px;">
-        <button id="wrd-restart" style="${this._btnStyle('#00ff88')}">REJOUER</button>
-        <button id="wrd-home"    style="${this._btnStyle('rgba(0,255,225,0.5)')}">ACCUEIL</button>
-      </div>
-    `);
-    document.getElementById('wrd-restart')?.addEventListener('click', () => { this._hideOverlay(); EventBus.emit('game:restart'); });
-    document.getElementById('wrd-home')?.addEventListener('click', () => { window.location.hash = '#home'; });
+    this._overlay.showGameOver({
+      result: 'win',
+      title:  data.isSeriesComplete ? 'SÉRIE COMPLÈTE !' : 'VICTOIRE !',
+      score:  data.totalScore,
+      extraInfo: `
+        <div class="overlay-score">${msg}</div>
+        <div class="overlay-score">
+          ${data.wordsCompleted} mot${data.wordsCompleted > 1 ? 's' : ''} réussi${data.wordsCompleted > 1 ? 's' : ''}
+          ${data.seriesTarget > 0 ? ` · ${data.seriesTarget} dans la série` : ''}
+        </div>
+        ${seedLine}
+      `,
+    }, () => EventBus.emit('game:restart'), () => { window.location.hash = '#home'; });
   }
 
   _showLoseOverlay(data) {
-    const seedLine = data.seed > 0 && data.seriesTarget > 0
-      ? `<div style="font-family:${FONT};font-size:9px;color:rgba(0,255,225,0.3);letter-spacing:0.12em;">SEED : ${data.seed}</div>` : '';
+    const seedLine = data.seed > 0 && data.seriesTarget > 0 ? `<div class="overlay-score">SEED : ${data.seed}</div>` : '';
 
-    this._showOverlay(`
-      <div style="font-family:${FONT};font-size:clamp(20px,4.5vw,34px);font-weight:900;color:#ff2d78;text-shadow:0 0 22px rgba(255,45,120,0.7);letter-spacing:0.12em;">GAME OVER</div>
-      <div style="font-family:${FONT};font-size:10px;color:rgba(0,255,225,0.4);letter-spacing:0.12em;">LE MOT ÉTAIT</div>
-      <div style="font-family:${FONT};font-size:clamp(20px,4.5vw,32px);font-weight:900;color:#00ffe1;text-shadow:0 0 16px rgba(0,255,225,0.6);letter-spacing:0.3em;">${data.solution}</div>
-      <div style="font-family:${FONT};font-size:clamp(16px,3.5vw,24px);font-weight:900;color:#ff2d78;">${data.totalScore} pts</div>
-      <div style="font-family:${FONT};font-size:10px;color:rgba(0,255,225,0.4);">
-        ${data.wordsCompleted} mot${data.wordsCompleted > 1 ? 's' : ''} trouvé${data.wordsCompleted > 1 ? 's' : ''}
-        · ${data.wordsFailed} raté${data.wordsFailed > 1 ? 's' : ''}
-      </div>
-      ${seedLine}
-      <div style="display:flex;gap:10px;margin-top:4px;">
-        <button id="wrd-restart" style="${this._btnStyle('#ff2d78')}">REJOUER</button>
-        <button id="wrd-home"    style="${this._btnStyle('rgba(0,255,225,0.5)')}">ACCUEIL</button>
-      </div>
-    `);
-    document.getElementById('wrd-restart')?.addEventListener('click', () => { this._hideOverlay(); EventBus.emit('game:restart'); });
-    document.getElementById('wrd-home')?.addEventListener('click', () => { window.location.hash = '#home'; });
+    this._overlay.showGameOver({
+      result: 'lose',
+      score:  data.totalScore,
+      extraInfo: `
+        <div class="overlay-score">LE MOT ÉTAIT : ${data.solution}</div>
+        <div class="overlay-score">
+          ${data.wordsCompleted} mot${data.wordsCompleted > 1 ? 's' : ''} trouvé${data.wordsCompleted > 1 ? 's' : ''}
+          · ${data.wordsFailed} raté${data.wordsFailed > 1 ? 's' : ''}
+        </div>
+        ${seedLine}
+      `,
+    }, () => EventBus.emit('game:restart'), () => { window.location.hash = '#home'; });
   }
 
   /* ============================================================
@@ -622,9 +584,6 @@ export default class WordleRenderer {
     EventBus.on('game:resumed',       this._onResumed);
     EventBus.on('game:restart',       this._onRestart);
     EventBus.on('game:word-length-changed', this._onLenChanged);
-    EventBus.on('game:over',   this._suppressShell);
-    EventBus.on('game:won',    this._suppressShell);
-    EventBus.on('game:paused', this._suppressShell);
   }
 
   _unbindEvents() {
@@ -638,9 +597,6 @@ export default class WordleRenderer {
     EventBus.off('game:resumed',       this._onResumed);
     EventBus.off('game:restart',       this._onRestart);
     EventBus.off('game:word-length-changed', this._onLenChanged);
-    EventBus.off('game:over',   this._suppressShell);
-    EventBus.off('game:won',    this._suppressShell);
-    EventBus.off('game:paused', this._suppressShell);
   }
 
   _onTick({ state, action, row }) {
@@ -654,7 +610,7 @@ export default class WordleRenderer {
       this._animatedRows.clear();
       this._pendingFlip.clear();
       this._resetKeyboard();           // #7 reset clavier
-      this._hideOverlay();
+      this._overlay.hide();
     }
     this._render(state);
   }
@@ -690,8 +646,8 @@ export default class WordleRenderer {
   }
 
   _onPaused()  { this._showPauseOverlay(); }
-  _onResumed() { this._hideOverlay(); }
-  _onRestart() { this._hideOverlay(); }
+  _onResumed() { this._overlay.hide(); }
+  _onRestart() { this._overlay.hide(); }
 
   _onLenChanged({ wordLength, randomLength, wordCount }) {
     const { wordLengthOptions } = this.config.gameplay;
