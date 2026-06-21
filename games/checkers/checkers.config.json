@@ -1,0 +1,29 @@
+{
+  "id": "checkers",
+  "version": "1.0.0",
+
+  "canvas": { "W": 480, "H": 480 },
+
+  "gameplay": {
+    "W":    480,
+    "H":    480,
+    "SIZE": 8,
+    "CELL": 60,
+    "aiDelayMs": 500
+  },
+
+  "scoring": {
+    "pointPerCapture": 10,
+    "winBonus": 100
+  },
+
+  "timer":  { "scoreEffect": "positive" },
+  "lives":  { "initial": 1 },
+
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP"],
+      "restart": ["KeyR"]
+    }
+  }
+}

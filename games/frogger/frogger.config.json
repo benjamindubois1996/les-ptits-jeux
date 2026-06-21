@@ -1,0 +1,59 @@
+{
+  "id": "frogger",
+  "version": "1.0.0",
+
+  "canvas": { "W": 520, "H": 520 },
+
+  "gameplay": {
+    "W":       520,
+    "H":       520,
+    "CELL":    40,
+    "ROWS":    13,
+    "COLS":    13,
+
+    "frogW": 28,
+    "frogH": 28,
+
+    "deathDurationMs": 900,
+    "goalFlashMs":     600,
+
+    "homeX":   [60, 156, 260, 364, 460],
+    "homeHitR": 22,
+
+    "lanes": [
+      { "row":0,  "type":"goal"  },
+      { "row":1,  "type":"water", "dir":1,  "speed":1.4, "logW":3, "count":3 },
+      { "row":2,  "type":"water", "dir":-1, "speed":1.8, "logW":4, "count":2 },
+      { "row":3,  "type":"water", "dir":1,  "speed":1.0, "logW":5, "count":2 },
+      { "row":4,  "type":"water", "dir":-1, "speed":2.0, "logW":2, "count":4 },
+      { "row":5,  "type":"water", "dir":1,  "speed":1.6, "logW":3, "count":3 },
+      { "row":6,  "type":"safe"  },
+      { "row":7,  "type":"road",  "dir":-1, "speed":2.6, "carW":2, "count":3 },
+      { "row":8,  "type":"road",  "dir":1,  "speed":2.0, "carW":1, "count":3 },
+      { "row":9,  "type":"road",  "dir":-1, "speed":3.2, "carW":2, "count":4 },
+      { "row":10, "type":"road",  "dir":1,  "speed":1.8, "carW":1, "count":2 },
+      { "row":11, "type":"road",  "dir":-1, "speed":2.8, "carW":2, "count":3 },
+      { "row":12, "type":"safe"  }
+    ],
+
+    "pointPerHome": 50,
+    "pointPerStep": 10,
+    "bonusTimeMax":  30
+  },
+
+  "scoring": { "pointPerHome": 50 },
+
+  "timer":  { "scoreEffect": "positive" },
+  "lives":  { "initial": 3 },
+
+  "controls": {
+    "keyboard": {
+      "up":      ["ArrowUp",    "KeyW"],
+      "down":    ["ArrowDown",  "KeyS"],
+      "left":    ["ArrowLeft",  "KeyA"],
+      "right":   ["ArrowRight", "KeyD"],
+      "pause":   ["KeyP"],
+      "restart": ["KeyR"]
+    }
+  }
+}

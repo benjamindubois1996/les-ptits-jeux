@@ -1,617 +1,996 @@
-{
-  "platform": {
-    "name": "RetroVault",
-    "version": "0.3.0",
-    "description": "Anciens jeux remis au goût du jour"
-  },
-  "games": [
-    {
-      "id": "snake",
-      "title": "01 — Snake",
-      "version": "1.0.0",
-      "description": "Le classique revisité — mange, grandis, survive.",
-      "longDescription": "Dirige ton serpent, avale les proies, évite les murs et toi-même. Plus tu grandis, plus c'est rapide. Jusqu'où peux-tu aller ?",
-      "category": "arcade",
-      "thumbnail": "🐍",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "Niveaux de difficulté configurables",
-        "Système de combo & multiplicateur",
-        "Murs téléporteurs (mode sans murs)",
-        "Classement local des scores"
-      ],
-      "roadmap": [
-        "Thèmes visuels personnalisables",
-        "Mode multijoueur local (2 serpents)",
-        "Power-ups temporaires (vitesse, bonus points)"
-      ],
-      "controls": {
-        "keyboard": ["↑ ↓ ← →", "WASD", "P pour pause"],
-        "touch": true
-      },
-      "timer": { "scoreEffect": "positive" },
-      "lives": { "initial": 1 },
-      "path": "games/snake/index.html"
-    },
-    {
-      "id": "tetris",
-      "title": "02 — Tetris",
-      "version": "1.0.0",
-      "description": "Empile les tetrominos, efface les lignes, bats ton record.",
-      "longDescription": "Les 7 pièces classiques tombent de plus en plus vite. Complète des lignes pour marquer des points. Un Tetris (4 lignes d'un coup) rapporte le jackpot.",
-      "category": "puzzle",
-      "thumbnail": "🟦",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "7 tetrominos classiques",
-        "Vitesse progressive par niveau",
-        "Pièce fantôme pour anticiper",
-        "Hard drop (chute instantanée)",
-        "Scoring NES fidèle à l'original"
-      ],
-      "roadmap": [
-        "Hold piece (mettre une pièce de côté)",
-        "Mode Marathon avec objectif de lignes",
-        "Tableau des meilleurs scores détaillé"
-      ],
-      "controls": {
-        "keyboard": ["↑ Rotation", "← → Déplacer", "↓ Descente", "Espace Hard drop", "P pour pause"],
-        "touch": false
-      },
-      "timer": { "scoreEffect": "positive" },
-      "lives": { "initial": 1 },
-      "path": "games/tetris/index.html"
-    },
-    {
-      "id": "minesweeper",
-      "title": "03 — Minesweeper",
-      "version": "1.0.0",
-      "description": "Déminer la grille sans exploser — logique et sang-froid.",
-      "longDescription": "Révèle les cases, compte les mines adjacentes, pose tes drapeaux. Le premier clic est toujours sûr. Plus vite tu termines, plus ton score est élevé.",
-      "category": "reflexion",
-      "thumbnail": "💣",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "3 niveaux de difficulté (9×9 / 16×16 / 30×16)",
-        "Premier clic toujours sûr",
-        "Flood-fill automatique sur les zones vides",
-        "Chord : révèle les voisins d'une seule frappe",
-        "Score basé sur le temps"
-      ],
-      "roadmap": [
-        "Mode personnalisé (taille et nombre de mines réglables)",
-        "Historique des meilleurs temps par difficulté",
-        "Mode sans chronomètre (zen)"
-      ],
-      "controls": {
-        "keyboard": ["Clic gauche : révéler", "Clic droit : drapeau / chord", "P pour pause", "R pour restart"],
-        "touch": false
-      },
-      "timer": { "scoreEffect": "negative", "maxSeconds": 999 },
-      "lives": { "initial": 1 },
-      "path": "games/minesweeper/index.html"
-    },
-    {
-      "id": "wordle",
-      "title": "04 — Wordle",
-      "version": "1.0.0",
-      "description": "Trouve le mot de 5 lettres en 6 essais — logique et vocabulaire.",
-      "longDescription": "Chaque tentative révèle quelles lettres sont correctes, présentes ou absentes. Vert = bonne lettre, bonne place. Jaune = bonne lettre, mauvaise place. Gris = lettre absente. Six essais pour décrocher la victoire.",
-      "category": "reflexion",
-      "thumbnail": "🟩",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "Dictionnaire de mots français sans accent",
-        "Retour coloré lettre par lettre",
-        "Clavier virtuel AZERTY",
-        "Animations flip, pop et bounce",
-        "Score selon le nombre d'essais"
-      ],
-      "roadmap": [
-        "Longueur de mot réglable (4 à 7 lettres)",
-        "Mode illimité (enchaîner les mots)",
-        "Statistiques de réussite cumulées"
-      ],
-      "controls": {
-        "keyboard": ["A–Z pour taper", "Entrée pour valider", "⌫ pour effacer", "R pour rejouer", "Pause via le bouton ⏸"],
-        "touch": true
-      },
-      "timer": { "scoreEffect": "negative", "maxSeconds": 300 },
-      "lives": { "initial": 6 },
-      "path": "games/wordle/index.html"
-    },
-    {
-      "id": "2048",
-      "title": "05 — 2048",
-      "version": "1.0.0",
-      "description": "Fusionne les tuiles, atteins 2048 — logique et réflexes.",
-      "longDescription": "Glisse les tuiles dans les quatre directions. Deux tuiles identiques fusionnent en une seule. Accumule les points et atteins la tuile 2048 pour gagner. Mais tu peux continuer au-delà !",
-      "category": "puzzle",
-      "thumbnail": "🔢",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "Grille 4×4 classique",
-        "Animations pop et apparition des tuiles",
-        "Score et meilleur score sauvegardé",
-        "Continue après avoir atteint 2048",
-        "Support swipe tactile"
-      ],
-      "roadmap": [
-        "Taille de grille réglable (3×3, 5×5, 6×6)",
-        "Annuler le dernier coup (undo)",
-        "Mode chrono"
-      ],
-      "controls": {
-        "keyboard": ["↑↓←→ / WASD : glisser", "P : pause", "R : restart"],
-        "touch": true
-      },
-      "timer": { "scoreEffect": "positive" },
-      "lives": { "initial": 1 },
-      "path": "games/2048/index.html"
-    },
-    {
-      "id": "simon",
-      "title": "06 — Simon Says",
-      "version": "1.0.0",
-      "description": "Mémorise la séquence de couleurs et reproduis-la — jusqu'où iras-tu ?",
-      "longDescription": "Le jeu te montre une séquence de couleurs qui s'allonge à chaque tour. Rouge, Vert, Jaune, Bleu — écoute, regarde, répète. La vitesse augmente au fil des rounds. Un seul faux pas et c'est terminé.",
-      "category": "reflexion",
-      "thumbnail": "🔴",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "Séquence infinie avec difficulté progressive",
-        "4 couleurs, 4 touches clavier (1-2-3-4)",
-        "Vitesse qui s'accélère à chaque palier",
-        "Score basé sur le nombre de tours réussis"
-      ],
-      "roadmap": [
-        "Mode son désactivable indépendamment",
-        "Variante 6 couleurs (plus difficile)",
-        "Classement des meilleures séries"
-      ],
-      "controls": {
-        "keyboard": ["1 Rouge  2 Vert  3 Jaune  4 Bleu", "P pour pause", "R pour restart"],
-        "touch": true
-      },
-      "timer": { "scoreEffect": "positive" },
-      "lives": { "initial": 1 },
-      "path": "games/simon/index.html"
-    },
-    {
-      "id": "connect-four",
-      "title": "07 — Connect Four",
-      "version": "1.0.0",
-      "description": "Aligne 4 pions avant ton adversaire — stratégie et anticipation.",
-      "longDescription": "À tour de rôle, faites tomber vos pions dans les colonnes. Le premier à aligner 4 pions horizontalement, verticalement ou en diagonale gagne. Anticipez les coups adverses et construisez vos pièges !",
-      "category": "reflexion",
-      "thumbnail": "🔴",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "Grille 7×6 classique",
-        "Joueur 1 vs Joueur 2 (local)",
-        "Détection de 4 alignés dans toutes les directions",
-        "Animation de chute des pions avec effet de gravité",
-        "Score de victoires sauvegardé"
-      ],
-      "roadmap": [
-        "Mode vs IA (en plus du 2 joueurs)",
-        "Grille de taille réglable",
-        "Historique des parties jouées"
-      ],
-      "controls": {
-        "keyboard": ["1–7 : choisir une colonne", "P : pause", "R : restart"],
-        "touch": true
-      },
-      "timer": { "scoreEffect": "positive" },
-      "lives": { "initial": 1 },
-      "path": "games/connect-four/index.html"
-    },
-    {
-      "id": "space-invaders",
-      "title": "08 — Space Invaders",
-      "version": "1.0.0",
-      "description": "Défends la Terre contre les vagues d'aliens — réflexes et survie.",
-      "longDescription": "55 aliens avancent en formation et descendent inexorablement. Élimine-les tous avant qu'ils n'atteignent le sol. Utilise les 4 boucliers pour te protéger, chasse le vaisseau mystère pour le bonus. À toi de jouer, commandant.",
-      "category": "arcade",
-      "thumbnail": "👾",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "Grille 11×5 d'aliens avec vitesse progressive",
-        "3 types d'aliens avec points différents",
-        "4 boucliers destructibles case par case",
-        "Vaisseau mystère bonus (50 à 300 pts)",
-        "Niveaux infinis avec difficulté croissante"
-      ],
-      "roadmap": [
-        "3 vies au lieu d'une seule (mode BASIQUE plus permissif)",
-        "Power-ups (tir double, bouclier temporaire)",
-        "Tableau des meilleurs scores"
-      ],
-      "controls": {
-        "keyboard": ["← → / A D : déplacer", "ESPACE : tirer", "P : pause", "R : restart"],
-        "touch": false
-      },
-      "timer": { "scoreEffect": "positive" },
-      "lives": { "initial": 3 },
-      "path": "games/space-invaders/index.html"
-    },
-    {
-      "id": "breakout",
-      "title": "09 — Breakout",
-      "version": "1.0.0",
-      "description": "Casse toutes les briques avec ta raquette — réflexes et précision.",
-      "longDescription": "Dirige ta raquette pour renvoyer la balle et détruire toutes les briques. Plus les briques sont hautes, plus elles rapportent de points. Chaque niveau efface la grille et accélère la balle. Tu as 3 vies — ne laisse pas la balle passer !",
-      "category": "arcade",
-      "thumbnail": "🧱",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "7 rangées de briques colorées (10–70 pts)",
-        "Niveaux infinis avec vitesse progressive (+20 % par niveau)",
-        "Angle de renvoi selon la zone de frappe",
-        "Contrôles souris, clavier et tactile",
-        "3 vies — meilleur score sauvegardé"
-      ],
-      "roadmap": [
-        "Power-ups qui tombent des briques (multi-ball, raquette large)",
-        "Briques spéciales (incassables, bonus)",
-        "Mode sans fin avec classement"
-      ],
-      "controls": {
-        "keyboard": ["← → / A D : raquette", "Espace : lancer / pause", "P : pause", "R : restart"],
-        "touch": true
-      },
-      "timer": { "scoreEffect": "positive" },
-      "lives": { "initial": 3 },
-      "path": "games/breakout/index.html"
-    },
-    {
-      "id": "blackjack",
-      "title": "10 — Blackjack",
-      "version": "1.0.0",
-      "description": "Battez le croupier à 21 — tactique, sang-froid et gestion des mises.",
-      "longDescription": "Tirez des cartes pour approcher 21 sans dépasser. Le croupier doit tirer jusqu'à 17. Un Blackjack (21 en 2 cartes) rapporte 1,5× la mise. Doublez quand le timing est parfait et gérez vos jetons jusqu'au dernier.",
-      "category": "reflexion",
-      "thumbnail": "🃏",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "Jeu contre le croupier (règles classiques Las Vegas)",
-        "Système de mises avec 4 valeurs de jetons",
-        "Blackjack payé 1,5× — Double Down disponible",
-        "Croupier tire jusqu'à 17, s'arrête sur 17+",
-        "Score basé sur le total de jetons accumulés"
-      ],
-      "roadmap": [
-        "Split (séparer une paire)",
-        "Assurance contre le Blackjack du croupier",
-        "Historique des mains jouées"
-      ],
-      "controls": {
-        "keyboard": ["H : Tirer  S : Rester  D : Doubler", "Espace / Entrée : Distribuer", "P : pause", "R : Recommencer"],
-        "touch": true
-      },
-      "timer": { "scoreEffect": "positive" },
-      "lives": { "initial": 1 },
-      "path": "games/blackjack/index.html"
-    },
-    {
-      "id": "pong",
-      "title": "11 — Pong",
-      "version": "1.0.0",
-      "description": "Le tout premier jeu vidéo — raquette contre IA, premier à 7 gagne.",
-      "longDescription": "Le classique des classiques. Dirige ta raquette avec les touches fléchées et renvoie la balle avant qu'elle ne passe. L'IA accélère au fil des échanges — la balle gagne en vitesse à chaque coup. Premier à 7 points remporte la manche.",
-      "category": "arcade",
-      "thumbnail": "🏓",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "Joueur vs IA — premier à 7 points",
-        "Balle qui accélère à chaque échange",
-        "Angle de renvoi selon la zone de frappe",
-        "IA avec marge d'erreur pour rester battable",
-        "Meilleur score sauvegardé"
-      ],
-      "roadmap": [
-        "Mode 2 joueurs local",
-        "Difficulté de l'IA réglable",
-        "Score à atteindre configurable"
-      ],
-      "controls": {
-        "keyboard": ["↑ ↓ / W S : raquette", "Espace : servir / pause", "P : pause", "R : restart"],
-        "touch": false
-      },
-      "timer": { "scoreEffect": "positive" },
-      "lives": { "initial": 1 },
-      "path": "games/pong/index.html"
-    },
-    {
-      "id": "pac-man",
-      "title": "12 — Pac-Man",
-      "version": "1.0.0",
-      "description": "Mange toutes les pastilles, évite les fantômes — un classique intemporel.",
-      "longDescription": "Dirige Pac-Man dans le labyrinthe et avale toutes les pastilles avant que les 4 fantômes ne t'attrapent. Les super-pastilles te rendent temporairement invincible — profites-en pour dévorer les fantômes et enchaîner les combos !",
-      "category": "arcade",
-      "thumbnail": "👻",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "Labyrinthe classique 28×31 avec tunnels",
-        "4 fantômes avec IA différente (Blinky, Pinky, Inky, Clyde)",
-        "Super-pastilles et mode effrayé des fantômes",
-        "Niveaux infinis avec difficulté progressive",
-        "3 vies — score sauvegardé"
-      ],
-      "roadmap": [
-        "Fruits bonus apparaissant au centre du labyrinthe",
-        "Labyrinthes alternatifs (niveau 2+)",
-        "Mode 2 vies / 5 vies réglable"
-      ],
-      "controls": {
-        "keyboard": ["↑↓←→ / WASD : diriger", "P : pause", "R : restart"],
-        "touch": false
-      },
-      "timer": { "scoreEffect": "positive" },
-      "lives": { "initial": 3 },
-      "path": "games/pac-man/index.html"
-    },
-    {
-      "id": "hangman",
-      "title": "13 — Hangman",
-      "version": "1.0.0",
-      "description": "Devine le mot lettre par lettre avant que le pendu ne soit complet.",
-      "longDescription": "Un mot secret t'attend. Propose des lettres une à une — chaque erreur fait avancer le dessin du pendu. Choisis le nombre de vies et la taille des mots. Tu as jusqu'à la dernière pièce pour trouver la solution.",
-      "category": "reflexion",
-      "thumbnail": "🪢",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "Dictionnaire français (même source que Wordle)",
-        "Nombre de vies réglable (5, 6, 7, 8 ou 10)",
-        "Taille des mots configurable ou aléatoire",
-        "Dessin du pendu en 10 étapes progressives",
-        "Clavier AZERTY virtuel + clavier physique",
-        "Pause via le bouton du jeu"
-      ],
-      "roadmap": [
-        "Catégories de mots thématiques (animaux, pays, etc.)",
-        "Mode 2 joueurs (l'un propose le mot)",
-        "Indice optionnel coûtant des points"
-      ],
-      "controls": {
-        "keyboard": ["A–Z : proposer une lettre", "R : rejouer", "Pause via le bouton ⏸"],
-        "touch": true
-      },
-      "timer": { "scoreEffect": "negative", "maxSeconds": 180 },
-      "lives": { "initial": 6 },
-      "path": "games/hangman/index.html"
-    },
-    {
-      "id": "battleship",
-      "title": "14 — Battleship",
-      "version": "1.0.0",
-      "description": "Coule la flotte ennemie avant d'être coulé — stratégie et déduction.",
-      "longDescription": "Place tes 5 navires sur la grille, puis traque la flotte adverse case par case. Chaque tir révèle touché ou manqué. Utilise la logique pour localiser et couler tous les navires ennemis avant que l'IA ne détruise ta flotte.",
-      "category": "reflexion",
-      "thumbnail": "🚢",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "Grille 10×10 classique",
-        "5 navires à placer manuellement (2 à 5 cases)",
-        "IA en mode chasse et poursuite",
-        "Placement orientable avec touche R",
-        "Score basé sur les tirs réussis et les coulages",
-        "Écran de défaite avec score final",
-        "Pause au clavier (P)"
-      ],
-      "roadmap": [
-        "Placement aléatoire automatique (bouton dédié)",
-        "Mode 2 joueurs local (chacun place sa flotte)",
-        "Statistiques de précision (% de tirs réussis)"
-      ],
-      "controls": {
-        "keyboard": ["Clic : placer / tirer", "R : pivoter le navire", "P : pause"],
-        "touch": false
-      },
-      "timer": { "scoreEffect": "positive" },
-      "lives": { "initial": 1 },
-      "path": "games/battleship/index.html"
-    },
-    {
-      "id": "mastermind",
-      "title": "15 — Mastermind",
-      "version": "1.0.0",
-      "description": "Trouve le code secret en déduisant couleur et position — logique pure.",
-      "longDescription": "Un code secret de 4 couleurs t'attend. Après chaque tentative, des indicateurs te disent combien de couleurs sont bien placées (●) et combien sont présentes mais mal placées (○). Déduis, élimines, converges. Tu as 10 essais pour percer le mystère.",
-      "category": "reflexion",
-      "thumbnail": "🔐",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "Code de 4 couleurs parmi 6 (configurable)",
-        "Feedback ● bonne place / ○ bonne couleur",
-        "Longueur du code et nombre de couleurs réglables",
-        "Clavier : chiffres 1–6, flèches, Entrée, Suppr",
-        "Score basé sur le nombre de tentatives"
-      ],
-      "roadmap": [
-        "Mode duel (deviner le code l'un de l'autre)",
-        "Historique visuel des tentatives passées",
-        "Variante 8 couleurs (plus difficile)"
-      ],
-      "controls": {
-        "keyboard": ["1–6 : choisir une couleur", "← → : naviguer", "Entrée : valider", "Suppr : effacer", "P : pause"],
-        "touch": true
-      },
-      "timer": { "scoreEffect": "negative", "maxSeconds": 300 },
-      "lives": { "initial": 10 },
-      "path": "games/mastermind/index.html"
-    },
-    {
-      "id": "flappy-bird",
-      "title": "16 — Flappy Bird",
-      "version": "1.0.0",
-      "description": "Bats des ailes pour passer entre les tuyaux — réflexes et concentration.",
-      "longDescription": "Chaque pression fait monter l'oiseau, la gravité le ramène vers le bas. Passe entre les tuyaux sans les toucher. Le score augmente à chaque paire franchie, et la vitesse aussi. Un seul contact et c'est terminé.",
-      "category": "arcade",
-      "thumbnail": "🐦",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "Physique gravité + impulsion réaliste",
-        "Tuyaux à espacement configurable (serré / normal / large)",
-        "Vitesse initiale réglable (lente / normale / rapide)",
-        "Accélération progressive au fil des tuyaux passés",
-        "Meilleur score sauvegardé"
-      ],
-      "roadmap": [
-        "Skins d'oiseau déblocables",
-        "Décor jour/nuit alterné",
-        "Mode sans collision (entraînement)"
-      ],
-      "controls": {
-        "keyboard": ["ESPACE / ↑ / W : battre des ailes", "P : pause", "R : restart"],
-        "touch": true
-      },
-      "timer": { "scoreEffect": "positive" },
-      "lives": { "initial": 1 },
-      "path": "games/flappy-bird/index.html"
-    },
-    {
-      "id": "memory",
-      "title": "17 — Memory",
-      "version": "1.0.0",
-      "description": "Retrouve toutes les paires de cartes — concentration et mémorisation.",
-      "longDescription": "Toutes les cartes sont face cachée. Retourne-en deux à la fois : si elles correspondent, elles restent visibles. Sinon, elles se retournent. Retrouve toutes les paires en un minimum de coups pour maximiser ton score.",
-      "category": "reflexion",
-      "thumbnail": "🃏",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "3 tailles de grille (4×4, 4×5, 4×6)",
-        "Animations de retournement 3D des cartes",
-        "Score basé sur le nombre de coups",
-        "Compteur de paires trouvées en temps réel",
-        "Meilleur score sauvegardé"
-      ],
-      "roadmap": [
-        "Mode chrono (contre le temps)",
-        "Mode 2 joueurs en alternance",
-        "Thèmes d'images personnalisables"
-      ],
-      "controls": {
-        "keyboard": ["Clic : retourner une carte", "P : pause", "R : restart"],
-        "touch": true
-      },
-      "timer": { "scoreEffect": "negative", "maxSeconds": 180 },
-      "lives": { "initial": 1 },
-      "path": "games/memory/index.html"
-    },
-    {
-      "id": "sudoku",
-      "title": "18 — Sudoku",
-      "version": "1.0.0",
-      "description": "Remplis la grille 9×9 — chaque chiffre une seule fois par ligne, colonne et carré.",
-      "longDescription": "Complète la grille de 81 cases en plaçant les chiffres 1 à 9. Chaque ligne, chaque colonne et chaque carré 3×3 doit contenir chacun des chiffres une seule fois. Logique pure — pas de hasard.",
-      "category": "reflexion",
-      "thumbnail": "🔢",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "Génération garantie à solution unique",
-        "3 niveaux de difficulté (Facile / Moyen / Difficile)",
-        "Surlignage de la zone et des chiffres identiques",
-        "Conflits mis en évidence en rouge en temps réel",
-        "Score basé sur le temps de résolution"
-      ],
-      "roadmap": [
-        "Crayon / annotations (chiffres candidats)",
-        "Bouton indice (révèle une case, coûte des points)",
-        "Sauvegarde de partie en cours"
-      ],
-      "controls": {
-        "keyboard": ["↑↓←→ : naviguer", "1–9 : remplir", "Suppr : effacer", "P : pause", "R : restart"],
-        "touch": true
-      },
-      "timer": { "scoreEffect": "positive" },
-      "lives": { "initial": 1 },
-      "path": "games/sudoku/index.html"
-    },
-    {
-      "id": "solitaire",
-      "title": "19 — Solitaire",
-      "version": "1.0.0",
-      "description": "Klondike classique — déplace les cartes, complète les fondations, vide le tableau.",
-      "longDescription": "Distribue les cartes dans le tableau, retourne les colonnes et construis les quatre fondations de l'As au Roi. Chaque coup compte : pioche dans le talon, joue les séquences alternées rouge/noir, et complète les quatre familles pour gagner.",
-      "category": "reflexion",
-      "thumbnail": "🃏",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "Klondike standard — tirage 1 carte",
-        "7 colonnes de tableau + 4 fondations",
-        "Clic pour sélectionner / déplacer",
-        "Double-clic pour envoyer sur la fondation",
-        "Annuler jusqu'à 20 coups",
-        "Score basé sur les déplacements"
-      ],
-      "roadmap": [
-        "Tirage 3 cartes (variante classique)",
-        "Solveur auto en fin de partie (auto-complete)",
-        "Chronomètre affiché en permanence"
-      ],
-      "controls": {
-        "keyboard": ["Clic : sélectionner / déposer", "Double-clic : fondation auto", "P : pause", "R : restart"],
-        "touch": true
-      },
-      "timer": { "scoreEffect": "positive" },
-      "lives": { "initial": 1 },
-      "path": "games/solitaire/index.html"
-    },
-    {
-      "id": "platformer-2d",
-      "title": "20 — Platformer 2D",
-      "version": "1.0.0",
-      "description": "Cours, saute, collecte — 3 niveaux de plateforme à compléter.",
-      "longDescription": "Un platformer 2D classique en scrolling horizontal. Saute sur les plateformes, collecte les pièces dorées et évite les ennemis qui patrouillent. Atteins l'étoile dorée pour passer au niveau suivant. Trois niveaux de difficulté croissante t'attendent — à toi de jouer !",
-      "category": "arcade",
-      "thumbnail": "🏃",
-      "available": true,
-      "comingSoon": false,
-      "features": [
-        "3 niveaux scrolling horizontal avec difficulté progressive",
-        "Physique gravité + saut réaliste",
-        "Pièces à collecter et ennemis patrouilleurs",
-        "Étoile objectif à atteindre pour progresser",
-        "3 vies avec invincibilité post-dégât"
-      ],
-      "roadmap": [
-        "Sélecteur de niveau (rejouer un niveau précis)",
-        "Nouveaux niveaux supplémentaires",
-        "Power-ups (double-saut, invincibilité temporaire)"
-      ],
-      "controls": {
-        "keyboard": ["← → / A D : courir", "ESPACE / ↑ / W : sauter", "P : pause", "R : restart"],
-        "touch": false
-      },
-      "timer": { "scoreEffect": "positive" },
-      "lives": { "initial": 3 },
-      "path": "games/platformer-2d/index.html"
-    }
-  ],
-  "categories": [
-    { "id": "arcade",    "label": "Arcade",     "icon": "🕹️" },
-    { "id": "reflexion", "label": "Réflexion",  "icon": "🧠" },
-    { "id": "sport",     "label": "Sport",      "icon": "⚡" },
-    { "id": "puzzle",    "label": "Puzzle",     "icon": "🧩" }
-  ]
+﻿{
+    "platform":  {
+                     "name":  "RetroVault",
+                     "version":  "0.25.0",
+                     "description":  "Anciens jeux remis au goût du jour"
+                 },
+    "games":  [
+                  {
+                      "id":  "snake",
+                      "title":  "01 — Snake",
+                      "version":  "1.0.0",
+                      "description":  "Le classique revisité — mange, grandis, survive.",
+                      "longDescription":  "Dirige ton serpent, avale les proies, évite les murs et toi-même. Plus tu grandis, plus c\u0027est rapide. Jusqu\u0027où peux-tu aller ?",
+                      "category":  "arcade",
+                      "thumbnail":  "🐍",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Niveaux de difficulté configurables",
+                                       "Système de combo \u0026 multiplicateur",
+                                       "Murs téléporteurs (mode sans murs)",
+                                       "Classement local des scores"
+                                   ],
+                      "roadmap":  [
+                                      "Thèmes visuels personnalisables",
+                                      "Mode multijoueur local (2 serpents)",
+                                      "Power-ups temporaires (vitesse, bonus points)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑ ↓ ← →",
+                                                        "WASD",
+                                                        "P pour pause"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/snake/index.html"
+                  },
+                  {
+                      "id":  "tetris",
+                      "title":  "02 — Tetris",
+                      "version":  "1.0.0",
+                      "description":  "Empile les tetrominos, efface les lignes, bats ton record.",
+                      "longDescription":  "Les 7 pièces classiques tombent de plus en plus vite. Complète des lignes pour marquer des points. Un Tetris (4 lignes d\u0027un coup) rapporte le jackpot.",
+                      "category":  "puzzle",
+                      "thumbnail":  "🟦",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "7 tetrominos classiques",
+                                       "Vitesse progressive par niveau",
+                                       "Pièce fantôme pour anticiper",
+                                       "Hard drop (chute instantanée)",
+                                       "Scoring NES fidèle à l\u0027original"
+                                   ],
+                      "roadmap":  [
+                                      "Hold piece (mettre une pièce de côté)",
+                                      "Mode Marathon avec objectif de lignes",
+                                      "Tableau des meilleurs scores détaillé"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑ Rotation",
+                                                        "← → Déplacer",
+                                                        "↓ Descente",
+                                                        "Espace Hard drop",
+                                                        "P pour pause"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/tetris/index.html"
+                  },
+                  {
+                      "id":  "minesweeper",
+                      "title":  "03 — Minesweeper",
+                      "version":  "1.0.0",
+                      "description":  "Déminer la grille sans exploser — logique et sang-froid.",
+                      "longDescription":  "Révèle les cases, compte les mines adjacentes, pose tes drapeaux. Le premier clic est toujours sûr. Plus vite tu termines, plus ton score est élevé.",
+                      "category":  "reflexion",
+                      "thumbnail":  "💣",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "3 niveaux de difficulté (9×9 / 16×16 / 30×16)",
+                                       "Premier clic toujours sûr",
+                                       "Flood-fill automatique sur les zones vides",
+                                       "Chord : révèle les voisins d\u0027une seule frappe",
+                                       "Score basé sur le temps"
+                                   ],
+                      "roadmap":  [
+                                      "Mode personnalisé (taille et nombre de mines réglables)",
+                                      "Historique des meilleurs temps par difficulté",
+                                      "Mode sans chronomètre (zen)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic gauche : révéler",
+                                                        "Clic droit : drapeau / chord",
+                                                        "P pour pause",
+                                                        "R pour restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "negative",
+                                    "maxSeconds":  999
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/minesweeper/index.html"
+                  },
+                  {
+                      "id":  "wordle",
+                      "title":  "04 — Wordle",
+                      "version":  "1.0.0",
+                      "description":  "Trouve le mot de 5 lettres en 6 essais — logique et vocabulaire.",
+                      "longDescription":  "Chaque tentative révèle quelles lettres sont correctes, présentes ou absentes. Vert = bonne lettre, bonne place. Jaune = bonne lettre, mauvaise place. Gris = lettre absente. Six essais pour décrocher la victoire.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🟩",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Dictionnaire de mots français sans accent",
+                                       "Retour coloré lettre par lettre",
+                                       "Clavier virtuel AZERTY",
+                                       "Animations flip, pop et bounce",
+                                       "Score selon le nombre d\u0027essais"
+                                   ],
+                      "roadmap":  [
+                                      "Longueur de mot réglable (4 à 7 lettres)",
+                                      "Mode illimité (enchaîner les mots)",
+                                      "Statistiques de réussite cumulées"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "A–Z pour taper",
+                                                        "Entrée pour valider",
+                                                        "⌫ pour effacer",
+                                                        "R pour rejouer",
+                                                        "Pause via le bouton ⏸"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "negative",
+                                    "maxSeconds":  300
+                                },
+                      "lives":  {
+                                    "initial":  6
+                                },
+                      "path":  "games/wordle/index.html"
+                  },
+                  {
+                      "id":  "2048",
+                      "title":  "05 — 2048",
+                      "version":  "1.0.0",
+                      "description":  "Fusionne les tuiles, atteins 2048 — logique et réflexes.",
+                      "longDescription":  "Glisse les tuiles dans les quatre directions. Deux tuiles identiques fusionnent en une seule. Accumule les points et atteins la tuile 2048 pour gagner. Mais tu peux continuer au-delà !",
+                      "category":  "puzzle",
+                      "thumbnail":  "🔢",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Grille 4×4 classique",
+                                       "Animations pop et apparition des tuiles",
+                                       "Score et meilleur score sauvegardé",
+                                       "Continue après avoir atteint 2048",
+                                       "Support swipe tactile"
+                                   ],
+                      "roadmap":  [
+                                      "Taille de grille réglable (3×3, 5×5, 6×6)",
+                                      "Annuler le dernier coup (undo)",
+                                      "Mode chrono"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑↓←→ / WASD : glisser",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/2048/index.html"
+                  },
+                  {
+                      "id":  "simon",
+                      "title":  "06 — Simon Says",
+                      "version":  "1.0.0",
+                      "description":  "Mémorise la séquence de couleurs et reproduis-la — jusqu\u0027où iras-tu ?",
+                      "longDescription":  "Le jeu te montre une séquence de couleurs qui s\u0027allonge à chaque tour. Rouge, Vert, Jaune, Bleu — écoute, regarde, répète. La vitesse augmente au fil des rounds. Un seul faux pas et c\u0027est terminé.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🔴",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Séquence infinie avec difficulté progressive",
+                                       "4 couleurs, 4 touches clavier (1-2-3-4)",
+                                       "Vitesse qui s\u0027accélère à chaque palier",
+                                       "Score basé sur le nombre de tours réussis"
+                                   ],
+                      "roadmap":  [
+                                      "Mode son désactivable indépendamment",
+                                      "Variante 6 couleurs (plus difficile)",
+                                      "Classement des meilleures séries"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "1 Rouge  2 Vert  3 Jaune  4 Bleu",
+                                                        "P pour pause",
+                                                        "R pour restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/simon/index.html"
+                  },
+                  {
+                      "id":  "connect-four",
+                      "title":  "07 — Connect Four",
+                      "version":  "1.0.0",
+                      "description":  "Aligne 4 pions avant ton adversaire — stratégie et anticipation.",
+                      "longDescription":  "À tour de rôle, faites tomber vos pions dans les colonnes. Le premier à aligner 4 pions horizontalement, verticalement ou en diagonale gagne. Anticipez les coups adverses et construisez vos pièges !",
+                      "category":  "reflexion",
+                      "thumbnail":  "🔴",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Grille 7×6 classique",
+                                       "Joueur 1 vs Joueur 2 (local)",
+                                       "Détection de 4 alignés dans toutes les directions",
+                                       "Animation de chute des pions avec effet de gravité",
+                                       "Score de victoires sauvegardé"
+                                   ],
+                      "roadmap":  [
+                                      "Mode vs IA (en plus du 2 joueurs)",
+                                      "Grille de taille réglable",
+                                      "Historique des parties jouées"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "1–7 : choisir une colonne",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/connect-four/index.html"
+                  },
+                  {
+                      "id":  "space-invaders",
+                      "title":  "08 — Space Invaders",
+                      "version":  "1.0.0",
+                      "description":  "Défends la Terre contre les vagues d\u0027aliens — réflexes et survie.",
+                      "longDescription":  "55 aliens avancent en formation et descendent inexorablement. Élimine-les tous avant qu\u0027ils n\u0027atteignent le sol. Utilise les 4 boucliers pour te protéger, chasse le vaisseau mystère pour le bonus. À toi de jouer, commandant.",
+                      "category":  "arcade",
+                      "thumbnail":  "👾",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Grille 11×5 d\u0027aliens avec vitesse progressive",
+                                       "3 types d\u0027aliens avec points différents",
+                                       "4 boucliers destructibles case par case",
+                                       "Vaisseau mystère bonus (50 à 300 pts)",
+                                       "Niveaux infinis avec difficulté croissante"
+                                   ],
+                      "roadmap":  [
+                                      "3 vies au lieu d\u0027une seule (mode BASIQUE plus permissif)",
+                                      "Power-ups (tir double, bouclier temporaire)",
+                                      "Tableau des meilleurs scores"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "← → / A D : déplacer",
+                                                        "ESPACE : tirer",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
+                      "path":  "games/space-invaders/index.html"
+                  },
+                  {
+                      "id":  "breakout",
+                      "title":  "09 — Breakout",
+                      "version":  "1.0.0",
+                      "description":  "Casse toutes les briques avec ta raquette — réflexes et précision.",
+                      "longDescription":  "Dirige ta raquette pour renvoyer la balle et détruire toutes les briques. Plus les briques sont hautes, plus elles rapportent de points. Chaque niveau efface la grille et accélère la balle. Tu as 3 vies — ne laisse pas la balle passer !",
+                      "category":  "arcade",
+                      "thumbnail":  "🧱",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "7 rangées de briques colorées (10–70 pts)",
+                                       "Niveaux infinis avec vitesse progressive (+20 % par niveau)",
+                                       "Angle de renvoi selon la zone de frappe",
+                                       "Contrôles souris, clavier et tactile",
+                                       "3 vies — meilleur score sauvegardé"
+                                   ],
+                      "roadmap":  [
+                                      "Power-ups qui tombent des briques (multi-ball, raquette large)",
+                                      "Briques spéciales (incassables, bonus)",
+                                      "Mode sans fin avec classement"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "← → / A D : raquette",
+                                                        "Espace : lancer / pause",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
+                      "path":  "games/breakout/index.html"
+                  },
+                  {
+                      "id":  "blackjack",
+                      "title":  "10 — Blackjack",
+                      "version":  "1.0.0",
+                      "description":  "Battez le croupier à 21 — tactique, sang-froid et gestion des mises.",
+                      "longDescription":  "Tirez des cartes pour approcher 21 sans dépasser. Le croupier doit tirer jusqu\u0027à 17. Un Blackjack (21 en 2 cartes) rapporte 1,5× la mise. Doublez quand le timing est parfait et gérez vos jetons jusqu\u0027au dernier.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🃏",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Jeu contre le croupier (règles classiques Las Vegas)",
+                                       "Système de mises avec 4 valeurs de jetons",
+                                       "Blackjack payé 1,5× — Double Down disponible",
+                                       "Croupier tire jusqu\u0027à 17, s\u0027arrête sur 17+",
+                                       "Score basé sur le total de jetons accumulés"
+                                   ],
+                      "roadmap":  [
+                                      "Split (séparer une paire)",
+                                      "Assurance contre le Blackjack du croupier",
+                                      "Historique des mains jouées"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "H : Tirer  S : Rester  D : Doubler",
+                                                        "Espace / Entrée : Distribuer",
+                                                        "P : pause",
+                                                        "R : Recommencer"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/blackjack/index.html"
+                  },
+                  {
+                      "id":  "pong",
+                      "title":  "11 — Pong",
+                      "version":  "1.0.0",
+                      "description":  "Le tout premier jeu vidéo — raquette contre IA, premier à 7 gagne.",
+                      "longDescription":  "Le classique des classiques. Dirige ta raquette avec les touches fléchées et renvoie la balle avant qu\u0027elle ne passe. L\u0027IA accélère au fil des échanges — la balle gagne en vitesse à chaque coup. Premier à 7 points remporte la manche.",
+                      "category":  "arcade",
+                      "thumbnail":  "🏓",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Joueur vs IA — premier à 7 points",
+                                       "Balle qui accélère à chaque échange",
+                                       "Angle de renvoi selon la zone de frappe",
+                                       "IA avec marge d\u0027erreur pour rester battable",
+                                       "Meilleur score sauvegardé"
+                                   ],
+                      "roadmap":  [
+                                      "Mode 2 joueurs local",
+                                      "Difficulté de l\u0027IA réglable",
+                                      "Score à atteindre configurable"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑ ↓ / W S : raquette",
+                                                        "Espace : servir / pause",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/pong/index.html"
+                  },
+                  {
+                      "id":  "pac-man",
+                      "title":  "12 — Pac-Man",
+                      "version":  "1.0.0",
+                      "description":  "Mange toutes les pastilles, évite les fantômes — un classique intemporel.",
+                      "longDescription":  "Dirige Pac-Man dans le labyrinthe et avale toutes les pastilles avant que les 4 fantômes ne t\u0027attrapent. Les super-pastilles te rendent temporairement invincible — profites-en pour dévorer les fantômes et enchaîner les combos !",
+                      "category":  "arcade",
+                      "thumbnail":  "👻",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Labyrinthe classique 28×31 avec tunnels",
+                                       "4 fantômes avec IA différente (Blinky, Pinky, Inky, Clyde)",
+                                       "Super-pastilles et mode effrayé des fantômes",
+                                       "Niveaux infinis avec difficulté progressive",
+                                       "3 vies — score sauvegardé"
+                                   ],
+                      "roadmap":  [
+                                      "Fruits bonus apparaissant au centre du labyrinthe",
+                                      "Labyrinthes alternatifs (niveau 2+)",
+                                      "Mode 2 vies / 5 vies réglable"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑↓←→ / WASD : diriger",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
+                      "path":  "games/pac-man/index.html"
+                  },
+                  {
+                      "id":  "hangman",
+                      "title":  "13 — Hangman",
+                      "version":  "1.0.0",
+                      "description":  "Devine le mot lettre par lettre avant que le pendu ne soit complet.",
+                      "longDescription":  "Un mot secret t\u0027attend. Propose des lettres une à une — chaque erreur fait avancer le dessin du pendu. Choisis le nombre de vies et la taille des mots. Tu as jusqu\u0027à la dernière pièce pour trouver la solution.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🪢",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Dictionnaire français (même source que Wordle)",
+                                       "Nombre de vies réglable (5, 6, 7, 8 ou 10)",
+                                       "Taille des mots configurable ou aléatoire",
+                                       "Dessin du pendu en 10 étapes progressives",
+                                       "Clavier AZERTY virtuel + clavier physique",
+                                       "Pause via le bouton du jeu"
+                                   ],
+                      "roadmap":  [
+                                      "Catégories de mots thématiques (animaux, pays, etc.)",
+                                      "Mode 2 joueurs (l\u0027un propose le mot)",
+                                      "Indice optionnel coûtant des points"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "A–Z : proposer une lettre",
+                                                        "R : rejouer",
+                                                        "Pause via le bouton ⏸"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "negative",
+                                    "maxSeconds":  180
+                                },
+                      "lives":  {
+                                    "initial":  6
+                                },
+                      "path":  "games/hangman/index.html"
+                  },
+                  {
+                      "id":  "battleship",
+                      "title":  "14 — Battleship",
+                      "version":  "1.0.0",
+                      "description":  "Coule la flotte ennemie avant d\u0027être coulé — stratégie et déduction.",
+                      "longDescription":  "Place tes 5 navires sur la grille, puis traque la flotte adverse case par case. Chaque tir révèle touché ou manqué. Utilise la logique pour localiser et couler tous les navires ennemis avant que l\u0027IA ne détruise ta flotte.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🚢",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Grille 10×10 classique",
+                                       "5 navires à placer manuellement (2 à 5 cases)",
+                                       "IA en mode chasse et poursuite",
+                                       "Placement orientable avec touche R",
+                                       "Score basé sur les tirs réussis et les coulages",
+                                       "Écran de défaite avec score final",
+                                       "Pause au clavier (P)"
+                                   ],
+                      "roadmap":  [
+                                      "Placement aléatoire automatique (bouton dédié)",
+                                      "Mode 2 joueurs local (chacun place sa flotte)",
+                                      "Statistiques de précision (% de tirs réussis)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic : placer / tirer",
+                                                        "R : pivoter le navire",
+                                                        "P : pause"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/battleship/index.html"
+                  },
+                  {
+                      "id":  "mastermind",
+                      "title":  "15 — Mastermind",
+                      "version":  "1.0.0",
+                      "description":  "Trouve le code secret en déduisant couleur et position — logique pure.",
+                      "longDescription":  "Un code secret de 4 couleurs t\u0027attend. Après chaque tentative, des indicateurs te disent combien de couleurs sont bien placées (●) et combien sont présentes mais mal placées (○). Déduis, élimines, converges. Tu as 10 essais pour percer le mystère.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🔐",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Code de 4 couleurs parmi 6 (configurable)",
+                                       "Feedback ● bonne place / ○ bonne couleur",
+                                       "Longueur du code et nombre de couleurs réglables",
+                                       "Clavier : chiffres 1–6, flèches, Entrée, Suppr",
+                                       "Score basé sur le nombre de tentatives"
+                                   ],
+                      "roadmap":  [
+                                      "Mode duel (deviner le code l\u0027un de l\u0027autre)",
+                                      "Historique visuel des tentatives passées",
+                                      "Variante 8 couleurs (plus difficile)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "1–6 : choisir une couleur",
+                                                        "← → : naviguer",
+                                                        "Entrée : valider",
+                                                        "Suppr : effacer",
+                                                        "P : pause"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "negative",
+                                    "maxSeconds":  300
+                                },
+                      "lives":  {
+                                    "initial":  10
+                                },
+                      "path":  "games/mastermind/index.html"
+                  },
+                  {
+                      "id":  "flappy-bird",
+                      "title":  "16 — Flappy Bird",
+                      "version":  "1.0.0",
+                      "description":  "Bats des ailes pour passer entre les tuyaux — réflexes et concentration.",
+                      "longDescription":  "Chaque pression fait monter l\u0027oiseau, la gravité le ramène vers le bas. Passe entre les tuyaux sans les toucher. Le score augmente à chaque paire franchie, et la vitesse aussi. Un seul contact et c\u0027est terminé.",
+                      "category":  "arcade",
+                      "thumbnail":  "🐦",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Physique gravité + impulsion réaliste",
+                                       "Tuyaux à espacement configurable (serré / normal / large)",
+                                       "Vitesse initiale réglable (lente / normale / rapide)",
+                                       "Accélération progressive au fil des tuyaux passés",
+                                       "Meilleur score sauvegardé"
+                                   ],
+                      "roadmap":  [
+                                      "Skins d\u0027oiseau déblocables",
+                                      "Décor jour/nuit alterné",
+                                      "Mode sans collision (entraînement)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "ESPACE / ↑ / W : battre des ailes",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/flappy-bird/index.html"
+                  },
+                  {
+                      "id":  "memory",
+                      "title":  "17 — Memory",
+                      "version":  "1.0.0",
+                      "description":  "Retrouve toutes les paires de cartes — concentration et mémorisation.",
+                      "longDescription":  "Toutes les cartes sont face cachée. Retourne-en deux à la fois : si elles correspondent, elles restent visibles. Sinon, elles se retournent. Retrouve toutes les paires en un minimum de coups pour maximiser ton score.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🃏",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "3 tailles de grille (4×4, 4×5, 4×6)",
+                                       "Animations de retournement 3D des cartes",
+                                       "Score basé sur le nombre de coups",
+                                       "Compteur de paires trouvées en temps réel",
+                                       "Meilleur score sauvegardé"
+                                   ],
+                      "roadmap":  [
+                                      "Mode chrono (contre le temps)",
+                                      "Mode 2 joueurs en alternance",
+                                      "Thèmes d\u0027images personnalisables"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic : retourner une carte",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "negative",
+                                    "maxSeconds":  180
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/memory/index.html"
+                  },
+                  {
+                      "id":  "sudoku",
+                      "title":  "18 — Sudoku",
+                      "version":  "1.0.0",
+                      "description":  "Remplis la grille 9×9 — chaque chiffre une seule fois par ligne, colonne et carré.",
+                      "longDescription":  "Complète la grille de 81 cases en plaçant les chiffres 1 à 9. Chaque ligne, chaque colonne et chaque carré 3×3 doit contenir chacun des chiffres une seule fois. Logique pure — pas de hasard.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🔢",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Génération garantie à solution unique",
+                                       "3 niveaux de difficulté (Facile / Moyen / Difficile)",
+                                       "Surlignage de la zone et des chiffres identiques",
+                                       "Conflits mis en évidence en rouge en temps réel",
+                                       "Score basé sur le temps de résolution"
+                                   ],
+                      "roadmap":  [
+                                      "Crayon / annotations (chiffres candidats)",
+                                      "Bouton indice (révèle une case, coûte des points)",
+                                      "Sauvegarde de partie en cours"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑↓←→ : naviguer",
+                                                        "1–9 : remplir",
+                                                        "Suppr : effacer",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/sudoku/index.html"
+                  },
+                  {
+                      "id":  "solitaire",
+                      "title":  "19 — Solitaire",
+                      "version":  "1.0.0",
+                      "description":  "Klondike classique — déplace les cartes, complète les fondations, vide le tableau.",
+                      "longDescription":  "Distribue les cartes dans le tableau, retourne les colonnes et construis les quatre fondations de l\u0027As au Roi. Chaque coup compte : pioche dans le talon, joue les séquences alternées rouge/noir, et complète les quatre familles pour gagner.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🃏",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Klondike standard — tirage 1 carte",
+                                       "7 colonnes de tableau + 4 fondations",
+                                       "Clic pour sélectionner / déplacer",
+                                       "Double-clic pour envoyer sur la fondation",
+                                       "Annuler jusqu\u0027à 20 coups",
+                                       "Score basé sur les déplacements"
+                                   ],
+                      "roadmap":  [
+                                      "Tirage 3 cartes (variante classique)",
+                                      "Solveur auto en fin de partie (auto-complete)",
+                                      "Chronomètre affiché en permanence"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic : sélectionner / déposer",
+                                                        "Double-clic : fondation auto",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/solitaire/index.html"
+                  },
+                  {
+                      "id":  "platformer-2d",
+                      "title":  "20 — Platformer 2D",
+                      "version":  "1.0.0",
+                      "description":  "Cours, saute, collecte — 3 niveaux de plateforme à compléter.",
+                      "longDescription":  "Un platformer 2D classique en scrolling horizontal. Saute sur les plateformes, collecte les pièces dorées et évite les ennemis qui patrouillent. Atteins l\u0027étoile dorée pour passer au niveau suivant. Trois niveaux de difficulté croissante t\u0027attendent — à toi de jouer !",
+                      "category":  "arcade",
+                      "thumbnail":  "🏃",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "3 niveaux scrolling horizontal avec difficulté progressive",
+                                       "Physique gravité + saut réaliste",
+                                       "Pièces à collecter et ennemis patrouilleurs",
+                                       "Étoile objectif à atteindre pour progresser",
+                                       "3 vies avec invincibilité post-dégât"
+                                   ],
+                      "roadmap":  [
+                                      "Sélecteur de niveau (rejouer un niveau précis)",
+                                      "Nouveaux niveaux supplémentaires",
+                                      "Power-ups (double-saut, invincibilité temporaire)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "← → / A D : courir",
+                                                        "ESPACE / ↑ / W : sauter",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
+                      "path":  "games/platformer-2d/index.html"
+                  },
+                  {
+                      "id":  "bubble-shooter",
+                      "title":  "21 — Bubble Shooter",
+                      "version":  "1.0.0",
+                      "description":  "Vise et tire des bulles colorées pour en aligner 3 ou plus et les faire éclater.",
+                      "longDescription":  "Depuis le canon en bas de l\u0027écran, propulse des bulles vers le plafond. Quand 3 bulles ou plus de même couleur se touchent, elles explosent et les bulles décrochées tombent pour des points bonus. Vide le terrain pour passer au niveau suivant.",
+                      "category":  "arcade",
+                      "thumbnail":  "🫧",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Grille hexagonale décalée",
+                                       "Bulles flottantes détachées",
+                                       "Visée souris + clavier",
+                                       "Niveaux progressifs"
+                                   ],
+                      "roadmap":  [
+                                      "Mode Infini avec descente de nouvelles rangées",
+                                      "Bulles spéciales (bombe, multicolore)",
+                                      "Effets particules sur explosion"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "← → pour viser",
+                                                        "Espace / Clic pour tirer",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "path":  "games/bubble-shooter/index.html"
+                  },
+                  {
+                      "id":  "asteroids",
+                      "title":  "22 — Asteroids",
+                      "version":  "1.0.0",
+                      "description":  "Détruis les astéroïdes avant d\u0027être percuté — un classique vecteur intemporel.",
+                      "longDescription":  "Votre vaisseau flotte dans l\u0027espace. Tournez, propulsez-vous, tirez. Les astéroïdes se fragmentent en morceaux plus petits à chaque impact. Survivez aux vagues successives — chaque niveau ajoute un astéroïde de plus. Trois vies pour aller aussi loin que possible.",
+                      "category":  "arcade",
+                      "thumbnail":  "🚀",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Physique vectorielle (inertie, rotation, propulsion)",
+                                       "Astéroïdes qui fragmentent en 3 tailles",
+                                       "3 vies avec invincibilité de respawn",
+                                       "Niveaux infinis avec difficulté croissante",
+                                       "Meilleur score sauvegardé"
+                                   ],
+                      "roadmap":  [
+                                      "Bouclier temporaire (power-up)",
+                                      "OVNI ennemi qui tire en retour",
+                                      "Mode survie chrono"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑ Propulsion",
+                                                        "← → Rotation",
+                                                        "Espace Tirer",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
+                      "path":  "games/asteroids/index.html"
+                  },
+                  {
+                      "id":  "frogger",
+                      "title":  "23 — Frogger",
+                      "version":  "1.0.0",
+                      "description":  "Traverse la route et la rivière — réflexes et timing au pixel près.",
+                      "longDescription":  "Guidez votre grenouille depuis la berge jusqu\u0027aux nénuphars. Évitez les voitures sur la route, sautez de bûche en bûche sur la rivière et gagnez les 5 cases d\u0027arrivée. Un faux pas dans l\u0027eau ou sous les roues, c\u0027est une vie perdue.",
+                      "category":  "arcade",
+                      "thumbnail":  "🐸",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Route et rivière classiques sur 12 rangées",
+                                       "Bûches portantes sur l\u0027eau — la grenouille glisse avec elles",
+                                       "5 nénuphars à atteindre pour valider le niveau",
+                                       "3 vies — vitesse augmente à chaque niveau",
+                                       "Score basé sur les passages réussis"
+                                   ],
+                      "roadmap":  [
+                                      "Tortues flottantes (plongent périodiquement)",
+                                      "Insectes bonus sur les nénuphars",
+                                      "Crocodiles et serpents dans les bûches"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑ ↓ ← → Déplacer (ou WASD)",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
+                      "path":  "games/frogger/index.html"
+                  },
+                  {
+                      "id":  "checkers",
+                      "title":  "24 — Dames",
+                      "version":  "1.0.0",
+                      "description":  "Capturez toutes les pièces adverses — stratégie et prises obligatoires.",
+                      "longDescription":  "Les Dames françaises sur un plateau 8×8. Vos pions rouges partent du bas, les pions noirs de l\u0027IA du haut. Les prises sont obligatoires. Un pion atteignant la rangée adverse devient dame et se déplace dans toutes les diagonales.",
+                      "category":  "reflexion",
+                      "thumbnail":  "⚫",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Plateau 8×8 — règles Dames françaises complètes",
+                                       "Prises obligatoires avec mise en évidence",
+                                       "Dames (promotion) qui jouent dans toutes les diagonales",
+                                       "IA greedy — priorise les prises multiples",
+                                       "Score basé sur les pièces capturées"
+                                   ],
+                      "roadmap":  [
+                                      "IA minimax avec profondeur configurable",
+                                      "Mode 2 joueurs local",
+                                      "Variante Dames internationales (10×10)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic gauche : sélectionner / déplacer",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/checkers/index.html"
+                  },
+                  {
+                      "id":  "yahtzee",
+                      "title":  "25 — Yahtzee",
+                      "version":  "1.0.0",
+                      "description":  "Lance 5 dés, choisis tes combinaisons — la stratégie domine la chance.",
+                      "longDescription":  "Chaque tour, lance jusqu\u0027à 3 fois 5 dés en gardant ceux de ton choix. Puis inscris le résultat dans l\u0027une des 13 cases (As, Yahtzee, Full, Suites…). La stratégie consiste à choisir quel score inscrire et quand. Remplis tout le tableau pour maximiser ton total.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🎲",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "5 dés, 3 lancers par tour, 13 tours",
+                                       "13 cases de score (Yahtzee, Full, Suites, Chance…)",
+                                       "Bonus +35 si section haute ≥ 63",
+                                       "Score potentiel affiché sur chaque case libre",
+                                       "Meilleur score sauvegardé"
+                                   ],
+                      "roadmap":  [
+                                      "Yahtzee bonus (cases supplémentaires si 2e Yahtzee)",
+                                      "Statistiques de remplissage (fréquence par case)",
+                                      "Mode chrono (temps limité par tour)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Espace : lancer les dés",
+                                                        "Clic dé : garder / libérer",
+                                                        "Clic case : scorer",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/yahtzee/index.html"
+                  }
+              ],
+    "categories":  [
+                       {
+                           "id":  "arcade",
+                           "label":  "Arcade",
+                           "icon":  "🕹️"
+                       },
+                       {
+                           "id":  "reflexion",
+                           "label":  "Réflexion",
+                           "icon":  "🧠"
+                       },
+                       {
+                           "id":  "sport",
+                           "label":  "Sport",
+                           "icon":  "⚡"
+                       },
+                       {
+                           "id":  "puzzle",
+                           "label":  "Puzzle",
+                           "icon":  "🧩"
+                       }
+                   ]
 }
