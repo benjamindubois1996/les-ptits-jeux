@@ -4,9 +4,9 @@
   "gameplay": {
     "gravity": 900,
     "ballRadius": 8,
-    "ballSpeed": 320,
+    "ballSpeed": 680,
     "flipperLength": 52,
-    "flipperAngleUp": -0.45,
+    "flipperAngleUp": 0.45,
     "flipperAngleDown": 0.52,
     "flipperSpeed": 18,
     "bumperRadius": 18,

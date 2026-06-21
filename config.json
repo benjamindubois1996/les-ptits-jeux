@@ -1010,43 +1010,41 @@
                       "path":  "games/sokoban/index.html"
                   },
                   {
-                      "id":  "nonogram",
-                      "title":  "27 — Nonogram",
+                      "id":  "reversi",
+                      "title":  "27 — Reversi",
                       "version":  "1.0.0",
-                      "description":  "Résous la grille logique en coloriant les bonnes cases — Picross pur.",
-                      "longDescription":  "Les indices sur chaque ligne et colonne indiquent les groupes de cases à remplir. Utilise la logique pour déduire quelles cases colorer. Clic gauche pour remplir, clic droit pour marquer une croix. Trois tailles disponibles : 5×5, 10×10, 15×15.",
-                      "category":  "puzzle",
-                      "thumbnail":  "🖼️",
+                      "description":  "Retourne les pièces adverses et domine l'Othello — stratégie pure.",
+                      "longDescription":  "Posez des pièces noires sur le plateau 8×8. Chaque coup doit encadrer au moins une pièce blanche de l'IA — elle se retourne. L'IA joue en blanc de façon greedy. Quand plus aucun joueur ne peut jouer, le camp avec le plus de pièces gagne.",
+                      "category":  "reflexion",
+                      "thumbnail":  "⚫",
                       "available":  true,
                       "comingSoon":  false,
                       "features":  [
-                                       "3 tailles : 5×5, 10×10, 15×15",
-                                       "Génération aléatoire de puzzles",
-                                       "Clic droit pour marquer les cases vides",
-                                       "Grille de repère tous les 5 cases",
-                                       "Score basé sur la taille et les erreurs"
+                                       "Plateau 8×8 classique Othello/Reversi",
+                                       "Joueur Noir vs IA Blanche (mode greedy)",
+                                       "Coups valides mis en évidence",
+                                       "Survol pour prévisualiser le coup",
+                                       "Score basé sur le nombre de pièces noires"
                                    ],
                       "roadmap":  [
-                                      "Puzzles prédéfinis thématiques (pixel art reconnaissable)",
-                                      "Indice : révéler une ligne ou colonne",
-                                      "Mode éditeur pour créer ses propres puzzles"
+                                      "IA minimax avec profondeur configurable",
+                                      "Mode 2 joueurs local",
+                                      "Statistiques de parties gagnées/perdues"
                                   ],
                       "controls":  {
                                        "keyboard":  [
-                                                        "Clic gauche : remplir",
-                                                        "Clic droit : croix (case vide)",
+                                                        "Clic : poser une pièce noire",
                                                         "P pause  R restart"
                                                     ],
                                        "touch":  false
                                    },
                       "timer":  {
-                                    "scoreEffect":  "negative",
-                                    "maxSeconds":  999
+                                    "scoreEffect":  "positive"
                                 },
                       "lives":  {
                                     "initial":  1
                                 },
-                      "path":  "games/nonogram/index.html"
+                      "path":  "games/reversi/index.html"
                   },
                   {
                       "id":  "mahjong",

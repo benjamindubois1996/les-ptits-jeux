@@ -35,7 +35,7 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 15 mastermind`
 - 24 — Dames (Checkers) ✅
 - 25 — Yahtzee ✅
 - 26 — Sokoban ✅
-- 27 — Nonogram / Picross ✅
+- 27 — Reversi (Othello) ✅ *(remplace Nonogram — trop obscur)*
 - 28 — Mahjong Solitaire ✅
 - 29 — Lunar Lander ✅
 - 30 — Pinball ✅

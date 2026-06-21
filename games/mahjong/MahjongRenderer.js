@@ -1,19 +1,198 @@
 import EventBus    from '../../js/core/EventBus.js';
 import GameOverlay from '../../js/ui/components/GameOverlay.js';
 
-// Tile symbols by type (simplified into categories)
-const TILE_FACES = [
-  '🀇','🀈','🀉','🀊','🀋','🀌','🀍','🀎','🀏', // bambou 1-9
-  '🀙','🀚','🀛','🀜','🀝','🀞','🀟','🀠','🀡', // cercles 1-9
-  '🀐','🀑','🀒','🀓','🀔','🀕','🀖','🀗','🀘', // caractères 1-9
-  '🀀','🀁','🀂','🀃',                            // vents
-  '🀄','🀅','🀆',                                 // dragons
-];
-
 const TW = 52;
 const TH = 64;
 const DEPTH_X = 6;
 const DEPTH_Y = 5;
+
+// Arrangement of n items as [relX, relY] fractions within tile face
+const LAYOUTS = {
+  1: [[0.5, 0.5]],
+  2: [[0.33, 0.5], [0.67, 0.5]],
+  3: [[0.5, 0.25], [0.33, 0.68], [0.67, 0.68]],
+  4: [[0.3, 0.3], [0.7, 0.3], [0.3, 0.7], [0.7, 0.7]],
+  5: [[0.5, 0.2], [0.25, 0.48], [0.75, 0.48], [0.33, 0.78], [0.67, 0.78]],
+  6: [[0.3, 0.2], [0.7, 0.2], [0.3, 0.5], [0.7, 0.5], [0.3, 0.8], [0.7, 0.8]],
+  7: [[0.5, 0.15], [0.25, 0.38], [0.75, 0.38], [0.25, 0.62], [0.75, 0.62], [0.33, 0.85], [0.67, 0.85]],
+  8: [[0.25, 0.18], [0.5, 0.18], [0.75, 0.18], [0.25, 0.5], [0.75, 0.5], [0.25, 0.82], [0.5, 0.82], [0.75, 0.82]],
+  9: [[0.25, 0.18], [0.5, 0.18], [0.75, 0.18], [0.25, 0.5], [0.5, 0.5], [0.75, 0.5], [0.25, 0.82], [0.5, 0.82], [0.75, 0.82]],
+};
+
+function getLayout(n) { return LAYOUTS[Math.min(n, 9)] || LAYOUTS[9]; }
+
+// ── Bambou (B1-B9): green vertical sticks
+function drawBambou(ctx, tx, ty, num) {
+  const layout = getLayout(num);
+  const stW = num <= 3 ? 9 : 7;
+  const stH = num <= 3 ? 20 : 14;
+  for (const [px, py] of layout) {
+    const sx = Math.round(tx + px * TW - stW / 2);
+    const sy = Math.round(ty + py * TH - stH / 2);
+    // Stick body
+    ctx.fillStyle = '#0d7a2e';
+    ctx.fillRect(sx, sy, stW, stH);
+    // Highlight left edge
+    ctx.fillStyle = '#2ec45a';
+    ctx.fillRect(sx, sy + 2, 2, stH - 4);
+    // Darker right edge
+    ctx.fillStyle = '#084d1c';
+    ctx.fillRect(sx + stW - 2, sy + 2, 2, stH - 4);
+    // Node ring (middle horizontal)
+    ctx.fillStyle = '#054016';
+    ctx.fillRect(sx, sy + Math.floor(stH * 0.42), stW, 2);
+    // Top cap
+    ctx.fillStyle = '#3dcc66';
+    ctx.fillRect(sx + 1, sy, stW - 2, 2);
+  }
+}
+
+// ── Cercles (C1-C9): concentric ring circles
+function drawCercles(ctx, tx, ty, num) {
+  const layout = getLayout(num);
+  const cr = num <= 2 ? 12 : num <= 5 ? 9 : 7;
+  const RING_COLORS = ['#cc2222', '#1155cc'];
+  layout.forEach(([px, py], i) => {
+    const cx = Math.round(tx + px * TW);
+    const cy = Math.round(ty + py * TH);
+    const col = RING_COLORS[i % 2];
+    // Outer ring
+    ctx.strokeStyle = col;
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(cx, cy, cr, 0, Math.PI * 2); ctx.stroke();
+    // Inner fill (lighter, same hue)
+    ctx.fillStyle = col + '28';
+    ctx.beginPath(); ctx.arc(cx, cy, cr - 2, 0, Math.PI * 2); ctx.fill();
+    // Center dot
+    ctx.fillStyle = col;
+    ctx.beginPath(); ctx.arc(cx, cy, 2, 0, Math.PI * 2); ctx.fill();
+  });
+}
+
+// ── Caractères (K1-K9): red number with horizontal bar
+function drawCaracteres(ctx, tx, ty, num) {
+  const numSize = TW > 45 ? 26 : 20;
+  ctx.fillStyle = '#cc1111';
+  ctx.font = `bold ${numSize}px Georgia,serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(String(num), tx + TW / 2, ty + TH / 2 - 5);
+  // Horizontal bar (simplified Chinese stroke)
+  ctx.fillStyle = '#cc1111';
+  ctx.fillRect(tx + 10, ty + TH / 2 + 12, TW - 20, 2);
+}
+
+// ── Vents (V1=Est V2=Sud V3=Ouest V4=Nord)
+const WIND_LABELS = ['E', 'S', 'O', 'N'];
+const WIND_NAMES  = ['EST', 'SUD', 'OUEST', 'NORD'];
+const WIND_COLORS = ['#bb2222', '#116622', '#1155aa', '#334455'];
+
+function drawVents(ctx, tx, ty, num) {
+  const label = WIND_LABELS[num - 1];
+  const name  = WIND_NAMES[num - 1];
+  const color = WIND_COLORS[num - 1];
+  // Background circle
+  ctx.fillStyle = color + '22';
+  ctx.beginPath(); ctx.arc(tx + TW / 2, ty + TH / 2 - 4, 18, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.arc(tx + TW / 2, ty + TH / 2 - 4, 18, 0, Math.PI * 2); ctx.stroke();
+  // Letter
+  ctx.fillStyle = color;
+  ctx.font = 'bold 20px Orbitron,monospace';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(label, tx + TW / 2, ty + TH / 2 - 4);
+  // Small name below
+  ctx.font = '7px Orbitron,monospace';
+  ctx.fillStyle = color + 'cc';
+  ctx.fillText(name, tx + TW / 2, ty + TH - 8);
+}
+
+// ── Dragons (D1=Rouge/中  D2=Vert/發  D3=Blanc/vide)
+function drawDragons(ctx, tx, ty, num) {
+  const cx = tx + TW / 2, cy = ty + TH / 2;
+  ctx.lineCap = 'round';
+  if (num === 1) {
+    // Red dragon (中) — cross shape with horizontal bars
+    ctx.strokeStyle = '#cc1111';
+    ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(cx, ty + 8); ctx.lineTo(cx, ty + TH - 10); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(tx + 10, ty + 14); ctx.lineTo(tx + TW - 10, ty + 14); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(tx + 8, cy - 2); ctx.lineTo(tx + TW - 8, cy - 2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(tx + 8, ty + TH - 20); ctx.lineTo(tx + TW - 8, ty + TH - 20); ctx.stroke();
+    ctx.fillStyle = '#cc1111';
+    ctx.font = 'bold 9px serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText('中', cx, ty + TH - 2);
+  } else if (num === 2) {
+    // Green dragon (發) — tree/arrow shape
+    ctx.strokeStyle = '#0d7a2e';
+    ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(cx, ty + TH - 8); ctx.lineTo(cx, ty + 8); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, ty + 18); ctx.lineTo(tx + 10, ty + 30); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, ty + 18); ctx.lineTo(tx + TW - 10, ty + 30); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, ty + 34); ctx.lineTo(tx + 10, ty + 46); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, ty + 34); ctx.lineTo(tx + TW - 10, ty + 46); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(tx + 10, ty + TH - 8); ctx.lineTo(tx + TW - 10, ty + TH - 8); ctx.stroke();
+    ctx.fillStyle = '#0d7a2e';
+    ctx.font = 'bold 9px serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText('發', cx, ty + TH - 2);
+  } else {
+    // White dragon (白) — empty double-border rectangle
+    ctx.strokeStyle = '#8899aa';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(tx + 8, ty + 10, TW - 16, TH - 20);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#aabbcc';
+    ctx.strokeRect(tx + 13, ty + 15, TW - 26, TH - 30);
+  }
+  ctx.lineCap = 'butt';
+}
+
+// ── Spéciaux (S1=Fleur  S2=Saison)
+function drawSpeciaux(ctx, tx, ty, num) {
+  const cx = tx + TW / 2, cy = ty + TH / 2 - 2;
+  const color = num === 1 ? '#cc44aa' : '#cc8800';
+  ctx.save();
+  ctx.translate(cx, cy);
+  // 4 petals
+  for (let i = 0; i < 4; i++) {
+    ctx.save();
+    ctx.rotate((i / 4) * Math.PI * 2);
+    ctx.fillStyle = color + '88';
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.ellipse(0, -11, 5, 11, 0, 0, Math.PI * 2);
+    ctx.fill(); ctx.stroke();
+    ctx.restore();
+  }
+  // Center
+  ctx.fillStyle = '#ffdd44';
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.arc(0, 0, 5, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.restore();
+  // Small number
+  ctx.fillStyle = color;
+  ctx.font = 'bold 8px Orbitron,monospace';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'bottom';
+  ctx.fillText(String(num), cx, ty + TH - 3);
+}
+
+function drawTileSymbol(ctx, tx, ty, type) {
+  if (type < 9)  return drawBambou(ctx, tx, ty, type + 1);
+  if (type < 18) return drawCercles(ctx, tx, ty, type - 8);
+  if (type < 27) return drawCaracteres(ctx, tx, ty, type - 17);
+  if (type < 31) return drawVents(ctx, tx, ty, type - 26);
+  if (type < 34) return drawDragons(ctx, tx, ty, type - 30);
+  return drawSpeciaux(ctx, tx, ty, type - 33);
+}
 
 export default class MahjongRenderer {
   constructor(game, viewport, config) {
@@ -191,12 +370,11 @@ export default class MahjongRenderer {
   _drawFrame(state) {
     if (!state.tiles.length) return;
 
-    // Compute canvas size from layout extents
-    const cols  = Math.max(...state.tiles.map(t => t.c)) + 2;
-    const rows  = Math.max(...state.tiles.map(t => t.r)) + 2;
-    const maxL  = Math.max(...state.tiles.map(t => t.layer)) + 1;
-    const W     = 60 + cols * (TW + 2) + maxL * DEPTH_X + TW;
-    const H     = 40 + rows * (TH + 2) + maxL * DEPTH_Y + TH;
+    const cols = Math.max(...state.tiles.map(t => t.c)) + 2;
+    const rows = Math.max(...state.tiles.map(t => t.r)) + 2;
+    const maxL = Math.max(...state.tiles.map(t => t.layer)) + 1;
+    const W    = 60 + cols * (TW + 2) + maxL * DEPTH_X + TW;
+    const H    = 40 + rows * (TH + 2) + maxL * DEPTH_Y + TH;
 
     this._canvas.width  = W;
     this._canvas.height = H;
@@ -204,7 +382,6 @@ export default class MahjongRenderer {
     ctx.fillStyle = '#050810';
     ctx.fillRect(0, 0, W, H);
 
-    // Sort: bottom layer first, then top
     const sorted = [...state.tiles.filter(t => !t.removed)]
       .sort((a, b) => a.layer - b.layer || a.r - b.r || a.c - b.c);
 
@@ -215,34 +392,47 @@ export default class MahjongRenderer {
       this._drawTile(ctx, x, y, tile, isFree, selected);
     }
 
-    // Info
     const pairsEl = document.getElementById('mhj-pairs');
     if (pairsEl) pairsEl.textContent = `Paires : ${state.pairsRemoved} / ${state.totalPairs}`;
   }
 
   _drawTile(ctx, x, y, tile, isFree, selected) {
-    const face = TILE_FACES[tile.type % TILE_FACES.length] ?? '🀫';
-
-    // 3D depth shadow
-    ctx.fillStyle = '#0a0f1a';
+    // 3D depth (side face)
+    ctx.fillStyle = '#3d2a14';
     ctx.fillRect(x + DEPTH_X, y - DEPTH_Y, TW, TH);
 
-    // Tile body
-    const bg = selected ? '#003a3a' : isFree ? '#0e2035' : '#0a1428';
+    // Tile face — ivory/cream for free, darker for blocked
+    const bg = selected ? '#fff8ec' : isFree ? '#f0dfa8' : '#b0a080';
     ctx.fillStyle = bg;
     ctx.fillRect(x, y, TW, TH);
 
-    // Border
-    ctx.strokeStyle = selected ? '#00ffe1' : isFree ? 'rgba(0,255,225,0.5)' : 'rgba(0,255,225,0.15)';
+    // Outer border
+    ctx.strokeStyle = selected ? '#00ffe1' : isFree ? '#c8a050' : 'rgba(120,100,60,0.5)';
     ctx.lineWidth = selected ? 2 : 1;
     ctx.strokeRect(x + 0.5, y + 0.5, TW - 1, TH - 1);
 
-    // Face emoji
-    ctx.font = '28px serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.globalAlpha = isFree ? 1 : 0.5;
-    ctx.fillText(face, x + TW / 2, y + TH / 2);
+    // Inner inset line (classic Mahjong tile feel)
+    if (isFree || selected) {
+      ctx.strokeStyle = 'rgba(150,110,40,0.35)';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(x + 3, y + 3, TW - 6, TH - 6);
+    }
+
+    // Selection glow
+    if (selected) {
+      ctx.shadowColor = '#00ffe1';
+      ctx.shadowBlur = 10;
+      ctx.strokeStyle = '#00ffe1';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(x + 0.5, y + 0.5, TW - 1, TH - 1);
+      ctx.shadowBlur = 0;
+    }
+
+    // Symbol — dimmed for blocked tiles
+    ctx.globalAlpha = isFree ? 1 : 0.3;
+    ctx.save();
+    drawTileSymbol(ctx, x, y, tile.type);
+    ctx.restore();
     ctx.globalAlpha = 1;
   }
 }

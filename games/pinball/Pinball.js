@@ -22,6 +22,14 @@ function buildSlings() {
   ];
 }
 
+function buildWalls() {
+  // Gutter walls — diagonal guides funneling ball toward flippers
+  return [
+    { x1: 0,   y1: H - 100, x2: 70,  y2: H - 64 },
+    { x1: W,   y1: H - 100, x2: 250, y2: H - 64 },
+  ];
+}
+
 export default class Pinball extends BaseGame {
   constructor(config) {
     super(config);
@@ -56,6 +64,7 @@ export default class Pinball extends BaseGame {
       mode,
       bumpers: buildBumpers(),
       slings:  buildSlings(),
+      walls:   buildWalls(),
     };
     this._spawnBall();
     this._bindControls();
@@ -121,12 +130,17 @@ export default class Pinball extends BaseGame {
     const rightUp = ctrl.flipperRight.some(k => keys[k]);
     const spd = cfg.flipperSpeed;
 
+    // Left flipper: pivot left, tip points right
+    //   rest: tip down-right (+0.52 rad)   active: tip up-right (-0.45 rad)
     state.flippers.left.angle  = this._moveAngle(
       state.flippers.left.angle,
-      leftUp  ? -cfg.flipperAngleUp  : cfg.flipperAngleDown, spd * dt);
+      leftUp  ? -cfg.flipperAngleUp : cfg.flipperAngleDown, spd * dt);
+
+    // Right flipper: pivot right, tip points left (base angle = π)
+    //   rest: π - 0.52 (tip down-left)    active: π + 0.45 (tip up-left)
     state.flippers.right.angle = this._moveAngle(
       state.flippers.right.angle,
-      rightUp ? cfg.flipperAngleUp   : -cfg.flipperAngleDown, spd * dt);
+      rightUp ? Math.PI + cfg.flipperAngleUp : Math.PI - cfg.flipperAngleDown, spd * dt);
 
     const { ball } = state;
     if (ball.onLauncher) {
@@ -139,11 +153,22 @@ export default class Pinball extends BaseGame {
     ball.x  += ball.vx * dt;
     ball.y  += ball.vy * dt;
 
-    // Wall bounces
+    // Wall bounces — skip lateral outer walls in gutter area (handled by gutter segments)
     const r = cfg.ballRadius;
-    if (ball.x - r < 0)  { ball.x = r; ball.vx = Math.abs(ball.vx) * 0.8; }
-    if (ball.x + r > W)  { ball.x = W - r; ball.vx = -Math.abs(ball.vx) * 0.8; }
-    if (ball.y - r < 0)  { ball.y = r; ball.vy = Math.abs(ball.vy) * 0.8; }
+    if (ball.x - r < 0 && ball.y < H - 100) { ball.x = r; ball.vx = Math.abs(ball.vx) * 0.85; }
+    if (ball.x + r > W && ball.y < H - 100) { ball.x = W - r; ball.vx = -Math.abs(ball.vx) * 0.85; }
+    if (ball.y - r < 0) { ball.y = r; ball.vy = Math.abs(ball.vy) * 0.85; }
+
+    // Launch lane separator (right wall at x≈288, guides ball into play area at top)
+    const laneX = W - 32;
+    if (ball.x > laneX - r && ball.y > 60) {
+      ball.x = laneX - r;
+      ball.vx = -Math.abs(ball.vx) * 0.9;
+    }
+    // Curve at top of launcher lane — deflect ball left into play area
+    if (ball.x > laneX - 20 && ball.y < 60) {
+      ball.vx -= 300 * dt;
+    }
 
     // Bumpers
     for (const b of state.bumpers) {
@@ -179,6 +204,23 @@ export default class Pinball extends BaseGame {
         ball.x = cx + nx*(r+5); ball.y = cy + ny*(r+5);
         state.score += this.config.scoring.slingPoints;
         EventBus.emit('game:score-update', { score: state.score });
+      }
+    }
+
+    // Gutter wall collisions
+    for (const s of state.walls) {
+      const dx = s.x2 - s.x1, dy = s.y2 - s.y1;
+      const len2 = dx*dx + dy*dy;
+      const t = Math.max(0, Math.min(1, ((ball.x-s.x1)*dx + (ball.y-s.y1)*dy) / len2));
+      const cx = s.x1 + t * dx, cy = s.y1 + t * dy;
+      const ex = ball.x - cx, ey = ball.y - cy;
+      const ed = Math.sqrt(ex*ex + ey*ey);
+      if (ed < r + 6) {
+        const nx = ex/ed, ny = ey/ed;
+        const dot = ball.vx*nx + ball.vy*ny;
+        ball.vx = (ball.vx - 2*dot*nx) * 0.85;
+        ball.vy = (ball.vy - 2*dot*ny) * 0.85;
+        ball.x = cx + nx*(r+7); ball.y = cy + ny*(r+7);
       }
     }
 
@@ -255,11 +297,12 @@ export default class Pinball extends BaseGame {
       score:  0,
       ball:   { x: W - 20, y: H - 120, vx: 0, vy: 0, onLauncher: true },
       flippers: {
-        left:  { x: 80,  y: H - 60, angle:  0.52, side: 'left'  },
-        right: { x: 240, y: H - 60, angle: -0.52 + Math.PI, side: 'right' },
+        left:  { x: 70,  y: H - 64, angle:  0.52 },
+        right: { x: 250, y: H - 64, angle:  Math.PI - 0.52 },
       },
       bumpers: [],
       slings:  [],
+      walls:   [],
     };
   }
 }

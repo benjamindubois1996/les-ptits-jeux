@@ -178,12 +178,26 @@ export default class PinballRenderer {
     ctx.lineWidth = 2;
     ctx.strokeRect(1, 1, W - 2, H - 2);
 
-    // Gutter walls
-    ctx.strokeStyle = 'rgba(0,255,225,0.3)';
+    // Gutter walls (angled walls funneling toward flippers)
+    ctx.strokeStyle = 'rgba(0,255,225,0.35)';
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.moveTo(55, H - 40); ctx.lineTo(25, H + 10);
-    ctx.moveTo(W - 55, H - 40); ctx.lineTo(W - 25, H + 10);
+    ctx.moveTo(0, H - 100); ctx.lineTo(70, H - 64);   // left gutter
+    ctx.moveTo(W, H - 100); ctx.lineTo(250, H - 64);  // right gutter
+    ctx.stroke();
+
+    // Launch lane separator
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(W - 32, 60); ctx.lineTo(W - 32, H);
+    ctx.stroke();
+
+    // Launch lane top curve indicator
+    ctx.strokeStyle = 'rgba(0,255,225,0.25)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(W - 32, 60, 30, -Math.PI/2, 0);
     ctx.stroke();
 
     // Bumpers
@@ -215,18 +229,15 @@ export default class PinballRenderer {
     this._drawFlipper(ctx, state.flippers.left,  cfg);
     this._drawFlipper(ctx, state.flippers.right, cfg);
 
-    // Launcher lane
-    ctx.strokeStyle = 'rgba(255,255,255,0.1)';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(W - 30, 0, 30, H);
-
     // Launch arrow if ball on launcher
     if (state.ball?.onLauncher) {
-      ctx.fillStyle = 'rgba(0,255,225,0.6)';
-      ctx.font = '14px Orbitron,monospace';
+      ctx.fillStyle = 'rgba(0,255,225,0.7)';
+      ctx.font = 'bold 13px Orbitron,monospace';
       ctx.textAlign = 'center';
       ctx.fillText('ESPACE', W/2, H/2 + 20);
-      ctx.fillText('▲', W/2, H/2);
+      ctx.fillStyle = '#00ffe1';
+      ctx.font = '20px monospace';
+      ctx.fillText('▲', W/2, H/2 - 5);
     }
 
     // Ball

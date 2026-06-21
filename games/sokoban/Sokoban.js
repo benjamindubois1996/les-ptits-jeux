@@ -37,6 +37,7 @@ export default class Sokoban extends BaseGame {
       levelIndex: 0,
     };
     this._loadLevel(0);
+    EventBus.emit('game:tick', { state: this.state, action: 'new-game' });
   }
 
   restart() {
