@@ -29,8 +29,16 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 15 mastermind`
 - 19 — Solitaire ✅
 - 20 — Platformer 2D ✅
 - 🔄 Refactoring v3 ✅ — GameShell header unifié (score/chrono/vies), Timer.js + Lives.js partagés, GameOverlay.js extrait, rejouer direct, scroll fix, chrome DOM redondant supprimé (contrôles inline, HUD dupliqués), score/lives câblés vers header pour tous les jeux, chrono s'arrête sur game:over/won/win
-- 21 à 25 — à définir (session batch unique)
-- 26 à 30 — à définir (session batch unique)
+- 21 — Bubble Shooter ✅
+- 22 — Asteroids ✅
+- 23 — Frogger ✅
+- 24 — Dames (Checkers) ✅
+- 25 — Yahtzee ✅
+- 26 — Sokoban *(session à venir)*
+- 27 — Nonogram / Picross *(session à venir)*
+- 28 — Mahjong Solitaire *(session à venir)*
+- 29 — Lunar Lander *(session à venir)*
+- 30 — Pinball *(session à venir)*
 
 ## Workflow Git
 - `main` : prod, intouchable — jamais de commit direct
@@ -252,6 +260,67 @@ Chaque jeu a un sélecteur MODE dans l'écran de démarrage.
 
 Dans le renderer, `_sel.mode` est toujours une string (`'basique'`, etc.).
 Dans la logique, le mode pilote les règles : `const allowX = mode !== 'basique'`.
+
+## Modules partagés prévus — jeux 26-30
+
+Avant de coder Lunar Lander et Pinball, créer ces modules dans `js/core/`.
+Sokoban, Nonogram et Mahjong n'en ont pas besoin (logique purement grille/état).
+
+### `js/core/Vector2.js` *(à créer avant Lunar Lander)*
+Math 2D pure, sans dépendance.
+```js
+export default class Vector2 {
+  constructor(x = 0, y = 0)
+  add(v)        // retourne un nouveau Vector2
+  sub(v)
+  scale(n)
+  magnitude()
+  normalize()
+  dot(v)
+  rotate(rad)   // rotation autour de l'origine
+  clone()
+  static fromAngle(rad, length = 1)
+}
+```
+Utilisé par : **Lunar Lander** (vecteur poussée/vitesse), **Pinball** (vitesse balle, normales de collision), **Asteroids** si refactor.
+
+### `js/core/Physics2D.js` *(à créer avant Lunar Lander)*
+Intègre vitesse + gravité sur un corps ponctuel. Dépend de `Vector2`.
+```js
+export default class Physics2D {
+  constructor({ gravity = 0, drag = 0 })
+  // gravity : accélération en px/s² vers le bas (positif = vers le bas)
+  // drag    : coefficient de freinage aérien (0 = aucun, 1 = arrêt immédiat)
+
+  reset(x, y)             // position + vitesse à zéro
+  applyForce(vx, vy)      // ajoute une impulsion (ex: poussée réacteur)
+  update(dt)              // intègre position selon vitesse + gravité + drag
+  get x / get y           // position courante
+  get vx / get vy         // vitesse courante
+}
+```
+Utilisé par : **Lunar Lander** (corps du vaisseau), **Pinball** (balle).
+
+### `js/core/Particles.js` *(à créer avant Lunar Lander)*
+Système de particules léger, rendu canvas uniquement. Dépend de `Vector2`.
+```js
+export default class Particles {
+  emit(x, y, { count, angle, spread, speed, color, life, size })
+  // angle  : direction centrale en radians
+  // spread : dispersion angulaire (ex: Math.PI/4)
+  // life   : durée de vie en ms
+
+  update(dt)
+  draw(ctx)
+  clear()
+}
+```
+Utilisé par : **Lunar Lander** (panache du réacteur, explosion crash), **Pinball** (étincelles sur bumpers et flippers).
+
+---
+
+> Ces 3 modules sont suffisants pour couvrir toute la physique des jeux 26-30.
+> Si d'autres patterns se répètent entre Sokoban/Nonogram/Mahjong, les extraire en fin de session.
 
 ## Repo GitHub
 https://github.com/benjamindubois1996/les-ptits-jeux
