@@ -34,11 +34,11 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 15 mastermind`
 - 23 — Frogger ✅
 - 24 — Dames (Checkers) ✅
 - 25 — Yahtzee ✅
-- 26 — Sokoban *(session à venir)*
-- 27 — Nonogram / Picross *(session à venir)*
-- 28 — Mahjong Solitaire *(session à venir)*
-- 29 — Lunar Lander *(session à venir)*
-- 30 — Pinball *(session à venir)*
+- 26 — Sokoban ✅
+- 27 — Nonogram / Picross ✅
+- 28 — Mahjong Solitaire ✅
+- 29 — Lunar Lander ✅
+- 30 — Pinball ✅
 
 ## Workflow Git
 - `main` : prod, intouchable — jamais de commit direct

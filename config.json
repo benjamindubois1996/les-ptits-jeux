@@ -1,7 +1,7 @@
 ﻿{
     "platform":  {
                      "name":  "RetroVault",
-                     "version":  "0.25.0",
+                     "version":  "0.30.0",
                      "description":  "Anciens jeux remis au goût du jour"
                  },
     "games":  [
@@ -969,6 +969,199 @@
                                     "initial":  1
                                 },
                       "path":  "games/yahtzee/index.html"
+                  },
+                  {
+                      "id":  "sokoban",
+                      "title":  "26 — Sokoban",
+                      "version":  "1.0.0",
+                      "description":  "Pousse les caisses sur les cibles — logique et planification.",
+                      "longDescription":  "Dans chaque niveau, pousse les caisses sur toutes les cibles. Tu ne peux pas tirer — planifie chaque déplacement pour ne pas te bloquer. 10 niveaux de difficulté croissante, avec annulation de coup (Z).",
+                      "category":  "puzzle",
+                      "thumbnail":  "📦",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "10 niveaux de difficulté progressive",
+                                       "Annulation de coup (Z) jusqu'à 50 coups",
+                                       "Compteur de coups par niveau",
+                                       "Score basé sur les coups économisés",
+                                       "Rendu canvas avec effet 3D"
+                                   ],
+                      "roadmap":  [
+                                      "Éditeur de niveaux intégré",
+                                      "Import de niveaux au format XSB standard",
+                                      "Classement meilleur score par niveau"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑↓←→ / WASD : déplacer",
+                                                        "Z : annuler le dernier coup",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "negative",
+                                    "maxSeconds":  999
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/sokoban/index.html"
+                  },
+                  {
+                      "id":  "nonogram",
+                      "title":  "27 — Nonogram",
+                      "version":  "1.0.0",
+                      "description":  "Résous la grille logique en coloriant les bonnes cases — Picross pur.",
+                      "longDescription":  "Les indices sur chaque ligne et colonne indiquent les groupes de cases à remplir. Utilise la logique pour déduire quelles cases colorer. Clic gauche pour remplir, clic droit pour marquer une croix. Trois tailles disponibles : 5×5, 10×10, 15×15.",
+                      "category":  "puzzle",
+                      "thumbnail":  "🖼️",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "3 tailles : 5×5, 10×10, 15×15",
+                                       "Génération aléatoire de puzzles",
+                                       "Clic droit pour marquer les cases vides",
+                                       "Grille de repère tous les 5 cases",
+                                       "Score basé sur la taille et les erreurs"
+                                   ],
+                      "roadmap":  [
+                                      "Puzzles prédéfinis thématiques (pixel art reconnaissable)",
+                                      "Indice : révéler une ligne ou colonne",
+                                      "Mode éditeur pour créer ses propres puzzles"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic gauche : remplir",
+                                                        "Clic droit : croix (case vide)",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "negative",
+                                    "maxSeconds":  999
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/nonogram/index.html"
+                  },
+                  {
+                      "id":  "mahjong",
+                      "title":  "28 — Mahjong Solitaire",
+                      "version":  "1.0.0",
+                      "description":  "Retire les tuiles par paires identiques — seules les tuiles libres sont jouables.",
+                      "longDescription":  "144 tuiles empilées en forme de tortue. Retire deux tuiles identiques si elles sont libres (non bloquées par le dessus ni coincées des deux côtés). Vide tout le plateau pour gagner.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🀄",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Disposition Tortue classique (144 tuiles, 5 couches)",
+                                       "36 types de tuiles avec symboles Unicode",
+                                       "Mise en évidence des tuiles libres",
+                                       "Détection de blocage (plus de paires possibles)",
+                                       "Score basé sur les paires retirées"
+                                   ],
+                      "roadmap":  [
+                                      "Dispositions alternatives (Dragon, Crabe, Pyramide)",
+                                      "Bouton indice (surligne une paire disponible)",
+                                      "Mode mélange (redistribuer les tuiles restantes)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic : sélectionner une tuile",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "negative",
+                                    "maxSeconds":  999
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/mahjong/index.html"
+                  },
+                  {
+                      "id":  "lunar-lander",
+                      "title":  "29 — Lunar Lander",
+                      "version":  "1.0.0",
+                      "description":  "Posez le vaisseau sur la zone d'atterrissage — physique, carburant, précision.",
+                      "longDescription":  "Votre vaisseau dérive dans l'espace lunaire. Propulsion vers le haut, rotation gauche/droite. Posez-vous doucement sur la plateforme verte sans trop de vitesse ni d'inclinaison. Le carburant est limité — 3 vies.",
+                      "category":  "arcade",
+                      "thumbnail":  "🚀",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Physique réaliste (gravité, inertie, propulsion)",
+                                       "Terrain procédural de plus en plus accidenté",
+                                       "Carburant limité avec bonus sur réserve restante",
+                                       "Panache de particules sur la propulsion",
+                                       "3 vies — crash animé avec particules"
+                                   ],
+                      "roadmap":  [
+                                      "Plusieurs zones d'atterrissage avec bonus différents",
+                                      "Vent latéral aléatoire",
+                                      "Mode chrono (atterrir le plus vite possible)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑ / W : propulsion",
+                                                        "← → / A D : rotation",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
+                      "path":  "games/lunar-lander/index.html"
+                  },
+                  {
+                      "id":  "pinball",
+                      "title":  "30 — Pinball",
+                      "version":  "1.0.0",
+                      "description":  "Flippers, bumpers, slingshots — le flipper classique en canvas 2D.",
+                      "longDescription":  "Actionnez les deux flippers pour maintenir la balle en jeu. Frappez les bumpers ronds (100 pts) et rebondissez sur les slingshots. 3 vies — battez votre record !",
+                      "category":  "arcade",
+                      "thumbnail":  "🎯",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Physique balle avec gravité et rebonds réalistes",
+                                       "5 bumpers circulaires avec flash lumineux",
+                                       "2 slingshots avec rebond accéléré",
+                                       "Flippers animés avec pivot réaliste",
+                                       "Particules dorées sur chaque point marqué"
+                                   ],
+                      "roadmap":  [
+                                      "Lanes bonus en haut du terrain",
+                                      "Multiballe (power-up)",
+                                      "Table thématique avec obstacles supplémentaires"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "← Z Shift gauche : flipper gauche",
+                                                        "→ X Shift droit : flipper droit",
+                                                        "Espace : lancer la balle",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
+                      "path":  "games/pinball/index.html"
                   }
               ],
     "categories":  [

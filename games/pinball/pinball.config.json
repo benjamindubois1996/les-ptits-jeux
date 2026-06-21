@@ -1,0 +1,31 @@
+{
+  "id": "pinball",
+  "version": "1.0.0",
+  "gameplay": {
+    "gravity": 900,
+    "ballRadius": 8,
+    "ballSpeed": 320,
+    "flipperLength": 52,
+    "flipperAngleUp": -0.45,
+    "flipperAngleDown": 0.52,
+    "flipperSpeed": 18,
+    "bumperRadius": 18,
+    "bumperBounce": 1.4
+  },
+  "scoring": {
+    "bumperPoints": 100,
+    "slingPoints": 50,
+    "bonusLanePoints": 200
+  },
+  "controls": {
+    "keyboard": {
+      "flipperLeft":  ["ArrowLeft",  "KeyZ", "ShiftLeft"],
+      "flipperRight": ["ArrowRight", "KeyX", "ShiftRight"],
+      "launch":       ["Space"],
+      "pause":        ["KeyP", "Escape"],
+      "restart":      ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 3 }
+}

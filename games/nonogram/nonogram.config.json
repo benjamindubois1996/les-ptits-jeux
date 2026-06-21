@@ -1,0 +1,24 @@
+{
+  "id": "nonogram",
+  "version": "1.0.0",
+  "gameplay": {
+    "difficulties": {
+      "facile":  { "size": 5,  "label": "5×5"  },
+      "normal":  { "size": 10, "label": "10×10" },
+      "difficile":{ "size": 15, "label": "15×15" }
+    },
+    "defaultDifficulty": "normal"
+  },
+  "scoring": {
+    "basePoints": 500,
+    "penaltyPerError": 20
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "negative", "maxSeconds": 999 },
+  "lives": { "initial": 1 }
+}
