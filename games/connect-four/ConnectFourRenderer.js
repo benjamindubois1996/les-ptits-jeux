@@ -4,16 +4,16 @@
  *
  * Responsabilités :
  *  - Canvas adaptatif selon la taille de grille choisie
- *  - Sélection mode (2J / vs IA) + taille grille sur écran idle/gameover
+ *  - Écrans démarrage / fin de partie via GameOverlay (module partagé)
  *  - Animation de chute avec ease-in gravitaire
  *  - Pulse sur les 4 cellules gagnantes
  *  - Indicateur "IA réfléchit…"
- *  - Affichage du score final sur l'écran game over
  *
  * NE contient aucune logique de jeu.
  */
 
-import EventBus from '../../js/core/EventBus.js';
+import EventBus    from '../../js/core/EventBus.js';
+import GameOverlay  from '../../js/ui/components/GameOverlay.js';
 
 export default class ConnectFourRenderer {
 
@@ -27,9 +27,9 @@ export default class ConnectFourRenderer {
     this._cs       = 0;
     this._rafId    = null;
     this._dropAnim = null;
-    this._buttons  = []; // { x, y, w, h, action, value }
 
     this._onTick        = this._onTick.bind(this);
+    this._onGameOver    = this._onGameOver.bind(this);
     this._onDropAnim    = this._onDropAnim.bind(this);
     this._onGridChanged = this._onGridChanged.bind(this);
     this._onResize      = this._onResize.bind(this);
@@ -48,9 +48,11 @@ export default class ConnectFourRenderer {
   destroy() {
     cancelAnimationFrame(this._rafId);
     EventBus.off('game:tick',                this._onTick);
+    EventBus.off('game:over',                this._onGameOver);
     EventBus.off('connectfour:drop-anim',    this._onDropAnim);
     EventBus.off('connectfour:grid-changed', this._onGridChanged);
     window.removeEventListener('resize',     this._onResize);
+    this._overlay?.destroy();
   }
 
   /* ============================================================
@@ -62,13 +64,38 @@ export default class ConnectFourRenderer {
     this.viewport.style.cssText =
       'display:flex;align-items:center;justify-content:center;height:100%;padding:8px;box-sizing:border-box;';
 
+    const canvasWrap = document.createElement('div');
+    canvasWrap.style.cssText = 'position:relative;display:inline-block;line-height:0;';
+
     const canvas = document.createElement('canvas');
     canvas.style.cssText = 'cursor:pointer;touch-action:manipulation;';
-    this.viewport.appendChild(canvas);
+    canvasWrap.appendChild(canvas);
+    this.viewport.appendChild(canvasWrap);
 
     this._canvas = canvas;
     this._ctx    = canvas.getContext('2d');
     this._resize();
+
+    this._overlay = new GameOverlay(this.viewport);
+    this._showStartScreen();
+  }
+
+  _optionGroups() {
+    const sizes = this.config.gameplay.gridSizes || [];
+    return [
+      { key: 'mode', label: 'MODE', default: this.game.mode, options: [
+          { value: 'pvp',    label: '2 JOUEURS' },
+          { value: 'vs-cpu', label: 'vs IA' },
+        ] },
+      { key: 'size', label: 'GRILLE', default: this.game.gridSizeId, options: sizes.map(s => ({ value: s.id, label: s.label })) },
+    ];
+  }
+
+  _showStartScreen() {
+    this._overlay.showStart(this._optionGroups(), (selections) => {
+      this.game.setGridSize(selections.size);
+      this.game.start(selections.mode);
+    });
   }
 
   _resize() {
@@ -96,6 +123,7 @@ export default class ConnectFourRenderer {
 
   _bindEvents() {
     EventBus.on('game:tick',                this._onTick);
+    EventBus.on('game:over',                this._onGameOver);
     EventBus.on('connectfour:drop-anim',    this._onDropAnim);
     EventBus.on('connectfour:grid-changed', this._onGridChanged);
     window.addEventListener('resize',       this._onResize);
@@ -124,17 +152,6 @@ export default class ConnectFourRenderer {
   _handleClick(x, y) {
     const { status } = this.game.state;
 
-    // Les boutons (sélection mode / taille) ne sont actifs qu'en idle ou gameover
-    if (status === 'idle' || status === 'gameover') {
-      for (const btn of this._buttons) {
-        if (x >= btn.x && x <= btn.x + btn.w && y >= btn.y && y <= btn.y + btn.h) {
-          if (btn.action === 'setMode')     this.game.start(btn.value);
-          if (btn.action === 'setGridSize') this.game.setGridSize(btn.value);
-          return;
-        }
-      }
-    }
-
     // Clic sur le plateau en jeu
     if (status === 'playing' && !this.game.state.aiThinking) {
       const col = this._colFromX(x);
@@ -148,7 +165,33 @@ export default class ConnectFourRenderer {
     return (c >= 0 && c < cols) ? c : -1;
   }
 
-  _onTick()                          { /* rendu via RAF */ }
+  _onTick({ state }) {
+    if (state.status === 'playing') this._overlay.hide();
+  }
+
+  _onGameOver({ winner, score, isRecord, state }) {
+    let title, result, extraInfo = '';
+    if (winner === 'draw') {
+      title  = 'MATCH NUL';
+      result = 'lose';
+    } else {
+      const isAiWin = this.game.mode === 'vs-cpu' && winner === 2;
+      title  = isAiWin ? "L'IA GAGNE !" : `JOUEUR ${winner} GAGNE !`;
+      result = isAiWin ? 'lose' : 'win';
+
+      const { baseScore, penaltyPerMove } = this.config.scoring;
+      const maxMoves = Math.floor(baseScore / penaltyPerMove);
+      const comment  = state.moveCount <= maxMoves * 0.35 ? 'Victoire éclair !'
+                      : state.moveCount <= maxMoves * 0.6  ? 'Bien joué !'
+                      : 'Victoire arrachée…';
+      extraInfo = `<div class="overlay-score">${comment} (${state.moveCount} coups)</div>`;
+    }
+    this._overlay.showGameOver(
+      { result, title, score: winner !== 'draw' ? score : undefined, isRecord, extraInfo },
+      () => EventBus.emit('game:restart'),
+    );
+  }
+
   _onDropAnim({ row, col, player })  { this._dropAnim = { col, finalRow: row, player, startTime: null }; }
   _onGridChanged()                   { this._resize(); }
   _onResize()                        { this._resize(); }
@@ -175,10 +218,7 @@ export default class ConnectFourRenderer {
     ctx.fillStyle = theme.canvas.backgroundColor;
     ctx.fillRect(0, 0, cw, ch);
 
-    if (state.status === 'idle') {
-      this._drawIdleScreen(ctx, cw, ch, theme);
-      return;
-    }
+    if (state.status === 'idle') return;
 
     // ── Animation de chute ──────────────────────────────────
     let anim = null;
@@ -222,9 +262,8 @@ export default class ConnectFourRenderer {
     // ── Barre de score (bas) ────────────────────────────────
     this._drawScoreBar(ctx, state, cs, boardY + rows * cs + cs * 0.3, cw, theme);
 
-    // ── Overlays ────────────────────────────────────────────
-    if (state.status === 'paused')   this._drawPaused(ctx, cw, ch, theme);
-    if (state.status === 'gameover') this._drawGameOver(ctx, state, cw, ch, theme);
+    // Pause et fin de partie sont désormais affichés via GameOverlay (DOM partagé) :
+    // pause → overlay générique de GameShell, gameover → this._overlay (_onGameOver)
   }
 
   /* ============================================================
@@ -314,171 +353,6 @@ export default class ConnectFourRenderer {
     ctx.shadowBlur  = 8;
     ctx.font        = `bold ${size}px ${font}`;
     ctx.fillText(`${p2}  J2`, cw * 0.78, y + cs * 0.38);
-    ctx.shadowBlur = 0;
-  }
-
-  /* ============================================================
-     ÉCRANS DE SÉLECTION (idle + gameover)
-     ============================================================ */
-
-  /**
-   * Dessine les boutons de mode ET de taille de grille.
-   * Remplit this._buttons pour la détection de clic.
-   */
-  _drawSelectionPanel(ctx, cw, ch, theme, startY) {
-    this._buttons = [];
-    const font = theme.ui.fontFamily;
-
-    // ── Taille de grille ──────────────────────────────────
-    const sizes   = this.config.gameplay.gridSizes || [];
-    const szCount = sizes.length;
-    const szBtnW  = Math.min(cw * 0.26, 90);
-    const szBtnH  = ch * 0.10;
-    const szGap   = (cw - szBtnW * szCount) / (szCount + 1);
-    const szY     = startY;
-
-    ctx.fillStyle = theme.ui.mutedColor;
-    ctx.font      = `${Math.floor(ch * 0.038)}px ${font}`;
-    ctx.textAlign = 'center';
-    ctx.fillText('Taille de grille', cw / 2, szY - ch * 0.02);
-
-    sizes.forEach((sz, i) => {
-      const x        = szGap + i * (szBtnW + szGap);
-      const y        = szY;
-      const isActive = this.game.gridSizeId === sz.id;
-      const color    = theme.ui.accentColor;
-
-      this._roundRect(ctx, x, y, szBtnW, szBtnH, 6);
-      ctx.fillStyle = isActive ? color + '28' : 'rgba(255,255,255,0.05)';
-      ctx.fill();
-      ctx.strokeStyle = isActive ? color : 'rgba(255,255,255,0.13)';
-      ctx.lineWidth   = isActive ? 2 : 1;
-      ctx.stroke();
-
-      ctx.fillStyle   = isActive ? color : theme.ui.mutedColor;
-      ctx.shadowColor = isActive ? color : 'transparent';
-      ctx.shadowBlur  = isActive ? 8 : 0;
-      ctx.font        = `bold ${Math.floor(szBtnH * 0.42)}px ${font}`;
-      ctx.textAlign   = 'center';
-      ctx.fillText(sz.label, x + szBtnW / 2, y + szBtnH * 0.64);
-      ctx.shadowBlur = 0;
-
-      this._buttons.push({ x, y, w: szBtnW, h: szBtnH, action: 'setGridSize', value: sz.id });
-    });
-
-    // ── Mode de jeu ───────────────────────────────────────
-    const modes  = [
-      { mode: 'pvp',    label: '2 JOUEURS', color: theme.players.p1 },
-      { mode: 'vs-cpu', label: 'vs IA',     color: theme.players.p2 },
-    ];
-    const mdBtnW = Math.min(cw * 0.38, 150);
-    const mdBtnH = ch * 0.11;
-    const mdGap  = (cw - mdBtnW * 2) / 3;
-    const mdY    = szY + szBtnH + ch * 0.07;
-
-    modes.forEach(({ mode, label, color }, i) => {
-      const x        = mdGap + i * (mdBtnW + mdGap);
-      const y        = mdY;
-      const isActive = this.game.mode === mode;
-
-      this._roundRect(ctx, x, y, mdBtnW, mdBtnH, 8);
-      ctx.fillStyle   = isActive ? color + '33' : 'rgba(255,255,255,0.05)';
-      ctx.fill();
-      ctx.strokeStyle = isActive ? color : 'rgba(255,255,255,0.15)';
-      ctx.lineWidth   = isActive ? 2 : 1;
-      ctx.stroke();
-
-      ctx.fillStyle   = isActive ? color : theme.ui.mutedColor;
-      ctx.shadowColor = isActive ? color : 'transparent';
-      ctx.shadowBlur  = isActive ? 10 : 0;
-      ctx.font        = `bold ${Math.floor(mdBtnH * 0.38)}px ${font}`;
-      ctx.textAlign   = 'center';
-      ctx.fillText(label, x + mdBtnW / 2, y + mdBtnH * 0.62);
-      ctx.shadowBlur = 0;
-
-      this._buttons.push({ x, y, w: mdBtnW, h: mdBtnH, action: 'setMode', value: mode });
-    });
-
-    // hint
-    ctx.fillStyle = theme.ui.mutedColor;
-    ctx.font      = `${Math.floor(ch * 0.037)}px ${font}`;
-    ctx.textAlign = 'center';
-    ctx.fillText('Cliquez un mode pour commencer', cw / 2, mdY + mdBtnH + ch * 0.06);
-  }
-
-  _drawIdleScreen(ctx, cw, ch, theme) {
-    this._buttons = [];
-    ctx.textAlign = 'center';
-
-    ctx.fillStyle   = theme.ui.primaryColor;
-    ctx.shadowColor = theme.ui.primaryColor;
-    ctx.shadowBlur  = 16;
-    ctx.font        = `bold ${Math.floor(ch * 0.09)}px ${theme.ui.fontFamily}`;
-    ctx.fillText('CONNECT FOUR', cw / 2, ch * 0.22);
-    ctx.shadowBlur = 0;
-
-    this._drawSelectionPanel(ctx, cw, ch, theme, ch * 0.36);
-  }
-
-  _drawGameOver(ctx, state, cw, ch, theme) {
-    this._buttons = [];
-    ctx.fillStyle = 'rgba(5,8,15,0.80)';
-    ctx.fillRect(0, 0, cw, ch);
-
-    // Titre gagnant
-    let msg, color;
-    if (state.winner === 'draw') {
-      msg   = 'MATCH NUL';
-      color = theme.ui.mutedColor;
-    } else {
-      const isAiWin = this.game.mode === 'vs-cpu' && state.winner === 2;
-      msg   = isAiWin ? "L'IA GAGNE !" : `JOUEUR ${state.winner} GAGNE !`;
-      color = state.winner === 1 ? theme.players.p1 : theme.players.p2;
-    }
-
-    ctx.textAlign   = 'center';
-    ctx.fillStyle   = color;
-    ctx.shadowColor = color;
-    ctx.shadowBlur  = 26;
-    ctx.font        = `bold ${Math.floor(ch * 0.088)}px ${theme.ui.fontFamily}`;
-    ctx.fillText(msg, cw / 2, ch * 0.17);
-    ctx.shadowBlur = 0;
-
-    // Score de la partie (seulement si victoire)
-    if (state.winner !== 'draw') {
-      const scoreColor = state.winner === 1 ? theme.players.p1 : theme.players.p2;
-      ctx.fillStyle   = scoreColor;
-      ctx.shadowColor = scoreColor;
-      ctx.shadowBlur  = 8;
-      ctx.font        = `${Math.floor(ch * 0.052)}px ${theme.ui.fontFamily}`;
-      ctx.fillText(`${state.finalScore} pts`, cw / 2, ch * 0.28);
-      ctx.shadowBlur = 0;
-
-      // Sous-texte selon la rapidité
-      const { baseScore, penaltyPerMove } = this.config.scoring;
-      const maxMoves = Math.floor(baseScore / penaltyPerMove);
-      let comment;
-      if (state.moveCount <= maxMoves * 0.35)     comment = 'Victoire éclair !';
-      else if (state.moveCount <= maxMoves * 0.6) comment = 'Bien joué !';
-      else                                         comment = 'Victoire arrachée…';
-
-      ctx.fillStyle = theme.ui.mutedColor;
-      ctx.font      = `${Math.floor(ch * 0.039)}px ${theme.ui.fontFamily}`;
-      ctx.fillText(`${comment}  (${state.moveCount} coups)`, cw / 2, ch * 0.34);
-    }
-
-    this._drawSelectionPanel(ctx, cw, ch, theme, ch * 0.44);
-  }
-
-  _drawPaused(ctx, cw, ch, theme) {
-    ctx.fillStyle = 'rgba(5,8,15,0.75)';
-    ctx.fillRect(0, 0, cw, ch);
-    ctx.textAlign   = 'center';
-    ctx.fillStyle   = theme.ui.primaryColor;
-    ctx.shadowColor = theme.ui.primaryColor;
-    ctx.shadowBlur  = 22;
-    ctx.font        = `bold ${Math.floor(ch * 0.1)}px ${theme.ui.fontFamily}`;
-    ctx.fillText('PAUSE', cw / 2, ch * 0.5);
     ctx.shadowBlur = 0;
   }
 

@@ -25,107 +25,134 @@
 
   <!-- CSS GameShell (inline pour éviter un fichier de plus en V0) -->
   <style>
-    /* === GameShell === */
+    /* === GameShell — layout principal === */
     .game-shell {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      padding: var(--space-6) var(--space-4);
-      min-height: calc(100vh - 65px);
+      flex: 1;
+      min-height: 0; /* sans ça flex:1 ne shrink pas en colonne */
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin: 0 var(--space-4) var(--space-4);
     }
 
+    /* Header — deux blocs alignés sur les colonnes body */
     .game-shell__header {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      max-width: 700px;
-      padding: var(--space-4) var(--space-6);
+      flex-direction: row;
+      border-bottom: 1px solid var(--color-border);
       background: var(--color-bg-panel);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-      border-bottom: none;
+      flex-shrink: 0;
     }
 
-    .game-shell__title {
+    /* Bloc gauche : au-dessus de la zone jeu */
+    .gs-header-game {
+      flex: 1;
+      min-width: 0;
       display: flex;
       align-items: center;
       gap: var(--space-3);
+      padding: 0 var(--space-4);
+      height: 48px;
     }
-    .game-shell__thumbnail { font-size: 1.8rem; line-height: 1; }
+    .game-shell__thumbnail { font-size: 1.4rem; line-height: 1; flex-shrink: 0; }
     .game-shell__name {
       font-family: var(--font-display);
-      font-size: var(--text-lg);
+      font-size: var(--text-base);
       font-weight: 700;
       color: var(--text-primary);
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-shrink: 0;
     }
+    .game-shell__spacer { flex: 1; }
 
-    .game-shell__scores {
-      display: flex;
-      gap: var(--space-8);
-    }
-    .game-shell__score-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .game-shell__score-label {
-      font-family: var(--font-display);
-      font-size: var(--text-xs);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
-    .game-shell__score-value {
-      font-family: var(--font-display);
-      font-size: var(--text-xl);
-      font-weight: 700;
-      color: var(--neon-cyan);
-      text-shadow: var(--glow-cyan);
-    }
-    .game-shell__score-value--best {
-      color: var(--neon-yellow);
-      text-shadow: 0 0 12px rgba(255,230,0,0.4);
-    }
-
-    .game-shell__controls {
+    .game-shell__stats {
       display: flex;
       gap: var(--space-2);
+      flex-shrink: 0;
     }
-    .btn-sm {
-      padding: var(--space-2) var(--space-3);
-      font-size: var(--text-base);
-    }
-
-    .game-shell__viewport {
-      width: 100%;
-      max-width: 700px;
-      background: var(--color-bg-panel);
+    .gs-stat {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--text-secondary);
+      padding: 3px 10px;
       border: 1px solid var(--color-border);
-      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+      border-radius: var(--radius-sm);
+      letter-spacing: 0.05em;
+    }
+    .gs-stat-icon { font-size: 12px; line-height: 1; }
+    .btn-sm { padding: var(--space-2) var(--space-3); font-size: var(--text-base); }
+
+    /* Bloc droit : au-dessus de la sidebar */
+    .gs-header-sidebar {
+      width: 260px;
+      flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
-      overflow: hidden;
-      min-height: 500px;
+      gap: var(--space-2);
+      border-left: 1px solid var(--color-border);
+      padding: 0 var(--space-3);
     }
 
-    /* === GameShell Overlay === */
+    /* Burger (mobile uniquement) */
+    .gs-burger {
+      display: none;
+      background: none;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      width: 34px;
+      height: 34px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Body = zone jeu + sidebar */
+    .game-shell__body {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+    }
+
+    /* Zone de rendu du jeu */
+    .game-shell__game-area {
+      flex: 1;
+      position: relative;
+      min-width: 0;
+      background: var(--color-bg-panel);
+    }
+    .game-shell__viewport {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* === Overlay (pause / game-over) — positionné dans game-area === */
     .game-shell__overlay {
       position: absolute;
       inset: 0;
-      background: rgba(5, 8, 15, 0.88);
+      background: rgba(5,8,15,0.88);
       backdrop-filter: blur(6px);
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: var(--z-overlay);
-      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+      z-index: 30;
     }
     .game-shell__overlay.hidden { display: none; }
-
     .game-shell__overlay-content {
       text-align: center;
       display: flex;
@@ -133,10 +160,7 @@
       align-items: center;
       gap: var(--space-4);
     }
-    .overlay-icon {
-      font-size: 4rem;
-      animation: pulse-glow 2s ease infinite;
-    }
+    .overlay-icon  { font-size: 4rem; animation: pulse-glow 2s ease infinite; }
     .overlay-title {
       font-family: var(--font-display);
       font-size: var(--text-3xl);
@@ -144,15 +168,8 @@
       color: var(--text-primary);
       letter-spacing: 0.1em;
     }
-    .overlay-score {
-      font-family: var(--font-display);
-      font-size: var(--text-lg);
-      color: var(--text-secondary);
-    }
-    .overlay-score strong {
-      color: var(--neon-cyan);
-      text-shadow: var(--glow-cyan);
-    }
+    .overlay-score { font-family: var(--font-display); font-size: var(--text-lg); color: var(--text-secondary); }
+    .overlay-score strong { color: var(--neon-cyan); text-shadow: var(--glow-cyan); }
     .overlay-record {
       font-family: var(--font-display);
       font-size: var(--text-base);
@@ -160,28 +177,217 @@
       text-shadow: 0 0 12px rgba(255,230,0,0.5);
       letter-spacing: 0.1em;
     }
-    .overlay-actions {
+    .overlay-actions { display: flex; gap: var(--space-3); margin-top: var(--space-2); }
+
+    /* === Panneau latéral === */
+    .game-shell__sidebar {
+      width: 260px;
+      flex-shrink: 0;
+      border-left: 1px solid var(--color-border);
+      background: var(--color-bg-panel);
       display: flex;
-      gap: var(--space-3);
-      margin-top: var(--space-2);
+      flex-direction: column;
+      overflow: hidden;
     }
 
-    /* === Toast icons === */
-    .toast { display: flex; align-items: center; gap: var(--space-3); }
-    .toast-icon {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: var(--text-sm);
-      width: 18px;
-      text-align: center;
+    /* Mobile header dans le sidebar (caché sur desktop) */
+    .gs-sidebar-mobile-header {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--color-border);
       flex-shrink: 0;
     }
 
-    /* === Responsive GameShell === */
-    @media (max-width: 768px) {
-      .game-shell__header { flex-wrap: wrap; gap: var(--space-3); padding: var(--space-3); }
-      .game-shell__scores { gap: var(--space-4); }
-      .game-shell__viewport { min-height: 360px; }
+    /* Icônes de tab — style outline-btn */
+    .gs-htab {
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      color: var(--text-muted);
+    }
+    .gs-htab svg { width: 16px; height: 16px; }
+    .gs-htab:hover {
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+      background: rgba(0,255,225,0.06);
+    }
+    .gs-htab--active {
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+      background: rgba(0,255,225,0.12);
+    }
+
+    /* Tabs mobile dans le drawer */
+    .gs-sidebar-mobile-tabs { display: none; gap: var(--space-1); }
+
+    /* Contenu des onglets */
+    .gs-tab-pane {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--space-4);
+    }
+    .gs-tab-pane--hidden { display: none; }
+
+    .gs-opt-group { margin-bottom: var(--space-5); }
+    .gs-opt-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      margin-bottom: var(--space-2);
+    }
+
+    .gs-objective, .gs-hint {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .gs-hint { color: var(--text-muted); font-style: italic; }
+
+    .gs-ctrl-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .gs-ctrl-row { display: flex; align-items: center; }
+    .gs-ctrl-key {
+      font-family: var(--font-display);
+      font-size: var(--text-xs);
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 3px 8px;
+      color: var(--text-primary);
+      letter-spacing: 0.04em;
+    }
+
+    .gs-roadmap-list {
+      padding-left: 1.2em;
+      margin: 0;
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      line-height: 1.6;
+    }
+
+    /* Backdrop mobile */
+    .gs-sidebar-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 49;
+    }
+    .gs-sidebar-backdrop.hidden { display: none; }
+
+    /* === GameOverlay (ov-*) — écrans démarrage/pause/fin sur le canvas === */
+    .ov-panel {
+      position: absolute;
+      inset: 0;
+      background: rgba(5,8,15,0.94);
+      backdrop-filter: blur(5px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-3);
+      z-index: 20;
+      padding: var(--space-4);
+      box-sizing: border-box;
+      text-align: center;
+    }
+    .ov-panel.ov-panel--hidden { display: none; }
+    .ov-group { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+    .ov-group-label {
+      font-family: var(--font-display);
+      font-size: var(--text-xs);
+      letter-spacing: 0.22em;
+      color: var(--text-muted);
+    }
+    .ov-chips { display: flex; gap: var(--space-2); flex-wrap: wrap; justify-content: center; }
+    .ov-chip {
+      font-family: var(--font-display);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      padding: 5px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border);
+      background: var(--color-bg-card);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.14s;
+    }
+    .ov-chip:hover  { border-color: var(--neon-cyan); color: var(--neon-cyan); }
+    .ov-chip--on {
+      background: rgba(0,255,225,0.11);
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+      box-shadow: 0 0 8px rgba(0,255,225,0.18);
+    }
+    .ov-play-btn {
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 900;
+      letter-spacing: 0.2em;
+      padding: 11px 36px;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--neon-cyan);
+      background: rgba(0,255,225,0.07);
+      color: var(--neon-cyan);
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: var(--space-2);
+    }
+    .ov-play-btn:hover {
+      background: rgba(0,255,225,0.15);
+      box-shadow: 0 0 16px rgba(0,255,225,0.28);
+    }
+
+    /* === Toast === */
+    .toast { display: flex; align-items: center; gap: var(--space-3); }
+    .toast-icon { font-family: var(--font-display); font-weight: 700; font-size: var(--text-sm); width: 18px; text-align: center; flex-shrink: 0; }
+
+    /* === Mobile === */
+    @media (max-width: 720px) {
+      /* game-shell : plus de height fixe, flex:1 gère tout */
+      .game-shell { margin: 0; border-radius: 0; border-left: none; border-right: none; }
+
+      /* header : compresser pour tenir sur 375px */
+      .gs-header-game { gap: var(--space-2); padding: 0 var(--space-3); height: 44px; }
+      .game-shell__thumbnail { font-size: 1.1rem; }
+      .game-shell__name { font-size: var(--text-sm); max-width: 90px; }
+      .gs-stat { padding: 2px 6px; font-size: var(--text-xs); gap: 3px; }
+      .gs-stat-icon { font-size: 10px; }
+
+      /* sidebar : drawer depuis la droite */
+      .gs-burger { display: flex; }
+      .gs-header-sidebar { display: none; }
+      .game-shell__sidebar {
+        position: fixed;
+        top: 0; right: 0; bottom: 0;
+        width: 85%;
+        max-width: 320px;
+        transform: translateX(100%);
+        transition: transform 0.25s ease;
+        z-index: 50;
+        box-shadow: -6px 0 24px rgba(0,0,0,0.5);
+      }
+      .game-shell__sidebar.gs-sidebar--open { transform: translateX(0); }
+      .gs-sidebar-mobile-header { display: flex; }
     }
   </style>
 </head>

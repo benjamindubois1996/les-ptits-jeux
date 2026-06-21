@@ -22,6 +22,21 @@ export default class Blackjack extends BaseGame {
 
   _gameId() { return 'blackjack'; }
 
+  /* Blackjack n'a pas un statut 'playing' unique mais plusieurs sous-états
+     (betting, player-turn, round-over) — on override togglePause() pour
+     mettre n'importe lequel de ces états en pause et y revenir ensuite. */
+  togglePause() {
+    const s = this.state.status;
+    if (s === 'betting' || s === 'player-turn' || s === 'round-over') {
+      this._prePauseStatus = s;
+      this.state.status = 'paused';
+      EventBus.emit('game:paused', { state: this.state });
+    } else if (s === 'paused') {
+      this.state.status = this._prePauseStatus || 'betting';
+      EventBus.emit('game:resumed', { state: this.state });
+    }
+  }
+
   init() {
     this._rebuildDeck();
     this._bindControls();
@@ -231,6 +246,12 @@ export default class Blackjack extends BaseGame {
 
     this._onKeyDown = (e) => {
       const s = this.state.status;
+
+      if (e.code === 'KeyP' && (s === 'betting' || s === 'player-turn' || s === 'round-over' || s === 'paused')) {
+        e.preventDefault();
+        this.togglePause();
+        return;
+      }
 
       if (keys.restart?.includes(e.code)) {
         e.preventDefault();

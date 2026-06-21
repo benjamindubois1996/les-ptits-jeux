@@ -197,6 +197,11 @@ export default class Mastermind extends BaseGame {
         if (e.code === 'KeyR') { e.preventDefault(); EventBus.emit('game:restart'); }
         return;
       }
+      if (e.code === 'KeyP' && (s === 'playing' || s === 'paused')) {
+        e.preventDefault();
+        EventBus.emit('game:pause-toggle');
+        return;
+      }
       if (s !== 'playing') return;
 
       if (e.code === 'Enter') { e.preventDefault(); this.submitGuess(); return; }

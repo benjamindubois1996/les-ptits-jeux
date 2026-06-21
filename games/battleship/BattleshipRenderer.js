@@ -1,4 +1,5 @@
-import EventBus from '../../js/core/EventBus.js';
+import EventBus    from '../../js/core/EventBus.js';
+import GameOverlay  from '../../js/ui/components/GameOverlay.js';
 
 const COLS = 'ABCDEFGHIJKL'.split('');
 const ROWS = Array.from({ length: 12 }, (_, i) => String(i + 1));
@@ -27,6 +28,7 @@ export default class BattleshipRenderer {
   destroy() {
     this._subs.forEach(([ev, fn]) => EventBus.off(ev, fn));
     this._subs = [];
+    this._overlay?.destroy();
     if (this._wrapper) { this._wrapper.remove(); this._wrapper = null; }
   }
 
@@ -38,25 +40,6 @@ export default class BattleshipRenderer {
     const w = document.createElement('div');
     w.className = 'bs-wrap';
     w.innerHTML = `
-
-      <!-- ===== ÉCRAN DÉPART ===== -->
-      <div class="bs-overlay" id="bs-start">
-        <div class="bs-overlay-inner">
-          <div class="overlay-icon">⚓</div>
-          <div class="overlay-title">BATAILLE NAVALE</div>
-          <div class="overlay-score">Coule la flotte ennemie avant d'être coulé !</div>
-          <div class="bs-chips">
-            <span class="bs-chip bs-chip--on">BASIQUE</span>
-          </div>
-          <div class="bs-size-row">
-            <span class="bs-size-label">GRILLE</span>
-            <div id="bs-size-chips"></div>
-          </div>
-          <div class="overlay-actions">
-            <button class="btn btn-primary" id="bs-btn-play">JOUER</button>
-          </div>
-        </div>
-      </div>
 
       <!-- ===== PHASE PLACEMENT ===== -->
       <div class="bs-screen hidden" id="bs-placing">
@@ -88,44 +71,28 @@ export default class BattleshipRenderer {
         </div>
       </div>
 
-      <!-- ===== ÉCRAN VICTOIRE ===== -->
-      <div class="bs-overlay hidden" id="bs-won">
-        <div class="bs-overlay-inner">
-          <div class="overlay-icon">🏆</div>
-          <div class="overlay-title">VICTOIRE !</div>
-          <div class="overlay-score" id="bs-won-score"></div>
-          <div class="overlay-record hidden" id="bs-won-record">★ NOUVEAU RECORD !</div>
-          <div class="overlay-actions">
-            <button class="btn btn-primary" id="bs-btn-restart">REJOUER</button>
-            <button class="btn btn-ghost"   id="bs-btn-home2">← Accueil</button>
-          </div>
-        </div>
-      </div>
-
     `;
 
     this.container.appendChild(w);
     this._wrapper = w;
 
-    this._renderSizeChips();
+    this._overlay = new GameOverlay(w);
+    this._showStartScreen();
   }
 
-  _renderSizeChips() {
-    const container = this._el('bs-size-chips');
-    if (!container) return;
+  _optionGroups() {
     const sizes = this.config.gameplay.gridSizes ?? [];
-    container.innerHTML = sizes.map(s => `
-      <span class="bs-chip bs-size-chip ${s.id === this._selectedSize ? 'bs-chip--on' : ''}"
-            data-size="${s.id}">${s.label}</span>
-    `).join('');
-    container.querySelectorAll('.bs-size-chip').forEach(el => {
-      el.addEventListener('click', () => {
-        this._selectedSize = el.dataset.size;
-        container.querySelectorAll('.bs-size-chip').forEach(c =>
-          c.classList.toggle('bs-chip--on', c.dataset.size === this._selectedSize)
-        );
-      });
-    });
+    return [
+      { key: 'mode', label: 'MODE',   default: 'basique',         options: [{ value: 'basique', label: 'BASIQUE' }] },
+      { key: 'size', label: 'GRILLE', default: this._selectedSize, options: sizes.map(s => ({ value: s.id, label: s.label })) },
+    ];
+  }
+
+  _showStartScreen() {
+    this._overlay.showStart(this._optionGroups(), (selections) => {
+      this._selectedSize = selections.size;
+      this.game.start({ gridSizeId: this._selectedSize });
+    }, { extraHtml: '<div class="overlay-icon">⚓</div><div class="overlay-score">Coule la flotte ennemie avant d\'être coulé !</div>' });
   }
 
   /* Reconstruit les 3 plateaux avec la bonne taille */
@@ -182,17 +149,11 @@ export default class BattleshipRenderer {
   _bindEvents() {
     const sub = (ev, fn) => { EventBus.on(ev, fn); this._subs.push([ev, fn]); };
 
-    sub('game:tick', ({ state, action }) => this._render(state, action));
-    sub('game:won',  data => this._showWon(data));
-
-    this._el('bs-btn-play').addEventListener('click', () =>
-      this.game.start({ gridSizeId: this._selectedSize })
-    );
-    this._el('bs-btn-restart').addEventListener('click', () => {
-      this._hide('bs-won');
-      EventBus.emit('game:restart');
-    });
-    this._el('bs-btn-home2').addEventListener('click', () => EventBus.emit('game:exit'));
+    sub('game:tick',    ({ state, action }) => this._render(state, action));
+    sub('game:won',     data => this._showWon(data));
+    sub('game:over',    data => this._showLost(data));
+    sub('game:paused',  ()   => this._overlay.showPause(() => EventBus.emit('game:pause-toggle')));
+    sub('game:resumed', ()   => this._overlay.hide());
 
     // Délégation sur les conteneurs — survit à _rebuildBoards()
     const placeContainer = this._el('bs-board-place');
@@ -234,11 +195,11 @@ export default class BattleshipRenderer {
     switch (state.status) {
       case 'idle':
         this._showScreen(null);
-        this._show('bs-start');
+        this._showStartScreen();
         break;
 
       case 'placing':
-        this._hideOverlays();
+        this._overlay.hide();
         this._showScreen('bs-placing');
         if (action === 'start-placing') this._rebuildBoards(state.gridSize);
         this._renderPlacing(state);
@@ -247,7 +208,7 @@ export default class BattleshipRenderer {
       case 'playing':
       case 'won':
       case 'gameover':
-        this._hideOverlays();
+        this._overlay.hide();
         this._showScreen('bs-battle');
         this._renderBattle(state);
         break;
@@ -369,11 +330,19 @@ export default class BattleshipRenderer {
      ============================================================ */
 
   _showWon(data) {
-    const scoreEl  = this._el('bs-won-score');
-    const recordEl = this._el('bs-won-record');
-    if (scoreEl)  scoreEl.innerHTML = `Score final : <strong>${data.score}</strong>`;
-    if (recordEl) recordEl.classList.toggle('hidden', !data.isRecord);
-    this._show('bs-won');
+    this._overlay.showGameOver(
+      { result: 'win', score: data.score, isRecord: data.isRecord },
+      () => EventBus.emit('game:restart'),
+      () => EventBus.emit('game:exit'),
+    );
+  }
+
+  _showLost(data) {
+    this._overlay.showGameOver(
+      { result: 'lose', score: data.score, isRecord: data.isRecord },
+      () => EventBus.emit('game:restart'),
+      () => EventBus.emit('game:exit'),
+    );
   }
 
   /* ============================================================
@@ -387,9 +356,8 @@ export default class BattleshipRenderer {
     });
   }
 
-  _show(id)       { const el = this._el(id); if (el) el.classList.remove('hidden'); }
-  _hide(id)       { const el = this._el(id); if (el) el.classList.add('hidden'); }
-  _hideOverlays() { this._hide('bs-start'); this._hide('bs-won'); }
+  _show(id) { const el = this._el(id); if (el) el.classList.remove('hidden'); }
+  _hide(id) { const el = this._el(id); if (el) el.classList.add('hidden'); }
 
   /* ============================================================
      STYLES INJECTÉS
@@ -420,60 +388,9 @@ export default class BattleshipRenderer {
     }
     .bs-screen.hidden { display: none !important; }
 
-    /* Overlays */
-    .bs-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(5,8,15,0.92);
-      backdrop-filter: blur(6px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-    }
-    .bs-overlay.hidden { display: none !important; }
-    .bs-overlay-inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      text-align: center;
-      padding: 0 16px;
-    }
-
-    /* Mode chip */
-    .bs-chips { display: flex; gap: 8px; }
-    .bs-chip {
-      padding: 5px 14px;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-sm);
-      font-family: var(--font-display);
-      font-size: var(--text-xs);
-      color: var(--text-muted);
-      letter-spacing: 0.1em;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .bs-chip--on {
-      border-color: var(--neon-cyan);
-      color: var(--neon-cyan);
-      background: rgba(0,255,225,0.08);
-      box-shadow: 0 0 8px rgba(0,255,225,0.15);
-    }
-
-    /* Size row */
-    .bs-size-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .bs-size-label {
-      font-family: var(--font-display);
-      font-size: 9px;
-      color: var(--text-muted);
-      letter-spacing: 0.12em;
-    }
-    #bs-size-chips { display: flex; gap: 6px; }
+    /* Écrans démarrage / pause / fin de partie : entièrement gérés par
+       GameOverlay (js/ui/components/GameOverlay.js), monté sur .bs-wrap.
+       Voir .ov-* dans index.html pour le CSS associé. */
 
     /* Titles / hints */
     .bs-title {

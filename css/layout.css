@@ -30,8 +30,16 @@ body::after {
   position: relative;
   z-index: var(--z-base);
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
+}
+
+/* En mode jeu : hauteur fixe + pas de scroll (game-shell remplit exactement le viewport) */
+#app.app--in-game {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
 }
 
 /* === Navigation === */

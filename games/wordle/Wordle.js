@@ -474,6 +474,8 @@ export default class Wordle extends BaseGame {
         if (e.code === 'KeyR') { e.preventDefault(); EventBus.emit('game:restart'); }
         return;
       }
+      // Pas de raccourci clavier P ici : les lettres A-Z (dont P) servent à deviner le mot.
+      // La pause reste accessible via le bouton ⏸ du GameShell.
       if (s !== 'playing') return;
       if (e.key === 'Enter')          { e.preventDefault(); this.submitGuess(); }
       else if (e.key === 'Backspace') { e.preventDefault(); this.deleteLetter(); }

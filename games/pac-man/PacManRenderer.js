@@ -2,7 +2,8 @@
  * PacManRenderer — Rendu canvas pour Pac-Man (V1 BASIQUE)
  */
 
-import EventBus from '../../js/core/EventBus.js';
+import EventBus    from '../../js/core/EventBus.js';
+import GameOverlay  from '../../js/ui/components/GameOverlay.js';
 
 const CELL = 16; // pixels par case
 
@@ -27,6 +28,7 @@ export default class PacManRenderer {
 
   destroy() {
     this._unbindEvents();
+    this._overlay?.destroy();
     const style = document.getElementById('pm-styles');
     if (style) style.remove();
   }
@@ -41,35 +43,14 @@ export default class PacManRenderer {
       <div class="pm-wrapper">
 
         <div class="pm-hud">
-          <div class="pm-lives" id="pm-lives"></div>
           <div class="pm-level" id="pm-level">NIVEAU 1</div>
         </div>
 
-        <div class="pm-canvas-wrap">
+        <div class="pm-canvas-wrap" id="pm-canvas-wrap">
           <canvas id="pm-canvas" width="${W}" height="${H}"></canvas>
-
-          <div class="pm-overlay" id="pm-overlay">
-            <div class="pm-overlay-title">PAC-MAN</div>
-
-            <div class="pm-opt-group">
-              <div class="pm-opt-label">MODE</div>
-              <div class="pm-chips">
-                <button class="pm-chip pm-chip--on">BASIQUE</button>
-              </div>
-            </div>
-
-            <div class="pm-hint">ESPACE ou ENTRÉE pour jouer</div>
-            <button class="pm-play-btn" id="pm-play-btn">JOUER</button>
-          </div>
         </div>
 
         <div class="pm-status" id="pm-status"></div>
-
-        <div class="pm-keys">
-          <span class="pm-key-chip">↑↓←→ / WASD&nbsp; Diriger</span>
-          <span class="pm-key-chip">P&nbsp; Pause</span>
-          <span class="pm-key-chip">R&nbsp; Restart</span>
-        </div>
 
       </div>
     `;
@@ -77,17 +58,24 @@ export default class PacManRenderer {
     this._canvas = document.getElementById('pm-canvas');
     this._ctx    = this._canvas.getContext('2d');
 
-    document.getElementById('pm-play-btn')
-      ?.addEventListener('click', () => this.game.start());
-
     this._canvas.addEventListener('click', () => {
       const s = this.game.state.status;
-      if (s === 'idle') this.game.start();
       if (s === 'gameover') this.game.restart();
     });
 
+    this._overlay = new GameOverlay(this.container);
+    this._showStartScreen();
+
     this._drawFrame(this.game.state);
-    this._updateLives(this.game.state.lives);
+  }
+
+  _showStartScreen() {
+    const optionGroups = [
+      { key: 'mode', label: 'MODE', default: 'basique', options: [{ value: 'basique', label: 'BASIQUE' }] },
+    ];
+    this._overlay.showStart(optionGroups, () => this.game.start(), {
+      extraHtml: '<div class="overlay-score">ESPACE ou ENTRÉE pour jouer</div>',
+    });
   }
 
   // ─── ÉVÉNEMENTS ────────────────────────────────────────────────────
@@ -95,15 +83,17 @@ export default class PacManRenderer {
   _bindEvents() {
     this._handlers.frame   = (d) => this._drawFrame(d.state);
     this._handlers.tick    = (d) => this._onTick(d.state, d.action);
-    this._handlers.score   = (d) => this._onScore(d);
     this._handlers.over    = (d) => this._onGameOver(d);
+    this._handlers.paused  = ()  => this._overlay.showPause(() => EventBus.emit('game:pause-toggle'));
+    this._handlers.resumed = ()  => this._overlay.hide();
     this._handlers.death   = ()  => this._setText('');
     this._handlers.lvl     = ()  => this._setText('NIVEAU TERMINÉ !');
 
     EventBus.on('game:frame',           this._handlers.frame);
     EventBus.on('game:tick',            this._handlers.tick);
-    EventBus.on('game:score-update',    this._handlers.score);
     EventBus.on('game:over',            this._handlers.over);
+    EventBus.on('game:paused',          this._handlers.paused);
+    EventBus.on('game:resumed',         this._handlers.resumed);
     EventBus.on('pacman:death',         this._handlers.death);
     EventBus.on('pacman:level-complete',this._handlers.lvl);
   }
@@ -111,8 +101,9 @@ export default class PacManRenderer {
   _unbindEvents() {
     EventBus.off('game:frame',           this._handlers.frame);
     EventBus.off('game:tick',            this._handlers.tick);
-    EventBus.off('game:score-update',    this._handlers.score);
     EventBus.off('game:over',            this._handlers.over);
+    EventBus.off('game:paused',          this._handlers.paused);
+    EventBus.off('game:resumed',         this._handlers.resumed);
     EventBus.off('pacman:death',         this._handlers.death);
     EventBus.off('pacman:level-complete',this._handlers.lvl);
   }
@@ -120,34 +111,24 @@ export default class PacManRenderer {
   // ─── HANDLERS ──────────────────────────────────────────────────────
 
   _onTick(state, action) {
-    const overlay = document.getElementById('pm-overlay');
-    if (overlay) overlay.style.display = state.status === 'idle' ? 'flex' : 'none';
+    if (state.status === 'idle') this._showStartScreen();
+    else                          this._overlay.hide();
 
     if (action === 'ready' || action === 'start')  this._setText('PRÊT !');
     if (action === 'playing')                       this._setText('');
     if (action === 'restart')                       this._setText('');
 
-    this._updateLives(state.lives);
     this._updateLevel(state.level);
   }
 
-  _onScore({ score }) {
-    // Le score est affiché par le GameShell via game:score-update
-  }
-
   _onGameOver({ score, isRecord }) {
-    this._setText(isRecord ? `GAME OVER — RECORD : ${score} pts !` : 'GAME OVER — ENTRÉE pour rejouer');
+    this._overlay.showGameOver(
+      { result: 'lose', score, isRecord },
+      () => EventBus.emit('game:restart'),
+    );
   }
 
   // ─── HUD ───────────────────────────────────────────────────────────
-
-  _updateLives(lives) {
-    const el = document.getElementById('pm-lives');
-    if (!el) return;
-    el.innerHTML = Array.from({ length: Math.max(0, lives) }, () =>
-      `<span class="pm-life">●</span>`
-    ).join('');
-  }
 
   _updateLevel(level) {
     const el = document.getElementById('pm-level');
@@ -170,17 +151,7 @@ export default class PacManRenderer {
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, W, H);
 
-    if (!state.maze) {
-      // Écran idle : juste le titre sur fond noir
-      ctx.textAlign   = 'center';
-      ctx.fillStyle   = '#ffff00';
-      ctx.font        = 'bold 24px monospace';
-      ctx.shadowColor = '#ffff00';
-      ctx.shadowBlur  = 20;
-      ctx.fillText('PAC-MAN', W / 2, H / 2 - 10);
-      ctx.shadowBlur  = 0;
-      return;
-    }
+    if (!state.maze) return; // écran idle : couvert par GameOverlay
 
     this._drawMaze(ctx, state);
 
@@ -197,12 +168,7 @@ export default class PacManRenderer {
     if (state.status === 'ready') {
       this._drawCenteredText(ctx, W, H, 'PRÊT !', '#ffff00');
     }
-    if (state.status === 'paused') {
-      this._drawCenteredText(ctx, W, H, 'PAUSE', '#00e5ff');
-    }
-    if (state.status === 'gameover') {
-      this._drawCenteredText(ctx, W, H, 'GAME OVER', '#ff2d78');
-    }
+    // Pause et fin de partie sont désormais affichés via GameOverlay (DOM partagé)
   }
 
   // ─── LABYRINTHE ────────────────────────────────────────────────────
@@ -446,18 +412,9 @@ export default class PacManRenderer {
       .pm-hud {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
         width: ${28 * CELL}px;
         max-width: 100%;
-      }
-      .pm-lives {
-        display: flex;
-        gap: 6px;
-      }
-      .pm-life {
-        font-size: 1.1rem;
-        color: #ffff00;
-        text-shadow: 0 0 8px rgba(255,255,0,0.7);
       }
       .pm-level {
         font-family: var(--font-display);
@@ -478,81 +435,9 @@ export default class PacManRenderer {
         border-radius: 4px;
       }
 
-      /* ── Overlay ── */
-      .pm-overlay {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 1.2rem;
-        background: rgba(0,0,0,0.92);
-        border-radius: 4px;
-        padding: 1.5rem;
-      }
-      .pm-overlay-title {
-        font-family: var(--font-display);
-        font-size: 2.6rem;
-        font-weight: 900;
-        color: #ffff00;
-        text-shadow: 0 0 24px rgba(255,255,0,0.8);
-        letter-spacing: 0.2em;
-      }
-      .pm-opt-group {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.4rem;
-      }
-      .pm-opt-label {
-        font-family: var(--font-display);
-        font-size: 0.6rem;
-        letter-spacing: 0.22em;
-        color: var(--text-muted, #555);
-      }
-      .pm-chips {
-        display: flex;
-        gap: 0.4rem;
-      }
-      .pm-chip {
-        font-family: var(--font-display);
-        font-size: 0.72rem;
-        letter-spacing: 0.08em;
-        color: var(--text-secondary, #888);
-        background: transparent;
-        border: 1px solid var(--color-border, #1e2a38);
-        border-radius: 4px;
-        padding: 4px 12px;
-        cursor: pointer;
-      }
-      .pm-chip--on {
-        color: #ffff00;
-        border-color: #ffff00;
-        background: rgba(255,255,0,0.08);
-        text-shadow: 0 0 8px rgba(255,255,0,0.5);
-      }
-      .pm-hint {
-        font-family: var(--font-display);
-        font-size: 0.65rem;
-        letter-spacing: 0.1em;
-        color: var(--text-muted, #555);
-      }
-      .pm-play-btn {
-        font-family: var(--font-display);
-        font-size: 0.9rem;
-        font-weight: 700;
-        letter-spacing: 0.18em;
-        color: #000;
-        background: #ffff00;
-        border: none;
-        border-radius: 4px;
-        padding: 8px 32px;
-        cursor: pointer;
-        box-shadow: 0 0 18px rgba(255,255,0,0.5);
-        transition: opacity 0.15s;
-      }
-      .pm-play-btn:hover { opacity: 0.85; }
+      /* Écrans démarrage / pause / fin de partie : entièrement gérés par
+         GameOverlay (js/ui/components/GameOverlay.js), monté sur .pm-canvas-wrap.
+         Voir .ov-* dans index.html pour le CSS associé. */
 
       .pm-status {
         font-family: var(--font-display);
@@ -563,22 +448,6 @@ export default class PacManRenderer {
         text-align: center;
       }
 
-      .pm-keys {
-        display: flex;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      .pm-key-chip {
-        font-family: var(--font-display);
-        font-size: 0.62rem;
-        letter-spacing: 0.09em;
-        color: var(--text-muted, #555);
-        background: var(--color-bg-panel, #0d1117);
-        border: 1px solid var(--color-border, #1e2a38);
-        border-radius: 4px;
-        padding: 2px 8px;
-      }
     `;
     document.head.appendChild(style);
   }

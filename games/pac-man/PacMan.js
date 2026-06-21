@@ -148,6 +148,7 @@ export default class PacMan extends BaseGame {
 
   start() {
     this.state = this._buildPlayState(1, 0, this.config.gameplay.lives);
+    EventBus.emit('game:score-update', { lives: this.state.lives });
     EventBus.emit('game:start', { state: this.state });
     EventBus.emit('game:tick',  { state: this.state, action: 'start' });
   }
@@ -626,6 +627,7 @@ export default class PacMan extends BaseGame {
   _afterDeath() {
     const s = this.state;
     s.lives--;
+    EventBus.emit('game:score-update', { lives: s.lives });
     if (s.lives <= 0) {
       s.status = 'gameover';
       const best    = ScoreService.getBest('pac-man');

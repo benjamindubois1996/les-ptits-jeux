@@ -196,6 +196,7 @@ export default class Platformer2D extends BaseGame {
     const mode = options.mode ?? 'basique';
     this.state = { ...this._buildFullState(), status: 'playing', mode };
     this._loadLevel(0);
+    EventBus.emit('game:score-update', { lives: this.state.lives });
     EventBus.emit('game:tick', { state: this.state, action: 'new-game' });
   }
 
@@ -345,7 +346,7 @@ export default class Platformer2D extends BaseGame {
   _loseLife() {
     const { state } = this;
     state.lives--;
-    EventBus.emit('game:lives-update', { lives: state.lives });
+    EventBus.emit('game:score-update', { lives: state.lives });
     if (state.lives <= 0) {
       state.status = 'gameover';
       ScoreService.submit('platformer-2d', state.score);

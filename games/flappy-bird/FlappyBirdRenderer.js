@@ -1,4 +1,5 @@
-import EventBus from '../../js/core/EventBus.js';
+import EventBus    from '../../js/core/EventBus.js';
+import GameOverlay  from '../../js/ui/components/GameOverlay.js';
 
 /* Étoiles fixes générées une seule fois */
 const STARS = Array.from({ length: 40 }, (_, i) => ({
@@ -18,7 +19,6 @@ export default class FlappyBirdRenderer {
     this._wrapper   = null;
     this._canvas    = null;
     this._ctx       = null;
-    this._overlayEl = null;
 
     this._idleAngle = 0;
 
@@ -49,6 +49,7 @@ export default class FlappyBirdRenderer {
 
   destroy() {
     this._unbindEvents();
+    this._overlay?.destroy();
     if (this._wrapper) this._wrapper.remove();
     const s = document.getElementById('fb-styles');
     if (s) s.remove();
@@ -63,8 +64,6 @@ export default class FlappyBirdRenderer {
     const el = document.createElement('style');
     el.id = 'fb-styles';
     el.textContent = `
-      @keyframes fb-fadein { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-
       .fb-wrapper {
         position:absolute; inset:0;
         display:flex; align-items:center; justify-content:center;
@@ -77,52 +76,12 @@ export default class FlappyBirdRenderer {
         image-rendering:pixelated;
       }
 
-      .fb-overlay {
-        position:absolute; inset:0;
-        background:rgba(5,8,15,0.92); backdrop-filter:blur(4px);
-        display:flex; flex-direction:column; align-items:center; justify-content:center;
-        gap:10px; z-index:20;
-        animation:fb-fadein 0.2s ease;
+      .fb-hint {
+        font-size:10px; letter-spacing:0.12em; color:rgba(0,255,225,0.65);
       }
-      .fb-overlay.fb-overlay--hidden { display:none; }
-
-      .fb-ov-title {
-        font-size:clamp(22px,5vw,38px); font-weight:900;
-        letter-spacing:0.2em; color:rgba(0,255,225,0.95);
-        text-shadow:0 0 24px rgba(0,255,225,0.4);
-      }
-      .fb-ov-sub {
-        font-size:clamp(14px,3vw,20px); font-weight:700; letter-spacing:0.1em;
-      }
-      .fb-ov-info {
-        font-size:10px; letter-spacing:0.12em; color:rgba(0,255,225,0.45);
-      }
-      .fb-ov-actions { display:flex; gap:12px; margin-top:6px; }
-
-      .fb-opt-group { display:flex; flex-direction:column; align-items:center; gap:6px; }
-      .fb-opt-label { font-size:8px; letter-spacing:0.22em; color:rgba(0,255,225,0.4); }
-      .fb-chips     { display:flex; gap:5px; }
-      .fb-chip {
-        font-family:Orbitron,monospace; font-size:10px; font-weight:700;
-        letter-spacing:0.07em; padding:5px 11px; border-radius:4px;
-        border:1px solid rgba(0,255,225,0.22); background:#0a1520;
-        color:rgba(0,255,225,0.55); cursor:pointer; transition:all 0.14s;
-      }
-      .fb-chip:hover { border-color:rgba(0,255,225,0.5); color:rgba(0,255,225,0.85); }
-      .fb-chip--on {
-        background:rgba(0,255,225,0.11); border-color:rgba(0,255,225,0.6);
-        color:rgba(0,255,225,1); box-shadow:0 0 8px rgba(0,255,225,0.18);
-      }
-      .fb-play-btn {
-        font-family:Orbitron,monospace; font-size:13px; font-weight:900;
-        letter-spacing:0.22em; padding:11px 38px; border-radius:6px;
-        border:2px solid rgba(0,255,225,0.55); background:rgba(0,255,225,0.07);
-        color:rgba(0,255,225,0.95); cursor:pointer; transition:all 0.2s; margin-top:4px;
-      }
-      .fb-play-btn:hover {
-        background:rgba(0,255,225,0.15); border-color:rgba(0,255,225,0.9);
-        box-shadow:0 0 16px rgba(0,255,225,0.28);
-      }
+      /* Écrans démarrage / pause / fin de partie : entièrement gérés par
+         GameOverlay (js/ui/components/GameOverlay.js), monté sur .fb-wrapper.
+         Voir .ov-* dans index.html pour le CSS associé. */
     `;
     document.head.appendChild(el);
   }
@@ -149,10 +108,8 @@ export default class FlappyBirdRenderer {
       if (s === 'gameover') { EventBus.emit('game:restart'); }
     });
 
-    this._overlayEl = document.createElement('div');
-    this._overlayEl.className = 'fb-overlay';
+    this._overlay = new GameOverlay(this._wrapper);
     this._showStartScreen();
-    this._wrapper.appendChild(this._overlayEl);
 
     this.viewport.appendChild(this._wrapper);
   }
@@ -161,79 +118,29 @@ export default class FlappyBirdRenderer {
      OVERLAYS
      ============================================================ */
 
-  _showStartScreen() {
+  _optionGroups() {
     const { gapOptions, speedOptions } = this.config.gameplay;
+    return [
+      { key: 'mode',  label: 'MODE',       default: 'basique',     options: [{ value: 'basique', label: 'BASIQUE' }] },
+      { key: 'gap',   label: 'ÉCARTEMENT', default: this._sel.gap,   options: gapOptions.map(g => ({ value: g, label: g.toUpperCase() })) },
+      { key: 'speed', label: 'VITESSE',    default: this._sel.speed, options: speedOptions.map(s => ({ value: s, label: s.toUpperCase() })) },
+    ];
+  }
 
-    this._overlayEl.innerHTML = `
-      <div class="fb-ov-title">FLAPPY BIRD</div>
-      <div class="fb-ov-info" style="color:rgba(0,255,225,0.65)">ESPACE · CLIC · ↑ pour battre des ailes</div>
-
-      <div class="fb-opt-group">
-        <div class="fb-opt-label">MODE</div>
-        <div class="fb-chips" data-opt="mode">
-          <button class="fb-chip fb-chip--on" data-val="basique">BASIQUE</button>
-        </div>
-      </div>
-
-      <div class="fb-opt-group">
-        <div class="fb-opt-label">ÉCARTEMENT</div>
-        <div class="fb-chips" data-opt="gap">
-          ${gapOptions.map(g =>
-            `<button class="fb-chip${g === this._sel.gap ? ' fb-chip--on' : ''}" data-val="${g}">${g.toUpperCase()}</button>`
-          ).join('')}
-        </div>
-      </div>
-
-      <div class="fb-opt-group">
-        <div class="fb-opt-label">VITESSE</div>
-        <div class="fb-chips" data-opt="speed">
-          ${speedOptions.map(s =>
-            `<button class="fb-chip${s === this._sel.speed ? ' fb-chip--on' : ''}" data-val="${s}">${s.toUpperCase()}</button>`
-          ).join('')}
-        </div>
-      </div>
-
-      <button class="fb-play-btn" id="fb-play-btn">JOUER</button>
-    `;
-
-    this._overlayEl.querySelectorAll('.fb-chips').forEach(group => {
-      group.addEventListener('click', e => {
-        const btn = e.target.closest('.fb-chip');
-        if (!btn) return;
-        this._sel[group.dataset.opt] = btn.dataset.val;
-        group.querySelectorAll('.fb-chip').forEach(b => b.classList.remove('fb-chip--on'));
-        btn.classList.add('fb-chip--on');
-      });
-    });
-
-    this._overlayEl.querySelector('#fb-play-btn')
-      ?.addEventListener('click', () => {
-        this._overlayEl.classList.add('fb-overlay--hidden');
-        this.game.start(this._sel);
-      });
+  _showStartScreen() {
+    this._overlay.showStart(this._optionGroups(), (selections) => {
+      this._sel = selections;
+      this._overlay.hide();
+      this.game.start(this._sel);
+    }, { extraHtml: '<div class="fb-hint">ESPACE · CLIC · ↑ pour battre des ailes</div>' });
   }
 
   _showGameOverScreen({ score, best }) {
     const isRecord = score > 0 && score >= best;
-    this._overlayEl.innerHTML = `
-      <div style="font-size:42px">💀</div>
-      <div class="fb-ov-sub" style="color:#ff4455">GAME OVER</div>
-      <div class="fb-ov-info" style="font-size:13px;color:rgba(255,255,255,0.7)">Score : <strong style="color:#fff">${score}</strong></div>
-      <div class="fb-ov-info">Meilleur : ${best}</div>
-      ${isRecord ? '<div class="fb-ov-info" style="color:#ffe600">🏆 Nouveau record !</div>' : ''}
-      <div class="fb-ov-actions">
-        <button class="fb-play-btn" id="fb-ov-replay">REJOUER</button>
-      </div>
-      <div class="fb-ov-info" style="opacity:0.5">ESPACE · CLIC · R pour rejouer</div>
-    `;
-    this._overlayEl.classList.remove('fb-overlay--hidden');
-    this._overlayEl.querySelector('#fb-ov-replay')
-      ?.addEventListener('click', () => this._goToStartScreen());
-  }
-
-  _goToStartScreen() {
-    this._overlayEl.classList.remove('fb-overlay--hidden');
-    this._showStartScreen();
+    this._overlay.showGameOver(
+      { result: 'lose', score, isRecord, extraInfo: `<div class="overlay-score">Meilleur : ${best}</div>` },
+      () => this._showStartScreen(),
+    );
   }
 
   /* ============================================================
@@ -264,7 +171,7 @@ export default class FlappyBirdRenderer {
     if (this.game.state.status !== 'idle') return;
     if (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'KeyW' || e.code === 'Enter') {
       e.preventDefault();
-      this._overlayEl.classList.add('fb-overlay--hidden');
+      this._overlay.hide();
       this.game.start(this._sel);
     }
   }
@@ -275,7 +182,7 @@ export default class FlappyBirdRenderer {
 
   _onTick({ state }) {
     if (state.status === 'idle') {
-      this._overlayEl.classList.remove('fb-overlay--hidden');
+      this._overlay.show();
       this._draw(state);
     }
   }
@@ -283,31 +190,18 @@ export default class FlappyBirdRenderer {
   _onOver(data) {
     this._draw(this.game.state);
     this._showGameOverScreen(data);
-    const gs = document.getElementById('gs-overlay');
-    if (gs) gs.classList.add('hidden');
   }
 
   _onPaused() {
-    this._overlayEl.innerHTML = `
-      <div style="font-size:34px">⏸</div>
-      <div class="fb-ov-sub">PAUSE</div>
-      <button class="fb-play-btn" id="fb-ov-resume">REPRENDRE</button>
-    `;
-    this._overlayEl.classList.remove('fb-overlay--hidden');
-    this._overlayEl.querySelector('#fb-ov-resume')
-      ?.addEventListener('click', () => EventBus.emit('game:pause-toggle'));
-    const gs = document.getElementById('gs-overlay');
-    if (gs) gs.classList.add('hidden');
+    this._overlay.showPause(() => EventBus.emit('game:pause-toggle'));
   }
 
   _onResumed() {
-    this._overlayEl.classList.add('fb-overlay--hidden');
-    const gs = document.getElementById('gs-overlay');
-    if (gs) gs.classList.add('hidden');
+    this._overlay.hide();
   }
 
   _onRestart() {
-    this._goToStartScreen();
+    this._showStartScreen();
   }
 
   /* ============================================================

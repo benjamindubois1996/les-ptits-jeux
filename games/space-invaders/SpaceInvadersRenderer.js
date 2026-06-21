@@ -6,12 +6,13 @@
  *  - Boucle RAF : appelle game.update(dt) puis dessine
  *  - Mise à l'échelle du monde logique (660×720) → viewport
  *  - Fond étoilé animé, HUD, aliens animés, boucliers, effets
- *  - Overlays : idle, paused, levelup, gameover
+ *  - Overlays (démarrage/pause/niveau/fin) via GameOverlay (module partagé)
  *
  * NE contient aucune logique de jeu.
  */
 
-import EventBus from '../../js/core/EventBus.js';
+import EventBus    from '../../js/core/EventBus.js';
+import GameOverlay  from '../../js/ui/components/GameOverlay.js';
 
 export default class SpaceInvadersRenderer {
 
@@ -39,6 +40,9 @@ export default class SpaceInvadersRenderer {
     this._alienFrame      = 0;
     this._alienFrameTimer = 0;
 
+    // Suivi de transition pour ne (re)construire l'overlay qu'au changement de statut
+    this._lastOverlayStatus = null;
+
     // Bindings
     this._render   = this._render.bind(this);
     this._onResize = this._onResize.bind(this);
@@ -58,6 +62,7 @@ export default class SpaceInvadersRenderer {
   destroy() {
     this._stopRenderLoop();
     window.removeEventListener('resize', this._onResize);
+    this._overlay?.destroy();
     if (this._wrapper) this._wrapper.remove();
   }
 
@@ -86,8 +91,23 @@ export default class SpaceInvadersRenderer {
     `;
     this._ctx = this._canvas.getContext('2d');
 
-    this._wrapper.appendChild(this._canvas);
+    const canvasWrap = document.createElement('div');
+    canvasWrap.style.cssText = 'position:relative;display:inline-block;line-height:0;';
+    canvasWrap.appendChild(this._canvas);
+    this._wrapper.appendChild(canvasWrap);
     this.viewport.appendChild(this._wrapper);
+
+    this._overlay = new GameOverlay(this.viewport);
+    this._showStartScreen();
+  }
+
+  _showStartScreen() {
+    const optionGroups = [
+      { key: 'mode', label: 'MODE', default: 'basique', options: [{ value: 'basique', label: 'BASIQUE' }] },
+    ];
+    this._overlay.showStart(optionGroups, () => this.game.start(1), {
+      extraHtml: '<div class="overlay-score">← → pour bouger · ESPACE pour tirer</div>',
+    });
   }
 
   _onResize() { this._resize(); }
@@ -185,18 +205,41 @@ export default class SpaceInvadersRenderer {
     this._drawMystery(ctx, state);
     this._drawExplosions(ctx, state);
 
-    // Overlays
-    if (state.status === 'idle') {
-      this._drawOverlay(ctx, 'SPACE INVADERS', '← → pour bouger   ESPACE pour tirer', null);
-    } else if (state.status === 'paused') {
-      this._drawOverlay(ctx, 'PAUSE', 'P pour reprendre', null);
-    } else if (state.status === 'levelup') {
-      this._drawOverlay(ctx, `NIVEAU ${state.level} !`, '+1 vie · Prépare-toi…', null);
-    } else if (state.status === 'gameover') {
-      this._drawOverlay(ctx, 'GAME OVER', `Score : ${state.score}`, 'R pour rejouer');
-    }
+    this._syncOverlay(state);
 
     ctx.restore();
+  }
+
+  /* ============================================================
+     OVERLAY (démarrage / pause / niveau / fin de partie)
+     ============================================================ */
+
+  _syncOverlay(state) {
+    if (state.status === this._lastOverlayStatus) return;
+    this._lastOverlayStatus = state.status;
+
+    switch (state.status) {
+      case 'playing':
+        this._overlay.hide();
+        break;
+      case 'paused':
+        this._overlay.showPause(() => EventBus.emit('game:pause-toggle'));
+        break;
+      case 'levelup':
+        this._overlay.el.innerHTML = `
+          <div class="overlay-icon">🚀</div>
+          <div class="overlay-title">NIVEAU ${state.level} !</div>
+          <div class="overlay-score">+1 vie · Prépare-toi…</div>
+        `;
+        this._overlay.show();
+        break;
+      case 'gameover':
+        this._overlay.showGameOver(
+          { result: 'lose', score: state.score, isRecord: state.score > 0 && state.score >= state.best },
+          () => EventBus.emit('game:restart'),
+        );
+        break;
+    }
   }
 
   /* ============================================================
@@ -566,43 +609,4 @@ export default class SpaceInvadersRenderer {
     ctx.lineWidth  = 1;
   }
 
-  /* ============================================================
-     OVERLAYS
-     ============================================================ */
-
-  _drawOverlay(ctx, line1, line2, line3) {
-    const W  = this.config.world.W;
-    const H  = this.config.world.H;
-    const ui = this.config.theme.ui;
-
-    ctx.fillStyle = 'rgba(5, 10, 18, 0.84)';
-    ctx.fillRect(0, 0, W, H);
-
-    ctx.textAlign    = 'center';
-    ctx.textBaseline = 'middle';
-
-    // Titre
-    const titleSize = Math.min(W * 0.082, 52);
-    ctx.font        = `bold ${titleSize}px ${ui.fontFamily}`;
-    ctx.fillStyle   = ui.primaryColor;
-    ctx.shadowColor = ui.primaryColor;
-    ctx.shadowBlur  = 22;
-    ctx.fillText(line1, W / 2, H * 0.42);
-    ctx.shadowBlur = 0;
-
-    // Sous-titre
-    ctx.font      = `${W * 0.038}px ${ui.fontFamily}`;
-    ctx.fillStyle = ui.mutedColor;
-    ctx.fillText(line2, W / 2, H * 0.53);
-
-    // Action
-    if (line3) {
-      ctx.font        = `${W * 0.034}px ${ui.fontFamily}`;
-      ctx.fillStyle   = ui.accentColor;
-      ctx.shadowColor = ui.accentColor;
-      ctx.shadowBlur  = 8;
-      ctx.fillText(line3, W / 2, H * 0.63);
-      ctx.shadowBlur = 0;
-    }
-  }
 }

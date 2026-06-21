@@ -13,7 +13,8 @@
  * NE contient aucune logique de jeu.
  */
 
-import EventBus from '../../js/core/EventBus.js';
+import EventBus    from '../../js/core/EventBus.js';
+import GameOverlay  from '../../js/ui/components/GameOverlay.js';
 
 export default class Game2048Renderer {
 
@@ -25,7 +26,6 @@ export default class Game2048Renderer {
     this._canvas     = null;
     this._ctx        = null;
     this._wrapper    = null;
-    this._scoreEl    = null;
     this._bestEl     = null;
     this._rafId      = null;
 
@@ -41,11 +41,17 @@ export default class Game2048Renderer {
     // Swipe tactile
     this._touchStart = null;
 
+    // Suivi de transition pour ne (re)construire l'overlay qu'au changement de statut
+    this._lastOverlayStatus = 'idle';
+    this._winShown          = false;
+
     // Bindings
     this._onTick    = this._onTick.bind(this);
     this._onResize  = this._onResize.bind(this);
     this._onWon     = this._onWon.bind(this);
     this._onOver    = this._onOver.bind(this);
+    this._onPaused  = () => this._overlay.showPause(() => EventBus.emit('game:pause-toggle'));
+    this._onResumed = () => this._overlay.hide();
     this._render    = this._render.bind(this);
   }
 
@@ -62,10 +68,13 @@ export default class Game2048Renderer {
 
   destroy() {
     this._stopRenderLoop();
-    EventBus.off('game:tick',  this._onTick);
-    EventBus.off('game:won',   this._onWon);
-    EventBus.off('game:over',  this._onOver);
+    EventBus.off('game:tick',   this._onTick);
+    EventBus.off('game:won',    this._onWon);
+    EventBus.off('game:over',   this._onOver);
+    EventBus.off('game:paused', this._onPaused);
+    EventBus.off('game:resumed',this._onResumed);
     window.removeEventListener('resize', this._onResize);
+    this._overlay?.destroy();
     if (this._wrapper) this._wrapper.remove();
   }
 
@@ -89,32 +98,19 @@ export default class Game2048Renderer {
       gap: 10px;
     `;
 
-    // --- Barre de scores ---
+    // --- Barre de scores (BEST uniquement — score dans le header GameShell) ---
     const scoreBar = document.createElement('div');
     scoreBar.style.cssText = `
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
       width: 100%;
       max-width: 480px;
       flex-shrink: 0;
     `;
 
-    this._scoreEl = this._makeScoreBox('SCORE', '0', ui);
-    this._bestEl  = this._makeScoreBox('BEST',  '0', ui);
+    this._bestEl = this._makeScoreBox('BEST', '0', ui);
 
-    const hintEl = document.createElement('div');
-    hintEl.style.cssText = `
-      font-family: ${ui.fontFamily};
-      font-size: 9px;
-      color: ${ui.mutedColor};
-      letter-spacing: 0.05em;
-      text-align: center;
-    `;
-    hintEl.innerHTML = '↑↓←→ / WASD<br>P : pause &nbsp; R : restart';
-
-    scoreBar.appendChild(this._scoreEl.container);
-    scoreBar.appendChild(hintEl);
     scoreBar.appendChild(this._bestEl.container);
 
     // --- Canvas ---
@@ -127,6 +123,10 @@ export default class Game2048Renderer {
       touch-action: none;
     `;
     this._ctx = this._canvas.getContext('2d');
+
+    const canvasWrap = document.createElement('div');
+    canvasWrap.style.cssText = 'position:relative;display:inline-block;line-height:0;';
+    canvasWrap.appendChild(this._canvas);
 
     // Swipe tactile
     this._canvas.addEventListener('touchstart', (e) => {
@@ -144,8 +144,6 @@ export default class Game2048Renderer {
       const threshold = 30;
       if (Math.abs(dx) < threshold && Math.abs(dy) < threshold) return;
 
-      if (this.game.state.status === 'idle') { this.game.start(); return; }
-
       if (Math.abs(dx) > Math.abs(dy)) {
         this.game.move(dx > 0 ? 'right' : 'left');
       } else {
@@ -154,8 +152,18 @@ export default class Game2048Renderer {
     }, { passive: false });
 
     this._wrapper.appendChild(scoreBar);
-    this._wrapper.appendChild(this._canvas);
+    this._wrapper.appendChild(canvasWrap);
     this.viewport.appendChild(this._wrapper);
+
+    this._overlay = new GameOverlay(this.viewport);
+    this._showStartScreen();
+  }
+
+  _showStartScreen() {
+    const optionGroups = [
+      { key: 'mode', label: 'MODE', default: 'basique', options: [{ value: 'basique', label: 'BASIQUE' }] },
+    ];
+    this._overlay.showStart(optionGroups, () => this.game.start());
   }
 
   _makeScoreBox(label, value, ui) {
@@ -198,16 +206,17 @@ export default class Game2048Renderer {
      ============================================================ */
 
   _bindEvents() {
-    EventBus.on('game:tick', this._onTick);
-    EventBus.on('game:won',  this._onWon);
-    EventBus.on('game:over', this._onOver);
+    EventBus.on('game:tick',    this._onTick);
+    EventBus.on('game:won',    this._onWon);
+    EventBus.on('game:over',   this._onOver);
+    EventBus.on('game:paused', this._onPaused);
+    EventBus.on('game:resumed',this._onResumed);
     window.addEventListener('resize', this._onResize);
   }
 
   _onTick({ state, newTile, merged }) {
-    // Mettre à jour l'affichage des scores
-    this._scoreEl.valueEl.textContent = state.score.toLocaleString('fr-FR');
-    this._bestEl.valueEl.textContent  = state.best.toLocaleString('fr-FR');
+    EventBus.emit('game:score-update', { score: state.score });
+    this._bestEl.valueEl.textContent = state.best.toLocaleString('fr-FR');
 
     // Animation pop sur les cases fusionnées
     if (merged && merged.length > 0) {
@@ -226,11 +235,14 @@ export default class Game2048Renderer {
   }
 
   _onWon() {
-    // Déclenche le rendu de l'overlay won (géré dans _render)
+    // Le rendu de l'interstitiel "2048 !" est géré dans _render() (_syncOverlay)
   }
 
-  _onOver() {
-    // Déclenche le rendu de l'overlay gameover (géré dans _render)
+  _onOver({ score, isRecord }) {
+    this._overlay.showGameOver(
+      { result: 'lose', score, isRecord },
+      () => EventBus.emit('game:restart'),
+    );
   }
 
   _onResize() { this._resize(); }
@@ -324,16 +336,51 @@ export default class Game2048Renderer {
       return t < 1;
     });
 
-    // Overlays
-    if (state.status === 'idle') {
-      this._drawOverlay(ctx, 'APPUIE SUR UNE FLÈCHE', 'POUR COMMENCER', null);
-    } else if (state.status === 'paused') {
-      this._drawOverlay(ctx, 'PAUSE', 'P pour reprendre', null);
-    } else if (state.status === 'gameover') {
-      this._drawOverlay(ctx, 'GAME OVER', `Score : ${state.score.toLocaleString('fr-FR')}`, 'R pour rejouer');
-    } else if (state.status === 'playing' && state.won && !state.wonAcknowledged) {
-      this._drawWinOverlay(ctx, state);
+    this._syncOverlay(state);
+  }
+
+  /* ============================================================
+     OVERLAY (démarrage / pause / fin de partie / interstitiel 2048)
+     ============================================================ */
+
+  _syncOverlay(state) {
+    // Interstitiel "2048 atteint" — indépendant du statut (reste 'playing')
+    const shouldShowWin = state.status === 'playing' && state.won && !state.wonAcknowledged;
+    if (shouldShowWin && !this._winShown) {
+      this._winShown = true;
+      this._showWinInterstitial();
+      return;
     }
+    if (!shouldShowWin) this._winShown = false;
+
+    if (state.status === this._lastOverlayStatus) return;
+    this._lastOverlayStatus = state.status;
+
+    switch (state.status) {
+      case 'idle':    this._showStartScreen(); break;
+      case 'playing': this._overlay.hide();    break;
+      // 'paused' et 'gameover' sont gérés par les events game:paused / game:over
+    }
+  }
+
+  _showWinInterstitial() {
+    this._overlay.el.innerHTML = `
+      <div class="overlay-icon">🎉</div>
+      <div class="overlay-title" style="color:var(--neon-yellow)">2048 !</div>
+      <div class="overlay-score">Tu as réussi ! Continue ?</div>
+      <div class="overlay-actions">
+        <button class="ov-play-btn" id="ov-continue-btn">CONTINUER</button>
+        <button class="btn btn-ghost" id="ov-newgame-btn">NOUVEAU JEU</button>
+      </div>
+    `;
+    this._overlay.el.querySelector('#ov-continue-btn')?.addEventListener('click', () => {
+      this.game.continueAfterWin();
+      this._overlay.hide();
+    });
+    this._overlay.el.querySelector('#ov-newgame-btn')?.addEventListener('click', () => {
+      EventBus.emit('game:restart');
+    });
+    this._overlay.show();
   }
 
   /* ============================================================
@@ -394,104 +441,8 @@ export default class Game2048Renderer {
     ctx.restore();
   }
 
-  /* ============================================================
-     OVERLAYS
-     ============================================================ */
-
-  _drawOverlay(ctx, line1, line2, line3) {
-    const W  = this._canvas.width;
-    const H  = this._canvas.height;
-    const ui = this.config.theme.ui;
-
-    ctx.fillStyle = 'rgba(5, 8, 15, 0.82)';
-    this._roundRect(ctx, 0, 0, W, H, 8);
-    ctx.fill();
-
-    ctx.font         = `bold ${W * 0.09}px ${ui.fontFamily}`;
-    ctx.textAlign    = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillStyle    = ui.primaryColor;
-    ctx.shadowColor  = ui.primaryColor;
-    ctx.shadowBlur   = 18;
-    ctx.fillText(line1, W/2, H * 0.42);
-
-    ctx.shadowBlur  = 0;
-    ctx.font        = `${W * 0.045}px ${ui.fontFamily}`;
-    ctx.fillStyle   = ui.mutedColor;
-    ctx.fillText(line2, W/2, H * 0.53);
-
-    if (line3) {
-      ctx.font      = `${W * 0.038}px ${ui.fontFamily}`;
-      ctx.fillStyle = ui.accentColor;
-      ctx.shadowColor = ui.accentColor;
-      ctx.shadowBlur  = 10;
-      ctx.fillText(line3, W/2, H * 0.63);
-      ctx.shadowBlur = 0;
-    }
-  }
-
-  _drawWinOverlay(ctx, state) {
-    const W  = this._canvas.width;
-    const H  = this._canvas.height;
-    const ui = this.config.theme.ui;
-
-    ctx.fillStyle = 'rgba(5, 8, 15, 0.82)';
-    this._roundRect(ctx, 0, 0, W, H, 8);
-    ctx.fill();
-
-    // Titre
-    ctx.font         = `bold ${W * 0.1}px ${ui.fontFamily}`;
-    ctx.textAlign    = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillStyle    = ui.winColor;
-    ctx.shadowColor  = ui.winColor;
-    ctx.shadowBlur   = 25;
-    ctx.fillText('2048 !', W/2, H * 0.35);
-    ctx.shadowBlur = 0;
-
-    ctx.font      = `${W * 0.042}px ${ui.fontFamily}`;
-    ctx.fillStyle = ui.mutedColor;
-    ctx.fillText('Tu as réussi ! Continue ?', W/2, H * 0.46);
-
-    // Bouton Continuer
-    this._drawButton(ctx, W/2, H * 0.57, 'C — CONTINUER', ui.winColor);
-
-    // Bouton Nouveau jeu
-    this._drawButton(ctx, W/2, H * 0.69, 'R — NOUVEAU JEU', ui.dangerColor);
-
-    // Écoute les touches C / Entrée pour continuer
-    if (!this._winHandlerBound) {
-      this._winHandlerBound = true;
-      this._winKeyHandler = (e) => {
-        if (e.code === 'KeyC' || e.code === 'Enter') {
-          this.game.continueAfterWin();
-          window.removeEventListener('keydown', this._winKeyHandler);
-          this._winHandlerBound = false;
-        }
-      };
-      window.addEventListener('keydown', this._winKeyHandler);
-    }
-  }
-
-  _drawButton(ctx, cx, cy, label, color) {
-    const ui = this.config.theme.ui;
-    const bw = this._canvas.width  * 0.6;
-    const bh = this._canvas.height * 0.08;
-
-    ctx.strokeStyle = color;
-    ctx.lineWidth   = 1.5;
-    ctx.shadowColor = color;
-    ctx.shadowBlur  = 8;
-    this._roundRect(ctx, cx - bw/2, cy - bh/2, bw, bh, 4);
-    ctx.stroke();
-    ctx.shadowBlur = 0;
-
-    ctx.font         = `${this._canvas.width * 0.038}px ${ui.fontFamily}`;
-    ctx.textAlign    = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillStyle    = color;
-    ctx.fillText(label, cx, cy);
-  }
+  /* Les écrans démarrage / pause / fin de partie / interstitiel 2048 sont
+     gérés par GameOverlay (js/ui/components/GameOverlay.js) — voir _syncOverlay(). */
 
   /* ============================================================
      UTILITAIRES GÉOMÉTRIQUES

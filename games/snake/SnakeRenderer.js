@@ -12,7 +12,8 @@
  * NE contient aucune logique de jeu — lit uniquement this.game.state
  */
 
-import EventBus from '../../js/core/EventBus.js';
+import EventBus    from '../../js/core/EventBus.js';
+import GameOverlay  from '../../js/ui/components/GameOverlay.js';
 
 export default class SnakeRenderer {
 
@@ -38,6 +39,9 @@ export default class SnakeRenderer {
     this._shakeFrames  = 0;      // secousse à la mort
     this._eatParticles = [];     // particules au moment de manger
 
+    // Suivi de transition pour ne (re)construire l'overlay qu'au changement de statut
+    this._lastOverlayStatus = 'idle';
+
     // Bind des handlers EventBus pour pouvoir les détacher
     this._onTick        = this._onTick.bind(this);
     this._onEat         = this._onEat.bind(this);
@@ -57,12 +61,24 @@ export default class SnakeRenderer {
 
     // Dessiner l'écran d'attente immédiatement
     this._drawIdleScreen();
+
+    this._overlay = new GameOverlay(this.viewport);
+    this._showStartScreen();
   }
 
   destroy() {
     this._stopRenderLoop();
     this._unbindEvents();
-    if (this.canvas) this.canvas.remove();
+    this._overlay?.destroy();
+    if (this._canvasWrap) this._canvasWrap.remove();
+    window.removeEventListener('resize', this._onResize);
+  }
+
+  _showStartScreen() {
+    const optionGroups = [
+      { key: 'mode', label: 'MODE', default: 'basique', options: [{ value: 'basique', label: 'BASIQUE' }] },
+    ];
+    this._overlay.showStart(optionGroups, () => this.game.start());
   }
 
   /* ============================================================
@@ -70,10 +86,14 @@ export default class SnakeRenderer {
      ============================================================ */
 
   _createCanvas() {
+    this._canvasWrap = document.createElement('div');
+    this._canvasWrap.style.cssText = 'position:relative;display:inline-block;line-height:0;';
+
     this.canvas = document.createElement('canvas');
     this.canvas.style.display     = 'block';
     this.canvas.style.imageRendering = 'pixelated';
-    this.viewport.appendChild(this.canvas);
+    this._canvasWrap.appendChild(this.canvas);
+    this.viewport.appendChild(this._canvasWrap);
 
     this.ctx = this.canvas.getContext('2d');
     this._resize();
@@ -162,6 +182,7 @@ export default class SnakeRenderer {
 
   _draw() {
     const state = this.game.state;
+    this._syncOverlay(state);
 
     if (state.status === 'idle') {
       this._drawIdleScreen();
@@ -465,33 +486,26 @@ export default class SnakeRenderer {
     this._drawBackground();
     this._drawGrid();
 
-    const ctx      = this.ctx;
-    const w        = this.canvas.width;
-    const h        = this.canvas.height;
-    const uiCfg    = this.config.theme.ui;
-
-    // Serpent démo statique
+    // Serpent démo statique — décor derrière l'écran de démarrage (GameOverlay)
     const mid  = Math.floor(this.game.state.gridSize / 2);
     const demo = [
       { x: mid, y: mid }, { x: mid - 1, y: mid },
       { x: mid - 2, y: mid }, { x: mid - 3, y: mid }
     ];
     this._drawSnake(demo, 'RIGHT');
+  }
 
-    // Message
-    const fontSize = Math.max(12, this.cellSize);
-    ctx.font        = `700 ${fontSize}px ${uiCfg.fontFamily || 'Orbitron, monospace'}`;
-    ctx.textAlign   = 'center';
-    ctx.fillStyle   = uiCfg.scoreColor || '#00ffe1';
-    ctx.shadowColor = 'rgba(0,255,225,0.6)';
-    ctx.shadowBlur  = 16;
-    ctx.fillText('APPUIE POUR JOUER', w / 2, h * 0.78);
+  /* ============================================================
+     OVERLAY (démarrage)
+     ============================================================ */
 
-    ctx.font        = `400 ${Math.round(fontSize * 0.6)}px ${uiCfg.fontFamily}`;
-    ctx.fillStyle   = 'rgba(0,255,225,0.4)';
-    ctx.shadowBlur  = 0;
-    ctx.fillText('← ↑ ↓ →  ou  WASD', w / 2, h * 0.85);
-    ctx.textAlign   = 'left';
+  _syncOverlay(state) {
+    if (state.status === this._lastOverlayStatus) return;
+    this._lastOverlayStatus = state.status;
+
+    if (state.status === 'idle')    this._showStartScreen();
+    if (state.status === 'playing') this._overlay.hide();
+    // 'paused' et 'gameover' restent gérés par l'overlay générique de GameShell
   }
 
   /* ============================================================

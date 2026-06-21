@@ -1,4 +1,5 @@
-import EventBus from '../../js/core/EventBus.js';
+import EventBus    from '../../js/core/EventBus.js';
+import GameOverlay  from '../../js/ui/components/GameOverlay.js';
 
 /* Étoiles fixes */
 const STARS = Array.from({ length: 50 }, (_, i) => ({
@@ -18,7 +19,6 @@ export default class Platformer2DRenderer {
     this._wrapper      = null;
     this._canvas       = null;
     this._ctx          = null;
-    this._overlayEl    = null;
 
     this._tick         = 0;
     this._levelBanner  = null; // { text, ttl }
@@ -45,6 +45,7 @@ export default class Platformer2DRenderer {
 
   destroy() {
     this._unbindEvents();
+    this._overlay?.destroy();
     this._wrapper?.remove();
     document.getElementById('p2d-styles')?.remove();
   }
@@ -56,8 +57,6 @@ export default class Platformer2DRenderer {
     const el = document.createElement('style');
     el.id = 'p2d-styles';
     el.textContent = `
-      @keyframes p2d-fadein { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-
       .p2d-wrapper {
         position:absolute; inset:0;
         display:flex; align-items:center; justify-content:center;
@@ -66,48 +65,9 @@ export default class Platformer2DRenderer {
       }
       .p2d-canvas { display:block; max-width:100%; max-height:100%; image-rendering:pixelated; }
 
-      .p2d-overlay {
-        position:absolute; inset:0;
-        background:rgba(5,8,15,0.93); backdrop-filter:blur(5px);
-        display:flex; flex-direction:column; align-items:center; justify-content:center;
-        gap:10px; z-index:20;
-        animation:p2d-fadein 0.2s ease;
-      }
-      .p2d-overlay.p2d-overlay--hidden { display:none; }
-
-      .p2d-ov-title {
-        font-size:clamp(20px,5vw,36px); font-weight:900;
-        letter-spacing:0.18em; color:rgba(0,255,225,0.95);
-        text-shadow:0 0 24px rgba(0,255,225,0.4);
-      }
-      .p2d-ov-sub  { font-size:clamp(13px,3vw,18px); font-weight:700; letter-spacing:0.1em; }
-      .p2d-ov-info { font-size:10px; letter-spacing:0.12em; color:rgba(0,255,225,0.45); }
-      .p2d-ov-actions { display:flex; gap:12px; margin-top:6px; }
-
-      .p2d-opt-group { display:flex; flex-direction:column; align-items:center; gap:6px; }
-      .p2d-opt-label { font-size:8px; letter-spacing:0.22em; color:rgba(0,255,225,0.4); }
-      .p2d-chips     { display:flex; gap:5px; }
-      .p2d-chip {
-        font-family:Orbitron,monospace; font-size:10px; font-weight:700;
-        letter-spacing:0.07em; padding:5px 12px; border-radius:4px;
-        border:1px solid rgba(0,255,225,0.22); background:#0a1520;
-        color:rgba(0,255,225,0.55); cursor:pointer; transition:all 0.14s;
-      }
-      .p2d-chip:hover { border-color:rgba(0,255,225,0.5); color:rgba(0,255,225,0.85); }
-      .p2d-chip--on {
-        background:rgba(0,255,225,0.11); border-color:rgba(0,255,225,0.6);
-        color:rgba(0,255,225,1); box-shadow:0 0 8px rgba(0,255,225,0.18);
-      }
-      .p2d-play-btn {
-        font-family:Orbitron,monospace; font-size:13px; font-weight:900;
-        letter-spacing:0.22em; padding:11px 38px; border-radius:6px;
-        border:2px solid rgba(0,255,225,0.55); background:rgba(0,255,225,0.07);
-        color:rgba(0,255,225,0.95); cursor:pointer; transition:all 0.2s; margin-top:4px;
-      }
-      .p2d-play-btn:hover {
-        background:rgba(0,255,225,0.15); border-color:rgba(0,255,225,0.9);
-        box-shadow:0 0 16px rgba(0,255,225,0.28);
-      }
+      /* Écrans démarrage / pause / fin de partie : entièrement gérés par
+         GameOverlay (js/ui/components/GameOverlay.js), monté sur .p2d-wrapper.
+         Voir .ov-* dans index.html pour le CSS associé. */
     `;
     document.head.appendChild(el);
   }
@@ -126,10 +86,8 @@ export default class Platformer2DRenderer {
     this._ctx = this._canvas.getContext('2d');
     this._wrapper.appendChild(this._canvas);
 
-    this._overlayEl = document.createElement('div');
-    this._overlayEl.className = 'p2d-overlay';
+    this._overlay = new GameOverlay(this._wrapper);
     this._showStartScreen();
-    this._wrapper.appendChild(this._overlayEl);
 
     this.viewport.appendChild(this._wrapper);
   }
@@ -137,81 +95,39 @@ export default class Platformer2DRenderer {
   /* ── Overlays ──────────────────────────────────────────────── */
 
   _showStartScreen() {
-    this._overlayEl.innerHTML = `
-      <div class="p2d-ov-title">PLATFORMER</div>
-      <div class="p2d-ov-info" style="color:rgba(0,255,225,0.65)">← → / A D : courir · ESPACE / ↑ : sauter</div>
-
-      <div class="p2d-opt-group">
-        <div class="p2d-opt-label">MODE</div>
-        <div class="p2d-chips" data-opt="mode">
-          <button class="p2d-chip p2d-chip--on" data-val="basique">BASIQUE</button>
-        </div>
-      </div>
-
-      <div class="p2d-ov-info" style="color:rgba(255,220,0,0.7);margin-top:2px">
-        🪙 Collecte les pièces · Évite les ennemis · Atteins l'étoile
-      </div>
-      <div class="p2d-ov-info">3 niveaux · 3 vies</div>
-
-      <button class="p2d-play-btn" id="p2d-play-btn">JOUER</button>
-      <div class="p2d-ov-info" style="opacity:0.45">ENTRÉE pour lancer</div>
-    `;
-
-    this._overlayEl.querySelectorAll('.p2d-chips').forEach(group => {
-      group.addEventListener('click', e => {
-        const btn = e.target.closest('.p2d-chip');
-        if (!btn) return;
-        this._sel[group.dataset.opt] = btn.dataset.val;
-        group.querySelectorAll('.p2d-chip').forEach(b => b.classList.remove('p2d-chip--on'));
-        btn.classList.add('p2d-chip--on');
-      });
+    const optionGroups = [
+      { key: 'mode', label: 'MODE', default: 'basique', options: [{ value: 'basique', label: 'BASIQUE' }] },
+    ];
+    this._overlay.showStart(optionGroups, (selections) => {
+      this._sel = selections;
+      this.game.start(this._sel);
+    }, {
+      extraHtml: `
+        <div class="overlay-score">← → / A D : courir · ESPACE / ↑ : sauter</div>
+        <div class="overlay-score" style="color:rgba(255,220,0,0.7)">🪙 Collecte les pièces · Évite les ennemis · Atteins l'étoile</div>
+        <div class="overlay-score">3 niveaux · 3 vies</div>
+      `,
     });
-
-    this._overlayEl.querySelector('#p2d-play-btn')
-      ?.addEventListener('click', () => {
-        this._overlayEl.classList.add('p2d-overlay--hidden');
-        this.game.start(this._sel);
-      });
   }
 
   _showGameOverScreen({ score, best }) {
-    const isRecord = score > 0 && score >= best;
-    this._overlayEl.innerHTML = `
-      <div style="font-size:42px">💀</div>
-      <div class="p2d-ov-sub" style="color:#ff4455">GAME OVER</div>
-      <div class="p2d-ov-info" style="font-size:13px;color:rgba(255,255,255,0.7)">Score : <strong style="color:#fff">${score}</strong></div>
-      <div class="p2d-ov-info">Meilleur : ${best}</div>
-      ${isRecord ? '<div class="p2d-ov-info" style="color:#ffe600">🏆 Nouveau record !</div>' : ''}
-      <div class="p2d-ov-actions">
-        <button class="p2d-play-btn" id="p2d-ov-replay">REJOUER</button>
-      </div>
-      <div class="p2d-ov-info" style="opacity:0.5">R pour rejouer</div>
-    `;
-    this._overlayEl.classList.remove('p2d-overlay--hidden');
-    this._overlayEl.querySelector('#p2d-ov-replay')
-      ?.addEventListener('click', () => this._goToStartScreen());
+    this._overlay.showGameOver({
+      result: 'lose',
+      score,
+      isRecord: score > 0 && score >= best,
+    }, () => this._goToStartScreen());
   }
 
   _showWinScreen({ score, best }) {
-    const isRecord = score > 0 && score >= best;
-    this._overlayEl.innerHTML = `
-      <div style="font-size:42px">🏆</div>
-      <div class="p2d-ov-sub" style="color:#ffe600">VICTOIRE !</div>
-      <div class="p2d-ov-info" style="color:rgba(0,255,225,0.7)">Les 3 niveaux complétés !</div>
-      <div class="p2d-ov-info" style="font-size:13px;color:rgba(255,255,255,0.7)">Score : <strong style="color:#fff">${score}</strong></div>
-      <div class="p2d-ov-info">Meilleur : ${best}</div>
-      ${isRecord ? '<div class="p2d-ov-info" style="color:#ffe600">🏆 Nouveau record !</div>' : ''}
-      <div class="p2d-ov-actions">
-        <button class="p2d-play-btn" id="p2d-ov-replay">REJOUER</button>
-      </div>
-    `;
-    this._overlayEl.classList.remove('p2d-overlay--hidden');
-    this._overlayEl.querySelector('#p2d-ov-replay')
-      ?.addEventListener('click', () => this._goToStartScreen());
+    this._overlay.showGameOver({
+      result: 'win',
+      score,
+      isRecord: score > 0 && score >= best,
+      extraInfo: '<div class="overlay-score">Les 3 niveaux complétés !</div>',
+    }, () => this._goToStartScreen());
   }
 
   _goToStartScreen() {
-    this._overlayEl.classList.remove('p2d-overlay--hidden');
     this._showStartScreen();
   }
 
@@ -245,7 +161,7 @@ export default class Platformer2DRenderer {
     if (this.game.state.status === 'idle') {
       if (['Space','ArrowUp','KeyW','Enter'].includes(e.code)) {
         e.preventDefault();
-        this._overlayEl.classList.add('p2d-overlay--hidden');
+        this._overlay.hide();
         this.game.start(this._sel);
       }
     }
@@ -258,44 +174,23 @@ export default class Platformer2DRenderer {
 
   _onTick({ state, action }) {
     if (state.status === 'idle') {
-      this._overlayEl.classList.remove('p2d-overlay--hidden');
+      this._overlay.show();
       this._draw(state);
     }
     if (action === 'new-game' || action === 'level-start') {
-      this._overlayEl.classList.add('p2d-overlay--hidden');
+      this._overlay.hide();
     }
   }
 
-  _onOver(data) {
-    this._showGameOverScreen(data);
-    document.getElementById('gs-overlay')?.classList.add('hidden');
-  }
-
-  _onWin(data) {
-    this._showWinScreen(data);
-    document.getElementById('gs-overlay')?.classList.add('hidden');
-  }
+  _onOver(data)  { this._showGameOverScreen(data); }
+  _onWin(data)   { this._showWinScreen(data); }
 
   _onLevelUp({ level }) {
     this._levelBanner = { text: `NIVEAU ${level}`, ttl: 108 }; // ~1.8s à 60fps
   }
 
-  _onPaused() {
-    this._overlayEl.innerHTML = `
-      <div style="font-size:34px">⏸</div>
-      <div class="p2d-ov-sub">PAUSE</div>
-      <button class="p2d-play-btn" id="p2d-ov-resume">REPRENDRE</button>
-    `;
-    this._overlayEl.classList.remove('p2d-overlay--hidden');
-    this._overlayEl.querySelector('#p2d-ov-resume')
-      ?.addEventListener('click', () => EventBus.emit('game:pause-toggle'));
-    document.getElementById('gs-overlay')?.classList.add('hidden');
-  }
-
-  _onResumed() {
-    this._overlayEl.classList.add('p2d-overlay--hidden');
-    document.getElementById('gs-overlay')?.classList.add('hidden');
-  }
+  _onPaused()  { this._overlay.showPause(() => EventBus.emit('game:pause-toggle')); }
+  _onResumed() { this._overlay.hide(); }
 
   _onRestart() {
     this._goToStartScreen();

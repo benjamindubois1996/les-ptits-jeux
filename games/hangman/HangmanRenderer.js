@@ -1,4 +1,5 @@
-import EventBus from '../../js/core/EventBus.js';
+import EventBus    from '../../js/core/EventBus.js';
+import GameOverlay  from '../../js/ui/components/GameOverlay.js';
 
 const KEYBOARD_ROWS = [
   ['A','Z','E','R','T','Y','U','I','O','P'],
@@ -35,7 +36,6 @@ export default class HangmanRenderer {
     this._wrongEl   = null;
     this._livesEl   = null;
     this._keyEls    = {};
-    this._overlayEl = null;
 
     /* sélections de l'écran de démarrage */
     this._sel = {
@@ -64,6 +64,7 @@ export default class HangmanRenderer {
 
   destroy() {
     this._unbindEvents();
+    this._overlay?.destroy();
     if (this._wrapper) this._wrapper.remove();
     const s = document.getElementById('hangman-styles');
     if (s) s.remove();
@@ -80,7 +81,6 @@ export default class HangmanRenderer {
     el.textContent = `
       @keyframes hg-pop    { 0%{transform:scale(1)} 40%{transform:scale(1.15)} 100%{transform:scale(1)} }
       @keyframes hg-shake  { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
-      @keyframes hg-fadein { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 
       .hg-wrapper {
         display:flex; flex-direction:column; align-items:center;
@@ -161,60 +161,9 @@ export default class HangmanRenderer {
         color:rgba(255,68,85,0.35); cursor:default;
       }
 
-      /* ---- Overlay start / win / lose ---- */
-      .hg-overlay {
-        position:absolute; inset:0;
-        background:rgba(5,8,15,0.94); backdrop-filter:blur(5px);
-        display:flex; flex-direction:column; align-items:center; justify-content:center;
-        gap:14px; z-index:20; border-radius:inherit;
-        animation:hg-fadein 0.2s ease;
-      }
-      .hg-overlay.hg-overlay--hidden { display:none; }
-
-      .hg-ov-title {
-        font-size:clamp(24px,5vw,38px); font-weight:900;
-        letter-spacing:0.2em; color:rgba(0,255,225,0.95);
-        text-shadow:0 0 22px rgba(0,255,225,0.45);
-      }
-      .hg-ov-sub {
-        font-size:clamp(18px,3.5vw,26px); font-weight:900;
-        letter-spacing:0.15em;
-      }
-      .hg-ov-word {
-        font-size:clamp(15px,2.8vw,20px); letter-spacing:0.18em;
-        color:rgba(0,255,225,0.75);
-      }
-      .hg-ov-info {
-        font-size:11px; letter-spacing:0.12em; color:rgba(0,255,225,0.45);
-      }
-      .hg-ov-actions { display:flex; gap:12px; margin-top:6px; }
-
-      /* ---- Option groups (écran démarrage) ---- */
-      .hg-opt-group  { display:flex; flex-direction:column; align-items:center; gap:6px; }
-      .hg-opt-label  { font-size:8px; letter-spacing:0.22em; color:rgba(0,255,225,0.4); }
-      .hg-chips      { display:flex; gap:5px; flex-wrap:wrap; justify-content:center; }
-      .hg-chip {
-        font-family:Orbitron,monospace; font-size:10px; font-weight:700;
-        letter-spacing:0.07em; padding:5px 11px; border-radius:4px;
-        border:1px solid rgba(0,255,225,0.22); background:#0a1520;
-        color:rgba(0,255,225,0.55); cursor:pointer; transition:all 0.14s;
-      }
-      .hg-chip:hover { border-color:rgba(0,255,225,0.5); color:rgba(0,255,225,0.85); }
-      .hg-chip--on {
-        background:rgba(0,255,225,0.11); border-color:rgba(0,255,225,0.6);
-        color:rgba(0,255,225,1); box-shadow:0 0 8px rgba(0,255,225,0.18);
-      }
-
-      .hg-play-btn {
-        font-family:Orbitron,monospace; font-size:13px; font-weight:900;
-        letter-spacing:0.22em; padding:11px 38px; border-radius:6px;
-        border:2px solid rgba(0,255,225,0.55); background:rgba(0,255,225,0.07);
-        color:rgba(0,255,225,0.95); cursor:pointer; transition:all 0.2s; margin-top:4px;
-      }
-      .hg-play-btn:hover {
-        background:rgba(0,255,225,0.15); border-color:rgba(0,255,225,0.9);
-        box-shadow:0 0 16px rgba(0,255,225,0.28);
-      }
+      /* Écrans démarrage / pause / fin de partie : entièrement gérés par
+         GameOverlay (js/ui/components/GameOverlay.js), monté sur .hg-wrapper.
+         Voir .ov-* dans index.html pour le CSS associé. */
     `;
     document.head.appendChild(el);
   }
@@ -264,13 +213,23 @@ export default class HangmanRenderer {
     /* Clavier AZERTY */
     this._wrapper.appendChild(this._buildKeyboard());
 
-    /* Overlay (start / win / lose) */
-    this._overlayEl = document.createElement('div');
-    this._overlayEl.className = 'hg-overlay';
+    /* Overlay (start / pause / win / lose) — module partagé */
+    this._overlay = new GameOverlay(this._wrapper);
     this._showStartScreen();
-    this._wrapper.appendChild(this._overlayEl);
 
     this.viewport.appendChild(this._wrapper);
+  }
+
+  _optionGroups() {
+    const { livesOptions, wordLengthOptions } = this.config.gameplay;
+    return [
+      { key: 'mode',       label: 'MODE',           default: 'basique',        options: [{ value: 'basique', label: 'BASIQUE' }] },
+      { key: 'lives',      label: 'VIES',           default: this._sel.lives,      options: livesOptions.map(n => ({ value: n, label: String(n) })) },
+      { key: 'wordLength', label: 'TAILLE DES MOTS', default: this._sel.wordLength, options: [
+          ...wordLengthOptions.map(n => ({ value: n, label: String(n) })),
+          { value: 0, label: '🎲' },
+        ] },
+    ];
   }
 
   /* ---- SVG potence ---- */
@@ -328,99 +287,28 @@ export default class HangmanRenderer {
      ============================================================ */
 
   _showStartScreen() {
-    const { livesOptions, wordLengthOptions } = this.config.gameplay;
-
-    this._overlayEl.innerHTML = `
-      <div class="hg-ov-title">PENDU</div>
-
-      <div class="hg-opt-group">
-        <div class="hg-opt-label">MODE</div>
-        <div class="hg-chips" data-opt="mode">
-          <button class="hg-chip hg-chip--on" data-val="basique">BASIQUE</button>
-        </div>
-      </div>
-
-      <div class="hg-opt-group">
-        <div class="hg-opt-label">VIES</div>
-        <div class="hg-chips" data-opt="lives">
-          ${livesOptions.map(n => `
-            <button class="hg-chip${n === this._sel.lives ? ' hg-chip--on' : ''}" data-val="${n}">${n}</button>
-          `).join('')}
-        </div>
-      </div>
-
-      <div class="hg-opt-group">
-        <div class="hg-opt-label">TAILLE DES MOTS</div>
-        <div class="hg-chips" data-opt="wordLength">
-          ${wordLengthOptions.map(n => `
-            <button class="hg-chip${n === this._sel.wordLength ? ' hg-chip--on' : ''}" data-val="${n}">${n}</button>
-          `).join('')}
-          <button class="hg-chip${this._sel.wordLength === 0 ? ' hg-chip--on' : ''}" data-val="0">🎲</button>
-        </div>
-      </div>
-
-      <button class="hg-play-btn" id="hg-play-btn">JOUER</button>
-    `;
-
-    /* Chip click handlers */
-    this._overlayEl.querySelectorAll('.hg-chips').forEach(group => {
-      group.addEventListener('click', e => {
-        const btn = e.target.closest('.hg-chip');
-        if (!btn) return;
-        const opt = group.dataset.opt;
-        const val = opt === 'mode' ? btn.dataset.val : Number(btn.dataset.val);
-        this._sel[opt] = val;
-        group.querySelectorAll('.hg-chip').forEach(b => b.classList.remove('hg-chip--on'));
-        btn.classList.add('hg-chip--on');
-      });
+    this._overlay.showStart(this._optionGroups(), (selections) => {
+      this._sel = selections;
+      this.game.start(this._sel);
     });
-
-    this._overlayEl.querySelector('#hg-play-btn')
-      ?.addEventListener('click', () => this.game.start(this._sel));
   }
 
   _showWinScreen({ word, score, gained, errors, best }) {
     const isRecord = score >= best;
-    this._overlayEl.innerHTML = `
-      <div style="font-size:40px">🎉</div>
-      <div class="hg-ov-sub" style="color:#00ff88">GAGNÉ !</div>
-      <div class="hg-ov-word">${word}</div>
-      <div class="hg-ov-info">+${gained} pts • ${errors} erreur${errors !== 1 ? 's' : ''}</div>
-      ${isRecord ? '<div class="hg-ov-info" style="color:#ffe600">🏆 Nouveau record !</div>' : ''}
-      <div class="hg-ov-actions">
-        <button class="hg-play-btn" id="hg-ov-replay">REJOUER</button>
-      </div>
-      <div class="hg-ov-info" style="margin-top:4px;opacity:0.5">R pour rejouer</div>
-    `;
-    this._overlayEl.classList.remove('hg-overlay--hidden');
-
-    document.getElementById('hg-ov-replay')
-      ?.addEventListener('click', () => {
-        this._overlayEl.classList.add('hg-overlay--hidden');
-        this._showStartScreen();
-        this._overlayEl.classList.remove('hg-overlay--hidden');
-      });
+    this._overlay.showGameOver({
+      result: 'win',
+      score,
+      isRecord,
+      extraInfo: `<div class="overlay-score">${word} — +${gained} pts — ${errors} erreur${errors !== 1 ? 's' : ''}</div>`,
+    }, () => this._showStartScreen());
   }
 
   _showLoseScreen({ word, score }) {
-    this._overlayEl.innerHTML = `
-      <div style="font-size:40px">💀</div>
-      <div class="hg-ov-sub" style="color:#ff4455">PERDU !</div>
-      <div class="hg-ov-word">${word}</div>
-      <div class="hg-ov-info">Score : ${score} pts</div>
-      <div class="hg-ov-actions">
-        <button class="hg-play-btn" id="hg-ov-replay">REJOUER</button>
-      </div>
-      <div class="hg-ov-info" style="margin-top:4px;opacity:0.5">R pour rejouer</div>
-    `;
-    this._overlayEl.classList.remove('hg-overlay--hidden');
-
-    document.getElementById('hg-ov-replay')
-      ?.addEventListener('click', () => {
-        this._overlayEl.classList.add('hg-overlay--hidden');
-        this._showStartScreen();
-        this._overlayEl.classList.remove('hg-overlay--hidden');
-      });
+    this._overlay.showGameOver({
+      result: 'lose',
+      score,
+      extraInfo: `<div class="overlay-score">Mot : ${word}</div>`,
+    }, () => this._showStartScreen());
   }
 
   /* ============================================================
@@ -447,12 +335,12 @@ export default class HangmanRenderer {
 
   _onTick({ state }) {
     if (state.status === 'idle') {
-      this._overlayEl.classList.remove('hg-overlay--hidden');
+      this._overlay.show();
       this._resetGameView();
       return;
     }
     if (state.status === 'playing') {
-      this._overlayEl.classList.add('hg-overlay--hidden');
+      this._overlay.hide();
       this._render(state);
     }
   }
@@ -461,32 +349,17 @@ export default class HangmanRenderer {
   _onOver(data) {
     this._render(this.game.state);
     this._showLoseScreen(data);
-    const gs = document.getElementById('gs-overlay');
-    if (gs) gs.classList.add('hidden');
   }
 
-  _onPaused({ state }) {
-    this._overlayEl.innerHTML = `
-      <div style="font-size:36px">⏸</div>
-      <div class="hg-ov-sub">PAUSE</div>
-      <button class="hg-play-btn" id="hg-ov-resume">REPRENDRE</button>
-    `;
-    this._overlayEl.classList.remove('hg-overlay--hidden');
-    document.getElementById('hg-ov-resume')
-      ?.addEventListener('click', () => EventBus.emit('game:pause-toggle'));
-    /* Empêche le shell d'afficher son propre overlay */
-    const gsOverlay = document.getElementById('gs-overlay');
-    if (gsOverlay) gsOverlay.classList.add('hidden');
+  _onPaused() {
+    this._overlay.showPause(() => EventBus.emit('game:pause-toggle'));
   }
 
   _onResumed() {
-    this._overlayEl.classList.add('hg-overlay--hidden');
-    const gsOverlay = document.getElementById('gs-overlay');
-    if (gsOverlay) gsOverlay.classList.add('hidden');
+    this._overlay.hide();
   }
 
   _onRestart() {
-    this._overlayEl.classList.remove('hg-overlay--hidden');
     this._showStartScreen();
     this._resetGameView();
   }
