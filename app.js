@@ -14,10 +14,75 @@ import ScoreService  from './js/services/ScoreService.js';
 import Toast        from './js/ui/Toast.js';
 
 /* ============================================================
+   ERROR BOUNDARY — crashes mid-game
+   ============================================================ */
+
+let _errorHandled = false;
+
+function _setupErrorBoundary() {
+  const handleCrash = (message) => {
+    if (_errorHandled) return;
+    _errorHandled = true;
+    setTimeout(() => { _errorHandled = false; }, 3000);
+
+    console.error('[ErrorBoundary]', message);
+
+    try { Loader.unload(); } catch {}
+
+    const app = document.getElementById('app');
+    if (!app) return;
+    app.classList.remove('app--in-game');
+    app.innerHTML = `
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;
+                  min-height:100vh;gap:1.5rem;font-family:'Orbitron',monospace;
+                  text-align:center;padding:2rem;box-sizing:border-box;">
+        <div style="font-size:3rem;">⚠️</div>
+        <div style="color:#ff2d78;font-size:1.1rem;font-weight:900;letter-spacing:0.12em;">
+          ERREUR INATTENDUE
+        </div>
+        <div style="color:#8899aa;font-size:0.72rem;max-width:380px;line-height:1.7;">
+          ${message}
+        </div>
+        <button onclick="location.reload()"
+                style="font-family:'Orbitron',monospace;font-size:0.72rem;font-weight:900;
+                       letter-spacing:0.15em;padding:10px 28px;border-radius:6px;
+                       border:2px solid #ff2d78;background:transparent;color:#ff2d78;cursor:pointer;">
+          RECHARGER
+        </button>
+      </div>
+    `;
+  };
+
+  window.addEventListener('error', (e) => {
+    handleCrash(e.message || 'erreur JavaScript inconnue');
+  });
+
+  window.addEventListener('unhandledrejection', (e) => {
+    e.preventDefault();
+    handleCrash(e.reason?.message || String(e.reason) || 'promesse rejetée');
+  });
+}
+
+/* ============================================================
+   SERVICE WORKER
+   ============================================================ */
+
+function _registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.register('./sw.js')
+    .then(reg => console.log('[SW] Enregistré, portée :', reg.scope))
+    .catch(err => console.warn('[SW] Échec enregistrement :', err));
+}
+
+/* ============================================================
    INITIALISATION
    ============================================================ */
 
 async function init() {
+  // 0. Error boundary + Service Worker (avant tout)
+  _setupErrorBoundary();
+  _registerServiceWorker();
+
   // 1. Toast en premier (capte les erreurs des autres modules)
   Toast.init();
 
@@ -121,6 +186,41 @@ async function renderHome(globalConfig) {
 
   // Bind cards
   _bindCards(games);
+
+  // Précache silencieux de tous les jeux disponibles en arrière-plan
+  _prefetchGames(games);
+}
+
+/* ============================================================
+   PRÉCACHE — téléchargement silencieux de tous les jeux
+   Le SW intercepte chaque fetch et met les fichiers en cache.
+   L'utilisateur ne voit rien, ça se passe en fond.
+   ============================================================ */
+
+async function _prefetchGames(games) {
+  if (!('serviceWorker' in navigator)) return;
+
+  const available = games.filter(g => g.available);
+
+  // Attendre que le SW soit prêt avant de commencer
+  await navigator.serviceWorker.ready;
+
+  // Traiter par lots de 3 jeux pour ne pas saturer Live Server
+  const BATCH = 3;
+  for (let i = 0; i < available.length; i += BATCH) {
+    const batch = available.slice(i, i + BATCH);
+    await Promise.all(batch.map(game => {
+      const pascal = game.id.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join('');
+      const base   = `./games/${game.id}/`;
+      return Promise.all([
+        fetch(`${base}${pascal}.js`).catch(() => {}),
+        fetch(`${base}${pascal}Renderer.js`).catch(() => {}),
+        fetch(`${base}${game.id}.config.json`).catch(() => {}),
+      ]);
+    }));
+    // Petite pause entre chaque lot
+    await new Promise(r => setTimeout(r, 200));
+  }
 }
 
 /* ============================================================

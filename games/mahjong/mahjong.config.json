@@ -1,0 +1,22 @@
+{
+  "id": "mahjong",
+  "version": "1.0.0",
+  "gameplay": {
+    "tileW": 52,
+    "tileH": 64,
+    "depth": 6,
+    "layout": "tortue"
+  },
+  "scoring": {
+    "pointsPerPair": 100,
+    "timeBonus": true
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "negative", "maxSeconds": 999 },
+  "lives": { "initial": 1 }
+}

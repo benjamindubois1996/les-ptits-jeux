@@ -1,0 +1,41 @@
+{
+  "id": "bubble-shooter",
+  "version": "1.0.0",
+
+  "canvas": { "W": 440, "H": 560 },
+
+  "gameplay": {
+    "W": 440,
+    "H": 560,
+
+    "BUBBLE_R":  18,
+    "CELL":      40,
+    "ROW_H":     36,
+    "COLS_EVEN": 11,
+    "COLS_ODD":  10,
+
+    "CANNON_Y":  520,
+    "BULLET_SPEED": 10,
+
+    "startRows": 5,
+    "maxRow":    11,
+
+    "colors": ["#e63030","#30a030","#3060e6","#e6b030","#c030c0","#30c0c0"],
+
+    "pointsPerBubble": 10,
+    "pointsPerDrop":   20
+  },
+
+  "scoring": { "pointsPerBubble": 10 },
+
+  "timer":  { "scoreEffect": "positive" },
+  "lives":  { "initial": 1 },
+
+  "controls": {
+    "keyboard": {
+      "shoot":   ["Space", "Enter"],
+      "pause":   ["KeyP"],
+      "restart": ["KeyR"]
+    }
+  }
+}

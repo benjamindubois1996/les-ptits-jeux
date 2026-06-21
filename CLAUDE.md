@@ -28,9 +28,17 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 15 mastermind`
 - 18 — Sudoku ✅
 - 19 — Solitaire ✅
 - 20 — Platformer 2D ✅
-- 🔄 Refactoring v3 (en cours) — standards d'homogénéité définis, config.json mis à jour, pause ajoutée à Hangman/Battleship, icône roadmap dans GameShell. Reste à faire : extraction complète des composants overlay/board partagés pour les 20 renderers (voir section dédiée ci-dessous)
-- 21 à 25 — à définir (session batch unique)
-- 26 à 30 — à définir (session batch unique)
+- 🔄 Refactoring v3 ✅ — GameShell header unifié (score/chrono/vies), Timer.js + Lives.js partagés, GameOverlay.js extrait, rejouer direct, scroll fix, chrome DOM redondant supprimé (contrôles inline, HUD dupliqués), score/lives câblés vers header pour tous les jeux, chrono s'arrête sur game:over/won/win
+- 21 — Bubble Shooter ✅
+- 22 — Asteroids ✅
+- 23 — Frogger ✅
+- 24 — Dames (Checkers) ✅
+- 25 — Yahtzee ✅
+- 26 — Sokoban ✅
+- 27 — Reversi (Othello) ✅ *(remplace Nonogram — trop obscur)*
+- 28 — Mahjong Solitaire ✅
+- 29 — Lunar Lander ✅
+- 30 — Pinball ✅
 
 ## Workflow Git
 - `main` : prod, intouchable — jamais de commit direct
@@ -252,6 +260,106 @@ Chaque jeu a un sélecteur MODE dans l'écran de démarrage.
 
 Dans le renderer, `_sel.mode` est toujours une string (`'basique'`, etc.).
 Dans la logique, le mode pilote les règles : `const allowX = mode !== 'basique'`.
+
+## Modules partagés prévus — jeux 26-30
+
+**Règle** : un module = tout ce qui est réutilisable, logique OU graphique/rendu.
+Changer un module à un endroit = changement répercuté partout.
+
+### `js/core/Grid.js` *(à créer avant Sokoban)*
+Grille 2D générique, logique pure, sans rendu.
+```js
+export default class Grid {
+  constructor(rows, cols, fillValue = null)
+  get(r, c)
+  set(r, c, value)
+  fill(value)
+  clone()                        // copie profonde indépendante
+  forEach(fn)                    // fn(value, r, c)
+  find(fn)                       // premier { r, c, value } qui matche
+  findAll(fn)                    // tous les { r, c, value } qui matchent
+  inBounds(r, c)
+  neighbors(r, c, diagonal = false)  // cellules adjacentes valides
+  get rows / get cols
+}
+```
+Utilisé par : **Sokoban** (plateau murs/cases/caisses/cibles), **Nonogram** (états des cellules : vide/rempli/croix), **Mahjong** (position des tuiles par couche).
+Peut remplacer `GridUtils` existant à terme.
+
+### `js/ui/CanvasGrid.js` *(à créer avant Sokoban)*
+Renderer canvas générique pour une `Grid`. Configurable par cellule.
+```js
+export default class CanvasGrid {
+  constructor({ cellSize, gap = 0, padding = 0 })
+
+  // Dessine toutes les cellules — cellRenderer(ctx, x, y, size, value, r, c)
+  draw(ctx, grid, cellRenderer)
+
+  // Convertit une position canvas → { r, c } (utile pour les clics)
+  cellAt(canvasX, canvasY)
+
+  // Dimensions totales du canvas nécessaire pour cette grille
+  canvasSize(grid)   // → { width, height }
+}
+```
+Utilisé par : **Sokoban** (rendu du plateau), **Nonogram** (rendu de la grille de jeu).
+Mahjong a un rendu de tuiles 3D empilées trop spécifique → renderer propre.
+
+### `js/core/Vector2.js` *(à créer avant Lunar Lander)*
+Math 2D pure, sans dépendance.
+```js
+export default class Vector2 {
+  constructor(x = 0, y = 0)
+  add(v)        // retourne un nouveau Vector2
+  sub(v)
+  scale(n)
+  magnitude()
+  normalize()
+  dot(v)
+  rotate(rad)   // rotation autour de l'origine
+  clone()
+  static fromAngle(rad, length = 1)
+}
+```
+Utilisé par : **Lunar Lander** (vecteur poussée/vitesse), **Pinball** (vitesse balle, normales de collision), **Asteroids** si refactor.
+
+### `js/core/Physics2D.js` *(à créer avant Lunar Lander)*
+Intègre vitesse + gravité sur un corps ponctuel. Dépend de `Vector2`.
+```js
+export default class Physics2D {
+  constructor({ gravity = 0, drag = 0 })
+  // gravity : accélération en px/s² vers le bas (positif = vers le bas)
+  // drag    : coefficient de freinage aérien (0 = aucun, 1 = arrêt immédiat)
+
+  reset(x, y)             // position + vitesse à zéro
+  applyForce(vx, vy)      // ajoute une impulsion (ex: poussée réacteur)
+  update(dt)              // intègre position selon vitesse + gravité + drag
+  get x / get y           // position courante
+  get vx / get vy         // vitesse courante
+}
+```
+Utilisé par : **Lunar Lander** (corps du vaisseau), **Pinball** (balle).
+
+### `js/core/Particles.js` *(à créer avant Lunar Lander)*
+Système de particules léger, rendu canvas uniquement. Dépend de `Vector2`.
+```js
+export default class Particles {
+  emit(x, y, { count, angle, spread, speed, color, life, size })
+  // angle  : direction centrale en radians
+  // spread : dispersion angulaire (ex: Math.PI/4)
+  // life   : durée de vie en ms
+
+  update(dt)
+  draw(ctx)
+  clear()
+}
+```
+Utilisé par : **Lunar Lander** (panache du réacteur, explosion crash), **Pinball** (étincelles sur bumpers et flippers).
+
+---
+
+> Ces 3 modules sont suffisants pour couvrir toute la physique des jeux 26-30.
+> Si d'autres patterns se répètent entre Sokoban/Nonogram/Mahjong, les extraire en fin de session.
 
 ## Repo GitHub
 https://github.com/benjamindubois1996/les-ptits-jeux

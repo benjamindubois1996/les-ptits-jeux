@@ -1,0 +1,46 @@
+{
+  "id": "asteroids",
+  "version": "1.0.0",
+
+  "canvas": { "W": 600, "H": 500 },
+
+  "gameplay": {
+    "W": 600,
+    "H": 500,
+
+    "shipRadius":  14,
+    "rotSpeed":    0.055,
+    "thrust":      0.20,
+    "drag":        0.988,
+    "maxSpeed":    9,
+
+    "bulletSpeed":   12,
+    "bulletLife":    1100,
+    "shootCooldown": 240,
+
+    "initialAsteroids": 4,
+    "invincibleMs":     2200,
+
+    "pointsMap": { "1": 100, "2": 50, "3": 20 }
+  },
+
+  "scoring": {
+    "pointsPerSmall":  100,
+    "pointsPerMedium": 50,
+    "pointsPerLarge":  20
+  },
+
+  "timer":  { "scoreEffect": "positive" },
+  "lives":  { "initial": 3 },
+
+  "controls": {
+    "keyboard": {
+      "thrust":  ["ArrowUp", "KeyW"],
+      "left":    ["ArrowLeft", "KeyA"],
+      "right":   ["ArrowRight", "KeyD"],
+      "shoot":   ["Space"],
+      "pause":   ["KeyP"],
+      "restart": ["KeyR"]
+    }
+  }
+}

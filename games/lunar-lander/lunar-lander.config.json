@@ -1,0 +1,31 @@
+{
+  "id": "lunar-lander",
+  "version": "1.0.0",
+  "gameplay": {
+    "gravity": 60,
+    "thrustForce": 140,
+    "rotateSpeed": 2.8,
+    "initialFuel": 700,
+    "fuelBurnRate": 80,
+    "maxLandingVY": 55,
+    "maxLandingVX": 40,
+    "maxLandingAngle": 0.35,
+    "padWidth": 80
+  },
+  "scoring": {
+    "basePoints": 500,
+    "fuelBonus": 1,
+    "penaltyPerCrash": 0
+  },
+  "controls": {
+    "keyboard": {
+      "thrust":      ["ArrowUp",    "KeyW"],
+      "rotateLeft":  ["ArrowLeft",  "KeyA"],
+      "rotateRight": ["ArrowRight", "KeyD"],
+      "pause":       ["KeyP", "Escape"],
+      "restart":     ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 3 }
+}

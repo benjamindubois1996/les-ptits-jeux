@@ -1,0 +1,30 @@
+{
+  "id": "yahtzee",
+  "version": "1.0.0",
+
+  "gameplay": {
+    "numDice":    5,
+    "maxRolls":   3,
+    "numTurns":   13,
+    "bonusThreshold": 63,
+    "bonusValue":     35
+  },
+
+  "scoring": {
+    "fullHouse":      25,
+    "smallStraight":  30,
+    "largeStraight":  40,
+    "yahtzee":        50
+  },
+
+  "timer":  { "scoreEffect": "positive" },
+  "lives":  { "initial": 1 },
+
+  "controls": {
+    "keyboard": {
+      "roll":    ["Space", "Enter"],
+      "pause":   ["KeyP"],
+      "restart": ["KeyR"]
+    }
+  }
+}
