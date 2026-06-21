@@ -28,7 +28,7 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 15 mastermind`
 - 18 — Sudoku ✅
 - 19 — Solitaire ✅
 - 20 — Platformer 2D ✅
-- 🔄 Refactoring v3 (en cours) — standards d'homogénéité définis, config.json mis à jour, pause ajoutée à Hangman/Battleship, icône roadmap dans GameShell. Reste à faire : extraction complète des composants overlay/board partagés pour les 20 renderers (voir section dédiée ci-dessous)
+- 🔄 Refactoring v3 ✅ — GameShell header unifié (score/chrono/vies), Timer.js + Lives.js partagés, GameOverlay.js extrait, rejouer direct, scroll fix, chrome DOM redondant supprimé (contrôles inline, HUD dupliqués), score/lives câblés vers header pour tous les jeux, chrono s'arrête sur game:over/won/win
 - 21 à 25 — à définir (session batch unique)
 - 26 à 30 — à définir (session batch unique)
 
