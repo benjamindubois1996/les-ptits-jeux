@@ -15,6 +15,10 @@ import EventBus     from './EventBus.js';
 import ConfigService from '../services/ConfigService.js';
 import GameShell     from '../ui/GameShell.js';
 
+// Racine de l'app détectée dynamiquement — fonctionne en localhost ET sur GitHub Pages (sous-dossier)
+// Loader.js est à js/core/Loader.js → 2 niveaux au-dessus = racine de l'app
+const APP_ROOT = new URL('../..', import.meta.url).href;
+
 const Loader = (() => {
 
   /** Jeu actuellement chargé (pour cleanup) */
@@ -49,7 +53,7 @@ const Loader = (() => {
 
       // 4. Import dynamique des modules du jeu
       //    Le navigateur ne télécharge ces fichiers qu'ici (lazy loading)
-      const basePath  = `/games/${gameId}/`;
+      const basePath  = `${APP_ROOT}games/${gameId}/`;
       const LogicModule    = await import(`${basePath}${capitalize(gameId)}.js`);
       const RendererModule = await import(`${basePath}${capitalize(gameId)}Renderer.js`);
 
