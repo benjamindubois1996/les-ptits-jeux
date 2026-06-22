@@ -1,0 +1,25 @@
+{
+  "id": "tower-defense",
+  "version": "1.0.0",
+  "gameplay": {
+    "cols": 20,
+    "rows": 12,
+    "cellSize": 40,
+    "startGold": 150,
+    "startLives": 20,
+    "wavePause": 5000
+  },
+  "towers": {
+    "gun":    { "cost": 50,  "range": 3,   "damage": 15,  "fireRate": 500,  "color": "#00ffe1", "label": "Canon" },
+    "sniper": { "cost": 100, "range": 6,   "damage": 60,  "fireRate": 1400, "color": "#7b61ff", "label": "Sniper" },
+    "mortar": { "cost": 125, "range": 4,   "damage": 120, "fireRate": 2200, "color": "#ff6b35", "label": "Mortier" }
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 20 }
+}

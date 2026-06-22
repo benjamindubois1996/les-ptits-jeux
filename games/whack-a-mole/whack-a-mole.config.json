@@ -1,0 +1,22 @@
+{
+  "id": "whack-a-mole",
+  "version": "1.0.0",
+  "gameplay": {
+    "gridSize": 3,
+    "gameDuration": 60,
+    "baseInterval": 1100,
+    "minInterval": 380,
+    "moleShowTime": 850
+  },
+  "scoring": {
+    "hit": 10
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive", "maxSeconds": 60 },
+  "lives": { "initial": 1 }
+}

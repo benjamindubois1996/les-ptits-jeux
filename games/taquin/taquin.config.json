@@ -1,0 +1,25 @@
+{
+  "id": "taquin",
+  "version": "1.0.0",
+  "gameplay": {
+    "size": 4,
+    "shuffleMoves": 120
+  },
+  "scoring": {
+    "baseBonus": 5000,
+    "movePenalty": 5,
+    "timePenalty": 1
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"],
+      "up":    ["ArrowUp",    "KeyW"],
+      "down":  ["ArrowDown",  "KeyS"],
+      "left":  ["ArrowLeft",  "KeyA"],
+      "right": ["ArrowRight", "KeyD"]
+    }
+  },
+  "timer": { "scoreEffect": "negative", "maxSeconds": 999 },
+  "lives": { "initial": 1 }
+}

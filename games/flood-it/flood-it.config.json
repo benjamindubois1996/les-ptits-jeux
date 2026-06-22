@@ -1,0 +1,21 @@
+{
+  "id": "flood-it",
+  "version": "1.0.0",
+  "gameplay": {
+    "size": 14,
+    "colors": 6,
+    "maxMoves": 25
+  },
+  "scoring": {
+    "baseBonus": 1000,
+    "movePenalty": 30
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 1 }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "typing-rush",
+  "version": "1.0.0",
+  "gameplay": {
+    "laneCount": 4,
+    "startSpeed": 28,
+    "maxSpeed": 80,
+    "spawnIntervalBase": 2200,
+    "spawnIntervalMin": 900,
+    "wordLengthMin": 3,
+    "wordLengthMax": 8
+  },
+  "scoring": {
+    "perChar": 5,
+    "combo": 10
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["Escape"],
+      "restart": []
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 3 }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "pipe-dream",
+  "version": "1.0.0",
+  "gameplay": {
+    "cols": 7,
+    "rows": 7,
+    "flowDelay": 4000,
+    "flowInterval": 280,
+    "levelThreshold": 10
+  },
+  "scoring": {
+    "perPipe": 50,
+    "bonusPerExtraAttempt": 0
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 1 }
+}

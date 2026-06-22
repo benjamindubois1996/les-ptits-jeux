@@ -39,6 +39,76 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 15 mastermind`
 - 28 — Mahjong Solitaire ✅
 - 29 — Lunar Lander ✅
 - 30 — Pinball ✅
+- 31 — Whack-a-Mole ✅
+- 32 — Taquin (15-puzzle) ✅
+- 33 — Typing Rush ✅
+- 34 — Tower Defense ✅
+- 35 — Gem Crush (Match 3) ✅
+- 36 — Farkle (dés) ✅
+- 37 — Pipe Dream (tuyaux à relier) ✅
+- 38 — Tron (moto-lumière) ✅
+- 39 — Flood It (inondation de couleurs) ✅
+- 40 — Mots Mêlés (word search) ✅
+- 41 — Galaga
+- 42 — Missile Command
+- 43 — Centipede
+- 44 — Bomberman
+- 45 — Arkanoid
+- 46 — Dig Dug
+- 47 — Q*bert
+- 48 — Lemmings
+- 49 — Dino Runner
+- 50 — Defender
+- 51 — Qix
+- 52 — Lights Out
+- 53 — Rush Hour
+- 54 — Nonogram / Picross
+- 55 — Nurikabe
+- 56 — Nim
+- 57 — Blokus
+- 58 — Kakuro
+- 59 — Hashi / Ponts
+- 60 — Jeu de la Vie (Conway)
+- 61 — Dr. Mario
+- 62 — Puyo Puyo
+- 63 — Columns
+- 64 — Boggle
+- 65 — Anagrammes
+- 66 — Mini Mots Croisés
+- 67 — Air Hockey
+- 68 — Billard 8-ball
+- 69 — Fléchettes (Darts 501)
+- 70 — Mini Golf
+- 71 — Poker Texas Hold'em
+- 72 — Spider Solitaire
+- 73 — Hearts / Coeurs
+- 74 — Rummy
+- 75 — Belote
+- 76 — Cribbage
+- 77 — Bowling
+- 78 — Basketball
+- 79 — Plinko
+- 80 — Échecs
+- 81 — Go (9×9)
+- 82 — Mancala / Awalé
+- 83 — Backgammon
+- 84 — Stratego lite
+- 85 — Hex
+- 86 — Dobble lite
+- 87 — Angry Birds lite
+- 88 — Tank Battle
+- 89 — Spacewar
+- 90 — Ski Slalom
+- 91 — Moto Trial
+- 92 — Jigsaw Puzzle
+- 93 — Panel de Pon
+- 94 — Tamagotchi lite
+- 95 — Idle Clicker
+- 96 — Labyrinthe procédural
+- 97 — Réaction (test de réflexes)
+- 98 — Memory Music
+- 99 — Chip's Challenge lite
+- 100 — RetroVault Boss
 
 ## Workflow Git
 - `main` : prod, intouchable — jamais de commit direct

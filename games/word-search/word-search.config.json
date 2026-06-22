@@ -1,0 +1,22 @@
+{
+  "id": "word-search",
+  "version": "1.0.0",
+  "gameplay": {
+    "gridSize": 12,
+    "wordsPerPuzzle": 10,
+    "gameDuration": 180
+  },
+  "scoring": {
+    "perWord": 100,
+    "lengthBonus": 20,
+    "timeBonus": 5
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "negative", "maxSeconds": 180 },
+  "lives": { "initial": 1 }
+}

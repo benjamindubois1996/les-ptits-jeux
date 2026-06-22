@@ -1,7 +1,7 @@
 ﻿{
     "platform":  {
                      "name":  "RetroVault",
-                     "version":  "0.30.0",
+                     "version":  "0.40.0",
                      "description":  "Anciens jeux remis au goût du jour"
                  },
     "games":  [
@@ -1160,6 +1160,393 @@
                                     "initial":  3
                                 },
                       "path":  "games/pinball/index.html"
+                  },
+                  {
+                      "id":  "whack-a-mole",
+                      "title":  "31 — Whack-a-Mole",
+                      "version":  "1.0.0",
+                      "description":  "Frappe les taupes dès qu'elles sortent — réflexes et timing.",
+                      "longDescription":  "Les taupes émergent aléatoirement de leurs terriers. Clique dessus avant qu'elles disparaissent. Plus le temps passe, plus elles sortent vite. 60 secondes pour marquer un maximum de points !",
+                      "category":  "arcade",
+                      "thumbnail":  "🦔",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Grille 3×3 de terriers",
+                                       "Vitesse croissante au fil du temps",
+                                       "60 secondes chrono",
+                                       "Score +10 par taupe frappée"
+                                   ],
+                      "roadmap":  [
+                                      "Grille 4×4 ou 5×5 (mode expert)",
+                                      "Taupes dorées avec bonus points",
+                                      "Mode multijoueur (2 joueurs, 1 clavier)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic : frapper la taupe",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive",
+                                    "maxSeconds":  60
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/whack-a-mole/index.html"
+                  },
+                  {
+                      "id":  "taquin",
+                      "title":  "32 — Taquin",
+                      "version":  "1.0.0",
+                      "description":  "Glisse les tuiles pour remettre les chiffres dans l'ordre — logique pure.",
+                      "longDescription":  "Le célèbre puzzle à 15 pièces ! Une grille 4×4 avec les chiffres 1 à 15 et une case vide. Clique sur une tuile adjacente à la case vide pour la glisser. Remets tout dans l'ordre en un minimum de coups.",
+                      "category":  "puzzle",
+                      "thumbnail":  "🧩",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Grille 4×4 classique (15 tuiles)",
+                                       "Génération garantie soluble",
+                                       "Glissement en ligne ou colonne entière",
+                                       "Score basé sur le nombre de coups",
+                                       "Tuiles correctement placées en vert"
+                                   ],
+                      "roadmap":  [
+                                      "Taille réglable (3×3, 5×5)",
+                                      "Mode image (photo découpée en tuiles)",
+                                      "Meilleur score par nombre de coups"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic : glisser une tuile",
+                                                        "↑↓←→ / WASD : diriger la tuile vide",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "negative",
+                                    "maxSeconds":  999
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/taquin/index.html"
+                  },
+                  {
+                      "id":  "typing-rush",
+                      "title":  "33 — Typing Rush",
+                      "version":  "1.0.0",
+                      "description":  "Des mots tombent du ciel — tape-les avant qu'ils touchent le sol !",
+                      "longDescription":  "Des mots en français dégringolent sur 4 colonnes. Tape le mot visible dans la zone de saisie et appuie sur Entrée pour le détruire. Rate trop de mots et c'est game over. Bonus combo pour les séries réussies.",
+                      "category":  "arcade",
+                      "thumbnail":  "⌨️",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Mots français sur 4 colonnes",
+                                       "Vitesse et spawn progressifs",
+                                       "Système de combo",
+                                       "3 vies — mot correctement tapé = points bonus longueur",
+                                       "Surbrillance des lettres déjà tapées"
+                                   ],
+                      "roadmap":  [
+                                      "Mode anglais / espagnol",
+                                      "Mots par catégorie (animaux, pays...)",
+                                      "Mode chrono (taper le plus en 60s)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Tapez le mot dans la zone de saisie",
+                                                        "Entrée : valider",
+                                                        "Esc : pause"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
+                      "path":  "games/typing-rush/index.html"
+                  },
+                  {
+                      "id":  "tower-defense",
+                      "title":  "34 — Tower Defense",
+                      "version":  "1.0.0",
+                      "description":  "Construis des tourelles pour stopper les vagues d'ennemis — stratégie et gestion.",
+                      "longDescription":  "7 vagues d'ennemis défilent sur un chemin fixe. Place des tourelles (Canon, Sniper, Mortier) sur les cases libres pour les détruire. Chaque ennemi vaincu rapporte de l'or. Si trop d'ennemis atteignent la base, c'est perdu.",
+                      "category":  "arcade",
+                      "thumbnail":  "🏰",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "7 vagues d'ennemis progressives",
+                                       "3 types de tourelles (Canon, Sniper, Mortier)",
+                                       "Chemin fixe avec 20 vies de base",
+                                       "Système d'or (ennemis tués → or → tourelles)",
+                                       "Visualisation de portée au survol"
+                                   ],
+                      "roadmap":  [
+                                      "Améliorations de tourelles (niveau 2/3)",
+                                      "Ennemis boss (HP très élevés)",
+                                      "Mode infini avec vagues sans fin"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic grille : poser une tourelle",
+                                                        "Boutons sidebar : choisir le type",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  20
+                                },
+                      "path":  "games/tower-defense/index.html"
+                  },
+                  {
+                      "id":  "gem-crush",
+                      "title":  "35 — Gem Crush",
+                      "version":  "1.0.0",
+                      "description":  "Aligne 3 gemmes ou plus en les échangeant — le match 3 classique.",
+                      "longDescription":  "Une grille 8×8 de gemmes colorées. Clique sur deux gemmes adjacentes pour les échanger. Si l'échange crée un alignement de 3+ gemmes identiques, elles explosent et des nouvelles tombent. Combos en cascade pour des points bonus !",
+                      "category":  "puzzle",
+                      "thumbnail":  "💎",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Grille 8×8, 6 couleurs de gemmes",
+                                       "Détection d'alignements horizontaux et verticaux",
+                                       "Cascades automatiques après chute",
+                                       "Bonus multiplicateur de combo",
+                                       "Niveaux avec seuil de score progressif"
+                                   ],
+                      "roadmap":  [
+                                      "Gemmes spéciales (bombe, arc-en-ciel)",
+                                      "Objectifs par niveau (casser X gemmes rouges)",
+                                      "Mode chrono"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic : sélectionner / échanger",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/gem-crush/index.html"
+                  },
+                  {
+                      "id":  "farkle",
+                      "title":  "36 — Farkle",
+                      "version":  "1.0.0",
+                      "description":  "Lance les dés, prends tes risques — marque le plus possible sans FARKLE !",
+                      "longDescription":  "6 dés, 10 rounds. Lance, garde les dés qui scorent, relance le reste. Mais si aucun dé ne score, c'est FARKLE et tu perds les points du tour ! Accumule les points, évite les Farkles et maximise ton score final.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🎲",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "6 dés, 10 rounds",
+                                       "Combinaisons : 1s, 5s, brelans, suites, 3 paires",
+                                       "FARKLE = perte du score du tour",
+                                       "Scorer la sélection ou passer au prochain lancer",
+                                       "Score final basé sur l'accumulation des rounds"
+                                   ],
+                      "roadmap":  [
+                                      "Mode vs IA (tour à tour)",
+                                      "Objectif cible (atteindre 10 000)",
+                                      "Statistiques de Farkle par partie"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic dé : garder / libérer",
+                                                        "Espace / Entrée : lancer",
+                                                        "Boutons : Scorer / Passer",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/farkle/index.html"
+                  },
+                  {
+                      "id":  "pipe-dream",
+                      "title":  "37 — Pipe Dream",
+                      "version":  "1.0.0",
+                      "description":  "Tourne les tuyaux pour relier la source à la sortie avant que l'eau arrive.",
+                      "longDescription":  "Une grille de segments de tuyaux aléatoires. Clique pour faire pivoter chaque pièce. Tu as quelques secondes avant que l'eau commence à couler depuis la source. Connecte un maximum de tuyaux jusqu'à l'arrivée !",
+                      "category":  "puzzle",
+                      "thumbnail":  "🔧",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Grille 7×7 de pièces pivotables",
+                                       "Countdown avant le départ de l'eau",
+                                       "Eau qui coule tuyau par tuyau",
+                                       "Score basé sur les tuyaux connectés",
+                                       "Niveaux progressifs (10 niveaux)"
+                                   ],
+                      "roadmap":  [
+                                      "Grille plus grande (9×9, 12×12)",
+                                      "Pièces en T et croix",
+                                      "Mode placement libre (pièces en file d'attente)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic : faire pivoter un tuyau",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/pipe-dream/index.html"
+                  },
+                  {
+                      "id":  "tron",
+                      "title":  "38 — Tron",
+                      "version":  "1.0.0",
+                      "description":  "Moto-lumière contre l'IA — laisse une traînée, évite les murs et les sillages.",
+                      "longDescription":  "Inspiré du film Tron. Tu pilotes une moto de lumière cyan sur une grille. L'IA pilote en rose. Chaque moto laisse un sillage infranchissable. Le premier à percuter un mur ou un sillage perd. Dure le plus longtemps possible !",
+                      "category":  "arcade",
+                      "thumbnail":  "🏍️",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Grille 50×30 — moto vs IA",
+                                       "Sillages persistants",
+                                       "IA adaptative (évite les murs)",
+                                       "3 vies",
+                                       "Score = ticks de survie + bonus victoire"
+                                   ],
+                      "roadmap":  [
+                                      "Mode 2 joueurs local",
+                                      "IA avec stratégie d'encerclement",
+                                      "Grille torique (bords qui se connectent)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑↓←→ / WASD : diriger",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
+                      "path":  "games/tron/index.html"
+                  },
+                  {
+                      "id":  "flood-it",
+                      "title":  "39 — Flood It",
+                      "version":  "1.0.0",
+                      "description":  "Inonde toute la grille d'une seule couleur en un minimum de coups.",
+                      "longDescription":  "Une grille 14×14 de cellules colorées. En haut à gauche, c'est ta base. Choisis une couleur — ta zone s'étend en absorbant les cellules adjacentes de cette couleur. Objectif : couvrir toute la grille en 25 coups ou moins !",
+                      "category":  "puzzle",
+                      "thumbnail":  "🌊",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Grille 14×14, 6 couleurs",
+                                       "25 coups maximum",
+                                       "Flood-fill instantané",
+                                       "Barre de progression des coups restants",
+                                       "Score basé sur les coups économisés"
+                                   ],
+                      "roadmap":  [
+                                      "Taille réglable (10×10 à 18×18)",
+                                      "Mode expert (moins de coups autorisés)",
+                                      "Meilleur score en coups par grille"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic bouton couleur : inonder",
+                                                        "Touches 1–6 : choisir la couleur",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/flood-it/index.html"
+                  },
+                  {
+                      "id":  "word-search",
+                      "title":  "40 — Mots Mêlés",
+                      "version":  "1.0.0",
+                      "description":  "Trouve tous les mots cachés dans la grille de lettres — dans toutes les directions.",
+                      "longDescription":  "Une grille 12×12 de lettres dissimule 10 mots français. Ils peuvent être placés horizontalement, verticalement, en diagonal — dans les deux sens. Clique-glisse pour sélectionner, la liste des mots à trouver s'affiche sur le côté. Chrono 3 minutes.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🔤",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Grille 12×12, 10 mots par puzzle",
+                                       "8 directions (horizontal, vertical, diagonal)",
+                                       "Cliquer-glisser pour sélectionner",
+                                       "Mots surlignés en couleur à la découverte",
+                                       "Score basé sur les mots trouvés + longueur"
+                                   ],
+                      "roadmap":  [
+                                      "Catégories thématiques (animaux, pays, sports)",
+                                      "Mode sans chrono (zen)",
+                                      "Indices (révéler une lettre)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic-glisser : sélectionner un mot",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "negative",
+                                    "maxSeconds":  180
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/word-search/index.html"
                   }
               ],
     "categories":  [

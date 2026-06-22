@@ -1,0 +1,27 @@
+{
+  "id": "tron",
+  "version": "1.0.0",
+  "gameplay": {
+    "cols": 50,
+    "rows": 30,
+    "cellSize": 14,
+    "tickRate": 80,
+    "aiTickDivisor": 1
+  },
+  "scoring": {
+    "perTick": 1,
+    "winBonus": 500
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"],
+      "up":    ["ArrowUp",    "KeyW"],
+      "down":  ["ArrowDown",  "KeyS"],
+      "left":  ["ArrowLeft",  "KeyA"],
+      "right": ["ArrowRight", "KeyD"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 3 }
+}

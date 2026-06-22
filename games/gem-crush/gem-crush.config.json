@@ -1,0 +1,23 @@
+{
+  "id": "gem-crush",
+  "version": "1.0.0",
+  "gameplay": {
+    "cols": 8,
+    "rows": 8,
+    "colors": 6,
+    "minMatch": 3,
+    "levelThreshold": 500
+  },
+  "scoring": {
+    "perGem": 10,
+    "comboMultiplier": 1.5
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 1 }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "farkle",
+  "version": "1.0.0",
+  "gameplay": {
+    "diceCount": 6,
+    "maxRounds": 10,
+    "targetScore": 10000
+  },
+  "scoring": {
+    "one": 100,
+    "five": 50,
+    "threeOnesBonus": 1000,
+    "threeOfAKindMultiplier": 100,
+    "threePairs": 1500,
+    "straight": 3000,
+    "fullFlush": 2000
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 1 }
+}
