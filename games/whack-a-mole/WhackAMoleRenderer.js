@@ -9,6 +9,7 @@ export default class WhackAMoleRenderer {
     this._wrapper    = null;
     this._overlay    = null;
     this._holeDivs   = [];
+    this._moleDivs   = [];
     this._timerFill  = null;
 
     this._onTick    = this._onTick.bind(this);
@@ -48,11 +49,14 @@ export default class WhackAMoleRenderer {
       }
       .wam-timer-bar {
         width:80%; max-width:360px; height:7px;
-        background:rgba(255,255,255,0.1); border-radius:4px; margin-bottom:18px; overflow:hidden;
+        background:rgba(255,255,255,0.1); border-radius:4px; margin-bottom:14px; overflow:hidden;
       }
       .wam-timer-fill {
         height:100%; border-radius:4px; width:100%;
-        background:linear-gradient(90deg,#00ffe1,#7b61ff); transition:width 0.9s linear,background 0.5s;
+        background:linear-gradient(90deg,#00ffe1,#7b61ff); transition:width 0.9s linear, background 0.5s;
+      }
+      .wam-hint {
+        font-size:9px; color:rgba(255,255,255,0.25); letter-spacing:.08em; margin-bottom:12px;
       }
       .wam-grid {
         display:grid; gap:14px; padding:8px;
@@ -67,20 +71,29 @@ export default class WhackAMoleRenderer {
       .wam-hole:hover { border-color:#3a2010; }
       .wam-hole:active { transform:scale(.9); }
       .wam-mole {
-        font-size:50px; position:absolute; left:50%; bottom:-60px;
+        font-size:50px; position:absolute; left:50%; bottom:-64px;
         transform:translateX(-50%); transition:bottom .14s ease-out; pointer-events:none; user-select:none;
       }
-      .wam-hole.up .wam-mole { bottom:2px; }
-      .wam-hit { animation:wam-hit-anim .25s ease; }
-      @keyframes wam-hit-anim {
-        0%   { background:radial-gradient(circle at 50% 65%,rgba(0,255,200,.4),#070308); }
-        100% { background:radial-gradient(circle at 50% 65%,#1a0e00,#070308); }
-      }
+      .wam-hole.up .wam-mole  { bottom:2px; }
+      .wam-hole.fake { border-color:#3a0505; }
+      .wam-hole.fake:hover { border-color:#7a1010; }
+      /* Hit flash */
+      .wam-hit  { animation:wam-hit-anim  .25s ease; }
+      @keyframes wam-hit-anim  { 0%{background:radial-gradient(circle at 50% 65%,rgba(0,255,200,.4),#070308)} 100%{background:radial-gradient(circle at 50% 65%,#1a0e00,#070308)} }
+      /* Fake hit flash (red) */
+      .wam-fake-hit { animation:wam-fake-anim .3s ease; }
+      @keyframes wam-fake-anim { 0%{background:radial-gradient(circle at 50% 65%,rgba(255,40,40,.5),#070308)} 100%{background:radial-gradient(circle at 50% 65%,#1a0e00,#070308)} }
+      /* Miss (clicked empty) */
       .wam-miss { animation:wam-miss-anim .25s ease; }
-      @keyframes wam-miss-anim {
-        0%   { border-color:#ff4040; }
-        100% { border-color:#231506; }
+      @keyframes wam-miss-anim { 0%{border-color:#ff4040} 100%{border-color:#231506} }
+      /* Score feedback */
+      .wam-score-pop {
+        position:absolute; left:50%; top:30%; transform:translateX(-50%) translateY(0);
+        font-size:14px; font-weight:bold; pointer-events:none; user-select:none;
+        animation:wam-score-float .7s ease forwards;
+        font-family:Orbitron,monospace; text-shadow:0 0 8px currentColor;
       }
+      @keyframes wam-score-float { 0%{opacity:1;transform:translateX(-50%) translateY(0)} 100%{opacity:0;transform:translateX(-50%) translateY(-30px)} }
     `;
     document.head.appendChild(s);
   }
@@ -99,26 +112,43 @@ export default class WhackAMoleRenderer {
     this._timerFill = document.createElement('div'); this._timerFill.className = 'wam-timer-fill';
     bar.appendChild(this._timerFill);
 
+    const hint = document.createElement('div');
+    hint.className = 'wam-hint';
+    hint.innerHTML = '🦔 Frappe les taupes · 💣 Évite les bombes (−5 pts)';
+
     const size  = this.config.gameplay.gridSize;
     const grid  = document.createElement('div');
     grid.className = 'wam-grid';
     grid.style.gridTemplateColumns = `repeat(${size},92px)`;
 
     for (let i = 0; i < size * size; i++) {
-      const hole  = document.createElement('div'); hole.className = 'wam-hole';
-      const mole  = document.createElement('div'); mole.className = 'wam-mole'; mole.textContent = '🦔';
-      hole.appendChild(mole);
+      const hole = document.createElement('div');
+      hole.className = 'wam-hole';
+
+      const moleEl = document.createElement('div');
+      moleEl.className = 'wam-mole';
+      moleEl.textContent = '🦔';
+      hole.appendChild(moleEl);
+      this._moleDivs.push(moleEl);
+
       const idx = i;
       hole.addEventListener('click', () => {
-        if (this.game.state.cells[idx]) {
+        const cellState = this.game.state.cells[idx];
+        if (cellState === 'mole') {
           hole.classList.add('wam-hit');
           setTimeout(() => hole.classList.remove('wam-hit'), 250);
+          this._showScorePop(hole, `+${this.config.scoring.hit}`, '#00ff88');
+        } else if (cellState === 'fake') {
+          hole.classList.add('wam-fake-hit');
+          setTimeout(() => hole.classList.remove('wam-fake-hit'), 300);
+          this._showScorePop(hole, `${this.config.scoring.fakePenalty}`, '#ff4040');
         } else {
           hole.classList.add('wam-miss');
           setTimeout(() => hole.classList.remove('wam-miss'), 250);
         }
         this.game.whack(idx);
       });
+
       this._holeDivs.push(hole);
       grid.appendChild(hole);
     }
@@ -128,8 +158,18 @@ export default class WhackAMoleRenderer {
 
     this._wrapper.appendChild(info);
     this._wrapper.appendChild(bar);
+    this._wrapper.appendChild(hint);
     this._wrapper.appendChild(grid);
     this.viewport.appendChild(this._wrapper);
+  }
+
+  _showScorePop(hole, text, color) {
+    const pop = document.createElement('div');
+    pop.className = 'wam-score-pop';
+    pop.textContent = text;
+    pop.style.color = color;
+    hole.appendChild(pop);
+    setTimeout(() => pop.remove(), 700);
   }
 
   _showStartScreen() {
@@ -165,7 +205,17 @@ export default class WhackAMoleRenderer {
 
   _onTick({ state }) {
     if (state.status === 'idle') { this._overlay.show(); return; }
-    this._holeDivs.forEach((h, i) => h.classList.toggle('up', !!state.cells[i]));
+
+    state.cells.forEach((val, i) => {
+      const hole   = this._holeDivs[i];
+      const moleEl = this._moleDivs[i];
+      const isUp   = val === 'mole' || val === 'fake';
+      hole.classList.toggle('up',   isUp);
+      hole.classList.toggle('fake', val === 'fake');
+      if (val === 'mole') moleEl.textContent = '🦔';
+      if (val === 'fake') moleEl.textContent = '💣';
+    });
+
     const dur = this.config.gameplay.gameDuration;
     const pct = (state.timeLeft / dur) * 100;
     this._timerFill.style.width = pct + '%';

@@ -1,8 +1,9 @@
 import EventBus     from '../../js/core/EventBus.js';
 import ScoreService  from '../../js/services/ScoreService.js';
 import BaseGame      from '../../js/core/BaseGame.js';
-import { randInt }   from '../../js/utils/Random.js';
+import { randChoice } from '../../js/utils/Random.js';
 
+// cells[i] : null | 'mole' | 'fake'
 export default class WhackAMole extends BaseGame {
   constructor(config) {
     super(config);
@@ -33,7 +34,7 @@ export default class WhackAMole extends BaseGame {
       ...this._buildFullState(),
       status:   'playing',
       mode:     options.mode ?? 'basique',
-      cells:    Array(total).fill(false),
+      cells:    Array(total).fill(null),
       score:    0,
       timeLeft: this.config.gameplay.gameDuration,
     };
@@ -50,11 +51,20 @@ export default class WhackAMole extends BaseGame {
   }
 
   whack(idx) {
-    if (this.state.status !== 'playing' || !this.state.cells[idx]) return;
-    this.state.cells[idx] = false;
-    this.state.score     += this.config.scoring.hit;
-    EventBus.emit('game:score-update', { score: this.state.score });
-    EventBus.emit('game:tick', { state: this.state, action: 'whack', cellIdx: idx });
+    const { state } = this;
+    if (state.status !== 'playing' || !state.cells[idx]) return;
+
+    const isFake = state.cells[idx] === 'fake';
+    state.cells[idx] = null;
+
+    if (isFake) {
+      state.score = Math.max(0, state.score + this.config.scoring.fakePenalty);
+    } else {
+      state.score += this.config.scoring.hit;
+    }
+
+    EventBus.emit('game:score-update', { score: state.score });
+    EventBus.emit('game:tick', { state, action: isFake ? 'fake-hit' : 'whack', cellIdx: idx });
   }
 
   _startCountdown() {
@@ -83,18 +93,21 @@ export default class WhackAMole extends BaseGame {
 
   _popMole() {
     const cells = this.state.cells;
-    const free  = cells.reduce((acc, v, i) => { if (!v) acc.push(i); return acc; }, []);
+    const free  = cells.reduce((acc, v, i) => { if (v === null) acc.push(i); return acc; }, []);
     if (!free.length) return;
-    const idx = free[randInt(0, free.length - 1)];
-    cells[idx] = true;
+
+    const idx  = randChoice(free);
+    const type = Math.random() < this.config.scoring.fakeProbability ? 'fake' : 'mole';
+    cells[idx] = type;
     EventBus.emit('game:tick', { state: this.state, action: 'pop', cellIdx: idx });
 
+    const showTime = this.config.gameplay.moleShowTime;
     const t = setTimeout(() => {
-      if (cells[idx]) {
-        cells[idx] = false;
+      if (cells[idx] === type) {
+        cells[idx] = null;
         EventBus.emit('game:tick', { state: this.state, action: 'hide', cellIdx: idx });
       }
-    }, this.config.gameplay.moleShowTime);
+    }, showTime);
     this._hidTimers.push(t);
   }
 

@@ -1,7 +1,8 @@
 import EventBus   from '../../js/core/EventBus.js';
 import GameOverlay from '../../js/ui/components/GameOverlay.js';
 
-const COLORS = ['#ff4d8b','#00ffe1','#7b61ff','#ffe030','#ff6b35','#00d4ff'];
+const COLORS      = ['#ff4d8b','#00ffe1','#7b61ff','#ffe030','#ff6b35','#00d4ff'];
+const COLOR_NAMES = ['Rose','Cyan','Violet','Jaune','Orange','Bleu'];
 
 export default class FloodItRenderer {
   constructor(game, viewport, config) {
@@ -52,10 +53,13 @@ export default class FloodItRenderer {
       .fi-colors { display:flex; gap:8px; justify-content:center; }
       .fi-color-btn {
         width:44px; height:44px; border-radius:50%; border:3px solid rgba(255,255,255,0.15);
-        cursor:pointer; transition:transform .1s,border-color .15s,box-shadow .15s;
+        cursor:pointer; transition:transform .1s,border-color .15s,box-shadow .15s; position:relative;
       }
-      .fi-color-btn:hover { transform:scale(1.12); border-color:rgba(255,255,255,0.5); }
-      .fi-color-btn.active { border-color:#fff; box-shadow:0 0 12px currentColor; transform:scale(1.1); }
+      .fi-color-btn:hover:not(.current) { transform:scale(1.12); border-color:rgba(255,255,255,0.6); box-shadow:0 0 10px currentColor; }
+      .fi-color-btn.current {
+        opacity:0.35; cursor:not-allowed; border-color:rgba(255,255,255,0.15); transform:none;
+      }
+      .fi-hint { font-size:9px; color:rgba(255,255,255,0.3); letter-spacing:.07em; text-align:center; max-width:300px; }
     `;
     document.head.appendChild(s);
   }
@@ -95,11 +99,16 @@ export default class FloodItRenderer {
       btn.className = 'fi-color-btn';
       btn.style.backgroundColor = COLORS[i];
       btn.style.color = COLORS[i];
+      btn.title = COLOR_NAMES[i];
       const idx = i;
       btn.addEventListener('click', () => this.game.flood(idx));
       this._colorBtns.push(btn);
       colorsEl.appendChild(btn);
     }
+
+    this._hintEl = document.createElement('div');
+    this._hintEl.className = 'fi-hint';
+    this._hintEl.textContent = '↖ Le coin haut-gauche se propage — choisissez une couleur pour inonder';
 
     this._overlay = new GameOverlay(this._wrapper);
     this._showStartScreen();
@@ -108,6 +117,7 @@ export default class FloodItRenderer {
     this._wrapper.appendChild(movesBarWrap);
     this._wrapper.appendChild(this._canvas);
     this._wrapper.appendChild(colorsEl);
+    this._wrapper.appendChild(this._hintEl);
     this.viewport.appendChild(this._wrapper);
   }
 
@@ -159,9 +169,9 @@ export default class FloodItRenderer {
     else if (state.moves / max > 0.4) this._movesFill.style.background = 'linear-gradient(90deg,#ff8020,#ffe030)';
     else this._movesFill.style.background = 'linear-gradient(90deg,#00ffe1,#7b61ff)';
 
-    // Highlight current base color
+    // Current color = disabled; others = clickable
     const baseColor = state.grid[0]?.[0] ?? -1;
-    this._colorBtns.forEach((b, i) => b.classList.toggle('active', i === baseColor));
+    this._colorBtns.forEach((b, i) => b.classList.toggle('current', i === baseColor));
 
     this._draw(state);
   }
@@ -171,18 +181,48 @@ export default class FloodItRenderer {
     const CS   = this._cs;
     const size = state.size;
 
+    // Compute flooded zone (cells connected to 0,0)
+    const baseColor = state.grid[0]?.[0] ?? -1;
+    const flooded = new Set();
+    const stack = [[0, 0]];
+    while (stack.length) {
+      const [r, c] = stack.pop();
+      const key = `${r},${c}`;
+      if (flooded.has(key) || r < 0 || r >= size || c < 0 || c >= size) continue;
+      if (state.grid[r][c] !== baseColor) continue;
+      flooded.add(key);
+      stack.push([r-1,c],[r+1,c],[r,c-1],[r,c+1]);
+    }
+
     for (let r = 0; r < size; r++) {
       for (let c = 0; c < size; c++) {
-        const v = state.grid[r]?.[c] ?? 0;
+        const v   = state.grid[r]?.[c] ?? 0;
+        const key = `${r},${c}`;
         ctx.fillStyle = COLORS[v % COLORS.length];
         ctx.fillRect(c * CS, r * CS, CS, CS);
-        if (CS >= 8) {
+
+        // Flooded zone: white outline
+        if (flooded.has(key)) {
+          ctx.strokeStyle = 'rgba(255,255,255,0.55)';
+          ctx.lineWidth = 1.5;
+          ctx.strokeRect(c * CS + 1, r * CS + 1, CS - 2, CS - 2);
+        } else if (CS >= 8) {
           ctx.strokeStyle = 'rgba(0,0,0,0.2)';
           ctx.lineWidth = 1;
           ctx.strokeRect(c * CS, r * CS, CS, CS);
         }
       }
     }
+
+    // Origin marker (▲) on top-left cell
+    const ox = CS / 2, oy = CS / 2;
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.font = `bold ${Math.max(10, CS * 0.35)}px monospace`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('▲', ox, oy);
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
   }
 
   _onWon(data)  { this._showEnd(data); }

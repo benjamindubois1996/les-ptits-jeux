@@ -23,7 +23,7 @@ export default class FloodIt extends BaseGame {
   start(options = {}) {
     const { size, colors, maxMoves } = this.config.gameplay;
     const grid = Array.from({ length: size }, () =>
-      Array.from({ length: size }, () => randInt(0, colors - 1))
+      Array.from({ length: size }, () => randInt(colors))
     );
     this.state = {
       ...this._buildFullState(),

@@ -1,7 +1,7 @@
 import EventBus    from '../../js/core/EventBus.js';
 import ScoreService from '../../js/services/ScoreService.js';
 import BaseGame     from '../../js/core/BaseGame.js';
-import { randInt }  from '../../js/utils/Random.js';
+import { randChoice } from '../../js/utils/Random.js';
 
 export default class Taquin extends BaseGame {
   constructor(config) {
@@ -41,29 +41,15 @@ export default class Taquin extends BaseGame {
     EventBus.emit('game:tick', { state: this.state, action: 'restart' });
   }
 
-  move(tileIdx) {
-    const { state } = this;
-    if (state.status !== 'playing') return;
-    const emptyIdx = state.tiles.indexOf(0);
-    if (!this._adjacent(tileIdx, emptyIdx, state.size)) return;
-
-    [state.tiles[tileIdx], state.tiles[emptyIdx]] = [state.tiles[emptyIdx], state.tiles[tileIdx]];
-    state.moves++;
-    EventBus.emit('game:tick', { state, action: 'move' });
-
-    if (this._isSolved(state.tiles)) this._win();
-  }
-
   slideAt(r, c) {
     const { state } = this;
     if (state.status !== 'playing') return;
-    const idx      = r * state.size + c;
     const emptyIdx = state.tiles.indexOf(0);
     const er       = Math.floor(emptyIdx / state.size);
     const ec       = emptyIdx % state.size;
 
-    // Slide entire row or column toward empty
     if (r === er && c !== ec) {
+      // Slide tiles in the same row toward the empty cell
       const step = c < ec ? 1 : -1;
       for (let col = ec; col !== c; col -= step) {
         const a = er * state.size + col;
@@ -74,6 +60,7 @@ export default class Taquin extends BaseGame {
       EventBus.emit('game:tick', { state, action: 'move' });
       if (this._isSolved(state.tiles)) this._win();
     } else if (c === ec && r !== er) {
+      // Slide tiles in the same column toward the empty cell
       const step = r < er ? 1 : -1;
       for (let row = er; row !== r; row -= step) {
         const a = row * state.size + ec;
@@ -86,26 +73,29 @@ export default class Taquin extends BaseGame {
     }
   }
 
-  _adjacent(i, j, size) {
-    const ri = Math.floor(i / size), ci = i % size;
-    const rj = Math.floor(j / size), cj = j % size;
-    return (ri === rj && Math.abs(ci - cj) === 1) || (ci === cj && Math.abs(ri - rj) === 1);
-  }
-
   _isSolved(tiles) {
     return tiles.every((v, i) => v === (i < tiles.length - 1 ? i + 1 : 0));
   }
 
+  // Génère un puzzle garanti soluble en mélangeant depuis l'état résolu
+  // par des mouvements valides aléatoires (anti-backtrack pour éviter les cycles).
   _generatePuzzle(size) {
     const tiles = Array.from({ length: size * size }, (_, i) => (i < size * size - 1 ? i + 1 : 0));
-    // Shuffle via random valid moves from solved state
     let emptyIdx = size * size - 1;
-    for (let k = 0; k < this.config.gameplay.shuffleMoves; k++) {
-      const neighbors = this._getNeighbors(emptyIdx, size);
-      const next      = neighbors[randInt(0, neighbors.length - 1)];
+    let prev = -1; // dernier position de la case vide — évite le backtrack immédiat
+
+    const moves = this.config.gameplay.shuffleMoves;
+    for (let k = 0; k < moves; k++) {
+      const neighbors = this._getNeighbors(emptyIdx, size).filter(n => n !== prev);
+      const next = randChoice(neighbors.length ? neighbors : this._getNeighbors(emptyIdx, size));
       [tiles[emptyIdx], tiles[next]] = [tiles[next], tiles[emptyIdx]];
+      prev     = emptyIdx;
       emptyIdx = next;
     }
+
+    // Si par malchance on revient à l'état résolu, on relance
+    if (this._isSolved(tiles)) return this._generatePuzzle(size);
+
     return tiles;
   }
 
@@ -121,7 +111,6 @@ export default class Taquin extends BaseGame {
 
   _win() {
     this.state.status = 'won';
-    const sc = this.config.gameplay;
     const score = Math.max(0,
       this.config.scoring.baseBonus
       - this.state.moves * this.config.scoring.movePenalty

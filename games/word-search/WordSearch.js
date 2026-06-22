@@ -1,26 +1,44 @@
 import EventBus    from '../../js/core/EventBus.js';
 import ScoreService from '../../js/services/ScoreService.js';
 import BaseGame     from '../../js/core/BaseGame.js';
-import { randInt, randChoice }  from '../../js/utils/Random.js';
+import { randInt, randChoice, shuffle } from '../../js/utils/Random.js';
 
 const WORD_POOL = [
-  'CHIEN','CHAT','LAPIN','OISEAU','POISSON','VACHE','CHEVAL','LION','TIGRE','RENARD',
-  'MAISON','TABLE','CHAISE','PORTE','FENETRE','JARDIN','CUISINE','SALON','GARAGE','BALCON',
-  'SOLEIL','LUNE','ETOILE','NUAGE','PLUIE','VENT','NEIGE','ORAGE','BRUME','GIVRE',
-  'PIZZA','SOUPE','VIANDE','SALADE','FRUIT','GATEAU','BEURRE','FROMAGE','POULET','SAUMON',
-  'ROUGE','BLEU','VERT','JAUNE','BLANC','NOIR','ROSE','VIOLET','ORANGE','BEIGE',
-  'LIVRE','ECOLE','STYLO','CAHIER','CLASSE','REGLE','GOMME','CRAYON','BUREAU','CARTE',
-  'TRAIN','AVION','BATEAU','VOITURE','VELO','METRO','CAMION','MOTO','FUSEE','BARQUE',
+  // Animaux
+  'CHIEN','CHAT','LAPIN','OISEAU','TIGRE','LION','VACHE','CHEVAL','RENARD','LOUP',
+  'SINGE','AIGLE','REQUIN','DAUPHIN','SERPENT','CANARD','HIBOU','SANGLIER',
+  // Maison
+  'MAISON','TABLE','CHAISE','PORTE','JARDIN','CUISINE','SALON','GARAGE','GRENIER',
+  'BALCON','FENETRE','ESCALIER','COULOIR',
+  // Nature
+  'SOLEIL','LUNE','ETOILE','NUAGE','PLUIE','VENT','NEIGE','MONTAGNE','FORET',
+  'RIVIERE','OCEAN','DESERT','VOLCAN','GLACIER',
+  // Nourriture
+  'PIZZA','GATEAU','VIANDE','SALADE','SOUPE','FROMAGE','POULET','SAUMON','BEURRE',
+  'TOMATE','CAROTTE','POMME','FRAISE','CITRON',
+  // Couleurs
+  'ROUGE','BLEU','VERT','JAUNE','BLANC','NOIR','ROSE','VIOLET','ORANGE',
+  // Objets
+  'LIVRE','STYLO','CAHIER','GOMME','CRAYON','CARTE','LAMPE','HORLOGE','MIROIR',
+  // Transports
+  'TRAIN','AVION','BATEAU','VOITURE','VELO','METRO','CAMION','FUSEE',
+  // Actions
+  'COURIR','SAUTER','NAGER','DANSER','CHANTER','DESSINER','CUISINER',
+  // Divers
+  'MUSIQUE','CINEMA','THEATRE','VOYAGE','VACANCES','WEEKEND','CADEAU','SURPRISE',
 ];
 
 const DIRS = [
-  [0,1],[0,-1],[1,0],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]
+  [0,1],[0,-1],[1,0],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1],
 ];
+
+const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 export default class WordSearch extends BaseGame {
   constructor(config) {
     super(config);
     this.state = this._buildFullState();
+    this._gameTimer = null;
   }
 
   _gameId() { return 'word-search'; }
@@ -32,21 +50,25 @@ export default class WordSearch extends BaseGame {
     EventBus.emit('game:tick',  { state: this.state, action: 'start' });
   }
 
-  destroy() { super.destroy(); }
+  destroy() {
+    super.destroy();
+    clearInterval(this._gameTimer);
+  }
 
   start(options = {}) {
+    clearInterval(this._gameTimer);
     const { gridSize, wordsPerPuzzle, gameDuration } = this.config.gameplay;
     const { grid, placements } = this._buildPuzzle(gridSize, wordsPerPuzzle);
     this.state = {
       ...this._buildFullState(),
-      status: 'playing',
-      mode:   options.mode ?? 'basique',
+      status:   'playing',
+      mode:     options.mode ?? 'basique',
       gridSize, grid,
-      words:  placements.map(p => ({ ...p, found: false })),
-      found:  [],
-      score:  0,
+      words:    placements.map(p => ({ ...p, found: false })),
+      found:    [],
+      score:    0,
       timeLeft: gameDuration,
-      selecting: null, // { startR, startC }
+      selecting: null,
       hoverCell: null,
     };
     this._gameTimer = setInterval(() => {
@@ -85,7 +107,7 @@ export default class WordSearch extends BaseGame {
     state.hoverCell = null;
 
     const cells = this._getCellsBetween(sr, sc, r, c, state.gridSize);
-    if (!cells) { EventBus.emit('game:tick', { state, action: 'deselect' }); return; }
+    if (!cells || cells.length < 2) { EventBus.emit('game:tick', { state, action: 'deselect' }); return; }
 
     const text = cells.map(([cr, cc]) => state.grid[cr][cc]).join('');
     const rev  = text.split('').reverse().join('');
@@ -118,8 +140,7 @@ export default class WordSearch extends BaseGame {
   _getCellsBetween(r1, c1, r2, c2, size) {
     const dr = r2 - r1, dc = c2 - c1;
     const len = Math.max(Math.abs(dr), Math.abs(dc));
-    if (len === 0) return [[r1, c1]];
-    // Must be perfectly straight or diagonal
+    if (len === 0) return null;
     if (dr !== 0 && dc !== 0 && Math.abs(dr) !== Math.abs(dc)) return null;
     const sr = dr === 0 ? 0 : dr / Math.abs(dr);
     const sc = dc === 0 ? 0 : dc / Math.abs(dc);
@@ -130,17 +151,16 @@ export default class WordSearch extends BaseGame {
 
   _buildPuzzle(size, count) {
     const grid = Array.from({ length: size }, () => Array(size).fill(''));
-    const pool = [...WORD_POOL].sort(() => Math.random() - 0.5);
+    const pool = shuffle([...WORD_POOL]).filter(w => w.length <= size - 2);
     const placements = [];
-    let attempts = 0;
 
     for (const word of pool) {
       if (placements.length >= count) break;
-      if (word.length > size) continue;
       let placed = false;
-      for (let t = 0; t < 40 && !placed; t++) {
-        const [dr, dc] = DIRS[randInt(0, DIRS.length - 1)];
-        const r = randInt(0, size - 1), c = randInt(0, size - 1);
+      for (let t = 0; t < 60 && !placed; t++) {
+        const [dr, dc] = randChoice(DIRS);
+        const r = randInt(size);
+        const c = randInt(size);
         const cells = [];
         let ok = true;
         for (let i = 0; i < word.length; i++) {
@@ -157,11 +177,10 @@ export default class WordSearch extends BaseGame {
       }
     }
 
-    // Fill empty cells with random letters
-    const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    // Fill remaining empty cells with random letters (guaranteed varied)
     for (let r = 0; r < size; r++)
       for (let c = 0; c < size; c++)
-        if (!grid[r][c]) grid[r][c] = LETTERS[randInt(0, 25)];
+        if (!grid[r][c]) grid[r][c] = LETTERS[randInt(26)];
 
     return { grid, placements };
   }
@@ -173,11 +192,11 @@ export default class WordSearch extends BaseGame {
     EventBus.emit('game:over', {
       result: 'lose', icon: '⏱️', title: 'TEMPS ÉCOULÉ !',
       score: this.state.score, best,
-      extraInfo: `<div class="overlay-score">${this.state.words.filter(w=>w.found).length}/${this.state.words.length} mots trouvés</div>`,
+      extraInfo: `<div class="overlay-score">${this.state.words.filter(w => w.found).length}/${this.state.words.length} mots trouvés</div>`,
     });
   }
 
   _buildFullState() {
-    return { status:'idle', mode:'basique', gridSize:0, grid:[], words:[], found:[], score:0, timeLeft:0, selecting:null, hoverCell:null };
+    return { status: 'idle', mode: 'basique', gridSize: 0, grid: [], words: [], found: [], score: 0, timeLeft: 0, selecting: null, hoverCell: null };
   }
 }

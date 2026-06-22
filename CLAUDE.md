@@ -44,7 +44,7 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 15 mastermind`
 - 33 — Typing Rush ✅
 - 34 — Tower Defense ✅
 - 35 — Gem Crush (Match 3) ✅
-- 36 — Farkle (dés) ✅
+- 36 — Plinko ✅ *(remplace Farkle — jeu de dés trop obscur)*
 - 37 — Pipe Dream (tuyaux à relier) ✅
 - 38 — Tron (moto-lumière) ✅
 - 39 — Flood It (inondation de couleurs) ✅

@@ -58,15 +58,21 @@ export default class WordSearchRenderer {
       .ws-info span { color:#fff; }
       .ws-canvas { display:block; cursor:crosshair; border-radius:6px; box-shadow:0 0 20px rgba(0,0,0,0.5); }
       .ws-sidebar {
-        flex:0 0 130px; background:rgba(0,0,0,0.35); border-left:1px solid rgba(0,255,225,0.08);
-        display:flex; flex-direction:column; gap:4px; padding:10px 8px; overflow-y:auto;
+        flex:0 0 148px; background:rgba(0,0,0,0.45); border-left:2px solid rgba(0,255,225,0.12);
+        display:flex; flex-direction:column; gap:2px; padding:12px 10px; overflow-y:auto;
       }
-      .ws-sidebar-title { font-size:9px; color:rgba(255,255,255,0.3); letter-spacing:.12em; margin-bottom:6px; }
+      .ws-sidebar-title {
+        font-size:9px; color:#00ffe1; letter-spacing:.15em; margin-bottom:10px;
+        border-bottom:1px solid rgba(0,255,225,0.2); padding-bottom:6px;
+      }
       .ws-word {
-        font-size:10px; letter-spacing:.06em; color:rgba(255,255,255,0.5);
-        padding:3px 0; border-bottom:1px solid rgba(255,255,255,0.05);
+        font-size:11px; letter-spacing:.06em; color:rgba(255,255,255,0.65);
+        padding:4px 2px; border-bottom:1px solid rgba(255,255,255,0.04);
+        transition:color .2s;
       }
-      .ws-word.found { color:#00ff88; text-decoration:line-through; }
+      .ws-word::before { content:'○ '; font-size:8px; color:rgba(255,255,255,0.3); }
+      .ws-word.found { color:#00ff88; text-decoration:line-through; opacity:0.6; }
+      .ws-word.found::before { content:'✓ '; color:#00ff88; }
     `;
     document.head.appendChild(s);
   }
@@ -210,36 +216,50 @@ export default class WordSearchRenderer {
     ctx.fillStyle = '#0a0f1e';
     ctx.fillRect(0, 0, size * CS, size * CS);
 
-    // Grid cells
-    for (let r = 0; r < size; r++) {
-      for (let c = 0; c < size; c++) {
-        ctx.strokeStyle = 'rgba(255,255,255,0.04)';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(c * CS, r * CS, CS, CS);
-        ctx.fillStyle = 'rgba(255,255,255,0.85)';
-        ctx.font = `bold ${Math.floor(CS * 0.55)}px Orbitron, monospace`;
-        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-        ctx.fillText(state.grid[r]?.[c] ?? '', c * CS + CS/2, r * CS + CS/2);
-      }
-    }
-
-    // Found words — highlight
+    // Build set of found cells for coloring
+    const foundCells = new Map();
     state.found.forEach((f, i) => {
       const color = FOUND_COLORS[i % FOUND_COLORS.length];
-      for (const [cr, cc] of f.cells) {
-        ctx.fillStyle = color;
-        ctx.fillRect(cc * CS + 1, cr * CS + 1, CS - 2, CS - 2);
-      }
+      for (const [cr, cc] of f.cells) foundCells.set(`${cr},${cc}`, color);
     });
 
-    // Current selection preview
+    // Build selection preview cells
+    const selCells = new Set();
     if (state.selecting && state.hoverCell) {
       const { r: sr, c: sc } = state.selecting;
       const { r: er, c: ec } = state.hoverCell;
       const cells = this.game._getCellsBetween(sr, sc, er, ec, size);
-      if (cells) {
-        ctx.fillStyle = 'rgba(255,255,255,0.2)';
-        for (const [cr, cc] of cells) ctx.fillRect(cc * CS + 1, cr * CS + 1, CS - 2, CS - 2);
+      if (cells) cells.forEach(([cr, cc]) => selCells.add(`${cr},${cc}`));
+    }
+
+    // Grid cells
+    for (let r = 0; r < size; r++) {
+      for (let c = 0; c < size; c++) {
+        const key    = `${r},${c}`;
+        const letter = state.grid[r]?.[c] ?? '';
+        const found  = foundCells.get(key);
+        const sel    = selCells.has(key);
+
+        // Cell background
+        if (found) {
+          ctx.fillStyle = found;
+          ctx.fillRect(c * CS, r * CS, CS, CS);
+        } else if (sel) {
+          ctx.fillStyle = 'rgba(255,255,255,0.18)';
+          ctx.fillRect(c * CS, r * CS, CS, CS);
+        }
+
+        // Cell border
+        ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(c * CS, r * CS, CS, CS);
+
+        // Letter
+        ctx.fillStyle = found ? '#fff' : sel ? '#ffe030' : 'rgba(255,255,255,0.75)';
+        ctx.font = `bold ${Math.floor(CS * 0.52)}px Orbitron, monospace`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(letter, c * CS + CS / 2, r * CS + CS / 2);
       }
     }
 

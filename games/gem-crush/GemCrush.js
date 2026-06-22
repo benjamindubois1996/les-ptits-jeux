@@ -124,7 +124,7 @@ export default class GemCrush extends BaseGame {
       for (let r = rows - 1; r >= 0; r--) {
         if (state.grid[r][c] !== null) { state.grid[writeRow][c] = state.grid[r][c]; if (writeRow !== r) state.grid[r][c] = null; writeRow--; }
       }
-      for (let r = writeRow; r >= 0; r--) state.grid[r][c] = randInt(0, colors - 1);
+      for (let r = writeRow; r >= 0; r--) state.grid[r][c] = randInt(colors);
     }
   }
 
@@ -152,7 +152,7 @@ export default class GemCrush extends BaseGame {
     for (let r = 0; r < rows; r++)
       for (let c = 0; c < cols; c++) {
         let v;
-        do { v = randInt(0, colors - 1); }
+        do { v = randInt(colors); }
         while (
           (c >= 2 && grid[r][c-1] === v && grid[r][c-2] === v) ||
           (r >= 2 && grid[r-1][c] === v && grid[r-2][c] === v)

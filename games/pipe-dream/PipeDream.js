@@ -6,12 +6,13 @@ import { randInt }  from '../../js/utils/Random.js';
 // Pipe types: each has a set of open directions (N, E, S, W)
 // 0=straight-H, 1=straight-V, 2=bend-NE, 3=bend-SE, 4=bend-SW, 5=bend-NW, 6=cross
 const PIPE_DIRS = [
-  { opens: ['W','E'] },       // 0: horizontal
-  { opens: ['N','S'] },       // 1: vertical
-  { opens: ['N','E'] },       // 2: bend NE
-  { opens: ['S','E'] },       // 3: bend SE
-  { opens: ['S','W'] },       // 4: bend SW
-  { opens: ['N','W'] },       // 5: bend NW
+  { opens: ['W','E'] },            // 0: horizontal
+  { opens: ['N','S'] },            // 1: vertical
+  { opens: ['N','E'] },            // 2: bend NE
+  { opens: ['S','E'] },            // 3: bend SE
+  { opens: ['S','W'] },            // 4: bend SW
+  { opens: ['N','W'] },            // 5: bend NW
+  { opens: ['N','S','E','W'] },    // 6: cross
 ];
 
 const OPP = { N:'S', S:'N', E:'W', W:'E' };
@@ -125,9 +126,9 @@ export default class PipeDream extends BaseGame {
       r = nr; c = nc;
       path.push({ r, c });
       if (nextCell.isSink) break;
-      // Find the other opening
+      // Find exit direction (cross = straight through, others = opposite opening)
       const opens = PIPE_DIRS[nextCell.type]?.opens ?? [];
-      const nextExit = opens.find(d => d !== entryDir);
+      const nextExit = opens.length === 4 ? OPP[entryDir] : opens.find(d => d !== entryDir);
       if (!nextExit) break;
       exitDir = nextExit;
     }
@@ -175,9 +176,9 @@ export default class PipeDream extends BaseGame {
   }
 
   _makeGrid(rows, cols) {
-    const grid = Array.from({ length: rows }, () => Array(cols).fill(null).map(() => ({ type: randInt(0, 5) })));
-    const sr = randInt(0, rows - 1), sc = 0;
-    const er = randInt(0, rows - 1), ec = cols - 1;
+    const grid = Array.from({ length: rows }, () => Array(cols).fill(null).map(() => ({ type: randInt(7) })));
+    const sr = randInt(rows), sc = 0;
+    const er = randInt(rows), ec = cols - 1;
     grid[sr][sc] = { isSource: true, type: 0, exitDir: 'E' };
     grid[er][ec] = { isSink: true, type: 1 };
     return { grid, source: { r: sr, c: sc }, sink: { r: er, c: ec } };

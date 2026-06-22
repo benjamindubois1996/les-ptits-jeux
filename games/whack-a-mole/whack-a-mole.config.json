@@ -9,7 +9,9 @@
     "moleShowTime": 850
   },
   "scoring": {
-    "hit": 10
+    "hit": 10,
+    "fakePenalty": -5,
+    "fakeProbability": 0.25
   },
   "controls": {
     "keyboard": {

@@ -1,0 +1,26 @@
+{
+  "id": "plinko",
+  "version": "1.0.0",
+  "gameplay": {
+    "rows": 10,
+    "cols": 11,
+    "rounds": 10,
+    "stepMs": 130
+  },
+  "scoring": {
+    "buckets": [100, 30, 10, 5, 2, 500, 2, 5, 10, 30, 100]
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": {},
+  "lives": { "initial": 1 },
+  "roadmap": [
+    "Mode risque : 5 billes par tour, multiplicateur global",
+    "Obstacles spéciaux : pegs dorés (×2) et noirs (diviseur)",
+    "Mode infini : les buckets changent de valeur à chaque bille"
+  ]
+}

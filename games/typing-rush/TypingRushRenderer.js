@@ -21,6 +21,7 @@ export default class TypingRushRenderer {
     this._onResumed = this._onResumed.bind(this);
     this._onRestart = this._onRestart.bind(this);
     this._onKeyDown = this._onKeyDown.bind(this);
+    this._onInput   = this._onInput.bind(this);
   }
 
   init() {
@@ -118,6 +119,7 @@ export default class TypingRushRenderer {
     EventBus.on('game:resumed', this._onResumed);
     EventBus.on('game:restart', this._onRestart);
     this._inputEl.addEventListener('keydown', this._onKeyDown);
+    this._inputEl.addEventListener('input',   this._onInput);
   }
 
   _unbindEvents() {
@@ -127,34 +129,32 @@ export default class TypingRushRenderer {
     EventBus.off('game:resumed', this._onResumed);
     EventBus.off('game:restart', this._onRestart);
     this._inputEl.removeEventListener('keydown', this._onKeyDown);
+    this._inputEl.removeEventListener('input',   this._onInput);
   }
 
   _onKeyDown(e) {
-    const { state } = this.game;
     if (e.code === 'Escape') { e.preventDefault(); EventBus.emit('game:pause-toggle'); return; }
-    if (state.status !== 'playing') return;
+    if (this.game.state.status !== 'playing') return;
     if (e.key === 'Enter') {
       e.preventDefault();
       this.game.type('Enter');
-      this._inputEl.value = '';
-      return;
+      // Clear input only if the game cleared its typed state (= match found)
+      if (this.game.state.typed === '') this._inputEl.value = '';
     }
-    if (e.key === 'Backspace') { this.game.type('Backspace'); return; }
-    // Sync typed value after keydown settles
-    requestAnimationFrame(() => {
-      const val = this._inputEl.value;
-      // Replace game typed state with actual input value
-      this.game.state.typed = val;
-      // Try to match
-      if (val.length > 0) {
-        const idx = this.game.state.words.findIndex(w => w.text.toLowerCase() === val.toLowerCase());
-        if (idx !== -1) {
-          this.game.type('Enter');
-          this._inputEl.value = '';
-        }
-      }
-    });
-    this.game.type(e.key);
+  }
+
+  // Syncs input value → game state and auto-matches on exact word
+  _onInput() {
+    if (this.game.state.status !== 'playing') return;
+    const val = this._inputEl.value.toLowerCase();
+    this.game.state.typed = val;
+    EventBus.emit('game:tick', { state: this.game.state, action: 'type' });
+    // Auto-match when the full word is typed
+    const matched = this.game.state.words.some(w => w.text.toLowerCase() === val);
+    if (matched) {
+      this.game.type('Enter');
+      if (this.game.state.typed === '') this._inputEl.value = '';
+    }
   }
 
   _onTick({ state }) {

@@ -210,42 +210,53 @@ export default class PipeDreamRenderer {
   }
 
   _drawPipe(ctx, x, y, type, flowed) {
-    const cx = x + CELL/2, cy = y + CELL/2;
-    const color = flowed ? PIPE_COLORS.flowed : PIPE_COLORS.normal;
-    const opacity = flowed ? 'ff' : '66';
-    ctx.strokeStyle = color + opacity;
-    ctx.lineWidth   = 10;
-    ctx.lineCap     = 'round';
+    const cx  = x + CELL / 2, cy = y + CELL / 2;
+    const H   = CELL / 2;   // half cell
+    const PW  = 14;          // pipe width (full)
+    const PH  = PW / 2;      // pipe half-width
 
-    const PIPE_DIRS_MAP = [
-      [['W',0,-CELL/2], ['E',0,CELL/2]],
-      [['N',-CELL/2,0], ['S',CELL/2,0]],
-      [['N',-CELL/2,0], ['E',0,CELL/2]],
-      [['S',CELL/2,0],  ['E',0,CELL/2]],
-      [['S',CELL/2,0],  ['W',0,-CELL/2]],
-      [['N',-CELL/2,0], ['W',0,-CELL/2]],
-    ];
+    const col   = flowed ? PIPE_COLORS.flowed : PIPE_COLORS.normal;
+    const alpha = flowed ? 'ff' : '77';
 
-    const segs = PIPE_DIRS_MAP[type] ?? [];
-    // Draw as a curve
-    ctx.beginPath();
-    if (segs.length === 2) {
-      const [, dy0, dx0] = segs[0];
-      const [, dy1, dx1] = segs[1];
-      const isStraight = (dy0 === -dy1 && dx0 === -dx1);
-      if (isStraight) {
-        ctx.moveTo(cx + dx0, cy + dy0);
-        ctx.lineTo(cx + dx1, cy + dy1);
-      } else {
-        ctx.moveTo(cx + dx0, cy + dy0);
-        ctx.quadraticCurveTo(cx, cy, cx + dx1, cy + dy1);
-      }
+    // Background tint by pipe family
+    const bgColor = type <= 1 ? 'rgba(0,100,200,0.10)'
+                  : type === 6 ? 'rgba(120,60,220,0.12)'
+                  : 'rgba(200,80,0,0.10)';
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(x + 1, y + 1, CELL - 2, CELL - 2);
+
+    ctx.fillStyle = col + alpha;
+
+    // Pre-computed arms (clipped to cell)
+    const northArm = () => ctx.fillRect(cx - PH, y,      PW, H + PH);
+    const southArm = () => ctx.fillRect(cx - PH, cy - PH, PW, H + PH);
+    const eastArm  = () => ctx.fillRect(cx - PH, cy - PH, H + PH, PW);
+    const westArm  = () => ctx.fillRect(x,       cy - PH, H + PH, PW);
+
+    switch (type) {
+      case 0: ctx.fillRect(x, cy - PH, CELL, PW); break;       // ━ straight H
+      case 1: ctx.fillRect(cx - PH, y, PW, CELL); break;       // ┃ straight V
+      case 2: northArm(); eastArm();  break;                    // └ NE bend
+      case 3: southArm(); eastArm();  break;                    // ┌ SE bend
+      case 4: southArm(); westArm();  break;                    // ┐ SW bend
+      case 5: northArm(); westArm();  break;                    // ┘ NW bend
+      case 6:                                                    // ╋ cross
+        ctx.fillRect(x, cy - PH, CELL, PW);
+        ctx.fillRect(cx - PH, y, PW, CELL);
+        break;
     }
-    ctx.stroke();
 
-    // Center dot
-    ctx.fillStyle = color + (flowed ? 'ff' : '88');
-    ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI * 2); ctx.fill();
+    // Inner highlight line for depth
+    ctx.fillStyle = 'rgba(255,255,255,' + (flowed ? '0.18' : '0.08') + ')';
+    const IL = 4; // inner line thickness
+    switch (type) {
+      case 0: ctx.fillRect(x, cy - IL/2, CELL, IL); break;
+      case 1: ctx.fillRect(cx - IL/2, y, IL, CELL); break;
+      case 6:
+        ctx.fillRect(x, cy - IL/2, CELL, IL);
+        ctx.fillRect(cx - IL/2, y, IL, CELL);
+        break;
+    }
   }
 
   _onWon(data)  { this._showEnd(data); }

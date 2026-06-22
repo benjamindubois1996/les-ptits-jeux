@@ -113,9 +113,9 @@ export default class TypingRush extends BaseGame {
       for (const w of hit) {
         this.state.words = this.state.words.filter(x => x !== w);
         this.state.combo = 0;
-        this.lives.loseOne();
-        if (this.lives.remaining <= 0) { this._gameOver(); return; }
-        EventBus.emit('game:lives-update', { lives: this.lives.remaining });
+        this.lives.lose();
+        if (this.lives.count <= 0) { this._gameOver(); return; }
+        EventBus.emit('game:lives-update', { lives: this.lives.count });
       }
     }
     EventBus.emit('game:tick', { state: this.state, action: 'tick' });
@@ -138,7 +138,7 @@ export default class TypingRush extends BaseGame {
     if (!pool.length) return;
     const text = randChoice(pool);
     const lanes = this.config.gameplay.laneCount;
-    const lane  = randInt(0, lanes - 1);
+    const lane  = randInt(lanes);
     this.state.words.push({ id: this._nextId++, text, y: 0, lane });
     EventBus.emit('game:tick', { state: this.state, action: 'spawn' });
   }
