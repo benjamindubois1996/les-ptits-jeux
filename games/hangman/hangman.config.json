@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "hangman",
   "version": "1.0.0",
 
@@ -20,5 +20,6 @@
     "keyboard": {
       "restart": ["KeyR"]
     }
-  }
+  },
+  "touchControls": { "type": "keyboard" }
 }

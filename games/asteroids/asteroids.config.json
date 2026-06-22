@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "asteroids",
   "version": "1.0.0",
 
@@ -42,5 +42,6 @@
       "pause":   ["KeyP"],
       "restart": ["KeyR"]
     }
-  }
+  },
+  "touchControls": { "type": "dpad", "actions": [{ "label": "FEU", "key": " " }] }
 }

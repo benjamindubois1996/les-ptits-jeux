@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "flappy-bird",
   "version": "1.0.0",
 
@@ -35,5 +35,6 @@
       "pause":   ["KeyP"],
       "restart": ["KeyR"]
     }
-  }
+  },
+  "touchControls": { "type": "hold", "actions": [{ "label": "VOLER", "key": " " }] }
 }

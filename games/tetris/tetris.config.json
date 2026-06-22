@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "tetris",
   "version": "1.0.0",
 
@@ -62,5 +62,6 @@
       "pause":     ["KeyP",       "Escape"],
       "restart":   ["KeyR"]
     }
-  }
+  },
+  "touchControls": { "type": "dpad", "actions": [{ "label": "DROP", "key": " " }] }
 }

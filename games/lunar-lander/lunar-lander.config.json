@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "lunar-lander",
   "version": "1.0.0",
   "gameplay": {
@@ -27,5 +27,6 @@
     }
   },
   "timer": { "scoreEffect": "positive" },
-  "lives": { "initial": 3 }
+  "lives": { "initial": 3 },
+  "touchControls": { "type": "dpad" }
 }

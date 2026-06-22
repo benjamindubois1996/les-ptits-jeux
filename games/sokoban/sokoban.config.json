@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "sokoban",
   "version": "1.0.0",
   "gameplay": {
@@ -137,5 +137,6 @@
         "########"
       ]
     }
-  ]
+  ],
+  "touchControls": { "type": "dpad" }
 }

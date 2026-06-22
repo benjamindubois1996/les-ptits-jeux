@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "snake",
   "version": "1.0.0",
 
@@ -152,5 +152,6 @@
       "enabled":      true,
       "swipeMinPx":   30
     }
-  }
+  },
+  "touchControls": { "type": "dpad" }
 }

@@ -13,8 +13,9 @@
  * Le bouton JOUER reste affiché sur le canvas via GameOverlay.
  */
 
-import EventBus   from '../core/EventBus.js';
-import GameOverlay from './components/GameOverlay.js';
+import EventBus      from '../core/EventBus.js';
+import GameOverlay   from './components/GameOverlay.js';
+import TouchControls from './TouchControls.js';
 
 const GameShell = (() => {
 
@@ -113,10 +114,13 @@ const GameShell = (() => {
 
           <!-- Zone jeu -->
           <div class="game-shell__game-area">
-            <div class="game-shell__viewport" id="${VIEWPORT_ID}"></div>
-            <div class="game-shell__overlay hidden" id="gs-overlay">
-              <div class="game-shell__overlay-content" id="gs-overlay-content"></div>
+            <div class="game-shell__viewport-wrap" id="gs-viewport-wrap">
+              <div class="game-shell__viewport" id="${VIEWPORT_ID}"></div>
+              <div class="game-shell__overlay hidden" id="gs-overlay">
+                <div class="game-shell__overlay-content" id="gs-overlay-content"></div>
+              </div>
             </div>
+            <div class="game-shell__touch-zone" id="gs-touch-zone"></div>
           </div>
 
           <!-- Panneau latéral -->
@@ -200,6 +204,13 @@ const GameShell = (() => {
     EventBus.on('game:resumed',          _onResumed);
     EventBus.on('game:restart',          _onGameRestart);
 
+    // Contrôles tactiles
+    TouchControls.init(
+      document.getElementById('gs-touch-zone'),
+      config.touchControls,
+      document.getElementById('gs-viewport-wrap')
+    );
+
     return document.getElementById(VIEWPORT_ID);
   }
 
@@ -208,6 +219,8 @@ const GameShell = (() => {
      ============================================================ */
 
   function clear() {
+    TouchControls.destroy();
+
     EventBus.off('game:sidebar-register', _onSidebarRegister);
     EventBus.off('game:play-requested',   _onPlayRequested);
     EventBus.off('game:score-update',     _onScoreUpdate);

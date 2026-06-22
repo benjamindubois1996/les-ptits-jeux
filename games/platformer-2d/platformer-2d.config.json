@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "platformer-2d",
   "version": "1.0.0",
 
@@ -37,5 +37,6 @@
       "pause":   ["KeyP"],
       "restart": ["KeyR"]
     }
-  }
+  },
+  "touchControls": { "type": "dpad", "actions": [{ "label": "SAUTER", "key": " " }] }
 }

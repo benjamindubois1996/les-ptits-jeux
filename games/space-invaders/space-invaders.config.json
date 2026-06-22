@@ -1,4 +1,4 @@
-{
+﻿{
   "id": "space-invaders",
   "version": "1.0.0",
 
@@ -71,5 +71,6 @@
       "pause":   ["KeyP", "Escape"],
       "restart": ["KeyR"]
     }
-  }
+  },
+  "touchControls": { "type": "dpad", "actions": [{ "label": "FEU", "key": " " }] }
 }
