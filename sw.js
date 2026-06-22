@@ -9,7 +9,7 @@
  * incrémenter CACHE_NAME (ex: retrovault-v2).
  */
 
-const CACHE_NAME = 'retrovault-v2';
+const CACHE_NAME = 'retrovault-v3';
 
 const SHELL = [
   './',
