@@ -1,0 +1,34 @@
+{
+  "id": "qbert",
+  "version": "1.0.0",
+  "gameplay": {
+    "rows": 7,
+    "cellW": 64,
+    "cellH": 36,
+    "topY": 44,
+    "jumpDuration": 0.20,
+    "canvasW": 520,
+    "canvasH": 460,
+    "discsPerLevel": 2
+  },
+  "scoring": {
+    "cubeFlip": 25,
+    "coilyKill": 500,
+    "discBonus": 100,
+    "levelBonus": 1000,
+    "roundBonus": 500
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 3 },
+  "roadmap": [
+    "Ennemis supplémentaires : Sam et Slick (réinitialisent les cubes)",
+    "Disques volants pour fuir Coily",
+    "Niveau 3+ : cubes à retourner 2 fois"
+  ]
+}

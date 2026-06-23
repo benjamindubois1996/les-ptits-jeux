@@ -1,0 +1,27 @@
+{
+  "id": "lemmings",
+  "version": "1.0.0",
+  "gameplay": {
+    "width": 600,
+    "height": 240,
+    "cellSize": 4,
+    "lemmingW": 4,
+    "lemmingH": 10,
+    "walkSpeed": 1,
+    "maxFallSplat": 38,
+    "spawnInterval": 1.8,
+    "toolbarH": 52
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "roadmap": [
+    "Éditeur de niveaux",
+    "Mode chrono — sauver le maximum en temps limité",
+    "Lemmings spéciaux (plus rapides ou plus lents)"
+  ]
+}

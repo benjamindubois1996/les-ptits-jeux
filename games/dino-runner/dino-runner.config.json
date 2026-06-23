@@ -1,0 +1,30 @@
+{
+  "id": "dino-runner",
+  "version": "1.0.0",
+  "gameplay": {
+    "width": 600,
+    "height": 175,
+    "groundY": 135,
+    "dinoX": 65,
+    "dinoW": 44,
+    "dinoH": 52,
+    "dinoDuckH": 30,
+    "gravity": 1900,
+    "jumpForce": 640,
+    "initialSpeed": 340,
+    "maxSpeed": 950,
+    "speedIncrease": 13
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "roadmap": [
+    "Mode nuit/jour dynamique avec transition",
+    "Power-up bouclier temporaire",
+    "Défis quotidiens avec seed fixe"
+  ]
+}

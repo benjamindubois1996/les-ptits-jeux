@@ -1,7 +1,7 @@
 ﻿{
     "platform":  {
                      "name":  "RetroVault",
-                     "version":  "0.45.0",
+                     "version":  "0.50.0",
                      "description":  "Anciens jeux remis au goût du jour"
                  },
     "games":  [
@@ -1731,6 +1731,178 @@
                                     "initial":  3
                                 },
                       "path":  "games/arkanoid/index.html"
+                  },
+                  {
+                      "id":  "dig-dug",
+                      "title":  "46 — Dig Dug",
+                      "version":  "1.0.0",
+                      "description":  "Creuse des tunnels dans la terre et gonfle les ennemis pour les éliminer.",
+                      "longDescription":  "Plonge dans les entrailles de la terre et creuse des tunnels à la demande. Utilise ta pompe pour gonfler les Pookas et les Fygars jusqu'à ce qu'ils explosent — ou laisse tomber des rochers sur eux pour un effet dévastateur. 5 niveaux de profondeur t'attendent.",
+                      "category":  "arcade",
+                      "thumbnail":  "⛏️",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Creusage libre de tunnels dans 4 directions",
+                                       "Pompe à air pour gonfler et éclater les ennemis",
+                                       "Rochers qui tombent et écrasent",
+                                       "2 types d'ennemis : Pooka et Fygar",
+                                       "5 niveaux avec difficulté croissante"
+                                   ],
+                      "roadmap":  [
+                                      "Mode VS — 2 joueurs sur le même clavier",
+                                      "Tombes spéciales avec bonus score multiplié",
+                                      "Ennemis de niveau supérieur (Fygar crache du feu)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑↓←→ / WASD : creuser",
+                                                        "ESPACE : pompe (maintenir)",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  3 },
+                      "path":  "games/dig-dug/index.html"
+                  },
+                  {
+                      "id":  "qbert",
+                      "title":  "47 — Q*bert",
+                      "version":  "1.0.0",
+                      "description":  "Saute sur les cubes de la pyramide pour les retourner — évite le serpent Coily.",
+                      "longDescription":  "Q*bert saute en diagonale sur une pyramide isométrique de 28 cubes. Atterris sur chaque cube pour changer sa couleur. Retourne-les tous pour passer au round suivant — mais Coily le serpent te chasse ! Deux rounds par niveau, 5 niveaux.",
+                      "category":  "arcade",
+                      "thumbnail":  "🟠",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Pyramide isométrique 7 étages (28 cubes)",
+                                       "Sauts diagonaux UR / UL / DR / DL",
+                                       "Coily le serpent en poursuite",
+                                       "5 niveaux avec palettes de couleurs changeantes",
+                                       "2 rounds par niveau"
+                                   ],
+                      "roadmap":  [
+                                      "Ennemis supplémentaires : Sam et Slick (réinitialisent les cubes)",
+                                      "Disques volants pour fuir Coily",
+                                      "Niveau 3+ : cubes à retourner 2 fois"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑ / E : saut haut-droite",
+                                                        "← / Q : saut haut-gauche",
+                                                        "↓ / Z : saut bas-gauche",
+                                                        "→ / X : saut bas-droite",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  3 },
+                      "path":  "games/qbert/index.html"
+                  },
+                  {
+                      "id":  "lemmings",
+                      "title":  "48 — Lemmings",
+                      "version":  "1.0.0",
+                      "description":  "Guide les lemmings jusqu'à la sortie en leur assignant des compétences.",
+                      "longDescription":  "Les lemmings tombent du trapdoor et marchent droit devant eux sans se soucier du danger. Clique sur un lemming pour lui assigner une compétence : Bloqueur, Creuseur, Constructeur, Basteur, Flotteur ou Grimpeur. Sauve le pourcentage requis pour passer au niveau suivant.",
+                      "category":  "puzzle",
+                      "thumbnail":  "🐾",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "6 compétences assignables : Bloqueur, Creuseur, Constructeur, Basteur, Flotteur, Grimpeur",
+                                       "5 niveaux avec terrains pré-construits",
+                                       "Objectif de sauvegarde en %",
+                                       "Clic sur un lemming pour assigner la compétence sélectionnée",
+                                       "Compteur sauvés / morts en temps réel"
+                                   ],
+                      "roadmap":  [
+                                      "Éditeur de niveaux",
+                                      "Mode chrono — sauver le maximum en temps limité",
+                                      "Lemmings spéciaux (plus rapides ou plus lents)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic canvas : assigner compétence au lemming",
+                                                        "Boutons barre d'outils : sélectionner compétence",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "path":  "games/lemmings/index.html"
+                  },
+                  {
+                      "id":  "dino-runner",
+                      "title":  "49 — Dino Runner",
+                      "version":  "1.0.0",
+                      "description":  "Le dino court à toute vitesse — saute par-dessus les cactus, baisse-toi sous les ptéros.",
+                      "longDescription":  "Endless runner inspiré du célèbre dinosaure de Chrome. La vitesse augmente sans cesse. Évite les cactus en sautant et les ptérodactyles en te baissant. Le mode nuit s'active automatiquement tous les 700 points. Jusqu'où peux-tu aller ?",
+                      "category":  "arcade",
+                      "thumbnail":  "🦕",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Endless runner avec vitesse croissante",
+                                       "Cactus et ptérodactyles comme obstacles",
+                                       "Mode nuit automatique tous les 700 points",
+                                       "Score basé sur la distance parcourue",
+                                       "Record local sauvegardé"
+                                   ],
+                      "roadmap":  [
+                                      "Mode nuit/jour dynamique avec transition",
+                                      "Power-up bouclier temporaire",
+                                      "Défis quotidiens avec seed fixe"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "ESPACE / ↑ / W : sauter",
+                                                        "↓ / S : se baisser",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "path":  "games/dino-runner/index.html"
+                  },
+                  {
+                      "id":  "defender",
+                      "title":  "50 — Defender",
+                      "version":  "1.0.0",
+                      "description":  "Vaisseau spatial — protège les humanoides des envahisseurs dans un monde scrollant.",
+                      "longDescription":  "Pilote ton vaisseau dans un monde circulaire de 6400px de large. Les Landers descendent pour enlever les humanoïdes — intercepte-les avant qu'ils ne mutent ! Tire, largue des bombes intelligentes, utilise l'hyperespace. Le radar en bas montre tout le champ de bataille.",
+                      "category":  "arcade",
+                      "thumbnail":  "🚀",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Monde circulaire scrollant (6400px)",
+                                       "Radar en temps réel de tout le niveau",
+                                       "Landers qui enlèvent les humanoïdes (→ Mutants)",
+                                       "Bombe intelligente (B) et hyperespace (H)",
+                                       "5 vagues avec ennemis croissants"
+                                   ],
+                      "roadmap":  [
+                                      "Bombers et Pods avec essaim (Swarmers)",
+                                      "Smart bomb visuelle avec onde de choc",
+                                      "Mode survie infini avec boss intermédiaires"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "← → / A D : déplacer (horizontal)",
+                                                        "↑ ↓ / W S : altitude",
+                                                        "ESPACE : tirer",
+                                                        "B : bombe intelligente  H : hyperespace",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  3 },
+                      "path":  "games/defender/index.html"
                   }
               ],
     "categories":  [

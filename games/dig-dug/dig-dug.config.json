@@ -1,0 +1,36 @@
+{
+  "id": "dig-dug",
+  "version": "1.0.0",
+  "gameplay": {
+    "cols": 15,
+    "rows": 13,
+    "tileSize": 28,
+    "playerSpeed": 2.8,
+    "pumpSpeed": 95,
+    "pumpRange": 68,
+    "pumpsToKill": 3,
+    "enemySpeed": 1.6,
+    "rockFallAcc": 380,
+    "rockMaxSpeed": 480,
+    "rocksPerLevel": 3,
+    "enemiesPerLevel": 4
+  },
+  "scoring": {
+    "pooka": 200,
+    "fygar": 400,
+    "rockCrush": 1000
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 3 },
+  "roadmap": [
+    "Mode VS — 2 joueurs sur le même clavier",
+    "Tombes spéciales avec bonus score multiplié",
+    "Ennemis de niveau supérieur (Fygar crache du feu)"
+  ]
+}

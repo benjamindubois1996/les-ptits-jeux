@@ -1,0 +1,37 @@
+{
+  "id": "defender",
+  "version": "1.0.0",
+  "gameplay": {
+    "viewW": 640,
+    "viewH": 340,
+    "worldW": 6400,
+    "radarH": 36,
+    "shipSpeed": 290,
+    "shipVSpeed": 220,
+    "bulletSpeed": 620,
+    "bulletLife": 1.4,
+    "humanoids": 10,
+    "landersPerWave": 4,
+    "smartBombs": 3
+  },
+  "scoring": {
+    "lander": 150,
+    "mutant": 250,
+    "bomber": 250,
+    "humanoidRescued": 500,
+    "waveBonus": 1000
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 3 },
+  "roadmap": [
+    "Bombers et Pods avec essaim (Swarmers)",
+    "Smart bomb visuelle avec onde de choc",
+    "Mode survie infini avec boss intermédiaires"
+  ]
+}
