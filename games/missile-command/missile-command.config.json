@@ -1,0 +1,29 @@
+{
+  "id": "missile-command",
+  "version": "1.0.0",
+  "gameplay": {
+    "width": 480,
+    "height": 540,
+    "cities": 6,
+    "batteries": 3,
+    "ammoPerBattery": 10,
+    "missileSpeed": 0.4,
+    "interceptSpeed": 6,
+    "explosionRadius": 40,
+    "explosionDuration": 900
+  },
+  "scoring": {
+    "cityBonus": 100,
+    "ammoBonus": 5,
+    "missileKill": 25,
+    "waveClear": 500
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 1 }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "arkanoid",
+  "version": "1.0.0",
+  "gameplay": {
+    "width": 400,
+    "height": 560,
+    "paddleW": 80,
+    "paddleH": 10,
+    "paddleSpeed": 7,
+    "ballRadius": 7,
+    "ballSpeed": 5,
+    "brickCols": 10,
+    "brickRows": 8,
+    "brickW": 36,
+    "brickH": 16,
+    "powerUpChance": 0.2
+  },
+  "scoring": {
+    "brickBase": 10,
+    "levelBonus": 500,
+    "lifeBonus": 200
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 3 }
+}

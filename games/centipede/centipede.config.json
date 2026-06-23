@@ -1,0 +1,30 @@
+{
+  "id": "centipede",
+  "version": "1.0.0",
+  "gameplay": {
+    "cols": 16,
+    "rows": 20,
+    "cellSize": 28,
+    "centipedeLength": 12,
+    "mushroomCount": 30,
+    "playerZoneRows": 4,
+    "bulletSpeed": 10,
+    "centipedeSpeed": 0.18,
+    "spiderSpawnInterval": 8
+  },
+  "scoring": {
+    "head": 100,
+    "body": 10,
+    "mushroom": 1,
+    "spider": 300,
+    "flea": 200
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 3 }
+}

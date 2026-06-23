@@ -1,0 +1,28 @@
+{
+  "id": "doodle-jump",
+  "version": "1.0.0",
+  "gameplay": {
+    "width": 360,
+    "height": 600,
+    "gravity": 0.3,
+    "jumpVelocity": -14,
+    "springBonus": -22,
+    "playerW": 36,
+    "playerH": 28,
+    "platformW": 68,
+    "platformH": 12,
+    "platformCount": 10,
+    "enemySpawnHeight": 800
+  },
+  "scoring": {
+    "heightFactor": 1
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 1 }
+}

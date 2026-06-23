@@ -1,7 +1,7 @@
 ﻿{
     "platform":  {
                      "name":  "RetroVault",
-                     "version":  "0.40.0",
+                     "version":  "0.45.0",
                      "description":  "Anciens jeux remis au goût du jour"
                  },
     "games":  [
@@ -316,33 +316,31 @@
                       "path":  "games/space-invaders/index.html"
                   },
                   {
-                      "id":  "breakout",
-                      "title":  "09 — Breakout",
+                      "id":  "doodle-jump",
+                      "title":  "09 — Doodle Jump",
                       "version":  "1.0.0",
-                      "description":  "Casse toutes les briques avec ta raquette — réflexes et précision.",
-                      "longDescription":  "Dirige ta raquette pour renvoyer la balle et détruire toutes les briques. Plus les briques sont hautes, plus elles rapportent de points. Chaque niveau efface la grille et accélère la balle. Tu as 3 vies — ne laisse pas la balle passer !",
+                      "description":  "Rebondis de plateforme en plateforme — ne tombe pas !",
+                      "longDescription":  "Le Doodler rebondit automatiquement. Guide-le à gauche et à droite pour sauter de plateforme en plateforme et grimper toujours plus haut. Évite les monstres, profite des ressorts, méfie-toi des plateformes qui s'effondrent. Tu chutes = game over !",
                       "category":  "arcade",
-                      "thumbnail":  "🧱",
+                      "thumbnail":  "🐸",
                       "available":  true,
                       "comingSoon":  false,
                       "features":  [
-                                       "7 rangées de briques colorées (10–70 pts)",
-                                       "Niveaux infinis avec vitesse progressive (+20 % par niveau)",
-                                       "Angle de renvoi selon la zone de frappe",
-                                       "Contrôles souris, clavier et tactile",
-                                       "3 vies — meilleur score sauvegardé"
+                                       "Génération procédurale infinie de plateformes",
+                                       "4 types de plateformes : normale, mobile, fragile, ressort",
+                                       "Monstres à éviter (ou à écraser par le dessus)",
+                                       "Score basé sur la hauteur atteinte",
+                                       "Enroulement horizontal (passer d'un bord à l'autre)"
                                    ],
                       "roadmap":  [
-                                      "Power-ups qui tombent des briques (multi-ball, raquette large)",
-                                      "Briques spéciales (incassables, bonus)",
-                                      "Mode sans fin avec classement"
+                                      "Power-ups (jetpack, bouclier, ressort géant)",
+                                      "Tir vers le haut pour éliminer les monstres à distance",
+                                      "Thèmes visuels (espace, jungle, hiver)"
                                   ],
                       "controls":  {
                                        "keyboard":  [
-                                                        "← → / A D : raquette",
-                                                        "Espace : lancer / pause",
-                                                        "P : pause",
-                                                        "R : restart"
+                                                        "← → / A D : diriger",
+                                                        "P pause  R restart"
                                                     ],
                                        "touch":  true
                                    },
@@ -350,9 +348,9 @@
                                     "scoreEffect":  "positive"
                                 },
                       "lives":  {
-                                    "initial":  3
+                                    "initial":  1
                                 },
-                      "path":  "games/breakout/index.html"
+                      "path":  "games/doodle-jump/index.html"
                   },
                   {
                       "id":  "blackjack",
@@ -1543,6 +1541,196 @@
                                     "initial":  1
                                 },
                       "path":  "games/word-search/index.html"
+                  },
+                  {
+                      "id":  "galaga",
+                      "title":  "41 — Galaga",
+                      "version":  "1.0.0",
+                      "description":  "Défends-toi contre la formation ennemie qui pique en piqué.",
+                      "longDescription":  "Les ennemis s'alignent en formation puis plongent en piqué pour t'éliminer. Tire vite, esquive, et marque des points supplémentaires en abattant les boss en piqué avec escorte.",
+                      "category":  "arcade",
+                      "thumbnail":  "👾",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Formation de 50 ennemis (drones, papillons, boss)",
+                                       "Piqués dynamiques avec courbe de poursuite",
+                                       "Tir ennemi dirigé",
+                                       "Vagues infinies avec difficulté croissante",
+                                       "Score doublé en abattant un boss en piqué"
+                                   ],
+                      "roadmap":  [
+                                      "Double vaisseau (récupérer un capturé)",
+                                      "Boss Galaga avec 2 points de vie",
+                                      "Power-up tir double"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "← → : déplacer",
+                                                        "Espace : tirer",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
+                      "path":  "games/galaga/index.html"
+                  },
+                  {
+                      "id":  "missile-command",
+                      "title":  "42 — Missile Command",
+                      "version":  "1.0.0",
+                      "description":  "Intercepte les missiles ennemis avant qu'ils détruisent tes villes.",
+                      "longDescription":  "Des missiles plongent sur tes 6 villes. Clique pour lancer des intercepteurs depuis tes 3 batteries. Les explosions détruisent les missiles alentour. Chaque vague est plus intense — protège tes villes jusqu'au bout !",
+                      "category":  "arcade",
+                      "thumbnail":  "🚀",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "6 villes à défendre, 3 batteries",
+                                       "Clic / tap pour cibler les intercepteurs",
+                                       "Explosions à rayon d'effet",
+                                       "Vagues de difficulté croissante",
+                                       "Bonus fin de vague (ammo + villes sauvées)"
+                                   ],
+                      "roadmap":  [
+                                      "MIRVs (missiles qui se divisent en vol)",
+                                      "Satellites bonus à abattre",
+                                      "Mode survie infini avec classement"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic / tap : lancer un intercepteur",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/missile-command/index.html"
+                  },
+                  {
+                      "id":  "centipede",
+                      "title":  "43 — Centipede",
+                      "version":  "1.0.0",
+                      "description":  "Abats le mille-pattes qui serpente à travers les champignons.",
+                      "longDescription":  "Un mille-pattes descend en rebondissant sur les champignons. Tire depuis ta zone en bas de l'écran — chaque segment touché devient un champignon. Méfie-toi de l'araignée et de la puce !",
+                      "category":  "arcade",
+                      "thumbnail":  "🐛",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Mille-pattes segmenté qui rebondit sur les champignons",
+                                       "Araignée aléatoire dans ta zone",
+                                       "Vagues avec mille-pattes plus longs",
+                                       "Une seule balle à la fois — vise bien !",
+                                       "Champ de champignons procédural"
+                                   ],
+                      "roadmap":  [
+                                      "Puce (flea) qui sème des champignons en tombant",
+                                      "Scorpion qui empoisonne les champignons",
+                                      "Mode turbo (tir rapide)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑↓←→ / WASD : déplacer",
+                                                        "Espace : tirer",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
+                      "path":  "games/centipede/index.html"
+                  },
+                  {
+                      "id":  "bomberman",
+                      "title":  "44 — Bomberman",
+                      "version":  "1.0.0",
+                      "description":  "Pose des bombes, détruis les murs et élimine les ennemis.",
+                      "longDescription":  "Navigue dans un labyrinthe de murs destructibles et indestructibles. Pose des bombes (Espace) pour ouvrir des passages et éliminer les ennemis. Récupère des power-ups pour plus de bombes, une plus grande portée ou plus de vitesse. Trouve la sortie une fois tous les ennemis vaincus !",
+                      "category":  "arcade",
+                      "thumbnail":  "💣",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Grille 15×13 générée procéduralement",
+                                       "3 power-ups : +bombe, +portée, +vitesse",
+                                       "Sortie cachée sous un mur mou",
+                                       "3 niveaux de difficulté croissante",
+                                       "Invincibilité temporaire après une mort"
+                                   ],
+                      "roadmap":  [
+                                      "Ennemis avec IA de poursuite",
+                                      "Mode 2 joueurs local",
+                                      "Bombes télécommandées"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑↓←→ / WASD : déplacer",
+                                                        "Espace / Entrée : poser bombe",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "negative",
+                                    "maxSeconds":  180
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
+                      "path":  "games/bomberman/index.html"
+                  },
+                  {
+                      "id":  "arkanoid",
+                      "title":  "45 — Arkanoid",
+                      "version":  "1.0.0",
+                      "description":  "Brise toutes les briques avec la balle — Breakout sous stéroïdes.",
+                      "longDescription":  "Contrôle la raquette à la souris ou au clavier pour garder la balle en jeu. Brise toutes les briques (sauf les indestructibles !) pour passer au niveau suivant. Des capsules tombent : large raquette, balles multiples, tir laser, vie supplémentaire… 5 niveaux de difficulté croissante.",
+                      "category":  "arcade",
+                      "thumbnail":  "🧱",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Souris ou clavier pour la raquette",
+                                       "5 power-ups : large, laser, slow, vie, multi-balles",
+                                       "5 niveaux avec layouts de briques variés",
+                                       "Briques classiques, dures (2 coups) et indestructibles",
+                                       "Angle de rebond dynamique selon la zone de contact"
+                                   ],
+                      "roadmap":  [
+                                      "Power-up colle (balle reste sur la raquette)",
+                                      "Boss en fin de tableau",
+                                      "Éditeur de niveaux"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Souris / ← → : déplacer",
+                                                        "Espace / Clic : lancer la balle",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
+                      "path":  "games/arkanoid/index.html"
                   }
               ],
     "categories":  [

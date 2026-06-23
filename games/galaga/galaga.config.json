@@ -1,0 +1,29 @@
+{
+  "id": "galaga",
+  "version": "1.0.0",
+  "gameplay": {
+    "width": 400,
+    "height": 580,
+    "playerSpeed": 5,
+    "formationStartY": 60,
+    "formationMinX": 80,
+    "formationMaxX": 320,
+    "formationSpeed": 0.6,
+    "cols": 10,
+    "rows": 5
+  },
+  "scoring": {
+    "drone": 100,
+    "butterfly": 160,
+    "boss": 400,
+    "diveBonus": 2
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 3 }
+}

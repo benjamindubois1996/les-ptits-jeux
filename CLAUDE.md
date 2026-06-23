@@ -15,7 +15,7 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 15 mastermind`
 - 06 — Simon Says ✅
 - 07 — Connect Four ✅
 - 08 — Space Invaders ✅
-- 09 — Breakout ✅
+- 09 — Doodle Jump ✅ *(remplace Breakout — doublon avec Arkanoid 45)*
 - 10 — Blackjack ✅
 - 🔄 Refactoring v2 ✅ — BaseGame, GameLoop, Random, GridUtils
 - 11 — Pong ✅
@@ -49,11 +49,11 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 15 mastermind`
 - 38 — Tron (moto-lumière) ✅
 - 39 — Flood It (inondation de couleurs) ✅
 - 40 — Mots Mêlés (word search) ✅
-- 41 — Galaga
-- 42 — Missile Command
-- 43 — Centipede
-- 44 — Bomberman
-- 45 — Arkanoid
+- 41 — Galaga ✅
+- 42 — Missile Command ✅
+- 43 — Centipede ✅
+- 44 — Bomberman ✅
+- 45 — Arkanoid ✅
 - 46 — Dig Dug
 - 47 — Q*bert
 - 48 — Lemmings

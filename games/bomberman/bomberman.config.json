@@ -1,0 +1,26 @@
+{
+  "id": "bomberman",
+  "version": "1.0.0",
+  "gameplay": {
+    "cols": 15,
+    "rows": 13,
+    "cellSize": 36,
+    "bombTimer": 2.5,
+    "playerSpeed": 4,
+    "enemies": 4,
+    "enemySpeed": 2
+  },
+  "scoring": {
+    "enemyKill": 200,
+    "wallDestroy": 10,
+    "timeBonus": 1000
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "negative", "maxSeconds": 180 },
+  "lives": { "initial": 3 }
+}
