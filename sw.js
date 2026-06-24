@@ -9,7 +9,7 @@
  * incrémenter CACHE_NAME (ex: retrovault-v2).
  */
 
-const CACHE_NAME = 'retrovault-v5';
+const CACHE_NAME = 'retrovault-v6';
 
 const SHELL = [
   './',
@@ -38,6 +38,7 @@ const SHELL = [
   './js/services/StorageService.js',
   './js/ui/GameShell.js',
   './js/ui/Toast.js',
+  './js/ui/TouchControls.js',
   './js/ui/CanvasGrid.js',
   './js/ui/components/GameOverlay.js',
   './config.json',
