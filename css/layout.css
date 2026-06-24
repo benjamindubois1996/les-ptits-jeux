@@ -121,6 +121,26 @@ body::after {
   letter-spacing: 0.05em;
 }
 
+.nav-multi-btn {
+  background: transparent;
+  border: 1px solid rgba(191,95,255,0.5);
+  border-radius: 20px;
+  color: var(--neon-purple);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: background .15s, box-shadow .15s;
+  white-space: nowrap;
+  min-height: 32px;
+}
+.nav-multi-btn:hover {
+  background: rgba(191,95,255,0.1);
+  box-shadow: 0 0 10px rgba(191,95,255,0.3);
+}
+
 /* === Main Content === */
 .main {
   flex: 1;

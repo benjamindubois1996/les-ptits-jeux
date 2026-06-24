@@ -6,12 +6,14 @@
  * C'est le seul fichier importé par index.html.
  */
 
-import EventBus     from './js/core/EventBus.js';
-import Router       from './js/core/Router.js';
-import Loader       from './js/core/Loader.js';
-import ConfigService from './js/services/ConfigService.js';
-import ScoreService  from './js/services/ScoreService.js';
-import Toast        from './js/ui/Toast.js';
+import EventBus          from './js/core/EventBus.js';
+import Router             from './js/core/Router.js';
+import Loader             from './js/core/Loader.js';
+import ConfigService      from './js/services/ConfigService.js';
+import ScoreService       from './js/services/ScoreService.js';
+import Toast              from './js/ui/Toast.js';
+import RoomUI             from './js/multiplayer/RoomUI.js';
+import MultiplayerClient  from './js/multiplayer/MultiplayerClient.js';
 
 /* ============================================================
    ERROR BOUNDARY — crashes mid-game
@@ -101,6 +103,12 @@ async function init() {
     if (!id) { Router.navigate('home'); return; }
     Loader.load(id);
   });
+  Router.register('multi', async () => {
+    await Loader.unload();
+    const app = document.getElementById('app');
+    app.classList.remove('app--in-game');
+    RoomUI.mount(app);
+  });
 
   // 4. Écouter les événements globaux
   _bindGlobalEvents();
@@ -128,6 +136,12 @@ async function renderHome(globalConfig) {
       <ul class="nav-links">
         <li><span class="nav-link active">Jeux</span></li>
         <li><span class="nav-badge">${games.length} jeu${games.length > 1 ? 'x' : ''}</span></li>
+        <li>
+          <button class="nav-multi-btn" id="nav-multi-btn"
+                  title="Mode multijoueur (même WiFi)">
+            🎮 MULTI
+          </button>
+        </li>
       </ul>
     </nav>
 
@@ -180,6 +194,9 @@ async function renderHome(globalConfig) {
   document.querySelectorAll('.game-card').forEach((card, i) => {
     card.style.animationDelay = `${0.05 * i + 0.5}s`;
   });
+
+  // Bouton MULTI
+  document.getElementById('nav-multi-btn')?.addEventListener('click', () => Router.navigate('multi'));
 
   // Bind filtres
   _bindFilters(games);
@@ -346,6 +363,11 @@ function _bindGlobalEvents() {
   EventBus.on('game:exit', async () => {
     const config = await ConfigService.getGlobal();
     renderHome(config);
+  });
+
+  // Cleanup RoomUI quand on quitte la page multi
+  EventBus.on('router:change', ({ from }) => {
+    if (from === 'multi') RoomUI.unmount();
   });
 }
 
