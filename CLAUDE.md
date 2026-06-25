@@ -62,13 +62,13 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 15 mastermind`
 - 51 — Qix
 - 52 — Lights Out
 - 53 — Rush Hour
-- 54 — Nonogram / Picross
-- 55 — Nurikabe
+- 54 — Laser Maze *(miroirs à pivoter pour diriger un rayon laser)*
+- 55 — Ricochet Robots *(robots qui glissent jusqu'au mur, amène-les à leur cible)*
 - 56 — Nim
 - 57 — Blokus
 - 58 — Kakuro
 - 59 — Hashi / Ponts
-- 60 — Jeu de la Vie (Conway)
+- 60 — ⭐ MINI-BOSS — Vampire Survivors lite *(survie top-down, vagues, upgrades passifs)*
 - 61 — Dr. Mario
 - 62 — Puyo Puyo
 - 63 — Columns
@@ -78,7 +78,7 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 15 mastermind`
 - 67 — Air Hockey
 - 68 — Billard 8-ball
 - 69 — Fléchettes (Darts 501)
-- 70 — Mini Golf
+- 70 — ⭐ MINI-BOSS — Metroidvania lite *(platformer + map à explorer + capacités débloquées)*
 - 71 — Poker Texas Hold'em
 - 72 — Spider Solitaire
 - 73 — Hearts / Coeurs
@@ -88,7 +88,7 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 15 mastermind`
 - 77 — Bowling
 - 78 — Basketball
 - 79 — Plinko
-- 80 — Échecs
+- 80 — ⭐ MINI-BOSS — Bullet Hell *(danmaku, patterns de boss, esquive précise)*
 - 81 — Go (9×9)
 - 82 — Mancala / Awalé
 - 83 — Backgammon
@@ -98,7 +98,7 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 15 mastermind`
 - 87 — Angry Birds lite
 - 88 — Tank Battle
 - 89 — Spacewar
-- 90 — Ski Slalom
+- 90 — ⭐ MINI-BOSS — Roguelike Dungeon *(procédural, permadeath, choix d'upgrades)*
 - 91 — Moto Trial
 - 92 — Jigsaw Puzzle
 - 93 — Panel de Pon
@@ -108,7 +108,12 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 15 mastermind`
 - 97 — Réaction (test de réflexes)
 - 98 — Memory Music
 - 99 — Chip's Challenge lite
-- 100 — RetroVault Boss
+- 100 — ⭐ MINI-BOSS FINAL — RetroVault Boss *(meta-jeu, mécaniques de tous les jeux)*
+
+> **Note jeux X0** : les slots 10/20/30/40/50 (Blackjack, Platformer 2D, Pinball, Mots Mêlés, Defender)
+> seront repositionnés dans la liste lors d'une refonte future — le code reste intact.
+> À partir de 60, les X0 sont des **mini-boss** : jeux plus longs, plus riches, inspirés de genres
+> modernes iconiques (Vampire Survivors, Metroidvania, Bullet Hell, Roguelike).
 
 ## Workflow Git
 - `main` : prod, intouchable — jamais de commit direct
