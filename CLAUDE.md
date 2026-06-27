@@ -217,6 +217,14 @@ Ne jamais réimplémenter ce qui existe déjà :
 - Nombres aléatoires → `Random.js`
 - Overlays partagés → `GameOverlay.js`
 
+### 6b. Contrôles clavier — grep de vérification
+```
+grep -n "keydown\|onKey\|pause-toggle\|game:restart" games/nom-jeu/NomJeuRenderer.js
+```
+Si 0 résultat ET que le jeu n'utilise pas A-Z comme input → **P/R manquants, corriger.**
+Les jeux qui utilisent `_bindControls()` dans le `.js` ont souvent P/R dedans — vérifier aussi le `.js`.
+Les jeux sans `_bindControls()` doivent avoir le keydown dans `_bindEvents()` du renderer.
+
 ### 7. Temporalité — démarrage et fin
 - Le jeu ne démarre PAS automatiquement — il attend l'action du joueur sur l'écran de démarrage
 - Le chrono (`Timer`) ne démarre qu'au début effectif de la partie, pas à l'`init()`

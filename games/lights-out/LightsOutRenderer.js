@@ -102,6 +102,11 @@ export default class LightsOutRenderer {
     EventBus.on('game:paused',  this._onPaused);
     EventBus.on('game:resumed', this._onResumed);
     EventBus.on('game:restart', this._onRestart);
+    this._onKey = e => {
+      if (e.key === 'p' || e.key === 'P') EventBus.emit('game:pause-toggle');
+      if (e.key === 'r' || e.key === 'R') this._game.restart();
+    };
+    window.addEventListener('keydown', this._onKey);
   }
 
   _unbindEvents() {
@@ -110,6 +115,7 @@ export default class LightsOutRenderer {
     EventBus.off('game:paused',  this._onPaused);
     EventBus.off('game:resumed', this._onResumed);
     EventBus.off('game:restart', this._onRestart);
+    window.removeEventListener('keydown', this._onKey);
   }
 
   _onTick({ state, action }) {
