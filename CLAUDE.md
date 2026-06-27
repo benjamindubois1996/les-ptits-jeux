@@ -166,6 +166,76 @@ Chaque jeu suit ce cycle, sans exception :
 
 > Ce cycle s'applique à **tous les jeux** à partir du jeu 11.
 
+## Checklist livraison V1 — obligatoire avant tout commit
+
+**Ne pas supposer — confirmer en lisant le code (grep si nécessaire).**
+
+### 1. Structure des fichiers
+- `games/nom-jeu/NomJeu.js`, `NomJeuRenderer.js`, `nomjeu.config.json` créés
+- Entrée ajoutée dans `config.json` racine, triée par numéro
+
+### 2. NomJeu.js
+- `extends BaseGame`, `_gameId()` retourne le bon slug
+- `_setupEventBusBindings()` appelé dans `init()`
+- `game:ready` émis à la fin de `init()`
+- `game:tick` émis avec `{ state, action: 'start' }` dans `init()` et à chaque changement d'état
+- `game:over` ou `game:won` émis quand la partie se termine
+- `restart()` remet l'état à zéro et émet `game:tick` avec `action: 'restart'`
+- `destroy()` appelle `super.destroy()` et `_unbindControls()`
+- Pas de `setInterval`/`setTimeout` nu — utiliser `GameLoop` ou `Timer`
+
+### 3. NomJeuRenderer.js
+- `init()` appelle `_injectStyles()`, `_buildLayout()`, `_bindEvents()`
+- `destroy()` retire les styles (`#xx-styles`) et le wrapper du DOM
+- Wrapper en `position: absolute; inset: 0` (pattern obligatoire)
+- `game:tick` écouté pour mettre à jour l'affichage
+- `game:over` / `game:won` écouté pour afficher l'overlay de fin
+- `game:paused` / `game:resumed` écoutés pour afficher/masquer l'overlay pause
+
+### 4. Écrans obligatoires
+- **Démarrage** : sélecteur MODE en premier dans la colonne gauche, chip BASIQUE sélectionné par défaut
+- **Game over/won** : icône + titre + score final + record éventuel + bouton rejouer
+- **Pause** : overlay visible sur `game:paused`, masqué sur `game:resumed`
+- Les overlays utilisent la classe `xx-overlay--hidden` pour se masquer (pas `display:none` inline)
+
+### 5. Contrôles & inputs
+- **P** = pause, **R** = restart bindés au clavier
+- **Exception** : jeux avec saisie A-Z (Wordle, Hangman) → ne pas binder P/R pendant la saisie
+- `_bindControls()` et `_unbindControls()` sont symétriques (mêmes événements des deux côtés)
+- Champ `touch` défini dans `nomjeu.config.json` si le jeu a des contrôles tactiles
+
+### 6. Réutilisation des modules — vérifier la description AVANT de coder
+Ne jamais réimplémenter ce qui existe déjà :
+- Grille 2D → `Grid.js`
+- Rendu canvas grille → `CanvasGrid.js`
+- Physique 2D → `Physics2D.js` + `Vector2.js`
+- Particules → `Particles.js`
+- Timer affiché → `Timer.js`
+- Vies → `Lives.js`
+- Score → `ScoreService.js`
+- Boucle de jeu → `GameLoop.js`
+- Nombres aléatoires → `Random.js`
+- Overlays partagés → `GameOverlay.js`
+
+### 7. Temporalité — démarrage et fin
+- Le jeu ne démarre PAS automatiquement — il attend l'action du joueur sur l'écran de démarrage
+- Le chrono (`Timer`) ne démarre qu'au début effectif de la partie, pas à l'`init()`
+- Le chrono s'arrête sur `game:over` / `game:won` / `game:paused`
+- La partie se termine clairement — pas de boucle infinie possible après game over
+- Le bouton "Rejouer" dans l'overlay de fin appelle correctement `restart()`
+
+### 8. Gestion des erreurs
+- Toute opération `async/await` dans un `try/catch`
+- Toute `Promise` a un `.catch()` ou est `await`-ée dans un `try/catch`
+- Les accès DOM critiques utilisent `?.` ou un null-check avant utilisation
+- Pas de `console.error` / `console.log` laissés dans le code livré
+
+### 9. Config `nomjeu.config.json`
+- `id` = slug technique (jamais modifié)
+- `title` commence par le numéro : `"51 — Qix"`
+- `version: "1.0.0"`
+- `roadmap: []` avec 2-3 idées minimum
+
 ## Règles importantes pour Claude
 
 ### Démarrage de session
