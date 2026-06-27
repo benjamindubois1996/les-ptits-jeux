@@ -1,0 +1,26 @@
+{
+  "id": "rush-hour",
+  "version": "1.0.0",
+  "gameplay": {
+    "size": 6,
+    "exitRow": 2,
+    "exitCol": 5
+  },
+  "scoring": {
+    "baseWin": 1000,
+    "movePenalty": 20
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "negative" },
+  "lives": { "initial": 0 },
+  "roadmap": [
+    "Puzzles officiels numérotés (import du fichier Rush Hour original)",
+    "Solveur automatique avec affichage du nombre minimum de coups",
+    "Mode chrono — résoudre sous N secondes"
+  ]
+}

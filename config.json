@@ -1,7 +1,7 @@
 ﻿{
     "platform":  {
                      "name":  "RetroVault",
-                     "version":  "0.50.0",
+                     "version":  "0.55.0",
                      "description":  "Anciens jeux remis au goût du jour"
                  },
     "games":  [
@@ -1903,6 +1903,166 @@
                       "timer":  { "scoreEffect":  "positive" },
                       "lives":  { "initial":  3 },
                       "path":  "games/defender/index.html"
+                  },
+                  {
+                      "id":  "qix",
+                      "title":  "51 — Qix",
+                      "version":  "1.0.0",
+                      "description":  "Trace des lignes pour conquérir le terrain — évite le Qix et les Sparx.",
+                      "longDescription":  "Déplace-toi sur le bord et trace des stix pour découper le terrain. Capture 75% de la surface pour gagner. Le Qix (une ligne folle) détruit ton trait en cours, les Sparx patrouillent le bord. ESPACE pour tracer lentement et doubler les points.",
+                      "category":  "arcade",
+                      "thumbnail":  "✏️",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Capture de territoire en temps réel",
+                                       "Qix qui rebondit dans la zone libre",
+                                       "Sparx qui patrouillent le périmètre",
+                                       "Mode lent (ESPACE) pour doubler les points"
+                                   ],
+                      "roadmap":  [
+                                      "Mode 2 Qix avec zone scindée en deux",
+                                      "Sparx accélèrent progressivement avec le score",
+                                      "Bonus zones dorées à capturer en urgence"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑↓←→ / WASD : déplacer",
+                                                        "ESPACE : tracer lentement (×2 points)",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  3 },
+                      "path":  "games/qix/index.html"
+                  },
+                  {
+                      "id":  "lights-out",
+                      "title":  "52 — Lights Out",
+                      "version":  "1.0.0",
+                      "description":  "Éteignez toutes les lumières — cliquer bascule une case et ses voisines.",
+                      "longDescription":  "Grille 5×5 de lumières allumées/éteintes. Cliquer une case la bascule ainsi que ses 4 voisins cardinaux. Objectif : tout éteindre. Simple à comprendre, difficile à maîtriser. Minimisez vos coups pour le meilleur score !",
+                      "category":  "reflexion",
+                      "thumbnail":  "💡",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Grille 5×5 garantie solvable",
+                                       "Score basé sur le nombre de coups",
+                                       "Puzzle aléatoire à chaque partie"
+                                   ],
+                      "roadmap":  [
+                                      "Mode 7×7 pour les experts",
+                                      "Puzzles prédéfinis numérotés (1 à 100)",
+                                      "Hint — affiche la cellule optimale suivante"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic / tap : basculer une case",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "negative" },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/lights-out/index.html"
+                  },
+                  {
+                      "id":  "rush-hour",
+                      "title":  "53 — Rush Hour",
+                      "version":  "1.0.0",
+                      "description":  "Libérez la voiture rouge coincée dans un embouteillage !",
+                      "longDescription":  "Grille 6×6 remplie de voitures. Glissez-les dans leur axe pour ouvrir un chemin à la voiture rouge jusqu'à la sortie (→). 5 puzzles de difficulté croissante. Minimisez les coups pour le score maximum.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🚗",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "5 puzzles de difficulté croissante",
+                                       "Glisser-déposer fluide (souris et tactile)",
+                                       "Score basé sur le nombre de déplacements"
+                                   ],
+                      "roadmap":  [
+                                      "Puzzles officiels numérotés (import du fichier Rush Hour original)",
+                                      "Solveur automatique avec nombre minimum de coups",
+                                      "Mode chrono — résoudre sous N secondes"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Glisser-déposer les voitures",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "negative" },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/rush-hour/index.html"
+                  },
+                  {
+                      "id":  "laser-maze",
+                      "title":  "54 — Laser Maze",
+                      "version":  "1.0.0",
+                      "description":  "Pivotez les miroirs pour diriger le rayon laser vers la cible.",
+                      "longDescription":  "Un laser entre dans la grille. Des miroirs bleus (fixes) et orange (pivotables) réfléchissent le rayon. Cliquez les miroirs orange pour les faire pivoter entre / et \\. Atteignez la cible verte en un minimum de pivots. 5 niveaux inclus.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🔴",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "5 niveaux avec trajets de plus en plus complexes",
+                                       "Miroirs fixes (bleus) et pivotables (orange)",
+                                       "Rayon laser animé en temps réel"
+                                   ],
+                      "roadmap":  [
+                                      "Miroirs à double face (réfléchissent des deux côtés)",
+                                      "Plusieurs lasers simultanés à guider",
+                                      "Prismes qui divisent le rayon en deux"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic / tap : pivoter un miroir orange",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "negative" },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/laser-maze/index.html"
+                  },
+                  {
+                      "id":  "ricochet-robots",
+                      "title":  "55 — Ricochet Robots",
+                      "version":  "1.0.0",
+                      "description":  "Les robots glissent jusqu'au mur — amenez le bon robot à sa cible ★.",
+                      "longDescription":  "Grille 8×8 avec des murs. Les robots glissent dans une direction jusqu'à heurter un mur ou un autre robot. Sélectionnez le robot cible (couleur indiquée) et amenez-le sur l'étoile en un minimum de coups. Ctrl+Z pour annuler. 5 puzzles inclus.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🤖",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "5 puzzles soigneusement construits",
+                                       "4 robots utilisables comme obstacles",
+                                       "Annulation de coup (Ctrl+Z)",
+                                       "Aperçu des cases atteignables (fantôme)"
+                                   ],
+                      "roadmap":  [
+                                      "Génération procédurale de puzzles avec solveur BFS",
+                                      "Mode compétition — plusieurs puzzles, score classement",
+                                      "Affichage du nombre minimum de coups"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic robot pour sélectionner",
+                                                        "↑↓←→ / WASD : déplacer le robot sélectionné",
+                                                        "Ctrl+Z : annuler",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "negative" },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/ricochet-robots/index.html"
                   }
               ],
     "categories":  [

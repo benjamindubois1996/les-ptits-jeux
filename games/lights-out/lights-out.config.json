@@ -1,0 +1,25 @@
+{
+  "id": "lights-out",
+  "version": "1.0.0",
+  "gameplay": {
+    "size": 5,
+    "shuffleMoves": 20
+  },
+  "scoring": {
+    "baseWin": 1000,
+    "movePenalty": 10
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "negative" },
+  "lives": { "initial": 0 },
+  "roadmap": [
+    "Mode 7×7 pour les experts",
+    "Puzzles prédéfinis numérotés (1 à 100)",
+    "Hint — affiche la cellule optimale suivante"
+  ]
+}

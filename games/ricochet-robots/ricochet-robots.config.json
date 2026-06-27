@@ -1,0 +1,26 @@
+{
+  "id": "ricochet-robots",
+  "version": "1.0.0",
+  "gameplay": {
+    "size": 8,
+    "robots": 4
+  },
+  "scoring": {
+    "baseWin": 500,
+    "movePenalty": 20,
+    "fewerMovesBonus": 200
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "negative" },
+  "lives": { "initial": 0 },
+  "roadmap": [
+    "Génération procédurale de puzzles avec solveur BFS",
+    "Mode compétition — plusieurs puzzles, score classement",
+    "Affichage du nombre minimum de coups de la solution optimale"
+  ]
+}

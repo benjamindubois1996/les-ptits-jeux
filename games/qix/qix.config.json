@@ -1,0 +1,33 @@
+{
+  "id": "qix",
+  "version": "1.0.0",
+  "gameplay": {
+    "fieldW": 600,
+    "fieldH": 420,
+    "playerSpeed": 3,
+    "qixCount": 1,
+    "sparxCount": 2,
+    "winThreshold": 75,
+    "qixSpeed": 2.5,
+    "sparxSpeed": 2,
+    "slowMultiplier": 0.5
+  },
+  "scoring": {
+    "fastClaim": 2,
+    "slowClaim": 1,
+    "winBonus": 1000
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 3 },
+  "roadmap": [
+    "Mode 2 Qix avec zone scindée en deux",
+    "Sparx accélèrent progressivement avec le score",
+    "Bonus zones dorées à capturer en urgence"
+  ]
+}

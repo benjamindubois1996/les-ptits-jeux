@@ -1,0 +1,24 @@
+{
+  "id": "laser-maze",
+  "version": "1.0.0",
+  "gameplay": {
+    "size": 7
+  },
+  "scoring": {
+    "baseWin": 500,
+    "movePenalty": 10
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "negative" },
+  "lives": { "initial": 0 },
+  "roadmap": [
+    "Miroirs à double face (réfléchissent des deux côtés)",
+    "Plusieurs lasers simultanés à guider",
+    "Prismes qui divisent le rayon en deux"
+  ]
+}
