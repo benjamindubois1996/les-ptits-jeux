@@ -1,0 +1,28 @@
+{
+  "id": "columns",
+  "version": "1.0.0",
+  "gameplay": {
+    "cols": 6,
+    "rows": 13,
+    "colors": 7,
+    "matchLen": 3,
+    "tickMs": 600
+  },
+  "scoring": {
+    "perGem": 10,
+    "levelBonus": 100
+  },
+  "controls": {
+    "keyboard": {
+      "pause": ["KeyP"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 1 },
+  "roadmap": [
+    "Flash Columns : magique-gemme qui efface toute une couleur",
+    "Mode time attack : vider un maximum avant la fin du chrono",
+    "Gemmes spéciales dorées qui valent ×3"
+  ]
+}

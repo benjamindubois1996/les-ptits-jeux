@@ -1,7 +1,7 @@
 ﻿{
     "platform":  {
                      "name":  "RetroVault",
-                     "version":  "0.60.0",
+                     "version":  "0.70.0",
                      "description":  "Anciens jeux remis au goût du jour"
                  },
     "games":  [
@@ -2227,6 +2227,340 @@
                       "timer":  { "scoreEffect":  "positive" },
                       "lives":  { "initial":  1 },
                       "path":  "games/vampire-survivors/index.html"
+                  },
+                  {
+                      "id":  "dr-mario",
+                      "title":  "61 — Dr. Mario",
+                      "version":  "1.0.0",
+                      "description":  "Pilules qui tombent — élimine les virus en alignant 4 couleurs identiques.",
+                      "longDescription":  "Des pilules bicolores tombent dans le bocal. Oriente-les avec ↑/Espace, déplace-les avec ←→. Aligne 4 cellules de même couleur (horizontalement ou verticalement) pour les effacer. Élimine tous les virus pour gagner !",
+                      "category":  "puzzle",
+                      "thumbnail":  "💊",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Virus colorés à éliminer (rouge, jaune, bleu)",
+                                       "Pilules bicolores — rotation et déplacement",
+                                       "Chaînes de réactions en cascade",
+                                       "Niveaux de difficulté (nombre de virus)"
+                                   ],
+                      "roadmap":  [
+                                      "Niveaux de virus progressifs (difficulté 1-20)",
+                                      "Mode time attack : vider le bocal le plus vite",
+                                      "Virus spéciaux résistants (2 coups)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "← → : déplacer la pilule",
+                                                        "↑ / Espace : faire pivoter",
+                                                        "↓ : chute rapide",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  1 },
+                      "path":  "games/dr-mario/index.html"
+                  },
+                  {
+                      "id":  "puyo-puyo",
+                      "title":  "62 — Puyo Puyo",
+                      "version":  "1.0.0",
+                      "description":  "Paires de blobs colorés — regroupe 4+ puyos identiques pour les effacer.",
+                      "longDescription":  "Des paires de puyos tombent en cascade. Déplace-les avec ←→, pivote avec ↑ ou Espace, chute rapide avec ↓. Regroupe 4 puyos ou plus de la même couleur pour les effacer et déclencher des combos en chaîne !",
+                      "category":  "puzzle",
+                      "thumbnail":  "🟢",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "5 couleurs de puyos (rouge, vert, bleu, jaune, violet)",
+                                       "Flood-fill : tous les puyos connectés comptent",
+                                       "Bonus combo exponentiel (×chaîne)",
+                                       "Vitesse qui augmente avec le score"
+                                   ],
+                      "roadmap":  [
+                                      "Mode VS : IA Puyo Puyo qui envoie des obstacles",
+                                      "Puyos durs (nécessite 2 regroupements)",
+                                      "Mode Speed : temps limité par paire"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "← → : déplacer la paire",
+                                                        "↑ : pivoter dans le sens des aiguilles",
+                                                        "Espace : pivoter en sens inverse",
+                                                        "↓ : chute rapide · P : pause · R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  1 },
+                      "path":  "games/puyo-puyo/index.html"
+                  },
+                  {
+                      "id":  "columns",
+                      "title":  "63 — Columns",
+                      "version":  "1.0.0",
+                      "description":  "Colonne de 3 gemmes — aligne 3+ identiques dans toutes les directions.",
+                      "longDescription":  "Une colonne de 3 gemmes de couleurs différentes tombe. Déplace-la avec ←→, fais tourner les gemmes avec ↑ ou Espace, chute rapide avec ↓. Aligne 3 gemmes ou plus de la même couleur (horizontal, vertical ou diagonal) pour les éclater !",
+                      "category":  "puzzle",
+                      "thumbnail":  "💎",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "7 couleurs de gemmes avec rendu diamant",
+                                       "Correspondances en 8 directions (diagonales incluses)",
+                                       "Chaînes — la gravité recréé de nouvelles combinaisons",
+                                       "Niveaux progressifs qui accélèrent"
+                                   ],
+                      "roadmap":  [
+                                      "Flash Columns : gemme magique qui efface une couleur entière",
+                                      "Mode time attack : vider un maximum avant la fin du chrono",
+                                      "Gemmes spéciales dorées qui valent ×3"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "← → : déplacer la colonne",
+                                                        "↑ / Espace : faire tourner les gemmes",
+                                                        "↓ : chute rapide",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  1 },
+                      "path":  "games/columns/index.html"
+                  },
+                  {
+                      "id":  "boggle",
+                      "title":  "64 — Boggle",
+                      "version":  "1.0.0",
+                      "description":  "Grille 4×4 de lettres — trace des chemins pour former des mots français.",
+                      "longDescription":  "Une grille de 16 lettres aléatoires s'affiche. Clique sur des lettres adjacentes (y compris en diagonale) pour former des mots. Tu as 3 minutes — trouve le maximum de mots français valides !",
+                      "category":  "mots",
+                      "thumbnail":  "🔤",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Lettres adjacentes (8 directions) — pas de réutilisation",
+                                       "Score selon la longueur du mot (bonus 8+ lettres)",
+                                       "Détection des mots valides via dictionnaire français",
+                                       "Tous les mots possibles affichés en fin de partie"
+                                   ],
+                      "roadmap":  [
+                                      "Grille 5×5 pour les experts",
+                                      "Indice : révéler un mot pas encore trouvé",
+                                      "Mode marathon : plusieurs grilles à la suite"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic sur les cases : tracer un chemin",
+                                                        "Entrée / bouton VALIDER : soumettre",
+                                                        "Échap : effacer la sélection",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  { "scoreEffect":  "negative", "maxSeconds":  180 },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/boggle/index.html"
+                  },
+                  {
+                      "id":  "anagrammes",
+                      "title":  "65 — Anagrammes",
+                      "version":  "1.0.0",
+                      "description":  "7 lettres tirées au sort — forme le maximum de mots français en 3 minutes.",
+                      "longDescription":  "7 lettres s'affichent. Tape des mots utilisant uniquement ces lettres (chaque lettre est consommée). Score selon la longueur : bonus si tu utilises toutes les 7 lettres ! 5 manches, 3 minutes au total.",
+                      "category":  "mots",
+                      "thumbnail":  "🔡",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "7 lettres pondérées (fréquences du français)",
+                                       "5 manches — avance quand tu bloques",
+                                       "Bonus +50 si tu utilises toutes les lettres",
+                                       "Mélange des lettres disponible (🔀)"
+                                   ],
+                      "roadmap":  [
+                                      "Thèmes : lettres orientées autour d'un mot-pivot",
+                                      "Indice : révéler une lettre de position",
+                                      "Mode duel : deux joueurs sur le même clavier"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clavier : saisie du mot",
+                                                        "Entrée : valider",
+                                                        "P : pause · R : restart (hors saisie)"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  { "scoreEffect":  "negative", "maxSeconds":  180 },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/anagrammes/index.html"
+                  },
+                  {
+                      "id":  "mini-mots-croises",
+                      "title":  "66 — Mini Mots Croisés",
+                      "version":  "1.0.0",
+                      "description":  "3 petites grilles de mots croisés françaises à compléter.",
+                      "longDescription":  "Clique sur une case pour la sélectionner, tape les lettres. Clique deux fois sur la même case pour changer de direction. Les définitions s'affichent en bas. 3 grilles de difficulté croissante !",
+                      "category":  "mots",
+                      "thumbnail":  "📝",
+                      "available":  false,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "3 grilles pré-construites",
+                                       "Navigation clavier (flèches + lettres)",
+                                       "Lettres correctes mises en vert en temps réel",
+                                       "Définitions cliquables pour naviguer directement"
+                                   ],
+                      "roadmap":  [
+                                      "Générateur de grilles à partir d'un dictionnaire",
+                                      "Mode chrono : résoudre en moins de 5 minutes",
+                                      "Grilles thématiques (animaux, cuisine, géographie)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic sur une case : sélectionner",
+                                                        "A–Z : saisir une lettre",
+                                                        "← → ↑ ↓ : naviguer dans le mot",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/mini-mots-croises/index.html"
+                  },
+                  {
+                      "id":  "air-hockey",
+                      "title":  "67 — Air Hockey",
+                      "version":  "1.0.0",
+                      "description":  "Hockey sur table — déplace ta raquette à la souris, marque 7 buts !",
+                      "longDescription":  "Déplace ta souris dans la moitié basse de la table pour contrôler ta raquette bleue. La rondelle rebondit et accélère à chaque coup. L'IA défend la cage du haut. Premier à 7 buts gagne !",
+                      "category":  "sport",
+                      "thumbnail":  "🏒",
+                      "available":  false,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Physique balle réaliste (rebonds, accélération)",
+                                       "IA adaptative qui suit la rondelle",
+                                       "Contrôle souris ou tactile",
+                                       "Score affiché en temps réel sur le terrain"
+                                   ],
+                      "roadmap":  [
+                                      "Mode 2 joueurs (même clavier)",
+                                      "Niveaux IA (lent, normal, rapide, impossible)",
+                                      "Effets visuels : traînée de rondelle, impact lumineux"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Souris : déplacer la raquette",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/air-hockey/index.html"
+                  },
+                  {
+                      "id":  "billard",
+                      "title":  "68 — Billard 8-ball",
+                      "version":  "1.0.0",
+                      "description":  "Billard 8-ball — empoche les 14 billes colorées puis la noire.",
+                      "longDescription":  "Clique sur la table pour positionner la queue, puis glisse pour viser et doser la puissance. Empoche les 14 billes de couleur, puis la noire (8) pour gagner. 3 fautes autorisées.",
+                      "category":  "sport",
+                      "thumbnail":  "🎱",
+                      "available":  false,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Physique balle avec friction et rebonds réalistes",
+                                       "15 billes : 7 pleines + 7 rayées + 8 noire",
+                                       "6 poches · Visée avec queue animée",
+                                       "3 fautes tolérées avant défaite"
+                                   ],
+                      "roadmap":  [
+                                      "Mode solo : empoche toutes les billes en un minimum de coups",
+                                      "Visée avec aide de trajectoire (ligne pointillée)",
+                                      "Règles complètes 8-ball en 2 joueurs"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic-glisse sur la table : viser et frapper",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  3 },
+                      "path":  "games/billard/index.html"
+                  },
+                  {
+                      "id":  "flechettes",
+                      "title":  "69 — Fléchettes",
+                      "version":  "1.0.0",
+                      "description":  "Darts 501 — descends de 501 à 0 avant l'IA, 3 fléchettes par tour.",
+                      "longDescription":  "Clique sur la cible pour lancer une fléchette — un léger écart aléatoire simule l'imprécision. 3 fléchettes par tour, puis l'IA joue. Bullseye (50), bull (25), triples et doubles. Premier à 0 gagne !",
+                      "category":  "sport",
+                      "thumbnail":  "🎯",
+                      "available":  false,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Cible standard 20 secteurs avec doubles et triples",
+                                       "Dispersion aléatoire réaliste autour du clic",
+                                       "IA adverse avec stratégie adaptative",
+                                       "Historique des derniers lancers visible"
+                                   ],
+                      "roadmap":  [
+                                      "Mode Cricket (fermer les secteurs 15-20 + bull)",
+                                      "Règle double-out obligatoire pour finir",
+                                      "Plusieurs parties (premier à 3 legs gagne)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic sur la cible : lancer une fléchette",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/flechettes/index.html"
+                  },
+                  {
+                      "id":  "metroidvania",
+                      "title":  "70 — ⭐ Metroidvania lite",
+                      "version":  "1.0.0",
+                      "description":  "⭐ MINI-BOSS — Platformer à explorer : débloque Double Saut & Dash, bats le boss !",
+                      "longDescription":  "8 salles interconnectées à découvrir. Commence avec un simple saut, trouve le Double Saut puis le Dash. Élimine les ennemis en leur sautant dessus ou en les dashant. Atteins la salle du boss et vaincs-le en 8 coups !",
+                      "category":  "arcade",
+                      "thumbnail":  "🗺️",
+                      "available":  false,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "8 salles interconnectées avec transitions fluides",
+                                       "2 capacités à débloquer : Double Saut et Dash",
+                                       "2 types d'ennemis : marcheurs et volants",
+                                       "Boss final avec 2 phases (HP 8, projectiles en phase 2)",
+                                       "Mini-map des salles visitées dans le HUD"
+                                   ],
+                      "roadmap":  [
+                                      "Caméra scrollante pour des salles plus grandes",
+                                      "Arme de tir (projectiles) déblocable",
+                                      "Sauvegarde de progression entre les sessions"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "← → / A D : courir",
+                                                        "↑ / W / Espace : sauter (×2 après Double Saut)",
+                                                        "Shift : Dash (après déblocage)",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  3 },
+                      "path":  "games/metroidvania/index.html"
                   }
               ],
     "categories":  [
@@ -2249,6 +2583,11 @@
                            "id":  "puzzle",
                            "label":  "Puzzle",
                            "icon":  "🧩"
+                       },
+                       {
+                           "id":  "mots",
+                           "label":  "Mots",
+                           "icon":  "🔤"
                        }
                    ]
 }

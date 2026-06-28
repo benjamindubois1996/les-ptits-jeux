@@ -1,0 +1,29 @@
+{
+  "id": "boggle",
+  "version": "1.0.0",
+  "gameplay": {
+    "gridSize": 4,
+    "timeSec": 180
+  },
+  "scoring": {
+    "len3": 1,
+    "len4": 1,
+    "len5": 2,
+    "len6": 3,
+    "len7": 5,
+    "len8plus": 11
+  },
+  "controls": {
+    "keyboard": {
+      "pause": ["KeyP"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "negative", "maxSeconds": 180 },
+  "lives": { "initial": 0 },
+  "roadmap": [
+    "Grille 5×5 pour les experts",
+    "Indice : révéler un mot pas encore trouvé",
+    "Mode marathon : plusieurs grilles à la suite"
+  ]
+}

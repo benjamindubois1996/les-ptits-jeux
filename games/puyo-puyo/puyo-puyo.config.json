@@ -1,0 +1,28 @@
+{
+  "id": "puyo-puyo",
+  "version": "1.0.0",
+  "gameplay": {
+    "cols": 6,
+    "rows": 13,
+    "colors": 5,
+    "matchMin": 4,
+    "tickMs": 600
+  },
+  "scoring": {
+    "perPuyo": 10,
+    "chainMultiplier": 8
+  },
+  "controls": {
+    "keyboard": {
+      "pause": ["KeyP"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 1 },
+  "roadmap": [
+    "Paires spéciales : puyo arc-en-ciel (toute couleur)",
+    "Mode VS contre une IA qui envoie des nuisances",
+    "Combos annoncés avec le nom (Double, Triple...)"
+  ]
+}

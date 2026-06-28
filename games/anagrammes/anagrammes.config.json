@@ -1,0 +1,26 @@
+{
+  "id": "anagrammes",
+  "version": "1.0.0",
+  "gameplay": {
+    "letterCount": 7,
+    "timeSec": 180,
+    "roundsTotal": 5
+  },
+  "scoring": {
+    "perLetter": 10,
+    "bonusAllLetters": 50
+  },
+  "controls": {
+    "keyboard": {
+      "pause": ["KeyP"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "negative", "maxSeconds": 180 },
+  "lives": { "initial": 0 },
+  "roadmap": [
+    "Thèmes : lettres orientées autour d'un mot-pivot",
+    "Indice : révéler une lettre de position",
+    "Mode duel : deux joueurs sur le même clavier"
+  ]
+}
