@@ -1,0 +1,28 @@
+{
+  "id": "dr-mario",
+  "version": "1.0.0",
+  "gameplay": {
+    "cols": 8,
+    "rows": 16,
+    "virusRowStart": 10,
+    "tickMs": 700
+  },
+  "scoring": {
+    "perVirus": 200,
+    "perMatch": 10,
+    "chainBonus": 50
+  },
+  "controls": {
+    "keyboard": {
+      "pause": ["KeyP"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 1 },
+  "roadmap": [
+    "Niveaux de virus progressifs (difficulté 1-20)",
+    "Mode Flash — vitesse maximum dès le départ",
+    "Prochaine pilule affichée dans un panneau à part"
+  ]
+}
