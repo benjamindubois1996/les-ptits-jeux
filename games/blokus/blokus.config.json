@@ -1,0 +1,28 @@
+{
+  "id": "blokus",
+  "version": "1.0.0",
+  "gameplay": {
+    "boardSize": 14,
+    "startBlue": [4, 4],
+    "startRed":  [9, 9],
+    "aiDelay": 400
+  },
+  "scoring": {
+    "squareValue": 2
+  },
+  "controls": {
+    "keyboard": {
+      "pause":  ["KeyP"],
+      "restart": ["KeyR"],
+      "rotate": ["KeyQ"],
+      "flip":   ["KeyE"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 1 },
+  "roadmap": [
+    "Mode 2 joueurs local",
+    "IA avec stratégie de blocage",
+    "Blokus classique 4 joueurs"
+  ]
+}

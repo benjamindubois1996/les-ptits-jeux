@@ -1,0 +1,24 @@
+{
+  "id": "hashi",
+  "version": "1.0.0",
+  "gameplay": {
+    "puzzleCount": 4
+  },
+  "scoring": {
+    "baseWin": 800,
+    "timePenalty": 3
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "negative", "maxSeconds": 999 },
+  "lives": { "initial": 0 },
+  "roadmap": [
+    "Générateur procédural de puzzles valides",
+    "Vérification de l'unicité de solution",
+    "Mode expert avec grilles 12×12"
+  ]
+}

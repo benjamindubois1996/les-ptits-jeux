@@ -1,0 +1,24 @@
+{
+  "id": "kakuro",
+  "version": "1.0.0",
+  "gameplay": {
+    "puzzleCount": 4
+  },
+  "scoring": {
+    "baseWin": 1000,
+    "timePenalty": 5
+  },
+  "controls": {
+    "keyboard": {
+      "pause":  ["KeyP"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "negative", "maxSeconds": 999 },
+  "lives": { "initial": 0 },
+  "roadmap": [
+    "Générateur procédural de puzzles avec solution unique",
+    "Mode annotation (candidates 1-9 par cellule)",
+    "Puzzles quotidiens avec seed fixe"
+  ]
+}

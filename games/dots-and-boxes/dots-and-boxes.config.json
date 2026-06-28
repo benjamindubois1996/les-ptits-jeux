@@ -1,0 +1,23 @@
+{
+  "id": "dots-and-boxes",
+  "title": "56 — Dots & Boxes",
+  "version": "1.0.0",
+  "gameplay": {
+    "gridSize": 4
+  },
+  "scoring": {
+    "boxValue": 100,
+    "winBonus": 500
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 1 },
+  "controls": {
+    "keyboard": ["Clic sur un trait pour le tracer", "P pause  R restart"],
+    "touch": true
+  },
+  "roadmap": [
+    "Grille 3×3 (rapide) et 5×5 (long)",
+    "Mode 2 joueurs local",
+    "IA améliorée (alpha-beta)"
+  ]
+}

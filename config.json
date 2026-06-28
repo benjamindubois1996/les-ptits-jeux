@@ -1,7 +1,7 @@
 ﻿{
     "platform":  {
                      "name":  "RetroVault",
-                     "version":  "0.55.0",
+                     "version":  "0.60.0",
                      "description":  "Anciens jeux remis au goût du jour"
                  },
     "games":  [
@@ -2063,6 +2063,170 @@
                       "timer":  { "scoreEffect":  "negative" },
                       "lives":  { "initial":  0 },
                       "path":  "games/ricochet-robots/index.html"
+                  },
+                  {
+                      "id":  "dots-and-boxes",
+                      "title":  "56 — Dots & Boxes",
+                      "version":  "1.0.0",
+                      "description":  "Trace des traits pour fermer des carres — plus de carres que l'IA, tu gagnes.",
+                      "longDescription":  "Grille 4x4 de points (5x5 noeuds). A chaque tour, trace un trait entre deux points adjacents. Si tu fermes le 4e cote d'un carre, tu le gagnes et tu rejoues. L'IA joue de facon strategique — elle complete les carres disponibles et evite de t'en offrir.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🔲",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "IA strategique (complete, evite les cadeaux, sacrifice optimal)",
+                                       "Apercu du trait avant de cliquer",
+                                       "Rejeu immediat"
+                                   ],
+                      "roadmap":  [
+                                      "Grilles 3x3 (rapide) et 5x5 (long)",
+                                      "Mode 2 joueurs local",
+                                      "IA avancee (alpha-beta)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic entre deux points pour tracer",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  1 },
+                      "path":  "games/dots-and-boxes/index.html"
+                  },
+                  {
+                      "id":  "blokus",
+                      "title":  "57 — Blokus",
+                      "version":  "1.0.0",
+                      "description":  "Posez vos pièces en ne touchant les vôtres que par les coins.",
+                      "longDescription":  "Variante Blokus Duo sur grille 14×14. Vous jouez les pièces bleues, l'IA joue les rouges. Chaque pièce doit toucher une pièce de votre couleur par un coin — jamais par un côté. Placez un maximum de pièces pour battre l'IA. 21 pièces uniques de 1 à 5 cases.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🟦",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "21 pièces uniques (monomino à pentomino)",
+                                       "IA gourmande (greedy)",
+                                       "Rotation Q / Flip E",
+                                       "Aperçu de placement en temps réel"
+                                   ],
+                      "roadmap":  [
+                                      "Mode 2 joueurs local",
+                                      "IA améliorée (minimax)",
+                                      "Variante 4 joueurs 20×20"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic plateau pour placer",
+                                                        "Q : rotation 90°",
+                                                        "E : miroir",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  1 },
+                      "path":  "games/blokus/index.html"
+                  },
+                  {
+                      "id":  "kakuro",
+                      "title":  "58 — Kakuro",
+                      "version":  "1.0.0",
+                      "description":  "Mots croisés numériques — la somme de chaque suite doit correspondre à l'indice.",
+                      "longDescription":  "Remplis les cases blanches avec des chiffres de 1 à 9. La somme de chaque suite horizontale ou verticale doit égaler l'indice affiché en triangle. Pas de répétition dans une même suite. 4 puzzles inclus du plus simple au plus complexe.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🔢",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "4 puzzles vérifiés",
+                                       "Détection des erreurs en temps réel",
+                                       "Sélection puzzle au démarrage"
+                                   ],
+                      "roadmap":  [
+                                      "Générateur de puzzles procédural",
+                                      "Mode minuterie",
+                                      "Aide : exclure chiffres impossibles"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic cellule pour sélectionner",
+                                                        "1-9 pour remplir",
+                                                        "0 / Delete pour effacer",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "negative" },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/kakuro/index.html"
+                  },
+                  {
+                      "id":  "hashi",
+                      "title":  "59 — Hashi",
+                      "version":  "1.0.0",
+                      "description":  "Relie les îles par des ponts selon leurs numéros — toutes les îles doivent être connectées.",
+                      "longDescription":  "Chaque île (cercle numéroté) doit être reliée à d'autres par exactement autant de ponts que son numéro. Les ponts ne peuvent pas se croiser. Maximum 2 ponts entre deux îles. Clique sur l'espace entre deux îles pour poser/supprimer un pont. 4 puzzles inclus.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🌉",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "4 puzzles progressifs",
+                                       "Double-pont (1 ou 2 ponts par paire)",
+                                       "Détection croisements automatique",
+                                       "Vérification de connectivité BFS"
+                                   ],
+                      "roadmap":  [
+                                      "Génération procédurale de puzzles",
+                                      "Aide : mettre en évidence les ponts obligatoires",
+                                      "Mode chrono"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic entre deux îles pour toggler un pont",
+                                                        "P pause  R restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "negative" },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/hashi/index.html"
+                  },
+                  {
+                      "id":  "vampire-survivors",
+                      "title":  "60 — ⭐ Vampire Survivors lite",
+                      "version":  "1.0.0",
+                      "description":  "Survie top-down — vagues d'ennemis, tir automatique, améliorations passives.",
+                      "longDescription":  "Mini-boss inspiré de Vampire Survivors. Bouge avec WASD ou les flèches, ton personnage tire automatiquement sur l'ennemi le plus proche. Collecte les gemmes XP pour monter de niveau et choisir une amélioration parmi 3. Survie maximum 5 minutes pour la victoire !",
+                      "category":  "arcade",
+                      "thumbnail":  "🧛",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "6 améliorations uniques (dégâts, vitesse, cadence, vie, portée, multitir)",
+                                       "Ennemis de 4 tiers progressifs",
+                                       "Tir automatique sur l'ennemi le plus proche",
+                                       "Invincibilité temporaire après dommage"
+                                   ],
+                      "roadmap":  [
+                                      "Plus d'armes (zone, ondulation, laser)",
+                                      "Carte plus grande avec défilement (caméra)",
+                                      "Boutique entre les niveaux"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "WASD / ↑↓←→ : se déplacer",
+                                                        "1-3 : choisir amélioration (niveau up)",
+                                                        "P / Escape : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  1 },
+                      "path":  "games/vampire-survivors/index.html"
                   }
               ],
     "categories":  [

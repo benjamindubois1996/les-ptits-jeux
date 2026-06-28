@@ -1,0 +1,31 @@
+{
+  "id": "vampire-survivors",
+  "version": "1.0.0",
+  "gameplay": {
+    "targetTime": 300,
+    "playerSpeed": 160,
+    "playerHP": 3,
+    "weaponInterval": 800,
+    "enemyBaseHP": 20,
+    "enemyBaseSpeed": 50,
+    "xpPerLevel": 20
+  },
+  "scoring": {
+    "killValue": 10,
+    "timeSurvivalBonus": 5,
+    "levelBonus": 100
+  },
+  "controls": {
+    "keyboard": {
+      "pause":   ["KeyP", "Escape"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 1 },
+  "roadmap": [
+    "Armes supplémentaires (fouet, bible, ail)",
+    "Coffres et power-ups au sol",
+    "Boss intermédiaires toutes les 2 minutes"
+  ]
+}
