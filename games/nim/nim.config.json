@@ -1,0 +1,25 @@
+{
+  "id": "nim",
+  "version": "1.0.0",
+  "gameplay": {
+    "piles": [3, 5, 7],
+    "aiDelay": 700
+  },
+  "scoring": {
+    "baseWin": 500,
+    "turnBonus": 50
+  },
+  "controls": {
+    "keyboard": {
+      "pause": ["KeyP"],
+      "restart": ["KeyR"]
+    }
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 1 },
+  "roadmap": [
+    "Mode Misère (le joueur qui prend le dernier objet perd)",
+    "Piles personnalisables avant la partie",
+    "Mode 2 joueurs local"
+  ]
+}

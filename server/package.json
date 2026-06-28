@@ -1,0 +1,16 @@
+{
+  "name": "retrovault-multi-server",
+  "version": "1.0.0",
+  "description": "Serveur WebSocket multijoueur RetroVault",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

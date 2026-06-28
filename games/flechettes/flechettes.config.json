@@ -1,0 +1,20 @@
+{
+  "id": "flechettes",
+  "version": "1.0.0",
+  "gameplay": { "playerSpread": 42, "aiSpread": 38 },
+  "scoring": { "perPoint": 1 },
+  "controls": {
+    "keyboard": [
+      "Clic sur la cible : lancer une fléchette",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 0 },
+  "roadmap": [
+    "Mode Cricket (fermer les secteurs 15-20 + bull)",
+    "Règle double-out obligatoire pour finir",
+    "Plusieurs parties (premier à 3 legs gagne)"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "mini-mots-croises",
+  "version": "1.0.0",
+  "gameplay": { "puzzleCount": 3 },
+  "scoring": { "perLetter": 5, "bonusComplete": 100 },
+  "controls": { "keyboard": { "pause": ["KeyP"], "restart": ["KeyR"] } },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 0 },
+  "roadmap": [
+    "Générateur de grilles à partir d'un dictionnaire",
+    "Mode chrono : résoudre en moins de 5 minutes",
+    "Grilles thématiques (animaux, cuisine, géographie)"
+  ]
+}

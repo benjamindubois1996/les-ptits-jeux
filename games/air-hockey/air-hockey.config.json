@@ -1,0 +1,14 @@
+{
+  "id": "air-hockey",
+  "version": "1.0.0",
+  "gameplay": { "scoreLimit": 7, "aiSpeed": 4.5 },
+  "scoring": { "perGoal": 100 },
+  "controls": { "keyboard": { "pause": ["KeyP"], "restart": ["KeyR"] } },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 0 },
+  "roadmap": [
+    "Mode 2 joueurs (même clavier)",
+    "Niveaux IA (lent, normal, rapide, impossible)",
+    "Effets visuels : traînée de rondelle, impact lumineux"
+  ]
+}

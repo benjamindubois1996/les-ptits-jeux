@@ -1,0 +1,30 @@
+{
+  "id": "metroidvania",
+  "version": "1.0.0",
+  "gameplay": {
+    "rooms": 8,
+    "abilities": ["double-jump", "dash"],
+    "bossHp": 8
+  },
+  "scoring": {
+    "perEnemy": 50,
+    "perPickup": 200,
+    "perRoom": 100
+  },
+  "controls": {
+    "keyboard": [
+      "← → / A D : courir",
+      "↑ / W / Espace : sauter (×2 après Double Saut)",
+      "Shift : Dash (après déblocage)",
+      "P : pause · R : restart"
+    ],
+    "touch": false
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 3 },
+  "roadmap": [
+    "Caméra scrollante pour des salles plus grandes",
+    "Arme de tir (projectiles) déblocable",
+    "Sauvegarde de progression entre les sessions"
+  ]
+}

@@ -2405,7 +2405,7 @@
                       "longDescription":  "Clique sur une case pour la sélectionner, tape les lettres. Clique deux fois sur la même case pour changer de direction. Les définitions s'affichent en bas. 3 grilles de difficulté croissante !",
                       "category":  "mots",
                       "thumbnail":  "📝",
-                      "available":  false,
+                      "available":  true,
                       "comingSoon":  false,
                       "features":  [
                                        "3 grilles pré-construites",
@@ -2439,7 +2439,7 @@
                       "longDescription":  "Déplace ta souris dans la moitié basse de la table pour contrôler ta raquette bleue. La rondelle rebondit et accélère à chaque coup. L'IA défend la cage du haut. Premier à 7 buts gagne !",
                       "category":  "sport",
                       "thumbnail":  "🏒",
-                      "available":  false,
+                      "available":  true,
                       "comingSoon":  false,
                       "features":  [
                                        "Physique balle réaliste (rebonds, accélération)",
@@ -2471,7 +2471,7 @@
                       "longDescription":  "Clique sur la table pour positionner la queue, puis glisse pour viser et doser la puissance. Empoche les 14 billes de couleur, puis la noire (8) pour gagner. 3 fautes autorisées.",
                       "category":  "sport",
                       "thumbnail":  "🎱",
-                      "available":  false,
+                      "available":  true,
                       "comingSoon":  false,
                       "features":  [
                                        "Physique balle avec friction et rebonds réalistes",
@@ -2503,7 +2503,7 @@
                       "longDescription":  "Clique sur la cible pour lancer une fléchette — un léger écart aléatoire simule l'imprécision. 3 fléchettes par tour, puis l'IA joue. Bullseye (50), bull (25), triples et doubles. Premier à 0 gagne !",
                       "category":  "sport",
                       "thumbnail":  "🎯",
-                      "available":  false,
+                      "available":  true,
                       "comingSoon":  false,
                       "features":  [
                                        "Cible standard 20 secteurs avec doubles et triples",
@@ -2535,7 +2535,7 @@
                       "longDescription":  "8 salles interconnectées à découvrir. Commence avec un simple saut, trouve le Double Saut puis le Dash. Élimine les ennemis en leur sautant dessus ou en les dashant. Atteins la salle du boss et vaincs-le en 8 coups !",
                       "category":  "arcade",
                       "thumbnail":  "🗺️",
-                      "available":  false,
+                      "available":  true,
                       "comingSoon":  false,
                       "features":  [
                                        "8 salles interconnectées avec transitions fluides",
@@ -2591,3 +2591,4 @@
                        }
                    ]
 }
+

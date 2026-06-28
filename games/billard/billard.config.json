@@ -1,0 +1,14 @@
+{
+  "id": "billard",
+  "version": "1.0.0",
+  "gameplay": { "friction": 0.985 },
+  "scoring": { "perBall": 50, "eightBallBonus": 200 },
+  "controls": { "keyboard": { "pause": ["KeyP"], "restart": ["KeyR"] } },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 3 },
+  "roadmap": [
+    "Mode solo : empoche toutes les billes en un minimum de coups",
+    "Visée avec aide de trajectoire (ligne pointillée)",
+    "Règles complètes 8-ball en 2 joueurs"
+  ]
+}
