@@ -84,11 +84,11 @@ Exemple : `les ptits jeux - 01 snake`, `les ptits jeux - 15 mastermind`
 - 73 — Hearts / Coeurs
 - 74 — Rummy
 - 75 — Belote
-- 76 — Cribbage
-- 77 — Bowling
-- 78 — Basketball
-- 79 — Plinko
-- 80 — ⭐ MINI-BOSS — Bullet Hell *(danmaku, patterns de boss, esquive précise)*
+- 76 — Cribbage ✅
+- 77 — Bowling ✅
+- 78 — Basketball ✅
+- 79 — Roulette ✅ *(remplace Plinko — doublon avec le jeu 36)*
+- 80 — ⭐ MINI-BOSS — Bullet Hell ✅ *(danmaku, patterns de boss, esquive précise)*
 - 81 — Go (9×9)
 - 82 — Mancala / Awalé
 - 83 — Backgammon

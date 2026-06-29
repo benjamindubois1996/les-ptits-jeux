@@ -1,0 +1,34 @@
+{
+  "id": "bullet-hell",
+  "title": "80 — ⭐ Bullet Hell",
+  "version": "1.0.0",
+  "description": "MINI-BOSS — Danmaku pur : esquive les patterns, descends le boss en 3 phases.",
+  "longDescription": "Un boss massif vous affronte en 3 phases de plus en plus intenses. Votre vaisseau tire automatiquement — votre seul outil est l'esquive. Vague en spirale, déluge de balles, mur de lasers : chaque phase a sa signature. 3 vies, zero tolérance. Can you beat the boss?",
+  "category": "arcade",
+  "thumbnail": "💥",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "Boss 3 phases avec patterns danmaku distincts",
+    "Vaisseau joueur — tir automatique, mouvement libre",
+    "Hitbox précise (petit point central uniquement)",
+    "3 vies — clignotement d'invincibilité après impact",
+    "Score : dégâts infligés + temps de survie"
+  ],
+  "roadmap": [
+    "Bombes (effacer l'écran) avec cooldown",
+    "Modes de difficulté (Lunatic, God)",
+    "2ème boss avec nouveaux patterns"
+  ],
+  "controls": {
+    "keyboard": [
+      "↑↓←→ ou WASD : déplacer le vaisseau",
+      "Tir automatique (pas de bouton)",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 3 },
+  "path": "games/bullet-hell/index.html"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "cribbage",
+  "title": "76 — Cribbage",
+  "version": "1.0.0",
+  "description": "Le classique anglais — 121 points via les 15s, paires, suites et la crib.",
+  "longDescription": "Jeu de cartes pour 2 joueurs. Chacun reçoit 6 cartes et en défausse 2 dans la crib (pile bonus du donneur). Une carte retournée (starter) complète les mains. On marque des points pendant la phase de jeu (pegging) et lors du décompte final. Premier à 121 points gagne !",
+  "category": "reflexion",
+  "thumbnail": "🎴",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "Règles complètes du Cribbage (15s, paires, suites, flush, nobs)",
+    "Phase de Pegging (jouer jusqu'à 31, marquer en temps réel)",
+    "Décompte automatique des mains et de la crib",
+    "IA stratégique — choisit ses défausses et son jeu intelligemment",
+    "Cribbage board visuel avec pions qui avancent"
+  ],
+  "roadmap": [
+    "Mode 3 joueurs (chacun défausse 1 carte)",
+    "Statistiques : taux de victoire, main moyenne",
+    "Tutor mode : afficher les points disponibles en temps réel"
+  ],
+  "controls": {
+    "keyboard": [
+      "Clic carte : sélectionner / défausser / jouer",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 0 },
+  "path": "games/cribbage/index.html"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "roulette",
+  "title": "79 — Roulette",
+  "version": "1.0.0",
+  "description": "Mise sur rouge, noir ou un numéro — faites vos jeux, rien ne va plus !",
+  "longDescription": "Roulette européenne 37 cases (0-36). Place ta mise sur rouge/noir, pair/impair, ou un numéro plein. Lance la roue et découvre si la fortune te sourit. Tu commences avec 100 jetons — combien vas-tu accumuler ?",
+  "category": "reflexion",
+  "thumbnail": "🎰",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "Roulette européenne (37 cases, un seul 0)",
+    "Mises : rouge/noir (×2), pair/impair (×2), numéro plein (×36)",
+    "Animation de roue et de bille",
+    "Gestion de bankroll — commence avec 100 jetons",
+    "Historique des 10 derniers résultats"
+  ],
+  "roadmap": [
+    "Mises étendues (douzaines, colonnes, chevaux)",
+    "Mode Martingale (double automatique sur perte)",
+    "Multijoueur local (chaque joueur a sa bankroll)"
+  ],
+  "controls": {
+    "keyboard": [
+      "Clic jetons : choisir la mise",
+      "Clic case : placer la mise",
+      "Bouton Lancer : tourner la roue",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 0 },
+  "path": "games/roulette/index.html"
+}

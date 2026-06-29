@@ -1,0 +1,34 @@
+{
+  "id": "bowling",
+  "title": "77 — Bowling",
+  "version": "1.0.0",
+  "description": "10 frames, quilles et strikes — vise juste et renverse tout !",
+  "longDescription": "Bowling classique en 10 frames. Vise avec la souris, clique pour lancer. Strike = toutes les quilles au 1er lancer (+bonus), Spare = toutes au 2ème (+bonus). Le score parfait est 300 points !",
+  "category": "sport",
+  "thumbnail": "🎳",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "10 frames de bowling classique",
+    "Calcul de score strike/spare avec bonus",
+    "Visualisation top-down de la piste et des quilles",
+    "Visée libre à la souris avec ligne guide",
+    "Score board frame par frame"
+  ],
+  "roadmap": [
+    "Mode multijoueur local (2 joueurs alternés)",
+    "Obstacles sur la piste (mode défi)",
+    "Statistiques : strike rate, spare rate"
+  ],
+  "controls": {
+    "keyboard": [
+      "Déplacer la souris : viser",
+      "Clic : lancer la boule",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 0 },
+  "path": "games/bowling/index.html"
+}

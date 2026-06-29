@@ -1,0 +1,34 @@
+{
+  "id": "basketball",
+  "title": "78 — Basketball",
+  "version": "1.0.0",
+  "description": "Vise le panier, dose la puissance — marque le maximum de points !",
+  "longDescription": "Lance le ballon dans le panier avec la bonne trajectoire. Plus tu tires de loin, plus tu marques. 3 points derrière la ligne, 2 dedans. Tu as 30 secondes — chaque panier réussi rapporte des points bonus en combo !",
+  "category": "sport",
+  "thumbnail": "🏀",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "Tir à trajectoire parabolique réaliste",
+    "Zone 2 pts et zone 3 pts",
+    "Compteur de combo (paniers consécutifs)",
+    "Chrono 60 secondes avec score en temps réel",
+    "Rebond sur l'arceau (presque réussi = rebond)"
+  ],
+  "roadmap": [
+    "Mode free-throw (lancer franc uniquement)",
+    "Mode défense (bloquer les tirs de l'IA)",
+    "Multijoueur local (tour par tour)"
+  ],
+  "controls": {
+    "keyboard": [
+      "Déplacer la souris : viser / trajectoire",
+      "Clic : lancer",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive", "maxSeconds": 60 },
+  "lives": { "initial": 0 },
+  "path": "games/basketball/index.html"
+}
