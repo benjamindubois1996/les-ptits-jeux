@@ -1,0 +1,32 @@
+{
+  "id": "hearts",
+  "title": "73 — Hearts",
+  "version": "1.0.0",
+  "description": "Évitez les cœurs et la Dame de Pique — le dernier avec le moins de points gagne.",
+  "longDescription": "52 cartes réparties entre vous et 3 IAs. Chaque cœur vaut 1 point, la Dame de Pique en vaut 13. Suivez la couleur menée, ou défaussez vos cartes à points. Tirez les marrons (prendre TOUS les cœurs + Dame de Pique) pour faire +26 à tous vos adversaires. Jeu en plusieurs rounds jusqu'à ce qu'un joueur atteigne 100 points — celui avec le moins de points gagne !",
+  "category": "reflexion",
+  "thumbnail": "♥",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "4 joueurs : vous + 3 IAs avec stratégie adaptative",
+    "Règle complète : suivre la couleur, cœurs brisés",
+    "Tirer les marrons (shoot the moon) : +26 pour tous les autres",
+    "Plusieurs rounds jusqu'à 100 points"
+  ],
+  "roadmap": [
+    "Phase de passe (3 cartes échangées en début de round)",
+    "Mode multijoueur (via WebRTC)",
+    "Statistiques : taux de réussite, moyenne de points"
+  ],
+  "controls": {
+    "keyboard": [
+      "Clic sur une carte : la jouer",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 0 },
+  "path": "games/hearts/index.html"
+}

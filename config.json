@@ -1,7 +1,7 @@
 ﻿{
     "platform":  {
                      "name":  "RetroVault",
-                     "version":  "0.70.0",
+                     "version":  "0.80.0",
                      "description":  "Anciens jeux remis au goût du jour"
                  },
     "games":  [
@@ -2561,6 +2561,338 @@
                       "timer":  { "scoreEffect":  "positive" },
                       "lives":  { "initial":  3 },
                       "path":  "games/metroidvania/index.html"
+                  },
+                  {
+                      "id":  "poker",
+                      "title":  "71 — Poker Texas Hold'em",
+                      "version":  "1.0.0",
+                      "description":  "Heads-up Texas Hold'em contre l'IA — vide son tapis ou perds le tien.",
+                      "longDescription":  "Deux cartes en main, cinq communes au milieu. Blindes, flop, tournante, rivière — quatre rounds pour miser, relancer ou se coucher. Premier à vider l'adversaire de ses 1000 jetons gagne !",
+                      "category":  "reflexion",
+                      "thumbnail":  "🃏",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Heads-up Texas Hold'em contre une IA adaptative",
+                                       "Évaluation complète des 10 combinaisons poker",
+                                       "Blindes 10/20 — Fold, Checker, Suivre, Relancer",
+                                       "Showdown avec révélation des mains"
+                                   ],
+                      "roadmap":  [
+                                      "Mode multijoueur (via système WebRTC intégré)",
+                                      "Tournoi à plusieurs adversaires (3-6 joueurs IA)",
+                                      "Niveaux d'IA (débutant / intermédiaire / expert)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Boutons : Fold / Check / Call / Raise",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/poker/index.html"
+                  },
+                  {
+                      "id":  "spider-solitaire",
+                      "title":  "72 — Spider Solitaire",
+                      "version":  "1.0.0",
+                      "description":  "104 cartes, 10 colonnes — forme 8 suites complètes Roi→As pour gagner.",
+                      "longDescription":  "Un jeu de cartes solitaire à deux jeux de 52 cartes. Dispose les cartes en suites descendantes dans les 10 colonnes. En mode 1 couleur (BASIQUE), toutes les cartes sont des piques. Le stock permet 5 distributions supplémentaires.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🕷️",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "10 colonnes, 104 cartes (2 jeux de 52)",
+                                       "Mode 1 couleur pour débuter (BASIQUE)",
+                                       "5 distributions depuis le stock",
+                                       "Suites complètes (K→A) retirées automatiquement"
+                                   ],
+                      "roadmap":  [
+                                      "Mode 4 couleurs (règles complètes)",
+                                      "Mode 2 couleurs (intermédiaire)",
+                                      "Annuler le dernier coup"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic carte : sélectionner / poser",
+                                                        "Bouton Piocher : distribuer depuis le stock",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "negative" },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/spider-solitaire/index.html"
+                  },
+                  {
+                      "id":  "hearts",
+                      "title":  "73 — Hearts",
+                      "version":  "1.0.0",
+                      "description":  "Évitez les cœurs et la Dame de Pique — le dernier avec le moins de points gagne.",
+                      "longDescription":  "52 cartes réparties entre vous et 3 IAs. Chaque cœur vaut 1 point, la Dame de Pique en vaut 13. Suivez la couleur menée, ou défaussez vos cartes à points. Tirez les marrons pour faire +26 à tous vos adversaires !",
+                      "category":  "reflexion",
+                      "thumbnail":  "♥",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "4 joueurs : vous + 3 IAs avec stratégie adaptative",
+                                       "Règle complète : suivre la couleur, cœurs brisés",
+                                       "Tirer les marrons (shoot the moon) : +26 pour tous les autres",
+                                       "Plusieurs rounds jusqu'à 100 points"
+                                   ],
+                      "roadmap":  [
+                                      "Phase de passe (3 cartes échangées en début de round)",
+                                      "Mode multijoueur (via WebRTC)",
+                                      "Statistiques : taux de réussite, moyenne de points"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic sur une carte : la jouer",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/hearts/index.html"
+                  },
+                  {
+                      "id":  "rummy",
+                      "title":  "74 — Rummy",
+                      "version":  "1.0.0",
+                      "description":  "Gin Rummy — 10 cartes, formez des melds, frappez quand le deadwood est ≤ 10.",
+                      "longDescription":  "Gin Rummy en 5 rounds contre une IA. Piochez ou prenez la défausse. Formez des suites et brelans. Frappez quand votre deadwood ≤ 10. Gin (deadwood 0) donne un bonus +25 !",
+                      "category":  "reflexion",
+                      "thumbnail":  "🃏",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Gin Rummy classique en 5 rounds",
+                                       "Détection automatique des suites et brelans",
+                                       "Frappe (knock) et Gin avec bonus +25",
+                                       "Undercut : si l'IA a moins de deadwood, elle gagne !"
+                                   ],
+                      "roadmap":  [
+                                      "Mode Oklahoma Gin",
+                                      "Mode multijoueur (via WebRTC)",
+                                      "Statistiques : taux de Gin, meilleur score"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic pioche ou défausse : piocher",
+                                                        "Clic carte : sélectionner · Bouton Défausser / Frapper",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/rummy/index.html"
+                  },
+                  {
+                      "id":  "belote",
+                      "title":  "75 — Belote",
+                      "version":  "1.0.0",
+                      "description":  "Le jeu de cartes français — atout tiré au sort, 4 rounds, l'équipe avec le plus de points gagne.",
+                      "longDescription":  "Jeu de 32 cartes (7 à As) en 4 joueurs — vous et votre partenaire (Nord IA) contre 2 IAs. L'atout est tiré au sort. En atout, le Valet vaut 20 pts et le 9 en vaut 14 ! L'équipe avec le plus de points sur 4 rounds gagne.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🃏",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "32 cartes (7 à As) — 4 joueurs 2v2",
+                                       "Atout tiré au sort avec valeurs spéciales (J=20, 9=14)",
+                                       "IA partenaire et IA adverses avec stratégie adaptative",
+                                       "Règle de coupe obligatoire et suivi de couleur"
+                                   ],
+                      "roadmap":  [
+                                      "Enchères (bidding) : choisir l'atout ou passer",
+                                      "Belote/Rebelote : bonus K+Q d'atout",
+                                      "Mode multijoueur (via WebRTC)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic sur une carte : la jouer",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/belote/index.html"
+                  },
+                  {
+                      "id":  "cribbage",
+                      "title":  "76 — Cribbage",
+                      "version":  "1.0.0",
+                      "description":  "Le classique anglais — 121 points via les 15s, paires, suites et la crib.",
+                      "longDescription":  "Jeu de cartes pour 2 joueurs. Chacun reçoit 6 cartes et en défausse 2 dans la crib (pile bonus du donneur). Une carte retournée (starter) complète les mains. On marque des points pendant la phase de jeu (pegging) et lors du décompte final. Premier à 121 points gagne !",
+                      "category":  "reflexion",
+                      "thumbnail":  "🎴",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Règles complètes du Cribbage (15s, paires, suites, flush, nobs)",
+                                       "Phase de Pegging (jouer jusqu'à 31, marquer en temps réel)",
+                                       "Décompte automatique des mains et de la crib",
+                                       "IA stratégique — choisit ses défausses et son jeu intelligemment",
+                                       "Cribbage board visuel avec pions qui avancent"
+                                   ],
+                      "roadmap":  [
+                                      "Mode 3 joueurs (chacun défausse 1 carte)",
+                                      "Statistiques : taux de victoire, main moyenne",
+                                      "Tutor mode : afficher les points disponibles en temps réel"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic carte : sélectionner / défausser / jouer",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/cribbage/index.html"
+                  },
+                  {
+                      "id":  "bowling",
+                      "title":  "77 — Bowling",
+                      "version":  "1.0.0",
+                      "description":  "10 frames, quilles et strikes — vise juste et renverse tout !",
+                      "longDescription":  "Bowling classique en 10 frames. Vise avec la souris, clique pour lancer. Strike = toutes les quilles au 1er lancer (+bonus), Spare = toutes au 2ème (+bonus). Le score parfait est 300 points !",
+                      "category":  "sport",
+                      "thumbnail":  "🎳",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "10 frames de bowling classique",
+                                       "Calcul de score strike/spare avec bonus",
+                                       "Visualisation top-down de la piste et des quilles",
+                                       "Visée libre à la souris avec ligne guide",
+                                       "Score board frame par frame"
+                                   ],
+                      "roadmap":  [
+                                      "Mode multijoueur local (2 joueurs alternés)",
+                                      "Obstacles sur la piste (mode défi)",
+                                      "Statistiques : strike rate, spare rate"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Déplacer la souris : viser",
+                                                        "Clic : lancer la boule",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/bowling/index.html"
+                  },
+                  {
+                      "id":  "basketball",
+                      "title":  "78 — Basketball",
+                      "version":  "1.0.0",
+                      "description":  "Vise le panier, dose la puissance — marque le maximum de points !",
+                      "longDescription":  "Lance le ballon dans le panier avec la bonne trajectoire. Plus tu tires de loin, plus tu marques. 3 points derrière la ligne, 2 dedans. Tu as 60 secondes — chaque panier réussi rapporte des points bonus en combo !",
+                      "category":  "sport",
+                      "thumbnail":  "🏀",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Tir à trajectoire parabolique réaliste",
+                                       "Zone 2 pts et zone 3 pts",
+                                       "Compteur de combo (paniers consécutifs)",
+                                       "Chrono 60 secondes avec score en temps réel",
+                                       "Rebond sur l'arceau (presque réussi = rebond)"
+                                   ],
+                      "roadmap":  [
+                                      "Mode free-throw (lancer franc uniquement)",
+                                      "Mode défense (bloquer les tirs de l'IA)",
+                                      "Multijoueur local (tour par tour)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Déplacer la souris : viser / trajectoire",
+                                                        "Clic : lancer",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "positive", "maxSeconds":  60 },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/basketball/index.html"
+                  },
+                  {
+                      "id":  "roulette",
+                      "title":  "79 — Roulette",
+                      "version":  "1.0.0",
+                      "description":  "Mise sur rouge, noir ou un numéro — faites vos jeux, rien ne va plus !",
+                      "longDescription":  "Roulette européenne 37 cases (0-36). Place ta mise sur rouge/noir, pair/impair, ou un numéro plein. Lance la roue et découvre si la fortune te sourit. Tu commences avec 100 jetons — combien vas-tu accumuler ?",
+                      "category":  "reflexion",
+                      "thumbnail":  "🎰",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Roulette européenne (37 cases, un seul 0)",
+                                       "Mises : rouge/noir (×2), pair/impair (×2), numéro plein (×36)",
+                                       "Animation de roue et de bille",
+                                       "Gestion de bankroll — commence avec 100 jetons",
+                                       "Historique des 10 derniers résultats"
+                                   ],
+                      "roadmap":  [
+                                      "Mises étendues (douzaines, colonnes, chevaux)",
+                                      "Mode Martingale (double automatique sur perte)",
+                                      "Multijoueur local (chaque joueur a sa bankroll)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic jetons : choisir la mise",
+                                                        "Clic case : placer la mise",
+                                                        "Bouton Lancer : tourner la roue",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  0 },
+                      "path":  "games/roulette/index.html"
+                  },
+                  {
+                      "id":  "bullet-hell",
+                      "title":  "80 — ⭐ Bullet Hell",
+                      "version":  "1.0.0",
+                      "description":  "MINI-BOSS — Danmaku pur : esquive les patterns, descends le boss en 3 phases.",
+                      "longDescription":  "Un boss massif vous affronte en 3 phases de plus en plus intenses. Votre vaisseau tire automatiquement — votre seul outil est l'esquive. Vague en spirale, déluge de balles, mur de lasers : chaque phase a sa signature. 3 vies, zero tolérance.",
+                      "category":  "arcade",
+                      "thumbnail":  "💥",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Boss 3 phases avec patterns danmaku distincts",
+                                       "Vaisseau joueur — tir automatique, mouvement libre",
+                                       "Hitbox précise (petit point central uniquement)",
+                                       "3 vies — clignotement d'invincibilité après impact",
+                                       "Score : dégâts infligés + temps de survie"
+                                   ],
+                      "roadmap":  [
+                                      "Bombes (effacer l'écran) avec cooldown",
+                                      "Modes de difficulté (Lunatic, God)",
+                                      "2ème boss avec nouveaux patterns"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑↓←→ ou WASD : déplacer le vaisseau",
+                                                        "Tir automatique (pas de bouton)",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  { "scoreEffect":  "positive" },
+                      "lives":  { "initial":  3 },
+                      "path":  "games/bullet-hell/index.html"
                   }
               ],
     "categories":  [

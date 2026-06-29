@@ -1,0 +1,32 @@
+{
+  "id": "belote",
+  "title": "75 — Belote",
+  "version": "1.0.0",
+  "description": "Le jeu de cartes français classique — atout tiré au sort, 4 rounds, l'équipe avec le plus de points gagne.",
+  "longDescription": "Jeu de 32 cartes (7 à As) en 4 joueurs — vous et votre partenaire (Nord IA) contre 2 IAs (Est et Ouest). L'atout est tiré au sort. Jouez vos 8 cartes en 8 plis : suivez la couleur menée, coupez à l'atout si vous n'avez pas la couleur. En atout, le Valet vaut 20 pts et le 9 en vaut 14 ! L'équipe avec le plus de points sur 4 rounds gagne.",
+  "category": "reflexion",
+  "thumbnail": "🃏",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "32 cartes (7 à As) — 4 joueurs 2v2",
+    "Atout tiré au sort avec valeurs spéciales (J=20, 9=14)",
+    "IA partenaire et IA adverses avec stratégie adaptative",
+    "Règle de coupe obligatoire et suivi de couleur"
+  ],
+  "roadmap": [
+    "Enchères (bidding) : choisir l'atout ou passer",
+    "Belote/Rebelote : bonus K+Q d'atout",
+    "Mode multijoueur (via WebRTC)"
+  ],
+  "controls": {
+    "keyboard": [
+      "Clic sur une carte : la jouer",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 0 },
+  "path": "games/belote/index.html"
+}

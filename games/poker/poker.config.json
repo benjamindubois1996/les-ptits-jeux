@@ -1,0 +1,32 @@
+{
+  "id": "poker",
+  "title": "71 — Poker Texas Hold'em",
+  "version": "1.0.0",
+  "description": "Heads-up Texas Hold'em contre l'IA — vide son tapis ou perds le tien.",
+  "longDescription": "Deux cartes en main, cinq communes au milieu. Blindes, flop, tournante, rivière — quatre rounds pour miser, relancer ou se coucher. L'IA évalue sa main et adapte sa stratégie. Premier à vider l'adversaire de ses 1000 jetons gagne !",
+  "category": "reflexion",
+  "thumbnail": "🃏",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "Heads-up Texas Hold'em contre une IA adaptative",
+    "Évaluation complète des 10 combinaisons poker",
+    "Blindes 10/20 — Fold, Checker, Suivre, Relancer",
+    "Showdown avec révélation des mains"
+  ],
+  "roadmap": [
+    "Mode multijoueur (via système WebRTC intégré)",
+    "Tournoi à plusieurs adversaires (3-6 joueurs IA)",
+    "Niveaux d'IA (débutant / intermédiaire / expert)"
+  ],
+  "controls": {
+    "keyboard": [
+      "Boutons à l'écran : Fold / Check / Call / Raise",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 0 },
+  "path": "games/poker/index.html"
+}

@@ -1,0 +1,34 @@
+{
+  "id": "spider-solitaire",
+  "title": "72 — Spider Solitaire",
+  "version": "1.0.0",
+  "description": "104 cartes, 10 colonnes — forme 8 suites complètes Roi→As pour gagner.",
+  "longDescription": "Un jeu de cartes solitaire à deux jeux de 52 cartes. Dispose les cartes en suites descendantes dans les 10 colonnes. Une suite complète du Roi à l'As disparaît. En mode 1 couleur, toutes les cartes sont des piques — idéal pour débuter. Le stock permet 5 distributions supplémentaires.",
+  "category": "reflexion",
+  "thumbnail": "🕷️",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "10 colonnes, 104 cartes (2 jeux de 52)",
+    "Mode 1 couleur pour débuter (BASIQUE)",
+    "5 distributions depuis le stock",
+    "Suites complètes (K→A) retirées automatiquement",
+    "Score basé sur les suites complétées"
+  ],
+  "roadmap": [
+    "Mode 4 couleurs (règles complètes)",
+    "Mode 2 couleurs (intermédiaire)",
+    "Annuler le dernier coup"
+  ],
+  "controls": {
+    "keyboard": [
+      "Clic carte : sélectionner / poser",
+      "Bouton Piocher : distribution depuis le stock",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "negative" },
+  "lives": { "initial": 0 },
+  "path": "games/spider-solitaire/index.html"
+}

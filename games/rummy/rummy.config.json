@@ -1,0 +1,35 @@
+{
+  "id": "rummy",
+  "title": "74 — Rummy",
+  "version": "1.0.0",
+  "description": "Gin Rummy — 10 cartes, formez des melds, frappez quand le deadwood est ≤ 10.",
+  "longDescription": "Gin Rummy en 5 rounds contre une IA. Piochez dans le stock ou prenez la carte du dessus de la défausse. Cherchez à former des suites (5♥ 6♥ 7♥) et des brelans/carrés. Frappez quand votre deadwood (cartes non matchées) est ≤ 10. Gin (deadwood 0) donne un bonus de 25 points !",
+  "category": "reflexion",
+  "thumbnail": "🃏",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "Gin Rummy classique en 5 rounds",
+    "Détection automatique des suites et brelans",
+    "Frappe (knock) et Gin avec bonus",
+    "IA adaptative (choisit la meilleure carte à défausser)",
+    "Undercut : si l'IA a moins de deadwood que vous à la frappe, elle gagne !"
+  ],
+  "roadmap": [
+    "Mode Oklahoma Gin (la première carte de la défausse fixe le knock maximum)",
+    "Mode multijoueur (via WebRTC)",
+    "Statistiques : taux de Gin, meilleur score"
+  ],
+  "controls": {
+    "keyboard": [
+      "Clic pioche ou défausse : piocher",
+      "Clic carte : sélectionner",
+      "Bouton Défausser / Frapper",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 0 },
+  "path": "games/rummy/index.html"
+}
