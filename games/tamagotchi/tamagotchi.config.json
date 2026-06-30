@@ -1,0 +1,32 @@
+{
+  "id": "tamagotchi",
+  "title": "94 — Tamagotchi lite",
+  "version": "1.0.0",
+  "description": "Nourris, amuse et repose ton petit compagnon virtuel.",
+  "longDescription": "Ton animal de compagnie a besoin de toi ! Sa faim, son bonheur et son énergie diminuent avec le temps. Nourris-le, joue avec lui et fais-le dormir pour garder ses stats au vert. Si l'une d'elles tombe à zéro, il meurt. Jusqu'à quel âge peut-il survivre ?",
+  "category": "arcade",
+  "thumbnail": "🐣",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "Pet virtuel avec 3 stats vitales",
+    "Actions : Nourrir, Jouer, Dormir",
+    "Score = âge de survie (heures de jeu)",
+    "Humeur dynamique selon les stats"
+  ],
+  "roadmap": [
+    "Évolution du pet selon l'âge (bébé → adulte → senior)",
+    "Maladies aléatoires à soigner",
+    "Mode accéléré (nuit rapide)"
+  ],
+  "controls": {
+    "keyboard": [
+      "Boutons : Nourrir / Jouer / Dormir",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 1 },
+  "path": "games/tamagotchi/index.html"
+}

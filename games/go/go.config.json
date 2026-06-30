@@ -1,0 +1,34 @@
+{
+  "id": "go",
+  "title": "81 — Go (9×9)",
+  "version": "1.0.0",
+  "description": "Le jeu de Go sur grille 9×9 — entourez du territoire, capturez les groupes adverses.",
+  "longDescription": "Posez des pierres noires sur les intersections. Un groupe de pierres sans liberté (cases adjacentes vides) est capturé et retiré. Deux passes consécutives terminent la partie. Le score final = territoire entouré + captures — les blancs reçoivent 6.5 points de komi en compensation d'être second.",
+  "category": "reflexion",
+  "thumbnail": "⚫",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "Règles complètes : capture, no-suicide, ko, komi 6.5",
+    "IA heuristique (capture, atari, contrôle du centre)",
+    "Comptage de territoire automatique à la fin",
+    "Boutons Passer et Abandonner · Coordonnées affichées"
+  ],
+  "roadmap": [
+    "IA Monte-Carlo Tree Search pour une vraie résistance",
+    "Mode 9×9 avec pierres de handicap pour débutants",
+    "Revue des coups (playback de la partie)"
+  ],
+  "controls": {
+    "keyboard": [
+      "Clic intersection : poser une pierre noire",
+      "Bouton Passer : passer son tour",
+      "Bouton Abandonner : concéder la partie",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 0 },
+  "path": "games/go/index.html"
+}

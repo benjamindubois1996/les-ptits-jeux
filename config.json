@@ -1,7 +1,7 @@
 ﻿{
     "platform":  {
                      "name":  "RetroVault",
-                     "version":  "0.90.0",
+                     "version":  "1.0.0",
                      "description":  "Anciens jeux remis au goût du jour"
                  },
     "games":  [
@@ -3405,6 +3405,383 @@
                                     "initial":  1
                                 },
                       "path":  "games/roguelike-dungeon/index.html"
+                  },
+                  {
+                      "id":  "moto-trial",
+                      "title":  "91 — Moto Trial",
+                      "version":  "1.0.0",
+                      "description":  "Pilote ta moto sur un terrain accidenté — équilibre, gaz et survie !",
+                      "longDescription":  "Traverse un parcours de collines, rampes et dévers sans tomber. La touche droite (D) accélère, la gauche (A) freine. Contrôle l\u0027équilibre avec Haut/W (penche arrière) et Bas/S (penche avant). Si ton angle dépasse 70°, c\u0027est le crash. Le score = distance parcourue en mètres.",
+                      "category":  "arcade",
+                      "thumbnail":  "🏍️",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Terrain procédural avec rampes et dévers",
+                                       "Physique réaliste : gravité, pente, friction",
+                                       "Contrôle du centre de gravité (penche avant/arrière)",
+                                       "Score = distance parcourue en mètres"
+                                   ],
+                      "roadmap":  [
+                                      "Obstacles : rochers, troncs, sauts imposés",
+                                      "Mode contre-la-montre avec checkpoints",
+                                      "Niveaux prédéfinis avec difficulté croissante"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "→ / D : accélérer",
+                                                        "← / A : freiner / reculer",
+                                                        "↑ / W : pencher en arrière",
+                                                        "↓ / S : pencher en avant",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/moto-trial/index.html"
+                  },
+                  {
+                      "id":  "jigsaw-puzzle",
+                      "title":  "92 — Jigsaw Puzzle",
+                      "version":  "1.0.0",
+                      "description":  "Reconstitue l\u0027image en plaçant les 9 pièces au bon endroit.",
+                      "longDescription":  "Une image est découpée en 9 pièces mélangées dans le bac. Sélectionne une pièce puis clique sur la case du puzzle pour la placer. Plus tu assembles vite, plus ton score est élevé. Reconstitue l\u0027image complète pour remporter la victoire !",
+                      "category":  "puzzle",
+                      "thumbnail":  "🧩",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Image générée procéduralement à chaque partie",
+                                       "9 pièces (grille 3×3) à replacer",
+                                       "Bonus de vitesse : plus c\u0027est rapide, plus le score est élevé",
+                                       "Clic pour sélectionner et placer les pièces"
+                                   ],
+                      "roadmap":  [
+                                      "Mode 4×4 et 5×5 pour plus de défi",
+                                      "Formes de découpe irrégulières (vraies pièces de puzzle)",
+                                      "Rotation aléatoire des pièces"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic pièce : sélectionner",
+                                                        "Clic case du puzzle : placer",
+                                                        "Clic pièce posée : reprendre",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "negative"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
+                      "path":  "games/jigsaw-puzzle/index.html"
+                  },
+                  {
+                      "id":  "panel-de-pon",
+                      "title":  "93 — Panel de Pon",
+                      "version":  "1.0.0",
+                      "description":  "Échange des paires de blocs pour créer des alignements — avant que la grille ne déborde !",
+                      "longDescription":  "Une grille de blocs colorés monte lentement. Déplace ton curseur et échange deux blocs côte à côte pour aligner 3 blocs identiques horizontalement ou verticalement. Les blocs disparaissent, ceux du dessus tombent, et les combos en chaîne multiplient le score.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🔷",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Grille 6×12 de blocs colorés",
+                                       "Détection de chaînes (combos × multiplicateur)",
+                                       "Rangées qui montent de plus en plus vite",
+                                       "Prévisualisation de la prochaine rangée"
+                                   ],
+                      "roadmap":  [
+                                      "Mode Puzzle : niveaux prédéfinis avec objectif",
+                                      "Mode Survie : vitesse croissante par palier",
+                                      "Mode 2 joueurs local"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑↓←→ : déplacer le curseur",
+                                                        "ESPACE / Z : échanger les deux blocs",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
+                      "path":  "games/panel-de-pon/index.html"
+                  },
+                  {
+                      "id":  "tamagotchi",
+                      "title":  "94 — Tamagotchi lite",
+                      "version":  "1.0.0",
+                      "description":  "Nourris, amuse et repose ton petit compagnon virtuel.",
+                      "longDescription":  "Ton animal de compagnie a besoin de toi ! Sa faim, son bonheur et son énergie diminuent avec le temps. Nourris-le, joue avec lui et fais-le dormir pour garder ses stats au vert. Si l\u0027une d\u0027elles tombe à zéro, il meurt. Jusqu\u0027à quel âge peut-il survivre ?",
+                      "category":  "arcade",
+                      "thumbnail":  "🐣",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Pet virtuel avec 3 stats vitales",
+                                       "Actions : Nourrir, Jouer, Dormir",
+                                       "Score = âge de survie (heures de jeu)",
+                                       "Humeur dynamique selon les stats"
+                                   ],
+                      "roadmap":  [
+                                      "Évolution du pet selon l\u0027âge (bébé → adulte → senior)",
+                                      "Maladies aléatoires à soigner",
+                                      "Mode accéléré (nuit rapide)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Boutons : Nourrir / Jouer / Dormir",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/tamagotchi/index.html"
+                  },
+                  {
+                      "id":  "idle-clicker",
+                      "title":  "95 — Idle Clicker",
+                      "version":  "1.0.0",
+                      "description":  "Clique, accumule, automatise — l\u0027empire des pièces t\u0027attend.",
+                      "longDescription":  "Commence par cliquer pour gagner ta première pièce. Achète des améliorations pour générer des revenus automatiquement. Investis, développe, et regarde ton empire de pièces prendre de l\u0027ampleur !",
+                      "category":  "arcade",
+                      "thumbnail":  "🪙",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "8 améliorations à débloquer",
+                                       "Production passive automatique croissante",
+                                       "Multiplicateur de revenus (Machine Temporelle)",
+                                       "Score = total de pièces gagnées"
+                                   ],
+                      "roadmap":  [
+                                      "Prestige : recommencer avec un bonus permanent",
+                                      "Événements aléatoires (pluie de pièces, double production)",
+                                      "Succès débloquables pour des bonus spéciaux"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic sur la pièce : gagner des pièces",
+                                                        "Clic sur une amélioration : acheter",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
+                      "path":  "games/idle-clicker/index.html"
+                  },
+                  {
+                      "id":  "labyrinthe",
+                      "title":  "96 — Labyrinthe procédural",
+                      "version":  "1.0.0",
+                      "description":  "8 labyrinthes générés aléatoirement — trouve la sortie le plus vite possible.",
+                      "longDescription":  "Chaque niveau génère un nouveau labyrinthe parfait (un seul chemin entre deux points). Déplace-toi jusqu\u0027à la sortie verte en un minimum de coups. Le labyrinthe grandit à chaque niveau — 8 niveaux à enchaîner !",
+                      "category":  "puzzle",
+                      "thumbnail":  "🌀",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Génération procédurale (algorithme recursive backtracker)",
+                                       "8 niveaux de taille croissante (7×7 à 21×21)",
+                                       "Score basé sur l\u0027efficacité du trajet (coups économisés)",
+                                       "Labyrinthe parfait — toujours un chemin unique vers la sortie"
+                                   ],
+                      "roadmap":  [
+                                      "Brouillard de guerre (visibilité limitée autour du joueur)",
+                                      "Mode chrono (contre-la-montre)",
+                                      "Labyrinthes non rectangulaires (formes spéciales)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑↓←→ / WASD : se déplacer",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "negative",
+                                    "maxSeconds":  999
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/labyrinthe/index.html"
+                  },
+                  {
+                      "id":  "reaction",
+                      "title":  "97 — Réaction",
+                      "version":  "1.0.0",
+                      "description":  "Teste tes réflexes — clique dès que ça passe au vert, pas avant !",
+                      "longDescription":  "5 manches pour mesurer ton temps de réaction. La zone est rouge — attends. Dès qu\u0027elle passe au vert, clique ou appuie sur ESPACE le plus vite possible. Clique trop tôt et la manche est ratée. Plus tu es rapide, plus tu marques de points.",
+                      "category":  "arcade",
+                      "thumbnail":  "⚡",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "5 manches de mesure de temps de réaction",
+                                       "Détection de faux départ (clic trop tôt)",
+                                       "Score basé sur la rapidité (max 500 pts par manche)",
+                                       "Moyenne et meilleur temps affichés en fin de partie"
+                                   ],
+                      "roadmap":  [
+                                      "Mode 10 manches (endurance)",
+                                      "Comparaison avec le temps de réaction humain moyen",
+                                      "Mode multi-zones (cliquer la bonne parmi plusieurs)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "ESPACE ou clic : réagir",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
+                      "path":  "games/reaction/index.html"
+                  },
+                  {
+                      "id":  "memory-music",
+                      "title":  "98 — Memory Music",
+                      "version":  "1.0.0",
+                      "description":  "Mémorise la mélodie et reproduis-la — chaque manche ajoute une note.",
+                      "longDescription":  "6 notes de musique, chacune avec sa couleur et son son. Le jeu joue une mélodie qui s\u0027allonge à chaque manche — écoute bien puis reproduis-la dans l\u0027ordre exact. Une erreur te coûte une vie. Jusqu\u0027où peux-tu mémoriser la partition ?",
+                      "category":  "reflexion",
+                      "thumbnail":  "🎵",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "6 notes avec sons générés en temps réel (Web Audio)",
+                                       "Séquence qui s\u0027allonge d\u0027une note à chaque manche réussie",
+                                       "3 vies — une erreur fait reprendre la manche en cours",
+                                       "Score basé sur le nombre de manches complétées"
+                                   ],
+                      "roadmap":  [
+                                      "Mode mélodies connues à reconnaître",
+                                      "Variante 8 notes (gamme complète)",
+                                      "Replay de la meilleure mélodie atteinte"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "1–6 : jouer une note",
+                                                        "Clic sur un pad : jouer une note",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
+                      "path":  "games/memory-music/index.html"
+                  },
+                  {
+                      "id":  "chips-challenge",
+                      "title":  "99 — Chip\u0027s Challenge lite",
+                      "version":  "1.0.0",
+                      "description":  "Collecte toutes les puces avant que la porte de sortie ne s\u0027ouvre.",
+                      "longDescription":  "Explore chaque niveau labyrinthique et ramasse toutes les puces dorées disséminées dans les couloirs. La porte de sortie reste verrouillée tant qu\u0027il en manque — une fois toutes récupérées, fonce vers la sortie pour passer au niveau suivant !",
+                      "category":  "puzzle",
+                      "thumbnail":  "🔑",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "5 niveaux labyrinthiques de complexité croissante",
+                                       "Porte de sortie verrouillée tant que toutes les puces ne sont pas ramassées",
+                                       "Compteur de puces et de coups en temps réel",
+                                       "Score basé sur l\u0027efficacité du trajet"
+                                   ],
+                      "roadmap":  [
+                                      "Clés colorées et portes assorties",
+                                      "Dangers (eau, feu) à éviter",
+                                      "Chronomètre par niveau avec bonus de rapidité"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑↓←→ / WASD : se déplacer",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "negative",
+                                    "maxSeconds":  999
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/chips-challenge/index.html"
+                  },
+                  {
+                      "id":  "retrovault-boss",
+                      "title":  "100 — ⭐ RetroVault Boss",
+                      "version":  "1.0.0",
+                      "description":  "MINI-BOSS FINAL — esquive, mémoire, réflexes puis le duel contre le boss. 3 vies pour tout enchaîner.",
+                      "longDescription":  "Le boss de fin de RetroVault réunit les mécaniques de la plateforme en 4 phases : esquive les projectiles, reproduis la mélodie, sois plus rapide que les puces dorées, puis affronte le boss final en duel — esquive ses tirs tout en le canardant. 3 vies partagées sur tout le run, la moindre erreur compte.",
+                      "category":  "arcade",
+                      "thumbnail":  "👑",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "4 phases enchaînées : esquive, mémoire, réflexes, duel de boss",
+                                       "3 vies partagées sur l\u0027ensemble du run",
+                                       "Boss final avec 3 patterns d\u0027attaque rotatifs",
+                                       "Score cumulé sur les 4 phases"
+                                   ],
+                      "roadmap":  [
+                                      "Mode difficile avec patterns de boss supplémentaires",
+                                      "Classement des meilleurs runs complets",
+                                      "2ème boss après une première victoire"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑↓←→ / WASD : déplacer (esquive et duel)",
+                                                        "1–4 ou clic : jouer une note (mémoire)",
+                                                        "Clic : frapper une puce (réflexes)",
+                                                        "P : pause",
+                                                        "R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
+                      "path":  "games/retrovault-boss/index.html"
                   }
               ],
     "categories":  [

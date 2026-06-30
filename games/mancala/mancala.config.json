@@ -1,0 +1,32 @@
+{
+  "id": "mancala",
+  "title": "82 — Mancala",
+  "version": "1.0.0",
+  "description": "Le jeu de semer africain — récoltez plus de graines que l'IA pour gagner.",
+  "longDescription": "Variante Kalah : 6 trous de 4 graines par côté, plus un grenier à chaque bout. À votre tour, choisissez un trou : toutes ses graines sont semées une par une dans les trous suivants. Si la dernière graine tombe dans votre grenier, vous rejouez ! Si elle tombe dans votre propre trou vide et que le trou d'en face a des graines, vous capturez tout. Premier grenier à 25 graines (sur 48) gagne !",
+  "category": "reflexion",
+  "thumbnail": "🫘",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "Règles Kalah complètes (extra tour + capture)",
+    "IA stratégique (priorité extra tour, capture, semis optimal)",
+    "Plateau visuel avec trous elliptiques et compteurs",
+    "Vous jouez en bas, l'IA en haut"
+  ],
+  "roadmap": [
+    "Animation des graines qui se déplacent",
+    "Mode Awalé (règles différentes, pas de grenier)",
+    "Mode 2 joueurs local"
+  ],
+  "controls": {
+    "keyboard": [
+      "Clic sur un trou (bas) : semer les graines",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 0 },
+  "path": "games/mancala/index.html"
+}

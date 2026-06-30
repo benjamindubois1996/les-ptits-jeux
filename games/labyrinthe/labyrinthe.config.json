@@ -1,0 +1,37 @@
+{
+  "id": "labyrinthe",
+  "title": "96 — Labyrinthe procédural",
+  "version": "1.0.0",
+  "description": "8 labyrinthes générés aléatoirement — trouve la sortie le plus vite possible.",
+  "longDescription": "Chaque niveau génère un nouveau labyrinthe parfait (un seul chemin entre deux points). Déplace-toi jusqu'à la sortie verte en un minimum de coups. Le labyrinthe grandit à chaque niveau — 8 niveaux à enchaîner !",
+  "category": "puzzle",
+  "thumbnail": "🌀",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "Génération procédurale (algorithme recursive backtracker)",
+    "8 niveaux de taille croissante (7×7 à 21×21)",
+    "Score basé sur l'efficacité du trajet (coups économisés)",
+    "Labyrinthe parfait — toujours un chemin unique vers la sortie"
+  ],
+  "roadmap": [
+    "Brouillard de guerre (visibilité limitée autour du joueur)",
+    "Mode chrono (contre-la-montre)",
+    "Labyrinthes non rectangulaires (formes spéciales)"
+  ],
+  "controls": {
+    "keyboard": [
+      "↑↓←→ / WASD : se déplacer",
+      "P : pause",
+      "R : restart"
+    ],
+    "touch": false
+  },
+  "scoring": {
+    "pointsPerLevel": 200,
+    "penaltyPerMove": 1
+  },
+  "timer": { "scoreEffect": "negative", "maxSeconds": 999 },
+  "lives": { "initial": 1 },
+  "path": "games/labyrinthe/index.html"
+}

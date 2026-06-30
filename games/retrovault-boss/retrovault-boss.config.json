@@ -1,0 +1,35 @@
+{
+  "id": "retrovault-boss",
+  "title": "100 — ⭐ RetroVault Boss",
+  "version": "1.0.0",
+  "description": "MINI-BOSS FINAL — esquive, mémoire, réflexes puis le duel contre le boss. 3 vies pour tout enchaîner.",
+  "longDescription": "Le boss de fin de RetroVault réunit les mécaniques de la plateforme en 4 phases : esquive les projectiles, reproduis la mélodie, sois plus rapide que les puces dorées, puis affronte le boss final en duel — esquive ses tirs tout en le canardant. 3 vies partagées sur tout le run, la moindre erreur compte.",
+  "category": "arcade",
+  "thumbnail": "👑",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "4 phases enchaînées : esquive, mémoire, réflexes, duel de boss",
+    "3 vies partagées sur l'ensemble du run",
+    "Boss final avec 3 patterns d'attaque rotatifs",
+    "Score cumulé sur les 4 phases"
+  ],
+  "roadmap": [
+    "Mode difficile avec patterns de boss supplémentaires",
+    "Classement des meilleurs runs complets",
+    "2ème boss après une première victoire"
+  ],
+  "controls": {
+    "keyboard": [
+      "↑↓←→ / WASD : déplacer (esquive et duel)",
+      "1–4 ou clic : jouer une note (mémoire)",
+      "Clic : frapper une puce (réflexes)",
+      "P : pause",
+      "R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 3 },
+  "path": "games/retrovault-boss/index.html"
+}

@@ -1,0 +1,34 @@
+{
+  "id": "memory-music",
+  "title": "98 — Memory Music",
+  "version": "1.0.0",
+  "description": "Mémorise la mélodie et reproduis-la — chaque manche ajoute une note.",
+  "longDescription": "6 notes de musique, chacune avec sa couleur et son son. Le jeu joue une mélodie qui s'allonge à chaque manche — écoute bien puis reproduis-la dans l'ordre exact. Une erreur te coûte une vie. Jusqu'où peux-tu mémoriser la partition ?",
+  "category": "reflexion",
+  "thumbnail": "🎵",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "6 notes avec sons générés en temps réel (Web Audio)",
+    "Séquence qui s'allonge d'une note à chaque manche réussie",
+    "3 vies — une erreur fait reprendre la manche en cours",
+    "Score basé sur le nombre de manches complétées"
+  ],
+  "roadmap": [
+    "Mode mélodies connues à reconnaître",
+    "Variante 8 notes (gamme complète)",
+    "Replay de la meilleure mélodie atteinte"
+  ],
+  "controls": {
+    "keyboard": [
+      "1–6 : jouer une note",
+      "Clic sur un pad : jouer une note",
+      "P : pause",
+      "R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 3 },
+  "path": "games/memory-music/index.html"
+}

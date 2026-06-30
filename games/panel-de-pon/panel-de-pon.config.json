@@ -1,0 +1,33 @@
+{
+  "id": "panel-de-pon",
+  "title": "93 — Panel de Pon",
+  "version": "1.0.0",
+  "description": "Échange des paires de blocs pour créer des alignements — avant que la grille ne déborde !",
+  "longDescription": "Une grille de blocs colorés monte lentement. Déplace ton curseur et échange deux blocs côte à côte pour aligner 3 blocs identiques horizontalement ou verticalement. Les blocs disparaissent, ceux du dessus tombent, et les combos en chaîne multiplient le score. Game over si les blocs atteignent le haut !",
+  "category": "reflexion",
+  "thumbnail": "🔷",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "Grille 6×12 de blocs colorés",
+    "Détection de chaînes (combos × multiplicateur)",
+    "Rangées qui montent de plus en plus vite",
+    "Prévisualisation de la prochaine rangée"
+  ],
+  "roadmap": [
+    "Mode Puzzle : niveaux prédéfinis avec objectif",
+    "Mode Survie : vitesse croissante par palier",
+    "Mode 2 joueurs local"
+  ],
+  "controls": {
+    "keyboard": [
+      "↑↓←→ : déplacer le curseur",
+      "ESPACE / Z : échanger les deux blocs",
+      "P : pause · R : restart"
+    ],
+    "touch": false
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 0 },
+  "path": "games/panel-de-pon/index.html"
+}

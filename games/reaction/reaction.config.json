@@ -1,0 +1,33 @@
+{
+  "id": "reaction",
+  "title": "97 — Réaction",
+  "version": "1.0.0",
+  "description": "Teste tes réflexes — clique dès que ça passe au vert, pas avant !",
+  "longDescription": "5 manches pour mesurer ton temps de réaction. La zone est rouge — attends. Dès qu'elle passe au vert, clique ou appuie sur ESPACE le plus vite possible. Clique trop tôt et la manche est ratée. Plus tu es rapide, plus tu marques de points.",
+  "category": "arcade",
+  "thumbnail": "⚡",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "5 manches de mesure de temps de réaction",
+    "Détection de faux départ (clic trop tôt)",
+    "Score basé sur la rapidité (max 500 pts par manche)",
+    "Moyenne et meilleur temps affichés en fin de partie"
+  ],
+  "roadmap": [
+    "Mode 10 manches (endurance)",
+    "Comparaison avec le temps de réaction humain moyen",
+    "Mode multi-zones (cliquer la bonne parmi plusieurs)"
+  ],
+  "controls": {
+    "keyboard": [
+      "ESPACE ou clic : réagir",
+      "P : pause",
+      "R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 0 },
+  "path": "games/reaction/index.html"
+}

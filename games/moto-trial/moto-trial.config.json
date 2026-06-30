@@ -1,0 +1,35 @@
+{
+  "id": "moto-trial",
+  "title": "91 — Moto Trial",
+  "version": "1.0.0",
+  "description": "Pilote ta moto sur un terrain accidenté — équilibre, gaz et survie !",
+  "longDescription": "Traverse un parcours de collines, rampes et dévers sans tomber. La touche droite (ou D) accélère, la gauche (A) freine. Contrôle l'équilibre avec Haut/W (penche arrière) et Bas/S (penche avant). Si ton angle dépasse 70°, c'est le crash. Le score = distance parcourue en mètres.",
+  "category": "arcade",
+  "thumbnail": "🏍️",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "Terrain procédural avec rampes et dévers",
+    "Physique réaliste : gravité, pente, friction",
+    "Contrôle du centre de gravité (penche avant/arrière)",
+    "Score = distance parcourue en mètres"
+  ],
+  "roadmap": [
+    "Obstacles : rochers, troncs, sauts imposés",
+    "Mode contre-la-montre avec checkpoints",
+    "Niveaux prédéfinis avec difficulté croissante"
+  ],
+  "controls": {
+    "keyboard": [
+      "→ / D : accélérer",
+      "← / A : freiner / reculer",
+      "↑ / W : pencher en arrière (wheelie)",
+      "↓ / S : pencher en avant",
+      "P : pause · R : restart"
+    ],
+    "touch": false
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 1 },
+  "path": "games/moto-trial/index.html"
+}

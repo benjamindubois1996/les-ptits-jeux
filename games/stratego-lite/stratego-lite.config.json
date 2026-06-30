@@ -1,0 +1,33 @@
+{
+  "id": "stratego-lite",
+  "title": "84 — Stratego lite",
+  "version": "1.0.0",
+  "description": "Capturez le drapeau ennemi — bluffez, déduisez, attaquez !",
+  "longDescription": "Stratégie cachée en 1v1 sur grille 6×6. Placez vos 7 pièces dans les 2 rangées du bas, l'IA place les siennes en haut. Les pièces adverses sont masquées jusqu'au combat ! La plus haute valeur gagne — mais la Bombe explose tout (sauf le Mineur), et l'Espion bat le Maréchal. Capturez le Drapeau ennemi pour gagner !",
+  "category": "reflexion",
+  "thumbnail": "🚩",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "Phase de placement stratégique (7 pièces à disposer librement)",
+    "Information cachée : les pièces ennemies sont masquées jusqu'au combat",
+    "7 types de pièces avec règles spéciales (Bombe, Mineur, Espion)",
+    "IA avec placement stratégique (Drapeau protégé par Bombes)"
+  ],
+  "roadmap": [
+    "Version 10×10 avec 40 pièces complètes (règles Stratego originales)",
+    "Mode 2 joueurs local (chacun place ses pièces puis joue)",
+    "Rejouer la partie en mode révélé (toutes les pièces visibles)"
+  ],
+  "controls": {
+    "keyboard": [
+      "Setup : clic pièce (panel) → clic case (bas)",
+      "Jeu : clic votre pièce → clic destination",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 0 },
+  "path": "games/stratego-lite/index.html"
+}

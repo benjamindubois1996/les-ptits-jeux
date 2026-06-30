@@ -1,0 +1,34 @@
+{
+  "id": "backgammon",
+  "title": "83 — Backgammon",
+  "version": "1.0.0",
+  "description": "Le classique des jeux de dés — amenez tous vos pions blancs hors du plateau avant l'IA.",
+  "longDescription": "Backgammon classique en 1 contre IA. Vous jouez les blancs (24→1), l'IA les noirs (1→24). Lancez les dés, cliquez un pion pour le sélectionner, puis cliquez sa destination. Un pion seul peut être frappé et envoyé au bar. Quand tous vos pions sont dans votre zone (1-6), vous pouvez commencer à les sortir. Celui qui sort ses 15 pions en premier gagne !",
+  "category": "reflexion",
+  "thumbnail": "🎲",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "Règles complètes (barre, sortie, doubles = 4 coups)",
+    "IA stratégique (frappe, consolidation, avance vers la sortie)",
+    "Plateau visuel avec 24 flèches colorées et zone de sortie",
+    "Doubles = 4 coups avec la même valeur"
+  ],
+  "roadmap": [
+    "Cube de doublement (augmenter les enjeux)",
+    "Statistiques : taux de victoire, pipcount",
+    "Mode 2 joueurs local"
+  ],
+  "controls": {
+    "keyboard": [
+      "Bouton Lancer les dés : votre tour",
+      "Clic pion : sélectionner",
+      "Clic destination : déplacer",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 0 },
+  "path": "games/backgammon/index.html"
+}

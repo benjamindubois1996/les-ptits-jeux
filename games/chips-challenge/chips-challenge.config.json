@@ -1,0 +1,124 @@
+{
+  "id": "chips-challenge",
+  "title": "99 — Chip's Challenge lite",
+  "version": "1.0.0",
+  "description": "Collecte toutes les puces avant que la porte de sortie ne s'ouvre.",
+  "longDescription": "Explore chaque niveau labyrinthique et ramasse toutes les puces dorées disséminées dans les couloirs. La porte de sortie reste verrouillée tant qu'il en manque — une fois toutes récupérées, fonce vers la sortie pour passer au niveau suivant !",
+  "category": "puzzle",
+  "thumbnail": "🔑",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "5 niveaux labyrinthiques de complexité croissante",
+    "Porte de sortie verrouillée tant que toutes les puces ne sont pas ramassées",
+    "Compteur de puces et de coups en temps réel",
+    "Score basé sur l'efficacité du trajet"
+  ],
+  "roadmap": [
+    "Clés colorées et portes assorties",
+    "Dangers (eau, feu) à éviter",
+    "Chronomètre par niveau avec bonus de rapidité"
+  ],
+  "controls": {
+    "keyboard": [
+      "↑↓←→ / WASD : se déplacer",
+      "P : pause",
+      "R : restart"
+    ],
+    "touch": false
+  },
+  "scoring": {
+    "pointsPerLevel": 200,
+    "penaltyPerMove": 1
+  },
+  "timer": { "scoreEffect": "negative", "maxSeconds": 999 },
+  "lives": { "initial": 1 },
+  "levels": [
+    {
+      "id": 1,
+      "name": "Premiers pas",
+      "map": [
+        "#########",
+        "#@   c  #",
+        "####### #",
+        "#    c  #",
+        "# #######",
+        "#  c   D#",
+        "#########"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Vire-vire",
+      "map": [
+        "#########",
+        "#@   c  #",
+        "####### #",
+        "#    c  #",
+        "# #######",
+        "#    c  #",
+        "####### #",
+        "#D   c  #",
+        "#########"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Couloirs croisés",
+      "map": [
+        "###########",
+        "#@   c    #",
+        "######### #",
+        "#    c    #",
+        "# #########",
+        "#    c    #",
+        "######### #",
+        "#    c    #",
+        "# #########",
+        "#    c   D#",
+        "###########"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Dédale",
+      "map": [
+        "###########",
+        "#@   c    #",
+        "######### #",
+        "#    c    #",
+        "# #########",
+        "#    c    #",
+        "######### #",
+        "#    c    #",
+        "# #########",
+        "#    c    #",
+        "######### #",
+        "#D   c    #",
+        "###########"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Le coffre final",
+      "map": [
+        "###########",
+        "#@   c    #",
+        "######### #",
+        "#    c    #",
+        "# #########",
+        "#    c    #",
+        "######### #",
+        "#    c    #",
+        "# #########",
+        "#    c    #",
+        "######### #",
+        "#    c    #",
+        "# #########",
+        "#    c   D#",
+        "###########"
+      ]
+    }
+  ],
+  "path": "games/chips-challenge/index.html"
+}

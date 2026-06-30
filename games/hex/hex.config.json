@@ -1,0 +1,32 @@
+{
+  "id": "hex",
+  "title": "85 — Hex",
+  "version": "1.0.0",
+  "description": "Le jeu de Hex — reliez vos deux bords en traçant un chemin de pierres.",
+  "longDescription": "Sur une grille 9×9 en losange, vous jouez les pierres bleues et devez connecter le bord gauche au bord droit. L'IA joue les pierres rouges et tente de connecter le haut au bas. Les pièces ne peuvent pas être capturées — la première connexion gagne !",
+  "category": "reflexion",
+  "thumbnail": "🔷",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "Grille 9×9 en losange avec topologie hexagonale",
+    "IA basée sur le chemin le plus court (Dijkstra bidirectionnel)",
+    "Détection de victoire par BFS de connexion",
+    "Vous = bleu (gauche→droite) · IA = rouge (haut→bas)"
+  ],
+  "roadmap": [
+    "Grilles 11×11 ou 13×13 pour les experts",
+    "IA avancée avec Monte-Carlo Tree Search",
+    "Mode 2 joueurs local"
+  ],
+  "controls": {
+    "keyboard": [
+      "Clic sur une cellule : placer une pierre bleue",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 0 },
+  "path": "games/hex/index.html"
+}

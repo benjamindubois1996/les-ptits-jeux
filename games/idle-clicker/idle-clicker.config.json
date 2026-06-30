@@ -1,0 +1,33 @@
+{
+  "id": "idle-clicker",
+  "title": "95 — Idle Clicker",
+  "version": "1.0.0",
+  "description": "Clique, accumule, automatise — l'empire des pièces t'attend.",
+  "longDescription": "Commence par cliquer pour gagner ta première pièce. Achète des améliorations pour générer des revenus automatiquement. Investis, développe, et regarde ton empire de pièces prendre de l'ampleur !",
+  "category": "arcade",
+  "thumbnail": "🪙",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "8 améliorations à débloquer",
+    "Production passive automatique croissante",
+    "Multiplicateur de revenus (Machine Temporelle)",
+    "Score = total de pièces gagnées"
+  ],
+  "roadmap": [
+    "Prestige : recommencer avec un bonus permanent",
+    "Événements aléatoires (pluie de pièces, double production)",
+    "Succès débloquables pour des bonus spéciaux"
+  ],
+  "controls": {
+    "keyboard": [
+      "Clic sur la pièce : gagner des pièces",
+      "Clic sur une amélioration : acheter",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 0 },
+  "path": "games/idle-clicker/index.html"
+}

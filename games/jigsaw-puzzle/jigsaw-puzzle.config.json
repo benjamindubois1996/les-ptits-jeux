@@ -1,0 +1,34 @@
+{
+  "id": "jigsaw-puzzle",
+  "title": "92 — Jigsaw Puzzle",
+  "version": "1.0.0",
+  "description": "Reconstitue l'image en plaçant les 9 pièces au bon endroit.",
+  "longDescription": "Une image est découpée en 9 pièces mélangées dans le bac. Sélectionne une pièce puis clique sur la case du puzzle pour la placer. Plus tu assembles vite, plus ton score est élevé. Reconstitue l'image complète pour remporter la victoire !",
+  "category": "puzzle",
+  "thumbnail": "🧩",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "Image générée procéduralement à chaque partie",
+    "9 pièces (grille 3×3) à replacer",
+    "Bonus de vitesse : plus c'est rapide, plus le score est élevé",
+    "Clic pour sélectionner et placer les pièces"
+  ],
+  "roadmap": [
+    "Mode 4×4 et 5×5 pour plus de défi",
+    "Formes de découpe irrégulières (vraies pièces de puzzle)",
+    "Rotation aléatoire des pièces (à remettre droites)"
+  ],
+  "controls": {
+    "keyboard": [
+      "Clic pièce : sélectionner",
+      "Clic case du puzzle : placer",
+      "Clic pièce posée : reprendre",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "negative" },
+  "lives": { "initial": 0 },
+  "path": "games/jigsaw-puzzle/index.html"
+}
