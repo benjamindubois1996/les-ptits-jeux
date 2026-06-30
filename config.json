@@ -1,7 +1,7 @@
 ﻿{
     "platform":  {
                      "name":  "RetroVault",
-                     "version":  "0.80.0",
+                     "version":  "0.90.0",
                      "description":  "Anciens jeux remis au goût du jour"
                  },
     "games":  [
@@ -320,7 +320,7 @@
                       "title":  "09 — Doodle Jump",
                       "version":  "1.0.0",
                       "description":  "Rebondis de plateforme en plateforme — ne tombe pas !",
-                      "longDescription":  "Le Doodler rebondit automatiquement. Guide-le à gauche et à droite pour sauter de plateforme en plateforme et grimper toujours plus haut. Évite les monstres, profite des ressorts, méfie-toi des plateformes qui s'effondrent. Tu chutes = game over !",
+                      "longDescription":  "Le Doodler rebondit automatiquement. Guide-le à gauche et à droite pour sauter de plateforme en plateforme et grimper toujours plus haut. Évite les monstres, profite des ressorts, méfie-toi des plateformes qui s\u0027effondrent. Tu chutes = game over !",
                       "category":  "arcade",
                       "thumbnail":  "🐸",
                       "available":  true,
@@ -330,7 +330,7 @@
                                        "4 types de plateformes : normale, mobile, fragile, ressort",
                                        "Monstres à éviter (ou à écraser par le dessus)",
                                        "Score basé sur la hauteur atteinte",
-                                       "Enroulement horizontal (passer d'un bord à l'autre)"
+                                       "Enroulement horizontal (passer d\u0027un bord à l\u0027autre)"
                                    ],
                       "roadmap":  [
                                       "Power-ups (jetpack, bouclier, ressort géant)",
@@ -980,7 +980,7 @@
                       "comingSoon":  false,
                       "features":  [
                                        "10 niveaux de difficulté progressive",
-                                       "Annulation de coup (Z) jusqu'à 50 coups",
+                                       "Annulation de coup (Z) jusqu\u0027à 50 coups",
                                        "Compteur de coups par niveau",
                                        "Score basé sur les coups économisés",
                                        "Rendu canvas avec effet 3D"
@@ -1011,8 +1011,8 @@
                       "id":  "reversi",
                       "title":  "27 — Reversi",
                       "version":  "1.0.0",
-                      "description":  "Retourne les pièces adverses et domine l'Othello — stratégie pure.",
-                      "longDescription":  "Posez des pièces noires sur le plateau 8×8. Chaque coup doit encadrer au moins une pièce blanche de l'IA — elle se retourne. L'IA joue en blanc de façon greedy. Quand plus aucun joueur ne peut jouer, le camp avec le plus de pièces gagne.",
+                      "description":  "Retourne les pièces adverses et domine l\u0027Othello — stratégie pure.",
+                      "longDescription":  "Posez des pièces noires sur le plateau 8×8. Chaque coup doit encadrer au moins une pièce blanche de l\u0027IA — elle se retourne. L\u0027IA joue en blanc de façon greedy. Quand plus aucun joueur ne peut jouer, le camp avec le plus de pièces gagne.",
                       "category":  "reflexion",
                       "thumbnail":  "⚫",
                       "available":  true,
@@ -1086,8 +1086,8 @@
                       "id":  "lunar-lander",
                       "title":  "29 — Lunar Lander",
                       "version":  "1.0.0",
-                      "description":  "Posez le vaisseau sur la zone d'atterrissage — physique, carburant, précision.",
-                      "longDescription":  "Votre vaisseau dérive dans l'espace lunaire. Propulsion vers le haut, rotation gauche/droite. Posez-vous doucement sur la plateforme verte sans trop de vitesse ni d'inclinaison. Le carburant est limité — 3 vies.",
+                      "description":  "Posez le vaisseau sur la zone d\u0027atterrissage — physique, carburant, précision.",
+                      "longDescription":  "Votre vaisseau dérive dans l\u0027espace lunaire. Propulsion vers le haut, rotation gauche/droite. Posez-vous doucement sur la plateforme verte sans trop de vitesse ni d\u0027inclinaison. Le carburant est limité — 3 vies.",
                       "category":  "arcade",
                       "thumbnail":  "🚀",
                       "available":  true,
@@ -1100,7 +1100,7 @@
                                        "3 vies — crash animé avec particules"
                                    ],
                       "roadmap":  [
-                                      "Plusieurs zones d'atterrissage avec bonus différents",
+                                      "Plusieurs zones d\u0027atterrissage avec bonus différents",
                                       "Vent latéral aléatoire",
                                       "Mode chrono (atterrir le plus vite possible)"
                                   ],
@@ -1163,8 +1163,8 @@
                       "id":  "whack-a-mole",
                       "title":  "31 — Whack-a-Mole",
                       "version":  "1.0.0",
-                      "description":  "Frappe les taupes dès qu'elles sortent — réflexes et timing.",
-                      "longDescription":  "Les taupes émergent aléatoirement de leurs terriers. Clique dessus avant qu'elles disparaissent. Plus le temps passe, plus elles sortent vite. 60 secondes pour marquer un maximum de points !",
+                      "description":  "Frappe les taupes dès qu\u0027elles sortent — réflexes et timing.",
+                      "longDescription":  "Les taupes émergent aléatoirement de leurs terriers. Clique dessus avant qu\u0027elles disparaissent. Plus le temps passe, plus elles sortent vite. 60 secondes pour marquer un maximum de points !",
                       "category":  "arcade",
                       "thumbnail":  "🦔",
                       "available":  true,
@@ -1201,8 +1201,8 @@
                       "id":  "taquin",
                       "title":  "32 — Taquin",
                       "version":  "1.0.0",
-                      "description":  "Glisse les tuiles pour remettre les chiffres dans l'ordre — logique pure.",
-                      "longDescription":  "Le célèbre puzzle à 15 pièces ! Une grille 4×4 avec les chiffres 1 à 15 et une case vide. Clique sur une tuile adjacente à la case vide pour la glisser. Remets tout dans l'ordre en un minimum de coups.",
+                      "description":  "Glisse les tuiles pour remettre les chiffres dans l\u0027ordre — logique pure.",
+                      "longDescription":  "Le célèbre puzzle à 15 pièces ! Une grille 4×4 avec les chiffres 1 à 15 et une case vide. Clique sur une tuile adjacente à la case vide pour la glisser. Remets tout dans l\u0027ordre en un minimum de coups.",
                       "category":  "puzzle",
                       "thumbnail":  "🧩",
                       "available":  true,
@@ -1241,8 +1241,8 @@
                       "id":  "typing-rush",
                       "title":  "33 — Typing Rush",
                       "version":  "1.0.0",
-                      "description":  "Des mots tombent du ciel — tape-les avant qu'ils touchent le sol !",
-                      "longDescription":  "Des mots en français dégringolent sur 4 colonnes. Tape le mot visible dans la zone de saisie et appuie sur Entrée pour le détruire. Rate trop de mots et c'est game over. Bonus combo pour les séries réussies.",
+                      "description":  "Des mots tombent du ciel — tape-les avant qu\u0027ils touchent le sol !",
+                      "longDescription":  "Des mots en français dégringolent sur 4 colonnes. Tape le mot visible dans la zone de saisie et appuie sur Entrée pour le détruire. Rate trop de mots et c\u0027est game over. Bonus combo pour les séries réussies.",
                       "category":  "arcade",
                       "thumbnail":  "⌨️",
                       "available":  true,
@@ -1279,17 +1279,17 @@
                       "id":  "tower-defense",
                       "title":  "34 — Tower Defense",
                       "version":  "1.0.0",
-                      "description":  "Construis des tourelles pour stopper les vagues d'ennemis — stratégie et gestion.",
-                      "longDescription":  "7 vagues d'ennemis défilent sur un chemin fixe. Place des tourelles (Canon, Sniper, Mortier) sur les cases libres pour les détruire. Chaque ennemi vaincu rapporte de l'or. Si trop d'ennemis atteignent la base, c'est perdu.",
+                      "description":  "Construis des tourelles pour stopper les vagues d\u0027ennemis — stratégie et gestion.",
+                      "longDescription":  "7 vagues d\u0027ennemis défilent sur un chemin fixe. Place des tourelles (Canon, Sniper, Mortier) sur les cases libres pour les détruire. Chaque ennemi vaincu rapporte de l\u0027or. Si trop d\u0027ennemis atteignent la base, c\u0027est perdu.",
                       "category":  "arcade",
                       "thumbnail":  "🏰",
                       "available":  true,
                       "comingSoon":  false,
                       "features":  [
-                                       "7 vagues d'ennemis progressives",
+                                       "7 vagues d\u0027ennemis progressives",
                                        "3 types de tourelles (Canon, Sniper, Mortier)",
                                        "Chemin fixe avec 20 vies de base",
-                                       "Système d'or (ennemis tués → or → tourelles)",
+                                       "Système d\u0027or (ennemis tués → or → tourelles)",
                                        "Visualisation de portée au survol"
                                    ],
                       "roadmap":  [
@@ -1319,14 +1319,14 @@
                       "title":  "35 — Gem Crush",
                       "version":  "1.0.0",
                       "description":  "Aligne 3 gemmes ou plus en les échangeant — le match 3 classique.",
-                      "longDescription":  "Une grille 8×8 de gemmes colorées. Clique sur deux gemmes adjacentes pour les échanger. Si l'échange crée un alignement de 3+ gemmes identiques, elles explosent et des nouvelles tombent. Combos en cascade pour des points bonus !",
+                      "longDescription":  "Une grille 8×8 de gemmes colorées. Clique sur deux gemmes adjacentes pour les échanger. Si l\u0027échange crée un alignement de 3+ gemmes identiques, elles explosent et des nouvelles tombent. Combos en cascade pour des points bonus !",
                       "category":  "puzzle",
                       "thumbnail":  "💎",
                       "available":  true,
                       "comingSoon":  false,
                       "features":  [
                                        "Grille 8×8, 6 couleurs de gemmes",
-                                       "Détection d'alignements horizontaux et verticaux",
+                                       "Détection d\u0027alignements horizontaux et verticaux",
                                        "Cascades automatiques après chute",
                                        "Bonus multiplicateur de combo",
                                        "Niveaux avec seuil de score progressif"
@@ -1382,7 +1382,9 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  {},
+                      "timer":  {
+
+                                },
                       "lives":  {
                                     "initial":  1
                                 },
@@ -1392,15 +1394,15 @@
                       "id":  "pipe-dream",
                       "title":  "37 — Pipe Dream",
                       "version":  "1.0.0",
-                      "description":  "Tourne les tuyaux pour relier la source à la sortie avant que l'eau arrive.",
-                      "longDescription":  "Une grille de segments de tuyaux aléatoires. Clique pour faire pivoter chaque pièce. Tu as quelques secondes avant que l'eau commence à couler depuis la source. Connecte un maximum de tuyaux jusqu'à l'arrivée !",
+                      "description":  "Tourne les tuyaux pour relier la source à la sortie avant que l\u0027eau arrive.",
+                      "longDescription":  "Une grille de segments de tuyaux aléatoires. Clique pour faire pivoter chaque pièce. Tu as quelques secondes avant que l\u0027eau commence à couler depuis la source. Connecte un maximum de tuyaux jusqu\u0027à l\u0027arrivée !",
                       "category":  "puzzle",
                       "thumbnail":  "🔧",
                       "available":  true,
                       "comingSoon":  false,
                       "features":  [
                                        "Grille 7×7 de pièces pivotables",
-                                       "Countdown avant le départ de l'eau",
+                                       "Countdown avant le départ de l\u0027eau",
                                        "Eau qui coule tuyau par tuyau",
                                        "Score basé sur les tuyaux connectés",
                                        "Niveaux progressifs (10 niveaux)"
@@ -1408,7 +1410,7 @@
                       "roadmap":  [
                                       "Grille plus grande (9×9, 12×12)",
                                       "Pièces en T et croix",
-                                      "Mode placement libre (pièces en file d'attente)"
+                                      "Mode placement libre (pièces en file d\u0027attente)"
                                   ],
                       "controls":  {
                                        "keyboard":  [
@@ -1430,8 +1432,8 @@
                       "id":  "tron",
                       "title":  "38 — Tron",
                       "version":  "1.0.0",
-                      "description":  "Moto-lumière contre l'IA — laisse une traînée, évite les murs et les sillages.",
-                      "longDescription":  "Inspiré du film Tron. Tu pilotes une moto de lumière cyan sur une grille. L'IA pilote en rose. Chaque moto laisse un sillage infranchissable. Le premier à percuter un mur ou un sillage perd. Dure le plus longtemps possible !",
+                      "description":  "Moto-lumière contre l\u0027IA — laisse une traînée, évite les murs et les sillages.",
+                      "longDescription":  "Inspiré du film Tron. Tu pilotes une moto de lumière cyan sur une grille. L\u0027IA pilote en rose. Chaque moto laisse un sillage infranchissable. Le premier à percuter un mur ou un sillage perd. Dure le plus longtemps possible !",
                       "category":  "arcade",
                       "thumbnail":  "🏍️",
                       "available":  true,
@@ -1445,7 +1447,7 @@
                                    ],
                       "roadmap":  [
                                       "Mode 2 joueurs local",
-                                      "IA avec stratégie d'encerclement",
+                                      "IA avec stratégie d\u0027encerclement",
                                       "Grille torique (bords qui se connectent)"
                                   ],
                       "controls":  {
@@ -1468,8 +1470,8 @@
                       "id":  "flood-it",
                       "title":  "39 — Flood It",
                       "version":  "1.0.0",
-                      "description":  "Inonde toute la grille d'une seule couleur en un minimum de coups.",
-                      "longDescription":  "Une grille 14×14 de cellules colorées. En haut à gauche, c'est ta base. Choisis une couleur — ta zone s'étend en absorbant les cellules adjacentes de cette couleur. Objectif : couvrir toute la grille en 25 coups ou moins !",
+                      "description":  "Inonde toute la grille d\u0027une seule couleur en un minimum de coups.",
+                      "longDescription":  "Une grille 14×14 de cellules colorées. En haut à gauche, c\u0027est ta base. Choisis une couleur — ta zone s\u0027étend en absorbant les cellules adjacentes de cette couleur. Objectif : couvrir toute la grille en 25 coups ou moins !",
                       "category":  "puzzle",
                       "thumbnail":  "🌊",
                       "available":  true,
@@ -1508,7 +1510,7 @@
                       "title":  "40 — Mots Mêlés",
                       "version":  "1.0.0",
                       "description":  "Trouve tous les mots cachés dans la grille de lettres — dans toutes les directions.",
-                      "longDescription":  "Une grille 12×12 de lettres dissimule 10 mots français. Ils peuvent être placés horizontalement, verticalement, en diagonal — dans les deux sens. Clique-glisse pour sélectionner, la liste des mots à trouver s'affiche sur le côté. Chrono 3 minutes.",
+                      "longDescription":  "Une grille 12×12 de lettres dissimule 10 mots français. Ils peuvent être placés horizontalement, verticalement, en diagonal — dans les deux sens. Clique-glisse pour sélectionner, la liste des mots à trouver s\u0027affiche sur le côté. Chrono 3 minutes.",
                       "category":  "reflexion",
                       "thumbnail":  "🔤",
                       "available":  true,
@@ -1547,7 +1549,7 @@
                       "title":  "41 — Galaga",
                       "version":  "1.0.0",
                       "description":  "Défends-toi contre la formation ennemie qui pique en piqué.",
-                      "longDescription":  "Les ennemis s'alignent en formation puis plongent en piqué pour t'éliminer. Tire vite, esquive, et marque des points supplémentaires en abattant les boss en piqué avec escorte.",
+                      "longDescription":  "Les ennemis s\u0027alignent en formation puis plongent en piqué pour t\u0027éliminer. Tire vite, esquive, et marque des points supplémentaires en abattant les boss en piqué avec escorte.",
                       "category":  "arcade",
                       "thumbnail":  "👾",
                       "available":  true,
@@ -1584,8 +1586,8 @@
                       "id":  "missile-command",
                       "title":  "42 — Missile Command",
                       "version":  "1.0.0",
-                      "description":  "Intercepte les missiles ennemis avant qu'ils détruisent tes villes.",
-                      "longDescription":  "Des missiles plongent sur tes 6 villes. Clique pour lancer des intercepteurs depuis tes 3 batteries. Les explosions détruisent les missiles alentour. Chaque vague est plus intense — protège tes villes jusqu'au bout !",
+                      "description":  "Intercepte les missiles ennemis avant qu\u0027ils détruisent tes villes.",
+                      "longDescription":  "Des missiles plongent sur tes 6 villes. Clique pour lancer des intercepteurs depuis tes 3 batteries. Les explosions détruisent les missiles alentour. Chaque vague est plus intense — protège tes villes jusqu\u0027au bout !",
                       "category":  "arcade",
                       "thumbnail":  "🚀",
                       "available":  true,
@@ -1593,7 +1595,7 @@
                       "features":  [
                                        "6 villes à défendre, 3 batteries",
                                        "Clic / tap pour cibler les intercepteurs",
-                                       "Explosions à rayon d'effet",
+                                       "Explosions à rayon d\u0027effet",
                                        "Vagues de difficulté croissante",
                                        "Bonus fin de vague (ammo + villes sauvées)"
                                    ],
@@ -1622,7 +1624,7 @@
                       "title":  "43 — Centipede",
                       "version":  "1.0.0",
                       "description":  "Abats le mille-pattes qui serpente à travers les champignons.",
-                      "longDescription":  "Un mille-pattes descend en rebondissant sur les champignons. Tire depuis ta zone en bas de l'écran — chaque segment touché devient un champignon. Méfie-toi de l'araignée et de la puce !",
+                      "longDescription":  "Un mille-pattes descend en rebondissant sur les champignons. Tire depuis ta zone en bas de l\u0027écran — chaque segment touché devient un champignon. Méfie-toi de l\u0027araignée et de la puce !",
                       "category":  "arcade",
                       "thumbnail":  "🐛",
                       "available":  true,
@@ -1737,7 +1739,7 @@
                       "title":  "46 — Dig Dug",
                       "version":  "1.0.0",
                       "description":  "Creuse des tunnels dans la terre et gonfle les ennemis pour les éliminer.",
-                      "longDescription":  "Plonge dans les entrailles de la terre et creuse des tunnels à la demande. Utilise ta pompe pour gonfler les Pookas et les Fygars jusqu'à ce qu'ils explosent — ou laisse tomber des rochers sur eux pour un effet dévastateur. 5 niveaux de profondeur t'attendent.",
+                      "longDescription":  "Plonge dans les entrailles de la terre et creuse des tunnels à la demande. Utilise ta pompe pour gonfler les Pookas et les Fygars jusqu\u0027à ce qu\u0027ils explosent — ou laisse tomber des rochers sur eux pour un effet dévastateur. 5 niveaux de profondeur t\u0027attendent.",
                       "category":  "arcade",
                       "thumbnail":  "⛏️",
                       "available":  true,
@@ -1746,7 +1748,7 @@
                                        "Creusage libre de tunnels dans 4 directions",
                                        "Pompe à air pour gonfler et éclater les ennemis",
                                        "Rochers qui tombent et écrasent",
-                                       "2 types d'ennemis : Pooka et Fygar",
+                                       "2 types d\u0027ennemis : Pooka et Fygar",
                                        "5 niveaux avec difficulté croissante"
                                    ],
                       "roadmap":  [
@@ -1762,8 +1764,12 @@
                                                     ],
                                        "touch":  false
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  3 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
                       "path":  "games/dig-dug/index.html"
                   },
                   {
@@ -1798,15 +1804,19 @@
                                                     ],
                                        "touch":  false
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  3 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
                       "path":  "games/qbert/index.html"
                   },
                   {
                       "id":  "lemmings",
                       "title":  "48 — Lemmings",
                       "version":  "1.0.0",
-                      "description":  "Guide les lemmings jusqu'à la sortie en leur assignant des compétences.",
+                      "description":  "Guide les lemmings jusqu\u0027à la sortie en leur assignant des compétences.",
                       "longDescription":  "Les lemmings tombent du trapdoor et marchent droit devant eux sans se soucier du danger. Clique sur un lemming pour lui assigner une compétence : Bloqueur, Creuseur, Constructeur, Basteur, Flotteur ou Grimpeur. Sauve le pourcentage requis pour passer au niveau suivant.",
                       "category":  "puzzle",
                       "thumbnail":  "🐾",
@@ -1827,12 +1837,14 @@
                       "controls":  {
                                        "keyboard":  [
                                                         "Clic canvas : assigner compétence au lemming",
-                                                        "Boutons barre d'outils : sélectionner compétence",
+                                                        "Boutons barre d\u0027outils : sélectionner compétence",
                                                         "P pause  R restart"
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
                       "path":  "games/lemmings/index.html"
                   },
                   {
@@ -1840,7 +1852,7 @@
                       "title":  "49 — Dino Runner",
                       "version":  "1.0.0",
                       "description":  "Le dino court à toute vitesse — saute par-dessus les cactus, baisse-toi sous les ptéros.",
-                      "longDescription":  "Endless runner inspiré du célèbre dinosaure de Chrome. La vitesse augmente sans cesse. Évite les cactus en sautant et les ptérodactyles en te baissant. Le mode nuit s'active automatiquement tous les 700 points. Jusqu'où peux-tu aller ?",
+                      "longDescription":  "Endless runner inspiré du célèbre dinosaure de Chrome. La vitesse augmente sans cesse. Évite les cactus en sautant et les ptérodactyles en te baissant. Le mode nuit s\u0027active automatiquement tous les 700 points. Jusqu\u0027où peux-tu aller ?",
                       "category":  "arcade",
                       "thumbnail":  "🦕",
                       "available":  true,
@@ -1865,7 +1877,9 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
                       "path":  "games/dino-runner/index.html"
                   },
                   {
@@ -1873,7 +1887,7 @@
                       "title":  "50 — Defender",
                       "version":  "1.0.0",
                       "description":  "Vaisseau spatial — protège les humanoides des envahisseurs dans un monde scrollant.",
-                      "longDescription":  "Pilote ton vaisseau dans un monde circulaire de 6400px de large. Les Landers descendent pour enlever les humanoïdes — intercepte-les avant qu'ils ne mutent ! Tire, largue des bombes intelligentes, utilise l'hyperespace. Le radar en bas montre tout le champ de bataille.",
+                      "longDescription":  "Pilote ton vaisseau dans un monde circulaire de 6400px de large. Les Landers descendent pour enlever les humanoïdes — intercepte-les avant qu\u0027ils ne mutent ! Tire, largue des bombes intelligentes, utilise l\u0027hyperespace. Le radar en bas montre tout le champ de bataille.",
                       "category":  "arcade",
                       "thumbnail":  "🚀",
                       "available":  true,
@@ -1900,8 +1914,12 @@
                                                     ],
                                        "touch":  false
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  3 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
                       "path":  "games/defender/index.html"
                   },
                   {
@@ -1933,8 +1951,12 @@
                                                     ],
                                        "touch":  false
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  3 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
                       "path":  "games/qix/index.html"
                   },
                   {
@@ -1964,8 +1986,12 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "negative" },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "negative"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/lights-out/index.html"
                   },
                   {
@@ -1973,7 +1999,7 @@
                       "title":  "53 — Rush Hour",
                       "version":  "1.0.0",
                       "description":  "Libérez la voiture rouge coincée dans un embouteillage !",
-                      "longDescription":  "Grille 6×6 remplie de voitures. Glissez-les dans leur axe pour ouvrir un chemin à la voiture rouge jusqu'à la sortie (→). 5 puzzles de difficulté croissante. Minimisez les coups pour le score maximum.",
+                      "longDescription":  "Grille 6×6 remplie de voitures. Glissez-les dans leur axe pour ouvrir un chemin à la voiture rouge jusqu\u0027à la sortie (→). 5 puzzles de difficulté croissante. Minimisez les coups pour le score maximum.",
                       "category":  "reflexion",
                       "thumbnail":  "🚗",
                       "available":  true,
@@ -1995,8 +2021,12 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "negative" },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "negative"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/rush-hour/index.html"
                   },
                   {
@@ -2026,16 +2056,20 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "negative" },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "negative"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/laser-maze/index.html"
                   },
                   {
                       "id":  "ricochet-robots",
                       "title":  "55 — Ricochet Robots",
                       "version":  "1.0.0",
-                      "description":  "Les robots glissent jusqu'au mur — amenez le bon robot à sa cible ★.",
-                      "longDescription":  "Grille 8×8 avec des murs. Les robots glissent dans une direction jusqu'à heurter un mur ou un autre robot. Sélectionnez le robot cible (couleur indiquée) et amenez-le sur l'étoile en un minimum de coups. Ctrl+Z pour annuler. 5 puzzles inclus.",
+                      "description":  "Les robots glissent jusqu\u0027au mur — amenez le bon robot à sa cible ★.",
+                      "longDescription":  "Grille 8×8 avec des murs. Les robots glissent dans une direction jusqu\u0027à heurter un mur ou un autre robot. Sélectionnez le robot cible (couleur indiquée) et amenez-le sur l\u0027étoile en un minimum de coups. Ctrl+Z pour annuler. 5 puzzles inclus.",
                       "category":  "reflexion",
                       "thumbnail":  "🤖",
                       "available":  true,
@@ -2060,16 +2094,20 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "negative" },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "negative"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/ricochet-robots/index.html"
                   },
                   {
                       "id":  "dots-and-boxes",
-                      "title":  "56 — Dots & Boxes",
+                      "title":  "56 — Dots \u0026 Boxes",
                       "version":  "1.0.0",
-                      "description":  "Trace des traits pour fermer des carres — plus de carres que l'IA, tu gagnes.",
-                      "longDescription":  "Grille 4x4 de points (5x5 noeuds). A chaque tour, trace un trait entre deux points adjacents. Si tu fermes le 4e cote d'un carre, tu le gagnes et tu rejoues. L'IA joue de facon strategique — elle complete les carres disponibles et evite de t'en offrir.",
+                      "description":  "Trace des traits pour fermer des carres — plus de carres que l\u0027IA, tu gagnes.",
+                      "longDescription":  "Grille 4x4 de points (5x5 noeuds). A chaque tour, trace un trait entre deux points adjacents. Si tu fermes le 4e cote d\u0027un carre, tu le gagnes et tu rejoues. L\u0027IA joue de facon strategique — elle complete les carres disponibles et evite de t\u0027en offrir.",
                       "category":  "reflexion",
                       "thumbnail":  "🔲",
                       "available":  true,
@@ -2091,8 +2129,12 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  1 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
                       "path":  "games/dots-and-boxes/index.html"
                   },
                   {
@@ -2100,7 +2142,7 @@
                       "title":  "57 — Blokus",
                       "version":  "1.0.0",
                       "description":  "Posez vos pièces en ne touchant les vôtres que par les coins.",
-                      "longDescription":  "Variante Blokus Duo sur grille 14×14. Vous jouez les pièces bleues, l'IA joue les rouges. Chaque pièce doit toucher une pièce de votre couleur par un coin — jamais par un côté. Placez un maximum de pièces pour battre l'IA. 21 pièces uniques de 1 à 5 cases.",
+                      "longDescription":  "Variante Blokus Duo sur grille 14×14. Vous jouez les pièces bleues, l\u0027IA joue les rouges. Chaque pièce doit toucher une pièce de votre couleur par un coin — jamais par un côté. Placez un maximum de pièces pour battre l\u0027IA. 21 pièces uniques de 1 à 5 cases.",
                       "category":  "reflexion",
                       "thumbnail":  "🟦",
                       "available":  true,
@@ -2125,16 +2167,20 @@
                                                     ],
                                        "touch":  false
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  1 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
                       "path":  "games/blokus/index.html"
                   },
                   {
                       "id":  "kakuro",
                       "title":  "58 — Kakuro",
                       "version":  "1.0.0",
-                      "description":  "Mots croisés numériques — la somme de chaque suite doit correspondre à l'indice.",
-                      "longDescription":  "Remplis les cases blanches avec des chiffres de 1 à 9. La somme de chaque suite horizontale ou verticale doit égaler l'indice affiché en triangle. Pas de répétition dans une même suite. 4 puzzles inclus du plus simple au plus complexe.",
+                      "description":  "Mots croisés numériques — la somme de chaque suite doit correspondre à l\u0027indice.",
+                      "longDescription":  "Remplis les cases blanches avec des chiffres de 1 à 9. La somme de chaque suite horizontale ou verticale doit égaler l\u0027indice affiché en triangle. Pas de répétition dans une même suite. 4 puzzles inclus du plus simple au plus complexe.",
                       "category":  "reflexion",
                       "thumbnail":  "🔢",
                       "available":  true,
@@ -2158,8 +2204,12 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "negative" },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "negative"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/kakuro/index.html"
                   },
                   {
@@ -2167,7 +2217,7 @@
                       "title":  "59 — Hashi",
                       "version":  "1.0.0",
                       "description":  "Relie les îles par des ponts selon leurs numéros — toutes les îles doivent être connectées.",
-                      "longDescription":  "Chaque île (cercle numéroté) doit être reliée à d'autres par exactement autant de ponts que son numéro. Les ponts ne peuvent pas se croiser. Maximum 2 ponts entre deux îles. Clique sur l'espace entre deux îles pour poser/supprimer un pont. 4 puzzles inclus.",
+                      "longDescription":  "Chaque île (cercle numéroté) doit être reliée à d\u0027autres par exactement autant de ponts que son numéro. Les ponts ne peuvent pas se croiser. Maximum 2 ponts entre deux îles. Clique sur l\u0027espace entre deux îles pour poser/supprimer un pont. 4 puzzles inclus.",
                       "category":  "reflexion",
                       "thumbnail":  "🌉",
                       "available":  true,
@@ -2190,16 +2240,20 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "negative" },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "negative"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/hashi/index.html"
                   },
                   {
                       "id":  "vampire-survivors",
                       "title":  "60 — ⭐ Vampire Survivors lite",
                       "version":  "1.0.0",
-                      "description":  "Survie top-down — vagues d'ennemis, tir automatique, améliorations passives.",
-                      "longDescription":  "Mini-boss inspiré de Vampire Survivors. Bouge avec WASD ou les flèches, ton personnage tire automatiquement sur l'ennemi le plus proche. Collecte les gemmes XP pour monter de niveau et choisir une amélioration parmi 3. Survie maximum 5 minutes pour la victoire !",
+                      "description":  "Survie top-down — vagues d\u0027ennemis, tir automatique, améliorations passives.",
+                      "longDescription":  "Mini-boss inspiré de Vampire Survivors. Bouge avec WASD ou les flèches, ton personnage tire automatiquement sur l\u0027ennemi le plus proche. Collecte les gemmes XP pour monter de niveau et choisir une amélioration parmi 3. Survie maximum 5 minutes pour la victoire !",
                       "category":  "arcade",
                       "thumbnail":  "🧛",
                       "available":  true,
@@ -2207,11 +2261,11 @@
                       "features":  [
                                        "6 améliorations uniques (dégâts, vitesse, cadence, vie, portée, multitir)",
                                        "Ennemis de 4 tiers progressifs",
-                                       "Tir automatique sur l'ennemi le plus proche",
+                                       "Tir automatique sur l\u0027ennemi le plus proche",
                                        "Invincibilité temporaire après dommage"
                                    ],
                       "roadmap":  [
-                                      "Plus d'armes (zone, ondulation, laser)",
+                                      "Plus d\u0027armes (zone, ondulation, laser)",
                                       "Carte plus grande avec défilement (caméra)",
                                       "Boutique entre les niveaux"
                                   ],
@@ -2224,8 +2278,12 @@
                                                     ],
                                        "touch":  false
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  1 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
                       "path":  "games/vampire-survivors/index.html"
                   },
                   {
@@ -2258,8 +2316,12 @@
                                                     ],
                                        "touch":  false
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  1 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
                       "path":  "games/dr-mario/index.html"
                   },
                   {
@@ -2292,8 +2354,12 @@
                                                     ],
                                        "touch":  false
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  1 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
                       "path":  "games/puyo-puyo/index.html"
                   },
                   {
@@ -2326,8 +2392,12 @@
                                                     ],
                                        "touch":  false
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  1 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
                       "path":  "games/columns/index.html"
                   },
                   {
@@ -2335,7 +2405,7 @@
                       "title":  "64 — Boggle",
                       "version":  "1.0.0",
                       "description":  "Grille 4×4 de lettres — trace des chemins pour former des mots français.",
-                      "longDescription":  "Une grille de 16 lettres aléatoires s'affiche. Clique sur des lettres adjacentes (y compris en diagonale) pour former des mots. Tu as 3 minutes — trouve le maximum de mots français valides !",
+                      "longDescription":  "Une grille de 16 lettres aléatoires s\u0027affiche. Clique sur des lettres adjacentes (y compris en diagonale) pour former des mots. Tu as 3 minutes — trouve le maximum de mots français valides !",
                       "category":  "mots",
                       "thumbnail":  "🔤",
                       "available":  true,
@@ -2360,8 +2430,13 @@
                                                     ],
                                        "touch":  false
                                    },
-                      "timer":  { "scoreEffect":  "negative", "maxSeconds":  180 },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "negative",
+                                    "maxSeconds":  180
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/boggle/index.html"
                   },
                   {
@@ -2369,7 +2444,7 @@
                       "title":  "65 — Anagrammes",
                       "version":  "1.0.0",
                       "description":  "7 lettres tirées au sort — forme le maximum de mots français en 3 minutes.",
-                      "longDescription":  "7 lettres s'affichent. Tape des mots utilisant uniquement ces lettres (chaque lettre est consommée). Score selon la longueur : bonus si tu utilises toutes les 7 lettres ! 5 manches, 3 minutes au total.",
+                      "longDescription":  "7 lettres s\u0027affichent. Tape des mots utilisant uniquement ces lettres (chaque lettre est consommée). Score selon la longueur : bonus si tu utilises toutes les 7 lettres ! 5 manches, 3 minutes au total.",
                       "category":  "mots",
                       "thumbnail":  "🔡",
                       "available":  true,
@@ -2381,7 +2456,7 @@
                                        "Mélange des lettres disponible (🔀)"
                                    ],
                       "roadmap":  [
-                                      "Thèmes : lettres orientées autour d'un mot-pivot",
+                                      "Thèmes : lettres orientées autour d\u0027un mot-pivot",
                                       "Indice : révéler une lettre de position",
                                       "Mode duel : deux joueurs sur le même clavier"
                                   ],
@@ -2393,8 +2468,13 @@
                                                     ],
                                        "touch":  false
                                    },
-                      "timer":  { "scoreEffect":  "negative", "maxSeconds":  180 },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "negative",
+                                    "maxSeconds":  180
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/anagrammes/index.html"
                   },
                   {
@@ -2402,7 +2482,7 @@
                       "title":  "66 — Mini Mots Croisés",
                       "version":  "1.0.0",
                       "description":  "3 petites grilles de mots croisés françaises à compléter.",
-                      "longDescription":  "Clique sur une case pour la sélectionner, tape les lettres. Clique deux fois sur la même case pour changer de direction. Les définitions s'affichent en bas. 3 grilles de difficulté croissante !",
+                      "longDescription":  "Clique sur une case pour la sélectionner, tape les lettres. Clique deux fois sur la même case pour changer de direction. Les définitions s\u0027affichent en bas. 3 grilles de difficulté croissante !",
                       "category":  "mots",
                       "thumbnail":  "📝",
                       "available":  true,
@@ -2414,7 +2494,7 @@
                                        "Définitions cliquables pour naviguer directement"
                                    ],
                       "roadmap":  [
-                                      "Générateur de grilles à partir d'un dictionnaire",
+                                      "Générateur de grilles à partir d\u0027un dictionnaire",
                                       "Mode chrono : résoudre en moins de 5 minutes",
                                       "Grilles thématiques (animaux, cuisine, géographie)"
                                   ],
@@ -2427,8 +2507,12 @@
                                                     ],
                                        "touch":  false
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/mini-mots-croises/index.html"
                   },
                   {
@@ -2436,7 +2520,7 @@
                       "title":  "67 — Air Hockey",
                       "version":  "1.0.0",
                       "description":  "Hockey sur table — déplace ta raquette à la souris, marque 7 buts !",
-                      "longDescription":  "Déplace ta souris dans la moitié basse de la table pour contrôler ta raquette bleue. La rondelle rebondit et accélère à chaque coup. L'IA défend la cage du haut. Premier à 7 buts gagne !",
+                      "longDescription":  "Déplace ta souris dans la moitié basse de la table pour contrôler ta raquette bleue. La rondelle rebondit et accélère à chaque coup. L\u0027IA défend la cage du haut. Premier à 7 buts gagne !",
                       "category":  "sport",
                       "thumbnail":  "🏒",
                       "available":  true,
@@ -2459,8 +2543,12 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/air-hockey/index.html"
                   },
                   {
@@ -2491,16 +2579,20 @@
                                                     ],
                                        "touch":  false
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  3 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
                       "path":  "games/billard/index.html"
                   },
                   {
                       "id":  "flechettes",
                       "title":  "69 — Fléchettes",
                       "version":  "1.0.0",
-                      "description":  "Darts 501 — descends de 501 à 0 avant l'IA, 3 fléchettes par tour.",
-                      "longDescription":  "Clique sur la cible pour lancer une fléchette — un léger écart aléatoire simule l'imprécision. 3 fléchettes par tour, puis l'IA joue. Bullseye (50), bull (25), triples et doubles. Premier à 0 gagne !",
+                      "description":  "Darts 501 — descends de 501 à 0 avant l\u0027IA, 3 fléchettes par tour.",
+                      "longDescription":  "Clique sur la cible pour lancer une fléchette — un léger écart aléatoire simule l\u0027imprécision. 3 fléchettes par tour, puis l\u0027IA joue. Bullseye (50), bull (25), triples et doubles. Premier à 0 gagne !",
                       "category":  "sport",
                       "thumbnail":  "🎯",
                       "available":  true,
@@ -2523,15 +2615,19 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/flechettes/index.html"
                   },
                   {
                       "id":  "metroidvania",
                       "title":  "70 — ⭐ Metroidvania lite",
                       "version":  "1.0.0",
-                      "description":  "⭐ MINI-BOSS — Platformer à explorer : débloque Double Saut & Dash, bats le boss !",
+                      "description":  "⭐ MINI-BOSS — Platformer à explorer : débloque Double Saut \u0026 Dash, bats le boss !",
                       "longDescription":  "8 salles interconnectées à découvrir. Commence avec un simple saut, trouve le Double Saut puis le Dash. Élimine les ennemis en leur sautant dessus ou en les dashant. Atteins la salle du boss et vaincs-le en 8 coups !",
                       "category":  "arcade",
                       "thumbnail":  "🗺️",
@@ -2540,7 +2636,7 @@
                       "features":  [
                                        "8 salles interconnectées avec transitions fluides",
                                        "2 capacités à débloquer : Double Saut et Dash",
-                                       "2 types d'ennemis : marcheurs et volants",
+                                       "2 types d\u0027ennemis : marcheurs et volants",
                                        "Boss final avec 2 phases (HP 8, projectiles en phase 2)",
                                        "Mini-map des salles visitées dans le HUD"
                                    ],
@@ -2558,22 +2654,26 @@
                                                     ],
                                        "touch":  false
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  3 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
                       "path":  "games/metroidvania/index.html"
                   },
                   {
                       "id":  "poker",
-                      "title":  "71 — Poker Texas Hold'em",
+                      "title":  "71 — Poker Texas Hold\u0027em",
                       "version":  "1.0.0",
-                      "description":  "Heads-up Texas Hold'em contre l'IA — vide son tapis ou perds le tien.",
-                      "longDescription":  "Deux cartes en main, cinq communes au milieu. Blindes, flop, tournante, rivière — quatre rounds pour miser, relancer ou se coucher. Premier à vider l'adversaire de ses 1000 jetons gagne !",
+                      "description":  "Heads-up Texas Hold\u0027em contre l\u0027IA — vide son tapis ou perds le tien.",
+                      "longDescription":  "Deux cartes en main, cinq communes au milieu. Blindes, flop, tournante, rivière — quatre rounds pour miser, relancer ou se coucher. Premier à vider l\u0027adversaire de ses 1000 jetons gagne !",
                       "category":  "reflexion",
                       "thumbnail":  "🃏",
                       "available":  true,
                       "comingSoon":  false,
                       "features":  [
-                                       "Heads-up Texas Hold'em contre une IA adaptative",
+                                       "Heads-up Texas Hold\u0027em contre une IA adaptative",
                                        "Évaluation complète des 10 combinaisons poker",
                                        "Blindes 10/20 — Fold, Checker, Suivre, Relancer",
                                        "Showdown avec révélation des mains"
@@ -2581,7 +2681,7 @@
                       "roadmap":  [
                                       "Mode multijoueur (via système WebRTC intégré)",
                                       "Tournoi à plusieurs adversaires (3-6 joueurs IA)",
-                                      "Niveaux d'IA (débutant / intermédiaire / expert)"
+                                      "Niveaux d\u0027IA (débutant / intermédiaire / expert)"
                                   ],
                       "controls":  {
                                        "keyboard":  [
@@ -2590,8 +2690,12 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/poker/index.html"
                   },
                   {
@@ -2623,8 +2727,12 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "negative" },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "negative"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/spider-solitaire/index.html"
                   },
                   {
@@ -2641,7 +2749,7 @@
                                        "4 joueurs : vous + 3 IAs avec stratégie adaptative",
                                        "Règle complète : suivre la couleur, cœurs brisés",
                                        "Tirer les marrons (shoot the moon) : +26 pour tous les autres",
-                                       "Plusieurs rounds jusqu'à 100 points"
+                                       "Plusieurs rounds jusqu\u0027à 100 points"
                                    ],
                       "roadmap":  [
                                       "Phase de passe (3 cartes échangées en début de round)",
@@ -2655,8 +2763,12 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/hearts/index.html"
                   },
                   {
@@ -2673,7 +2785,7 @@
                                        "Gin Rummy classique en 5 rounds",
                                        "Détection automatique des suites et brelans",
                                        "Frappe (knock) et Gin avec bonus +25",
-                                       "Undercut : si l'IA a moins de deadwood, elle gagne !"
+                                       "Undercut : si l\u0027IA a moins de deadwood, elle gagne !"
                                    ],
                       "roadmap":  [
                                       "Mode Oklahoma Gin",
@@ -2688,16 +2800,20 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/rummy/index.html"
                   },
                   {
                       "id":  "belote",
                       "title":  "75 — Belote",
                       "version":  "1.0.0",
-                      "description":  "Le jeu de cartes français — atout tiré au sort, 4 rounds, l'équipe avec le plus de points gagne.",
-                      "longDescription":  "Jeu de 32 cartes (7 à As) en 4 joueurs — vous et votre partenaire (Nord IA) contre 2 IAs. L'atout est tiré au sort. En atout, le Valet vaut 20 pts et le 9 en vaut 14 ! L'équipe avec le plus de points sur 4 rounds gagne.",
+                      "description":  "Le jeu de cartes français — atout tiré au sort, 4 rounds, l\u0027équipe avec le plus de points gagne.",
+                      "longDescription":  "Jeu de 32 cartes (7 à As) en 4 joueurs — vous et votre partenaire (Nord IA) contre 2 IAs. L\u0027atout est tiré au sort. En atout, le Valet vaut 20 pts et le 9 en vaut 14 ! L\u0027équipe avec le plus de points sur 4 rounds gagne.",
                       "category":  "reflexion",
                       "thumbnail":  "🃏",
                       "available":  true,
@@ -2709,8 +2825,8 @@
                                        "Règle de coupe obligatoire et suivi de couleur"
                                    ],
                       "roadmap":  [
-                                      "Enchères (bidding) : choisir l'atout ou passer",
-                                      "Belote/Rebelote : bonus K+Q d'atout",
+                                      "Enchères (bidding) : choisir l\u0027atout ou passer",
+                                      "Belote/Rebelote : bonus K+Q d\u0027atout",
                                       "Mode multijoueur (via WebRTC)"
                                   ],
                       "controls":  {
@@ -2720,8 +2836,12 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/belote/index.html"
                   },
                   {
@@ -2736,7 +2856,7 @@
                       "comingSoon":  false,
                       "features":  [
                                        "Règles complètes du Cribbage (15s, paires, suites, flush, nobs)",
-                                       "Phase de Pegging (jouer jusqu'à 31, marquer en temps réel)",
+                                       "Phase de Pegging (jouer jusqu\u0027à 31, marquer en temps réel)",
                                        "Décompte automatique des mains et de la crib",
                                        "IA stratégique — choisit ses défausses et son jeu intelligemment",
                                        "Cribbage board visuel avec pions qui avancent"
@@ -2753,8 +2873,12 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/cribbage/index.html"
                   },
                   {
@@ -2787,8 +2911,12 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/bowling/index.html"
                   },
                   {
@@ -2806,11 +2934,11 @@
                                        "Zone 2 pts et zone 3 pts",
                                        "Compteur de combo (paniers consécutifs)",
                                        "Chrono 60 secondes avec score en temps réel",
-                                       "Rebond sur l'arceau (presque réussi = rebond)"
+                                       "Rebond sur l\u0027arceau (presque réussi = rebond)"
                                    ],
                       "roadmap":  [
                                       "Mode free-throw (lancer franc uniquement)",
-                                      "Mode défense (bloquer les tirs de l'IA)",
+                                      "Mode défense (bloquer les tirs de l\u0027IA)",
                                       "Multijoueur local (tour par tour)"
                                   ],
                       "controls":  {
@@ -2821,8 +2949,13 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "positive", "maxSeconds":  60 },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "positive",
+                                    "maxSeconds":  60
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/basketball/index.html"
                   },
                   {
@@ -2856,8 +2989,12 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  0 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
                       "path":  "games/roulette/index.html"
                   },
                   {
@@ -2865,7 +3002,7 @@
                       "title":  "80 — ⭐ Bullet Hell",
                       "version":  "1.0.0",
                       "description":  "MINI-BOSS — Danmaku pur : esquive les patterns, descends le boss en 3 phases.",
-                      "longDescription":  "Un boss massif vous affronte en 3 phases de plus en plus intenses. Votre vaisseau tire automatiquement — votre seul outil est l'esquive. Vague en spirale, déluge de balles, mur de lasers : chaque phase a sa signature. 3 vies, zero tolérance.",
+                      "longDescription":  "Un boss massif vous affronte en 3 phases de plus en plus intenses. Votre vaisseau tire automatiquement — votre seul outil est l\u0027esquive. Vague en spirale, déluge de balles, mur de lasers : chaque phase a sa signature. 3 vies, zero tolérance.",
                       "category":  "arcade",
                       "thumbnail":  "💥",
                       "available":  true,
@@ -2874,11 +3011,11 @@
                                        "Boss 3 phases avec patterns danmaku distincts",
                                        "Vaisseau joueur — tir automatique, mouvement libre",
                                        "Hitbox précise (petit point central uniquement)",
-                                       "3 vies — clignotement d'invincibilité après impact",
+                                       "3 vies — clignotement d\u0027invincibilité après impact",
                                        "Score : dégâts infligés + temps de survie"
                                    ],
                       "roadmap":  [
-                                      "Bombes (effacer l'écran) avec cooldown",
+                                      "Bombes (effacer l\u0027écran) avec cooldown",
                                       "Modes de difficulté (Lunatic, God)",
                                       "2ème boss avec nouveaux patterns"
                                   ],
@@ -2890,9 +3027,384 @@
                                                     ],
                                        "touch":  true
                                    },
-                      "timer":  { "scoreEffect":  "positive" },
-                      "lives":  { "initial":  3 },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
                       "path":  "games/bullet-hell/index.html"
+                  },
+                  {
+                      "id":  "go",
+                      "title":  "81 — Go (9×9)",
+                      "version":  "1.0.0",
+                      "description":  "Le jeu de Go sur grille 9×9 — entourez du territoire, capturez les groupes adverses.",
+                      "longDescription":  "Posez des pierres noires sur les intersections. Un groupe de pierres sans liberté (cases adjacentes vides) est capturé et retiré. Deux passes consécutives terminent la partie. Le score final = territoire entouré + captures — les blancs reçoivent 6.5 points de komi en compensation d\u0027être second.",
+                      "category":  "reflexion",
+                      "thumbnail":  "⚫",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Règles complètes : capture, no-suicide, ko, komi 6.5",
+                                       "IA heuristique (capture, atari, contrôle du centre)",
+                                       "Comptage de territoire automatique à la fin",
+                                       "Boutons Passer et Abandonner · Coordonnées affichées"
+                                   ],
+                      "roadmap":  [
+                                      "IA Monte-Carlo Tree Search pour une vraie résistance",
+                                      "Mode 9×9 avec pierres de handicap pour débutants",
+                                      "Revue des coups (playback de la partie)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic intersection : poser une pierre noire",
+                                                        "Bouton Passer : passer son tour",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
+                      "path":  "games/go/index.html"
+                  },
+                  {
+                      "id":  "mancala",
+                      "title":  "82 — Mancala",
+                      "version":  "1.0.0",
+                      "description":  "Le jeu de semer africain — récoltez plus de graines que l\u0027IA pour gagner.",
+                      "longDescription":  "Variante Kalah : 6 trous de 4 graines par côté, plus un grenier à chaque bout. À votre tour, choisissez un trou : toutes ses graines sont semées une par une dans les trous suivants. Si la dernière graine tombe dans votre grenier, vous rejouez ! Si elle tombe dans votre propre trou vide et que le trou d\u0027en face a des graines, vous capturez tout.",
+                      "category":  "reflexion",
+                      "thumbnail":  "🫘",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Règles Kalah complètes (extra tour + capture)",
+                                       "IA stratégique (priorité extra tour, capture, semis optimal)",
+                                       "Plateau visuel avec trous elliptiques et compteurs",
+                                       "Vous jouez en bas, l\u0027IA en haut"
+                                   ],
+                      "roadmap":  [
+                                      "Animation des graines qui se déplacent",
+                                      "Mode Awalé (règles différentes, pas de grenier)",
+                                      "Mode 2 joueurs local"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic sur un trou (bas) : semer les graines",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
+                      "path":  "games/mancala/index.html"
+                  },
+                  {
+                      "id":  "backgammon",
+                      "title":  "83 — Backgammon",
+                      "version":  "1.0.0",
+                      "description":  "Le classique des jeux de dés — amenez tous vos pions blancs hors du plateau avant l\u0027IA.",
+                      "longDescription":  "Backgammon classique en 1 contre IA. Vous jouez les blancs (24→1), l\u0027IA les noirs (1→24). Lancez les dés, cliquez un pion pour le sélectionner, puis cliquez sa destination. Un pion seul peut être frappé et envoyé au bar. Quand tous vos pions sont dans votre zone (1-6), vous pouvez commencer à les sortir. Celui qui sort ses 15 pions en premier gagne !",
+                      "category":  "reflexion",
+                      "thumbnail":  "🎲",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Règles complètes (barre, sortie, doubles = 4 coups)",
+                                       "IA stratégique (frappe, consolidation, avance vers la sortie)",
+                                       "Plateau visuel avec 24 flèches colorées et zone de sortie",
+                                       "Doubles = 4 coups avec la même valeur"
+                                   ],
+                      "roadmap":  [
+                                      "Cube de doublement (augmenter les enjeux)",
+                                      "Statistiques : taux de victoire, pipcount",
+                                      "Mode 2 joueurs local"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Bouton Lancer les dés : votre tour",
+                                                        "Clic pion : sélectionner",
+                                                        "Clic destination : déplacer",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
+                      "path":  "games/backgammon/index.html"
+                  },
+                  {
+                      "id":  "stratego-lite",
+                      "title":  "84 — Stratego lite",
+                      "version":  "1.0.0",
+                      "description":  "Capturez le drapeau ennemi — bluffez, déduisez, attaquez !",
+                      "longDescription":  "Stratégie cachée en 1v1 sur grille 6×6. Placez vos 7 pièces dans les 2 rangées du bas, l\u0027IA place les siennes en haut. Les pièces adverses sont masquées jusqu\u0027au combat ! La plus haute valeur gagne — mais la Bombe explose tout (sauf le Mineur), et l\u0027Espion bat le Maréchal. Capturez le Drapeau ennemi pour gagner !",
+                      "category":  "reflexion",
+                      "thumbnail":  "🚩",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Phase de placement stratégique (7 pièces à disposer librement)",
+                                       "Information cachée : les pièces ennemies sont masquées jusqu\u0027au combat",
+                                       "7 types de pièces avec règles spéciales (Bombe, Mineur, Espion)",
+                                       "IA avec placement stratégique (Drapeau protégé par Bombes)"
+                                   ],
+                      "roadmap":  [
+                                      "Version 10×10 avec 40 pièces complètes (règles Stratego originales)",
+                                      "Mode 2 joueurs local",
+                                      "Rejouer la partie en mode révélé (toutes les pièces visibles)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Setup : clic pièce (panel) → clic case (bas)",
+                                                        "Jeu : clic votre pièce → clic destination",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
+                      "path":  "games/stratego-lite/index.html"
+                  },
+                  {
+                      "id":  "hex",
+                      "title":  "85 — Hex",
+                      "version":  "1.0.0",
+                      "description":  "Le jeu de Hex — reliez vos deux bords en traçant un chemin de pierres.",
+                      "longDescription":  "Sur une grille 9×9 en losange, vous jouez les pierres bleues et devez connecter le bord gauche au bord droit. L\u0027IA joue les pierres rouges et tente de connecter le haut au bas. Les pièces ne peuvent pas être capturées — la première connexion gagne !",
+                      "category":  "reflexion",
+                      "thumbnail":  "🔷",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Grille 9×9 en losange avec topologie hexagonale",
+                                       "IA basée sur le chemin le plus court (Dijkstra bidirectionnel)",
+                                       "Détection de victoire par BFS de connexion",
+                                       "Vous = bleu (gauche→droite) · IA = rouge (haut→bas)"
+                                   ],
+                      "roadmap":  [
+                                      "Grilles 11×11 ou 13×13 pour les experts",
+                                      "IA avancée avec Monte-Carlo Tree Search",
+                                      "Mode 2 joueurs local"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic sur une cellule : placer une pierre bleue",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
+                      "path":  "games/hex/index.html"
+                  },
+                  {
+                      "id":  "dobble",
+                      "title":  "86 — Dobble lite",
+                      "version":  "1.0.0",
+                      "description":  "Trouve le symbole commun entre les deux cartes avant la fin du temps !",
+                      "longDescription":  "Deux cartes circulaires s\u0027affichent — elles partagent exactement un symbole en commun. Clique vite le symbole identique sur ta carte. Chaque bonne réponse vaut 10 pts (+2 si tu réponds en moins de 2 secondes). Mauvais clic = -3 secondes. 60 secondes pour maximiser ton score !",
+                      "category":  "reflexion",
+                      "thumbnail":  "🎯",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "60 secondes pour trouver un maximum de paires",
+                                       "8 symboles par carte, exactement 1 en commun",
+                                       "Bonus rapidité si trouvé en moins de 2 secondes",
+                                       "Pénalité de -3s sur mauvais clic"
+                                   ],
+                      "roadmap":  [
+                                      "Mode Dobble classique multijoueur",
+                                      "Pool de 57 cartes officielles",
+                                      "Niveaux de difficulté (6 ou 8 symboles)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Clic sur un symbole : soumettre une réponse",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "negative"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
+                      "path":  "games/dobble/index.html"
+                  },
+                  {
+                      "id":  "angry-birds",
+                      "title":  "87 — Angry Birds lite",
+                      "version":  "1.0.0",
+                      "description":  "Lance des oiseaux avec la fronde pour éliminer tous les cochons !",
+                      "longDescription":  "Tire sur l\u0027élastique de la fronde et relâche pour propulser ton oiseau rouge. Vise les cochons verts posés sur les plateformes. 4 oiseaux par niveau, 3 niveaux de difficulté croissante.",
+                      "category":  "arcade",
+                      "thumbnail":  "🐦",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "3 niveaux avec structures de plus en plus complexes",
+                                       "Physique réaliste avec gravité",
+                                       "Fronde interactive par drag \u0026 drop",
+                                       "Bonus pour les oiseaux non utilisés"
+                                   ],
+                      "roadmap":  [
+                                      "Types d\u0027oiseaux spéciaux (bombe, vitesse)",
+                                      "Structures destructibles",
+                                      "Éditeur de niveaux"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "Glisser la fronde : viser",
+                                                        "Relâcher : lancer",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  true
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  0
+                                },
+                      "path":  "games/angry-birds/index.html"
+                  },
+                  {
+                      "id":  "tank-battle",
+                      "title":  "88 — Tank Battle",
+                      "version":  "1.0.0",
+                      "description":  "Pilote ton tank, détruis les briques et anéantis le tank ennemi !",
+                      "longDescription":  "Combat de tanks top-down classique. Déplace ton tank bleu et tire des obus pour éliminer le tank rouge. Murs en brique destructibles, murs en acier indestructibles. 3 vies chacun.",
+                      "category":  "arcade",
+                      "thumbnail":  "🪖",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Combat 1v1 joueur contre IA",
+                                       "Murs en brique destructibles et murs en acier",
+                                       "IA avec tirs automatiques",
+                                       "3 vies chacun"
+                                   ],
+                      "roadmap":  [
+                                      "Mode 2 joueurs local",
+                                      "Power-ups (bouclier, triple tir)",
+                                      "Plusieurs maps aléatoires"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "↑ ↓ ← → ou WASD : déplacer",
+                                                        "Espace : tirer",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
+                      "path":  "games/tank-battle/index.html"
+                  },
+                  {
+                      "id":  "spacewar",
+                      "title":  "89 — Spacewar",
+                      "version":  "1.0.0",
+                      "description":  "Le premier jeu vidéo de l\u0027histoire — deux vaisseaux, une étoile, un seul survivant.",
+                      "longDescription":  "Inspiré du légendaire jeu de 1962. Pilote ton vaisseau bleu, évite la gravité de l\u0027étoile centrale et tente de détruire le vaisseau ennemi rouge. L\u0027hyperespace est ta bouée de sauvetage !",
+                      "category":  "arcade",
+                      "thumbnail":  "🚀",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Gravité réaliste de l\u0027étoile centrale",
+                                       "Espace avec wrap-around",
+                                       "IA ennemie avec poursuite",
+                                       "Hyperespace pour se téléporter"
+                                   ],
+                      "roadmap":  [
+                                      "Mode 2 joueurs local",
+                                      "Mode survie : vagues d\u0027ennemis",
+                                      "Bonus power-ups flottants"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "← → : rotation",
+                                                        "↑ : propulseur",
+                                                        "Espace : tirer",
+                                                        "H : hyperespace",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  3
+                                },
+                      "path":  "games/spacewar/index.html"
+                  },
+                  {
+                      "id":  "roguelike-dungeon",
+                      "title":  "90 — ⭐ Roguelike Dungeon",
+                      "version":  "1.0.0",
+                      "description":  "⭐ MINI-BOSS — Donjon procédural, permadeath, upgrades. Vainquez le Dragon !",
+                      "longDescription":  "Mini-boss roguelike complet : 5 étages générés aléatoirement, combats au tour par tour, ennemis de plus en plus féroces. Montez en niveau, choisissez vos améliorations. La mort est permanente !",
+                      "category":  "reflexion",
+                      "thumbnail":  "⚔️",
+                      "available":  true,
+                      "comingSoon":  false,
+                      "features":  [
+                                       "Génération procédurale de 5 étages",
+                                       "Système de progression : niveau, XP, stats",
+                                       "Choix d\u0027upgrades entre les étages",
+                                       "5 types d\u0027ennemis : Goblin → Dragon",
+                                       "Permadeath — chaque run est unique"
+                                   ],
+                      "roadmap":  [
+                                      "Sorts magiques et classes de personnage",
+                                      "Pièges cachés et coffres piégés",
+                                      "Champ de vision (fog of war)"
+                                  ],
+                      "controls":  {
+                                       "keyboard":  [
+                                                        "WASD ou flèches : se déplacer/attaquer",
+                                                        "Marcher sur ▽ : étage suivant",
+                                                        "P : pause · R : restart"
+                                                    ],
+                                       "touch":  false
+                                   },
+                      "timer":  {
+                                    "scoreEffect":  "positive"
+                                },
+                      "lives":  {
+                                    "initial":  1
+                                },
+                      "path":  "games/roguelike-dungeon/index.html"
                   }
               ],
     "categories":  [
@@ -2923,4 +3435,3 @@
                        }
                    ]
 }
-

@@ -1,0 +1,33 @@
+{
+  "id": "angry-birds",
+  "title": "87 — Angry Birds lite",
+  "version": "1.0.0",
+  "description": "Lance des oiseaux avec la fronde pour éliminer tous les cochons !",
+  "longDescription": "Tire sur l'élastique de la fronde et relâche pour propulser ton oiseau rouge. Vise les cochons verts posés sur les plateformes et structures. 4 oiseaux par niveau, 3 niveaux de difficulté croissante. Bonus oiseaux inutilisés en fin de niveau !",
+  "category": "arcade",
+  "thumbnail": "🐦",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "3 niveaux avec structures de plus en plus complexes",
+    "Physique réaliste avec gravité et trajectoire parabolique",
+    "Fronde interactive par drag & drop",
+    "Bonus pour les oiseaux non utilisés"
+  ],
+  "roadmap": [
+    "Types d'oiseaux spéciaux (bombe, explosif, vitesse)",
+    "Structures destructibles en bois et pierre",
+    "Éditeur de niveaux personnalisés"
+  ],
+  "controls": {
+    "keyboard": [
+      "Glisser la fronde : viser",
+      "Relâcher : lancer",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 0 },
+  "path": "games/angry-birds/index.html"
+}

@@ -1,0 +1,37 @@
+{
+  "id": "roguelike-dungeon",
+  "title": "90 — ⭐ Roguelike Dungeon",
+  "version": "1.0.0",
+  "description": "⭐ MINI-BOSS — Donjon procédural, permadeath, upgrades. Vainquez le Dragon au 5ème étage !",
+  "longDescription": "Mini-boss roguelike complet : 5 étages générés aléatoirement, combats au tour par tour, ennemis de plus en plus féroces (Gobelins → Orcs → Trolls → Dragon). Ramassez armes et potions, montez en niveau et choisissez vos améliorations entre les étages. La mort est permanente — chaque run est unique !",
+  "category": "reflexion",
+  "thumbnail": "⚔️",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "Génération procédurale de 5 étages par run",
+    "Système de progression : niveau, XP, stats montantes",
+    "Choix d'upgrades entre les étages (3 options parmi 8)",
+    "5 types d'ennemis : Goblin → Orc → Troll → Squelette → Dragon",
+    "Items : potion, élixir, épée, bouclier, parchemin",
+    "Permadeath — chaque mort repart du début"
+  ],
+  "roadmap": [
+    "Sorts magiques et classes de personnage (guerrier, mage, voleur)",
+    "Pièges cachés sur le sol, coffres piégés",
+    "Champ de vision (fog of war) avec vision en cone"
+  ],
+  "controls": {
+    "keyboard": [
+      "WASD ou ↑↓←→ : se déplacer / attaquer",
+      "Marcher sur un ennemi : attaquer",
+      "Marcher sur un item : le ramasser",
+      "▽ : escaliers vers l'étage suivant",
+      "P : pause · R : restart"
+    ],
+    "touch": false
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 1 },
+  "path": "games/roguelike-dungeon/index.html"
+}

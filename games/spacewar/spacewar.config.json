@@ -1,0 +1,36 @@
+{
+  "id": "spacewar",
+  "title": "89 — Spacewar",
+  "version": "1.0.0",
+  "description": "Le premier jeu vidéo de l'histoire — deux vaisseaux, une étoile, un seul survivant.",
+  "longDescription": "Inspiré du légendaire jeu de 1962. Pilote ton vaisseau bleu dans un espace infini (wrap-around), évite la gravité de l'étoile centrale et tente de détruire le vaisseau ennemi rouge. L'hyperespace est ta bouée de sauvetage — mais l'atterrissage est aléatoire !",
+  "category": "arcade",
+  "thumbnail": "🚀",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "Gravité réaliste de l'étoile centrale (puits gravitationnel)",
+    "Espace avec wrap-around (bords téléporteurs)",
+    "IA ennemie avec poursuite et esquive",
+    "Hyperespace pour se téléporter aléatoirement",
+    "Propulsion avec inertie et drag spatial"
+  ],
+  "roadmap": [
+    "Mode 2 joueurs local sur le même clavier",
+    "Mode survie : vagues d'ennemis de plus en plus nombreux",
+    "Bonus power-ups flottants (missiles, bouclier)"
+  ],
+  "controls": {
+    "keyboard": [
+      "← → : rotation du vaisseau",
+      "↑ : propulseur",
+      "Espace : tirer",
+      "H : hyperespace (téléportation aléatoire)",
+      "P : pause · R : restart"
+    ],
+    "touch": false
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 3 },
+  "path": "games/spacewar/index.html"
+}

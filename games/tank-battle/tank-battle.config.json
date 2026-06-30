@@ -1,0 +1,33 @@
+{
+  "id": "tank-battle",
+  "title": "88 — Tank Battle",
+  "version": "1.0.0",
+  "description": "Pilote ton tank, détruis les briques et anéantis le tank ennemi !",
+  "longDescription": "Combat de tanks top-down classique. Déplace ton tank bleu sur la grille et tire des obus pour détruire les briques et éliminer le tank ennemi rouge. Attention : il te cherche aussi ! 3 vies chacun, premier à 0 perd. Les murs en acier sont indestructibles — utilise-les pour te mettre à l'abri.",
+  "category": "arcade",
+  "thumbnail": "🪖",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "Combat 1v1 joueur contre IA sur grille",
+    "Murs en brique destructibles et murs en acier",
+    "IA avec déplacement vers le joueur et tirs automatiques",
+    "3 vies chacun — first blood counts"
+  ],
+  "roadmap": [
+    "Mode 2 joueurs local sur le même clavier",
+    "Spawn de power-ups (bouclier, triple tir, vitesse)",
+    "Plusieurs maps générées aléatoirement"
+  ],
+  "controls": {
+    "keyboard": [
+      "↑ ↓ ← → ou WASD : déplacer le tank",
+      "Espace : tirer",
+      "P : pause · R : restart"
+    ],
+    "touch": false
+  },
+  "timer": { "scoreEffect": "positive" },
+  "lives": { "initial": 3 },
+  "path": "games/tank-battle/index.html"
+}

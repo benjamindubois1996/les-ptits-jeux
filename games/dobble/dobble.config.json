@@ -1,0 +1,32 @@
+{
+  "id": "dobble",
+  "title": "86 — Dobble lite",
+  "version": "1.0.0",
+  "description": "Trouve le symbole commun entre les deux cartes avant la fin du temps !",
+  "longDescription": "Deux cartes circulaires s'affichent — elles partagent exactement un symbole en commun. Clique vite le symbole identique sur ta carte. Chaque bonne réponse vaut 10 pts (+2 si tu réponds en moins de 2 secondes). Mauvais clic = -3 secondes. 60 secondes pour maximiser ton score !",
+  "category": "reflexion",
+  "thumbnail": "🎯",
+  "available": true,
+  "comingSoon": false,
+  "features": [
+    "60 secondes pour trouver un maximum de paires",
+    "8 symboles par carte, exactement 1 en commun",
+    "Bonus rapidité si trouvé en moins de 2 secondes",
+    "Pénalité de -3s sur mauvais clic"
+  ],
+  "roadmap": [
+    "Mode Dobble classique multijoueur (2 joueurs en simultané)",
+    "Pool de 57 cartes officielles pour plus de variété",
+    "Mode contre-la-montre avec niveaux de difficulté (6 ou 8 symboles)"
+  ],
+  "controls": {
+    "keyboard": [
+      "Clic sur un symbole : soumettre une réponse",
+      "P : pause · R : restart"
+    ],
+    "touch": true
+  },
+  "timer": { "scoreEffect": "negative" },
+  "lives": { "initial": 0 },
+  "path": "games/dobble/index.html"
+}
